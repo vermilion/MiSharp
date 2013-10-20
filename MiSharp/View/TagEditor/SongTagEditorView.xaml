@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="MiSharp.SongTagEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:caliburnApp="clr-namespace:MiSharp"
+             BorderBrush="Black"
+             BorderThickness="1"
+             MinHeight="226"
+             MaxHeight="226"
+             MaxWidth="622"
+             MinWidth="622">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="55" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" FontSize="20" FontWeight="Bold">Edit Song Information</Label>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="row0" Height="30" />
+                <RowDefinition x:Name="row1" Height="30" />
+                <RowDefinition x:Name="row2" Height="30" />
+                <RowDefinition x:Name="row3" Height="30" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" FontWeight="Bold">Song Title:</Label>
+            <TextBox Text="{Binding SongTitle}" Grid.Row="0" Grid.Column="1" TextAlignment="Center"
+                     VerticalContentAlignment="Center" FontWeight="Bold" />
+            <Label Grid.Row="0" Grid.Column="2" FontWeight="Bold" Content="Album Title:" />
+            <TextBox Text="{Binding SongAlbum}" Grid.Row="0" Grid.Column="3" TextAlignment="Center"
+                     VerticalContentAlignment="Center" FontWeight="Bold" />
+
+            <Label Grid.Row="1" FontWeight="Bold">Genre:</Label>
+            <TextBox Text="{Binding SongGenre}" Grid.Row="1" Grid.Column="1" TextAlignment="Center"
+                     VerticalContentAlignment="Center" FontWeight="Bold" />
+            <Label Grid.Row="1" Grid.Column="2" FontWeight="Bold">Album Artist:</Label>
+            <TextBox Text="{Binding SongAlbumArtist}" Grid.Row="1" Grid.Column="3" TextAlignment="Center"
+                     VerticalContentAlignment="Center" FontWeight="Bold" />
+
+            <Label Grid.Row="2" FontWeight="Bold">Composer:</Label>
+            <TextBox Text="{Binding SongComposer}" Grid.Row="2" Grid.Column="1" TextAlignment="Center"
+                     VerticalContentAlignment="Center" FontWeight="Bold" />
+            <Label Grid.Row="2" Grid.Column="2" FontWeight="Bold">Conductor:</Label>
+            <TextBox Text="{Binding SongConductor}" Grid.Row="2" Grid.Column="3" TextAlignment="Center"
+                     VerticalContentAlignment="Center" FontWeight="Bold" />
+
+            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">Year:</Label>
+                <TextBox Text="{Binding SongYear}" Visibility="{Binding EditorType}" Width="50"
+                         TextAlignment="Center" VerticalContentAlignment="Center" />
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">Track:</Label>
+                <TextBox Text="{Binding SongId}" Width="50" TextAlignment="Center"
+                         VerticalContentAlignment="Center" />
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="0 10 6 6" Width="100" Content="Save Changes">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="SaveChanges" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button Margin="10 10 6 6" Width="100" Content="Cancel">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="Cancel" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

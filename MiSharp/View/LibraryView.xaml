@@ -1,0 +1,146 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:local="clr-namespace:MiSharp" x:Class="MiSharp.LibraryView"
+    mc:Ignorable="d" Width="800" Height="600">
+    <Grid Margin="10">
+        <ListBox ItemsSource="{Binding Songs}" SelectionMode="Single" SelectedItem="{Binding SelectedSong}"
+                 Margin="278,193,10,10">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add to Now Playing" Visibility="Hidden" />
+                    <MenuItem Header="Replace now playing with selection" Visibility="Hidden" />
+                    <Separator />
+                    <MenuItem Header="Playlists" Visibility="Hidden">
+                        <MenuItem Header="Add to New Playlist" />
+                        <MenuItem Header="Add to Playlist" />
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Edit Song Information">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="EditorEditSongs" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Delete" Visibility="Hidden">
+                        <MenuItem Header="Delete from Library" />
+                        <MenuItem Header="Delete from Library and Computer" />
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Margin="0,0,0,0">
+                        <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left">
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Title}" />
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Track}" />
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding BeatsPerMinute}" />
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Year}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox ItemsSource="{Binding Bands}" SelectedItem="{Binding SelectedBand}" Margin="0,25,0,10"
+                 HorizontalAlignment="Left" Width="273">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add to Now Playing" Visibility="Hidden" />
+                    <MenuItem Header="Replace now playing with selection" Visibility="Hidden" />
+                    <Separator />
+                    <MenuItem Header="Playlists" Visibility="Hidden">
+                        <MenuItem Header="Add to New Playlist" />
+                        <MenuItem Header="Add to Playlist" />
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Edit Artist Information">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="EditorEditArtists" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Delete" Visibility="Hidden">
+                        <MenuItem Header="Delete from Library" />
+                        <MenuItem Header="Delete from Library and Computer" />
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
+                        <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left">
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox ItemsSource="{Binding Albums}" SelectedItem="{Binding SelectedAlbum}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="278,25,10,0" Height="163"
+                 VerticalAlignment="Top">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add to Now Playing" Visibility="Hidden" />
+                    <MenuItem Header="Replace now playing with selection" Visibility="Hidden" />
+                    <Separator />
+                    <MenuItem Header="Playlists" Visibility="Hidden">
+                        <MenuItem Header="Add to New Playlist" />
+                        <MenuItem Header="Add to Playlist" />
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Edit Album Information">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="EditorEditAlbums" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Delete" Visibility="Hidden">
+                        <MenuItem Header="Delete from Library" />
+                        <MenuItem Header="Delete from Library and Computer" />
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" ItemWidth="300" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="280">
+                        <Image Height="70" Width="70" Source="{Binding Image}" />
+                        <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left">
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}" />
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Year}" />
+                        </StackPanel>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Content="Rescan Library" Command="{Binding RescanCommand}" Margin="10,0,0,0"
+                VerticalAlignment="Top" HorizontalAlignment="Left" Width="181">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <cal:ActionMessage MethodName="RescanLibrary" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <TextBlock HorizontalAlignment="Left" Margin="196,0,0,0" TextWrapping="Wrap" Text="{Binding Status}"
+                   VerticalAlignment="Top" />
+    </Grid>
+</UserControl>
