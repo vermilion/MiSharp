@@ -60,6 +60,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\db4o-devel.8.1.184.15492\lib\net40\Db4objects.Db4o.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\packages\NAudio.1.6\lib\net20\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WindowsMediaFormat">
+      <HintPath>..\packages\NAudio.Wma.1.0\lib\net20\NAudio.WindowsMediaFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="NVorbis">
+      <HintPath>..\packages\NVorbis.0.6.0\lib\NVorbis.dll</HintPath>
+    </Reference>
+    <Reference Include="NVorbis.NAudioSupport">
+      <HintPath>..\packages\NVorbis.NAudioSupport.0.5.6\lib\NVorbis.NAudioSupport.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Windows.Forms" />
@@ -97,6 +109,16 @@
     <Compile Include="Model\Tag.cs" />
     <Compile Include="Model\Library\TagFilter.cs" />
     <Compile Include="ViewModel\AppViewModel.cs" />
+    <Compile Include="ViewModel\AsioOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\DirectSoundOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\WasapiOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\WaveOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\PlayerViewModel.cs" />
+    <Compile Include="ViewModel\Player\AiffInputFilePlugin.cs" />
+    <Compile Include="ViewModel\Player\IInputFileFormatPlugin.cs" />
+    <Compile Include="ViewModel\Player\IOutputDevicePlugin.cs" />
+    <Compile Include="ViewModel\Player\Mp3InputFilePlugin.cs" />
+    <Compile Include="ViewModel\Player\WaveInputFilePlugin.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\TagEditor\ArtistTagEditorViewModel.cs" />
     <Compile Include="ViewModel\TagEditor\AlbumTagEditorViewModel.cs" />
@@ -104,6 +126,21 @@
     <Compile Include="ViewModel\DialogResults\CloseResult.cs" />
     <Compile Include="ViewModel\DialogResults\Result.cs" />
     <Compile Include="ViewModel\TagEditor\SongTagEditorViewModel.cs" />
+    <Compile Include="View\Player\AsioOutSettingsView.xaml.cs">
+      <DependentUpon>AsioOutSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Player\DirectSoundOutSettingsView.xaml.cs">
+      <DependentUpon>DirectSoundOutSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Player\WasapiOutSettingsView.xaml.cs">
+      <DependentUpon>WasapiOutSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Player\WaveOutSettingsView.xaml.cs">
+      <DependentUpon>WaveOutSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Player\PlayerView.xaml.cs">
+      <DependentUpon>PlayerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TagEditor\ArtistTagEditorView.xaml.cs">
       <DependentUpon>ArtistTagEditorView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +164,26 @@
     <Compile Include="View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\Player\AsioOutSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Player\DirectSoundOutSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Player\WasapiOutSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Player\WaveOutSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Player\PlayerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\TagEditor\ArtistTagEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

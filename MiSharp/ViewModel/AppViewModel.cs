@@ -28,5 +28,10 @@ namespace MiSharp
         {
             _windowManager.ShowDialog(new SettingsViewModel());
         }
+
+        public void PlayerClick()
+        {
+            _windowManager.ShowDialog(new PlayerViewModel());
+        }
     }
 }
