@@ -1,10 +1,10 @@
-﻿using NAudio.Wave;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
+using NAudio.Wave;
 
-namespace NAudioDemo.AudioPlaybackDemo
+namespace MiSharp
 {
-    [Export(typeof(IInputFileFormatPlugin))]
-    class Mp3InputFilePlugin : IInputFileFormatPlugin
+    [Export(typeof (IInputFileFormatPlugin))]
+    internal class Mp3InputFilePlugin : IInputFileFormatPlugin
     {
         public string Name
         {

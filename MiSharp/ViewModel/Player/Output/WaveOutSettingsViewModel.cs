@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using Caliburn.Micro;
 using NAudio.Wave;
-using NAudioDemo.AudioPlaybackDemo;
 
 namespace MiSharp
 {
-    [Export(typeof(WaveOutSettingsViewModel))]
+    [Export(typeof (WaveOutSettingsViewModel))]
+    [Export(typeof (IOutputDevicePlugin))]
     public class WaveOutSettingsViewModel : PropertyChangedBase, IOutputDevicePlugin
     {
+        private List<WaveCallbackStrategy> _callBacks = new List<WaveCallbackStrategy>();
         private List<string> _devices = new List<string>();
-        private List<WaveCallbackStrategy> _callBacks=new List<WaveCallbackStrategy>();
 
         public WaveOutSettingsViewModel()
         {
             for (int deviceId = 0; deviceId < WaveOut.DeviceCount; deviceId++)
             {
-                var capabilities = WaveOut.GetCapabilities(deviceId);
+                WaveOutCapabilities capabilities = WaveOut.GetCapabilities(deviceId);
                 Devices.Add(String.Format("Device {0} ({1})", deviceId, capabilities.ProductName));
             }
 
-            CallBacks.AddRange(new List<WaveCallbackStrategy>()
-                {
-                    WaveCallbackStrategy.NewWindow,
-                    WaveCallbackStrategy.FunctionCallback,
-                    WaveCallbackStrategy.Event
-                });
+            CallBacks.AddRange(new List<WaveCallbackStrategy>
+            {
+                WaveCallbackStrategy.NewWindow,
+                WaveCallbackStrategy.FunctionCallback,
+                WaveCallbackStrategy.Event
+            });
         }
 
         public List<string> Devices
@@ -67,8 +66,10 @@ namespace MiSharp
             }
             else
             {
-                WaveCallbackInfo callbackInfo = strategy == WaveCallbackStrategy.NewWindow ? WaveCallbackInfo.NewWindow() : WaveCallbackInfo.FunctionCallback();
-                WaveOut outputDevice = new WaveOut(callbackInfo);
+                WaveCallbackInfo callbackInfo = strategy == WaveCallbackStrategy.NewWindow
+                    ? WaveCallbackInfo.NewWindow()
+                    : WaveCallbackInfo.FunctionCallback();
+                var outputDevice = new WaveOut(callbackInfo);
                 outputDevice.DeviceNumber = SelectedDeviceNumber;
                 outputDevice.DesiredLatency = latency;
                 device = outputDevice;

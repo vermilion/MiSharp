@@ -1,0 +1,15 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    xmlns:local="clr-namespace:MiSharp" x:Class="MiSharp.DirectSoundOutSettingsView"
+    mc:Ignorable="d"
+    Height="43" Width="250" Loaded="UserControl_Loaded">
+    <Grid>
+        <ComboBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="10,10,10,0"
+                  VerticalAlignment="Top" DisplayMemberPath="Description" />
+    </Grid>
+</UserControl>

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using NAudio.Wave;
-using NAudioDemo.AudioPlaybackDemo;
-using MessageBox = System.Windows.MessageBox;
 
 namespace MiSharp
 {
-    [Export(typeof(AsioOutSettingsViewModel))]
+    [Export(typeof (AsioOutSettingsViewModel))]
+    [Export(typeof (IOutputDevicePlugin))]
     public class AsioOutSettingsViewModel : PropertyChangedBase, IOutputDevicePlugin
     {
         private List<string> _asioDrivers;
@@ -31,21 +31,6 @@ namespace MiSharp
 
         public string SelectedDeviceName { get; set; }
 
-        public void OpenControlPanel()
-        {
-            try
-            {
-                using (var asio = new AsioOut(SelectedDeviceName))
-                {
-                    asio.ShowControlPanel();
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
-
 
         public IWavePlayer CreateDevice(int latency)
         {
@@ -65,6 +50,21 @@ namespace MiSharp
         public int Priority
         {
             get { return 4; }
+        }
+
+        public void OpenControlPanel()
+        {
+            try
+            {
+                using (var asio = new AsioOut(SelectedDeviceName))
+                {
+                    asio.ShowControlPanel();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

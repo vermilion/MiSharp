@@ -1,6 +1,6 @@
 ﻿using NAudio.Wave;
 
-namespace NAudioDemo.AudioPlaybackDemo
+namespace MiSharp
 {
     public interface IInputFileFormatPlugin
     {

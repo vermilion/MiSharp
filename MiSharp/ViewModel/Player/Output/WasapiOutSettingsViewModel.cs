@@ -4,11 +4,11 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
-using NAudioDemo.AudioPlaybackDemo;
 
 namespace MiSharp
 {
-    [Export(typeof(WasapiOutSettingsViewModel))]
+    [Export(typeof (WasapiOutSettingsViewModel))]
+    [Export(typeof (IOutputDevicePlugin))]
     public class WasapiOutSettingsViewModel : PropertyChangedBase, IOutputDevicePlugin
     {
         private List<MMDevice> _devices = new List<MMDevice>();
@@ -16,9 +16,9 @@ namespace MiSharp
         public WasapiOutSettingsViewModel()
         {
             var enumerator = new MMDeviceEnumerator();
-            var endPoints = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
-            
-            foreach (var endPoint in endPoints)
+            MMDeviceCollection endPoints = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
+
+            foreach (MMDevice endPoint in endPoints)
             {
                 Devices.Add(endPoint);
             }

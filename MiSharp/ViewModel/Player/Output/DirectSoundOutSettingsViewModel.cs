@@ -3,11 +3,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using NAudio.Wave;
-using NAudioDemo.AudioPlaybackDemo;
 
 namespace MiSharp
 {
     [Export(typeof (DirectSoundOutSettingsViewModel))]
+    [Export(typeof (IOutputDevicePlugin))]
     public class DirectSoundOutSettingsViewModel : PropertyChangedBase, IOutputDevicePlugin
     {
         private readonly bool _isAvailable;

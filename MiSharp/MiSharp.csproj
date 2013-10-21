@@ -109,16 +109,16 @@
     <Compile Include="Model\Tag.cs" />
     <Compile Include="Model\Library\TagFilter.cs" />
     <Compile Include="ViewModel\AppViewModel.cs" />
-    <Compile Include="ViewModel\AsioOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\DirectSoundOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\WasapiOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\WaveOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\PlayerViewModel.cs" />
-    <Compile Include="ViewModel\Player\AiffInputFilePlugin.cs" />
-    <Compile Include="ViewModel\Player\IInputFileFormatPlugin.cs" />
-    <Compile Include="ViewModel\Player\IOutputDevicePlugin.cs" />
-    <Compile Include="ViewModel\Player\Mp3InputFilePlugin.cs" />
-    <Compile Include="ViewModel\Player\WaveInputFilePlugin.cs" />
+    <Compile Include="ViewModel\Player\Output\AsioOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Player\Output\DirectSoundOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Player\Output\WasapiOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Player\Output\WaveOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Player\PlayerViewModel.cs" />
+    <Compile Include="ViewModel\Player\Input\AiffInputFilePlugin.cs" />
+    <Compile Include="ViewModel\Player\Input\IInputFileFormatPlugin.cs" />
+    <Compile Include="ViewModel\Player\Output\IOutputDevicePlugin.cs" />
+    <Compile Include="ViewModel\Player\Input\Mp3InputFilePlugin.cs" />
+    <Compile Include="ViewModel\Player\Input\WaveInputFilePlugin.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\TagEditor\ArtistTagEditorViewModel.cs" />
     <Compile Include="ViewModel\TagEditor\AlbumTagEditorViewModel.cs" />
@@ -126,16 +126,16 @@
     <Compile Include="ViewModel\DialogResults\CloseResult.cs" />
     <Compile Include="ViewModel\DialogResults\Result.cs" />
     <Compile Include="ViewModel\TagEditor\SongTagEditorViewModel.cs" />
-    <Compile Include="View\Player\AsioOutSettingsView.xaml.cs">
+    <Compile Include="View\Player\Output\AsioOutSettingsView.xaml.cs">
       <DependentUpon>AsioOutSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Player\DirectSoundOutSettingsView.xaml.cs">
+    <Compile Include="View\Player\Output\DirectSoundOutSettingsView.xaml.cs">
       <DependentUpon>DirectSoundOutSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Player\WasapiOutSettingsView.xaml.cs">
+    <Compile Include="View\Player\Output\WasapiOutSettingsView.xaml.cs">
       <DependentUpon>WasapiOutSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Player\WaveOutSettingsView.xaml.cs">
+    <Compile Include="View\Player\Output\WaveOutSettingsView.xaml.cs">
       <DependentUpon>WaveOutSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Player\PlayerView.xaml.cs">
@@ -164,19 +164,27 @@
     <Compile Include="View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\Player\AsioOutSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Player\DirectSoundOutSettingsView.xaml">
+    <Page Include="Resources\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Player\WasapiOutSettingsView.xaml">
+    <Page Include="Resources\Templates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Player\WaveOutSettingsView.xaml">
+    <Page Include="View\Player\Output\AsioOutSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Player\Output\DirectSoundOutSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Player\Output\WasapiOutSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Player\Output\WaveOutSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

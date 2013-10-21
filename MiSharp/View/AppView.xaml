@@ -5,17 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cal="http://www.caliburnproject.org"
-             mc:Ignorable="d"
-             Width="900" Height="650"
-             d:DesignHeight="700" d:DesignWidth="900">
+             Width="900" Height="750">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*" />
-            <RowDefinition Height="800*" />
+            <RowDefinition Height="200*" />
+            <RowDefinition Height="550*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                        Name="PlayerViewModel"
+                        Grid.Row="0" />
         <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         Name="LibraryViewModel"
                         Grid.Row="1" />
@@ -23,13 +24,6 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <cal:ActionMessage MethodName="SettingsClick" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Button>
-        <Button Content="Player" Margin="735,11,90,0" VerticalAlignment="Top">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <cal:ActionMessage MethodName="PlayerClick" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>

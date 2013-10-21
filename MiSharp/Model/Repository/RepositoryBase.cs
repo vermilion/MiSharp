@@ -7,8 +7,8 @@ namespace MiSharp.Model.Repository
 {
     public abstract class RepositoryBase : IDisposable
     {
-        public Db4ORepository Repository;
         private readonly string _libPath;
+        public Db4ORepository Repository;
 
         protected RepositoryBase(string libPath)
         {

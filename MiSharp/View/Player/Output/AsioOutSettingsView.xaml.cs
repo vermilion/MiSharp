@@ -3,11 +3,11 @@
 namespace MiSharp
 {
     /// <summary>
-    /// Interaction logic for AsioOutSettingsView.xaml
+    ///     Interaction logic for AsioOutSettingsView.xaml
     /// </summary>
-    public partial class WaveOutSettingsView : UserControl
+    public partial class AsioOutSettingsView : UserControl
     {
-        public WaveOutSettingsView()
+        public AsioOutSettingsView()
         {
             InitializeComponent();
         }

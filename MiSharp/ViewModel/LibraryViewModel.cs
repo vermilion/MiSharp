@@ -84,7 +84,8 @@ namespace MiSharp
         {
             if (SelectedAlbum == null) return;
 
-            List<Tag> list = MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(null, SelectedAlbum.Name)).ToList();
+            List<Tag> list =
+                MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(null, SelectedAlbum.Name)).ToList();
             _windowManager.ShowDialog(new AlbumTagEditorViewModel(list));
         }
 

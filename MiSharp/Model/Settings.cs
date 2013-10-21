@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using MiSharp.Model.Library;
 using MiSharp.Model.Repository;
 
 namespace MiSharp.Model

@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 using NAudio.Wave;
 
-namespace NAudioDemo.AudioPlaybackDemo
+namespace MiSharp
 {
-    [Export(typeof(IInputFileFormatPlugin))]
-    class AiffInputFilePlugin : IInputFileFormatPlugin
+    [Export(typeof (IInputFileFormatPlugin))]
+    internal class AiffInputFilePlugin : IInputFileFormatPlugin
     {
         public string Name
         {
