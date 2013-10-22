@@ -7,13 +7,12 @@ namespace MiSharp.Model
     public class Settings
     {
         private static Settings _settings;
-        private string _watchFolder;
-        private int _watchFolderScanInterval;
 
         private Settings()
         {
-            _watchFolderScanInterval = 60;
-            _watchFolder = @"F:\_MUSIC";
+            WatchFolderScanInterval = 60;
+            WatchFolder = @"F:\_MUSIC";
+            FileFormats = new[] {"*.mp3"};
         }
 
         public static Settings Instance
@@ -21,25 +20,15 @@ namespace MiSharp.Model
             get { return _settings ?? (_settings = LoadSettings()); }
         }
 
-        public int WatchFolderScanInterval
-        {
-            get { return _watchFolderScanInterval; }
-            set
-            {
-                _watchFolderScanInterval = value;
-                SaveSettings();
-            }
-        }
+        public int WatchFolderScanInterval { get; set; }
 
-        public string WatchFolder
-        {
-            get { return _watchFolder; }
-            set
-            {
-                _watchFolder = value;
-                SaveSettings();
-            }
-        }
+        public string WatchFolder { get; set; }
+
+        public string[] FileFormats { get; set; }
+
+        public IOutputDevicePlugin SelectedOutputDriver { get; set; }
+
+        public int RequestedLatency { get; set; }
 
         private static Settings LoadSettings()
         {

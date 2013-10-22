@@ -19,6 +19,7 @@ namespace MiSharp
         {
             _isAvailable = DirectSoundOut.Devices.Any();
             Devices = DirectSoundOut.Devices.ToList();
+            SelectedDevice = Devices.First();
         }
 
         public List<DirectSoundDeviceInfo> Devices

@@ -118,7 +118,7 @@ namespace MiSharp.Model
         }
 
 
-        private string MediaPath { get; set; }
+        public string MediaPath { get; set; }
 
         public string Title { get; set; }
 

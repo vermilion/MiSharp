@@ -7,7 +7,7 @@
     xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
     xmlns:local="clr-namespace:MiSharp" x:Class="MiSharp.DirectSoundOutSettingsView"
     mc:Ignorable="d"
-    Height="43" Width="250" Loaded="UserControl_Loaded">
+    Height="43" Width="350">
     <Grid>
         <ComboBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="10,10,10,0"
                   VerticalAlignment="Top" DisplayMemberPath="Description" />

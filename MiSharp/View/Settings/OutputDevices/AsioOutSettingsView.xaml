@@ -6,7 +6,7 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
              mc:Ignorable="d"
-             Height="70" Width="250">
+             Height="70" Width="350">
     <Grid>
         <ComboBox ItemsSource="{Binding AsioDrivers}" SelectedItem="{Binding SelectedDeviceName}" Margin="10,10,8,0"
                   VerticalAlignment="Top" />

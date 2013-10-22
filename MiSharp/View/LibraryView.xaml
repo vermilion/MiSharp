@@ -6,13 +6,19 @@
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:local="clr-namespace:MiSharp" x:Class="MiSharp.LibraryView"
-    mc:Ignorable="d" Width="800" Height="600">
-    <Grid Margin="10">
+    mc:Ignorable="d" Width="800" Height="500">
+    <Grid Margin="10,10,10,0">
         <ListBox ItemsSource="{Binding Songs}" SelectionMode="Single" SelectedItem="{Binding SelectedSong}"
                  Margin="278,193,10,10">
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add to Now Playing" Visibility="Hidden" />
+                    <MenuItem Header="Add to Now Playing" Visibility="Visible">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="AddToPlaylist" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
                     <MenuItem Header="Replace now playing with selection" Visibility="Hidden" />
                     <Separator />
                     <MenuItem Header="Playlists" Visibility="Hidden">

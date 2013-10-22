@@ -24,11 +24,6 @@ namespace MiSharp
             _windowManager = windowManager;
         }
 
-        //public void Red()
-        //{
-        //   _events.Publish(new ColorEvent(new SolidColorBrush(Colors.Red)));
-        //}
-
         public string Status { get; set; }
 
         public string SelectedBand
@@ -77,6 +72,11 @@ namespace MiSharp
                 return
                     MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand, SelectedAlbum.Name));
             }
+        }
+
+        public void AddToPlaylist()
+        {
+            _events.Publish(SelectedSong);
         }
 
 

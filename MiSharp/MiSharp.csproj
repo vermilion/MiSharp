@@ -72,6 +72,9 @@
     <Reference Include="NVorbis.NAudioSupport">
       <HintPath>..\packages\NVorbis.NAudioSupport.0.5.6\lib\NVorbis.NAudioSupport.dll</HintPath>
     </Reference>
+    <Reference Include="Rareform">
+      <HintPath>..\packages\Rareform.1.5.2\lib\Rareform.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Windows.Forms" />
@@ -109,37 +112,42 @@
     <Compile Include="Model\Tag.cs" />
     <Compile Include="Model\Library\TagFilter.cs" />
     <Compile Include="ViewModel\AppViewModel.cs" />
-    <Compile Include="ViewModel\Player\Output\AsioOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Player\Output\DirectSoundOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Player\Output\WasapiOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Player\Output\WaveOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Settings\OutputDevices\AsioOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Settings\OutputDevices\DirectSoundOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Settings\OutputDevices\WasapiOutSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Settings\OutputDevices\WaveOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Player\PlayerViewModel.cs" />
     <Compile Include="ViewModel\Player\Input\AiffInputFilePlugin.cs" />
     <Compile Include="ViewModel\Player\Input\IInputFileFormatPlugin.cs" />
-    <Compile Include="ViewModel\Player\Output\IOutputDevicePlugin.cs" />
+    <Compile Include="ViewModel\Settings\OutputDevices\IOutputDevicePlugin.cs" />
     <Compile Include="ViewModel\Player\Input\Mp3InputFilePlugin.cs" />
     <Compile Include="ViewModel\Player\Input\WaveInputFilePlugin.cs" />
-    <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="Model\PlaylistEntry.cs" />
+    <Compile Include="ViewModel\PlaylistViewModel.cs" />
+    <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
     <Compile Include="ViewModel\TagEditor\ArtistTagEditorViewModel.cs" />
     <Compile Include="ViewModel\TagEditor\AlbumTagEditorViewModel.cs" />
     <Compile Include="ViewModel\DialogResults\ChangesSaved.cs" />
     <Compile Include="ViewModel\DialogResults\CloseResult.cs" />
     <Compile Include="ViewModel\DialogResults\Result.cs" />
     <Compile Include="ViewModel\TagEditor\SongTagEditorViewModel.cs" />
-    <Compile Include="View\Player\Output\AsioOutSettingsView.xaml.cs">
+    <Compile Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml.cs">
       <DependentUpon>AsioOutSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Player\Output\DirectSoundOutSettingsView.xaml.cs">
+    <Compile Include="View\Settings\OutputDevices\DirectSoundOutSettingsView.xaml.cs">
       <DependentUpon>DirectSoundOutSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Player\Output\WasapiOutSettingsView.xaml.cs">
+    <Compile Include="View\Settings\OutputDevices\WasapiOutSettingsView.xaml.cs">
       <DependentUpon>WasapiOutSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Player\Output\WaveOutSettingsView.xaml.cs">
+    <Compile Include="View\Settings\OutputDevices\WaveOutSettingsView.xaml.cs">
       <DependentUpon>WaveOutSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Player\PlayerView.xaml.cs">
       <DependentUpon>PlayerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Player\PlaylistView.xaml.cs">
+      <DependentUpon>PlaylistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TagEditor\ArtistTagEditorView.xaml.cs">
       <DependentUpon>ArtistTagEditorView.xaml</DependentUpon>
@@ -161,7 +169,7 @@
     <Compile Include="View\TagEditor\AlbumTagEditorView.xaml.cs">
       <DependentUpon>AlbumTagEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SettingsView.xaml.cs">
+    <Compile Include="View\Settings\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Styles.xaml">
@@ -172,23 +180,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Player\Output\AsioOutSettingsView.xaml">
+    <Page Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Player\Output\DirectSoundOutSettingsView.xaml">
+    <Page Include="View\Settings\OutputDevices\DirectSoundOutSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Player\Output\WasapiOutSettingsView.xaml">
+    <Page Include="View\Settings\OutputDevices\WasapiOutSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Player\Output\WaveOutSettingsView.xaml">
+    <Page Include="View\Settings\OutputDevices\WaveOutSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Player\PlayerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Player\PlaylistView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,7 +224,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SettingsView.xaml">
+    <Page Include="View\Settings\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -259,6 +271,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

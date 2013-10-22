@@ -30,8 +30,8 @@ namespace MiSharp.Model.Repository
         public IEnumerable<Album> GetAllAlbums(string bandName)
         {
             return GetAllSongs().Where(x => x.AlbumArtist == bandName)
-                .Distinct(new AlbumEqualityComparer())
-                .Select(x => new Album {Name = x.Album, Year = x.Year});
+                                .Distinct(new AlbumEqualityComparer())
+                                .Select(x => new Album {Name = x.Album, Year = x.Year});
         }
 
         public IEnumerable<string> GetAllBands()
@@ -60,8 +60,12 @@ namespace MiSharp.Model.Repository
         //TODO:fk off events. Make Task<> based
         public async Task<bool> Rescan()
         {
-            FileInfo[] files = new DirectoryInfo(Settings.Instance.WatchFolder).GetFiles("*.mp3",
-                SearchOption.AllDirectories);
+            FileInfo[] files = Settings.Instance.FileFormats
+                                       .SelectMany(f =>
+                                                   new DirectoryInfo(Settings.Instance.WatchFolder)
+                                                       .GetFiles(f.Trim(), SearchOption.AllDirectories))
+                                       .ToArray();
+
             Int64 count = files.Count();
             for (int index = 0; index < files.Length; index++)
             {

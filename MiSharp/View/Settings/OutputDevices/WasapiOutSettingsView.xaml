@@ -6,13 +6,14 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
              mc:Ignorable="d"
-             Height="70" Width="250">
+             Height="70" Width="350">
     <Grid>
         <ComboBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="10,10,10,0"
                   VerticalAlignment="Top" />
         <CheckBox Content="Event Callback" IsChecked="{Binding UseEventCallback}" HorizontalAlignment="Left"
                   Margin="10,44,0,0" VerticalAlignment="Top" />
-        <CheckBox Content="Exclusive Mode" HorizontalAlignment="Left" Margin="145,44,0,0" VerticalAlignment="Top" />
+        <CheckBox Content="Exclusive Mode" IsChecked="{Binding ShareMode}" HorizontalAlignment="Left"
+                  Margin="145,44,0,0" VerticalAlignment="Top" />
 
     </Grid>
 </UserControl>

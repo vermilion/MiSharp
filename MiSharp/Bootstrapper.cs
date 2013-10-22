@@ -33,12 +33,22 @@ namespace MiSharp
             string contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
             IEnumerable<object> exports = _container.GetExportedValues<object>(contract);
 
-            if (exports.Count() > 0)
+            if (exports.Any())
             {
                 return exports.First();
             }
 
             throw new Exception(string.Format("Could not locate any instances of contract {0}.", contract));
+        }
+
+        protected override IEnumerable<object> GetAllInstances(Type serviceType)
+        {
+            return _container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
+        }
+
+        protected override void BuildUp(object instance)
+        {
+            _container.SatisfyImportsOnce(instance);
         }
     }
 }

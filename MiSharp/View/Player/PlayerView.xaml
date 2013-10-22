@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cal="http://www.caliburnproject.org"
-             mc:Ignorable="d" Width="650" Height="198">
+             mc:Ignorable="d" Width="350" Height="106">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -16,38 +16,15 @@
     </UserControl.Resources>
 
     <Grid>
-        <Menu Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320">
-            <Button Height="25" Width="35" Content="Open">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="OpenClick" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+        <Menu Height="44" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320" Background="{x:Null}">
             <Label Content="Current time:" Height="25" Width="80" />
             <Label Content="{Binding CurrentTime}" Height="25" Width="30" />
             <Label Content="Total time:" Height="25" Width="65" />
             <Label Content="{Binding TotalTime}" Height="25" Width="40" />
         </Menu>
-        <GroupBox Header="Output Driver" Margin="325,10,10,0" VerticalAlignment="Top" Height="121">
-            <ComboBox ItemsSource="{Binding OutputDevicePlugins}" SelectedItem="{Binding SelectedOutputDriver}"
-                      SelectedIndex="0" DisplayMemberPath="Name" VerticalAlignment="Top" Margin="10,5,10,0" />
-        </GroupBox>
-        <ContentControl Margin="325,61,10,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                        Name="OutSettingsViewModel" Height="70" VerticalAlignment="Top" />
-        <Label Content="Requested Latency:" HorizontalAlignment="Left" Margin="11,49,0,0" VerticalAlignment="Top" />
-        <Label Content="Volume:" HorizontalAlignment="Left" Margin="11,80,0,0" VerticalAlignment="Top" />
-        <ComboBox ItemsSource="{Binding RequestedLatency}" SelectedItem="{Binding SelectedLatency}"
-                  HorizontalAlignment="Left" Margin="128,53,0,0"
-                  VerticalAlignment="Top" Width="96" />
-        <Label Content="ms" HorizontalAlignment="Left" Margin="229,53,0,0" VerticalAlignment="Top" />
-        <Slider HorizontalAlignment="Left" Margin="128,80,0,0" VerticalAlignment="Top" Width="126" />
-        <Slider Margin="259,49,0,0" VerticalAlignment="Top" Orientation="Vertical" Height="82"
-                HorizontalAlignment="Left" Width="23" />
-        <Slider Margin="287,49,0,0" VerticalAlignment="Top" Orientation="Vertical" Height="82"
-                HorizontalAlignment="Left" Width="23" />
         <Border Grid.Column="0" CornerRadius="5,5,5,5" Background="WhiteSmoke" BorderBrush="Gray"
-                BorderThickness="4,4,4,4" Margin="25,146,25,0" Height="42" VerticalAlignment="Top">
+                BorderThickness="4,4,4,4" Margin="17,60,0,0" Height="42" VerticalAlignment="Top"
+                HorizontalAlignment="Left" Width="328">
             <StackPanel Background="Transparent" Width="Auto" Margin="0,0,0,0" Orientation="Horizontal" Height="Auto">
                 <Button Width="50" Height="50" Margin="-15,-50,0,0" Template="{StaticResource controlButtonTemplate}"
                         FontSize="14" FontWeight="Bold" Foreground="LightGreen" Content="4" FontFamily="Webdings"
@@ -87,8 +64,16 @@
                 <TextBlock Foreground="Gray" Margin="5,5,5,5" VerticalAlignment="Center" FontSize="10">
                     <Run Text="Volume" />
                 </TextBlock>
-                <Slider Margin="2,0,0,0" VerticalAlignment="Center" Width="80" Height="Auto" Minimum="0" Maximum="1"
-                        Value="0.5" />
+                <Slider Name="VolumeSlider" Margin="2,0,0,0" VerticalAlignment="Center" Width="80" Height="Auto"
+                        Minimum="0" Maximum="1" Value="0.5">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="ValueChanged">
+                            <cal:ActionMessage MethodName="VolumeValueChanged">
+                                <cal:Parameter Value="{Binding ElementName=VolumeSlider, Path=Value}" />
+                            </cal:ActionMessage>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Slider>
             </StackPanel>
         </Border>
     </Grid>
