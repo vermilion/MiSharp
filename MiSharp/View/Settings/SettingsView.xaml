@@ -19,14 +19,14 @@
                  VerticalAlignment="Top" />
         <GroupBox Header="Output Driver" Margin="10,97,10,0" VerticalAlignment="Top" Height="121">
             <ComboBox ItemsSource="{Binding OutputDevicePlugins}" SelectedItem="{Binding SelectedOutputDriver}"
-        		SelectedIndex="0" DisplayMemberPath="Name" VerticalAlignment="Top" Margin="10,5,10,0" />
+                      SelectedIndex="0" DisplayMemberPath="Name" VerticalAlignment="Top" Margin="10,5,10,0" />
         </GroupBox>
         <Label Content="Requested Latency:" HorizontalAlignment="Left" Margin="10,219,0,0" VerticalAlignment="Top" />
         <ComboBox ItemsSource="{Binding RequestedLatency}" SelectedItem="{Binding SelectedLatency}"
-        	HorizontalAlignment="Left" Margin="122,223,0,0"
-        	VerticalAlignment="Top" Width="96" />
+                  HorizontalAlignment="Left" Margin="122,223,0,0"
+                  VerticalAlignment="Top" Width="96" />
         <Label Content="ms" HorizontalAlignment="Left" Margin="223,223,0,0" VerticalAlignment="Top" />
-        <ContentControl Name="SelectedOutputDriver" Margin="10,142,10,0" VerticalAlignment="Top" Height="72"/>
+        <ContentControl Name="SelectedOutputDriver" Margin="10,142,10,0" VerticalAlignment="Top" Height="72" />
         <Button Content="Save" Margin="285,251,10,0" VerticalAlignment="Top">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">

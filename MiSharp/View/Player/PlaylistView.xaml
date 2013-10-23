@@ -4,12 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro" Width="200" Height="500">
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro" Width="572" Height="500">
     <Grid>
-        <ListBox ItemsSource="{Binding Playlist}" SelectedItem="{Binding CurrentTag}" Margin="10,35,10,10">
-            <ListBox.ContextMenu>
+        <ListView Grid.Column="0"
+                  Margin="10,34,10,10"
+                  FocusVisualStyle="{x:Null}"
+                  ItemsSource="{Binding Path=Songs}"
+                  ScrollViewer.CanContentScroll="True">
+            <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Remove Selected">
+                    <MenuItem Header="Remove">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <cal:ActionMessage MethodName="RemoveSelected" />
@@ -17,26 +21,104 @@
                         </i:Interaction.Triggers>
                     </MenuItem>
                 </ContextMenu>
-            </ListBox.ContextMenu>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <ContentControl HorizontalAlignment="Left" Height="70" Margin="0,0,0,0">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseDoubleClick">
-                                <cal:ActionMessage MethodName="PlayClick" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center"
-                                    HorizontalAlignment="Left">
-                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Title}" />
-                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Track}" />
-                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding BeatsPerMinute}" />
-                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Year}" />
-                        </StackPanel>
-                    </ContentControl>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Label Content="Current Playlist" Margin="10,0" VerticalAlignment="Top" FontSize="14" />
+            </ListView.ContextMenu>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsInactive}" Value="True">
+                            <Setter Property="Foreground" Value="Gray" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="{Binding Path=PlaylistTitleColumnWidth, Mode=TwoWay}" Header="Title">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Title}" TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="{Binding Path=PlaylistDurationColumnWidth, Mode=TwoWay}" Header="Duration">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Duration, StringFormat=mm\\:ss}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="{Binding Path=PlaylistArtistColumnWidth, Mode=TwoWay}" Header="Artist">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Artist}" TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="{Binding Path=PlaylistAlbumColumnWidth, Mode=TwoWay}" Header="Album">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Album}" TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="{Binding Path=PlaylistGenreColumnWidth, Mode=TwoWay}" Header="Genre">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Genre}" TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="{Binding Path=PlaylistSourceColumnWidth, Mode=TwoWay}" Header="Source">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Source}" TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="{Binding Path=PlaylistCachingProgressColumnWidth, Mode=TwoWay}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.Style>
+                                        <Style TargetType="{x:Type Grid}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=ShowCaching}" Value="False">
+                                                    <Setter Property="Visibility" Value="Hidden" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <TextBlock VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=HasCachingFailed}" Value="True">
+                                                        <Setter Property="Text" Value="Caching failed!" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=HasCachingFailed}"
+                                                                 Value="False">
+                                                        <Setter Property="Text"
+                                                                Value="{Binding Path=CacheProgress, StringFormat=Caching... \{0\}%, IsAsync=True}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Content="Current Playlist" Margin="0,0,440,0" VerticalAlignment="Top" FontSize="14" />
+        <Button Content="Play" HorizontalAlignment="Left" Margin="487,4,0,0" VerticalAlignment="Top" Width="75">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <cal:ActionMessage MethodName="PlayClick" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
     </Grid>
 </UserControl>

@@ -17,7 +17,7 @@ namespace MiSharp
         private string _songYear;
 
         [ImportingConstructor]
-        public AlbumTagEditorViewModel(List<Tag> mediaToModify) : base(mediaToModify)
+        public AlbumTagEditorViewModel(List<Song> mediaToModify) : base(mediaToModify)
         {
             if ((from m in mediaToModify select m.Album).Distinct().Count() > 1)
                 SongAlbum = "Multiple Albums";
@@ -102,7 +102,7 @@ namespace MiSharp
                 MessageBox.Show("Please provide an Album Name.", "Error", MessageBoxButtons.OK);
             }
 
-            foreach (Tag media in MediaList)
+            foreach (Song media in MediaList)
             {
                 try
                 {
@@ -116,7 +116,7 @@ namespace MiSharp
 
                     if (SongAlbumArtist.Trim() != "Multiple Album Artists")
                     {
-                        media.AlbumArtist = SongAlbumArtist.Trim();
+                        media.Artist = SongAlbumArtist.Trim();
                         hasChanged = true;
                     }
 

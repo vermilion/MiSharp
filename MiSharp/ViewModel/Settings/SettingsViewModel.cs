@@ -9,6 +9,9 @@ namespace MiSharp
     [Export(typeof (SettingsViewModel))]
     public class SettingsViewModel : Screen
     {
+        private IOutputDevicePlugin _outSettingsViewModel;
+        private List<int> _requestedLatency = new List<int>();
+
         public SettingsViewModel()
         {
             DisplayName = "Mi# Settings";
@@ -48,8 +51,6 @@ namespace MiSharp
         [ImportMany(typeof (IOutputDevicePlugin))]
         public IEnumerable<IOutputDevicePlugin> OutputDevicePlugins { get; set; }
 
-        private IOutputDevicePlugin _outSettingsViewModel;
-
         public IOutputDevicePlugin OutSettingsViewModel
         {
             get { return _outSettingsViewModel; }
@@ -59,7 +60,7 @@ namespace MiSharp
                 NotifyOfPropertyChange(() => OutSettingsViewModel);
             }
         }
-        
+
         public IOutputDevicePlugin SelectedOutputDriver
         {
             get { return Settings.Instance.SelectedOutputDriver; }
@@ -87,14 +88,6 @@ namespace MiSharp
             }
         }
 
-        public IEnumerable<IResult> SaveClick()
-        {
-            Settings.Instance.SaveSettings();
-            yield return new ChangesSaved();
-        }
-
-        private List<int> _requestedLatency = new List<int>();
-
         public List<int> RequestedLatency
         {
             get { return _requestedLatency; }
@@ -113,6 +106,12 @@ namespace MiSharp
                 Settings.Instance.RequestedLatency = value;
                 NotifyOfPropertyChange(() => SelectedLatency);
             }
+        }
+
+        public IEnumerable<IResult> SaveClick()
+        {
+            Settings.Instance.SaveSettings();
+            yield return new ChangesSaved();
         }
     }
 }

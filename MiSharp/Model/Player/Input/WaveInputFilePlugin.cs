@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using NAudio.Wave;
 
-namespace MiSharp
+namespace MiSharp.Model.Playlist.Input
 {
     [Export(typeof (IInputFileFormatPlugin))]
     internal class WaveInputFilePlugin : IInputFileFormatPlugin

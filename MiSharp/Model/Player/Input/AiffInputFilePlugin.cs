@@ -1,24 +1,24 @@
 ﻿using System.ComponentModel.Composition;
 using NAudio.Wave;
 
-namespace MiSharp
+namespace MiSharp.Model.Playlist.Input
 {
     [Export(typeof (IInputFileFormatPlugin))]
-    internal class Mp3InputFilePlugin : IInputFileFormatPlugin
+    internal class AiffInputFilePlugin : IInputFileFormatPlugin
     {
         public string Name
         {
-            get { return "MP3 File"; }
+            get { return "AIFF File"; }
         }
 
         public string Extension
         {
-            get { return ".mp3"; }
+            get { return ".aiff"; }
         }
 
         public WaveStream CreateWaveStream(string fileName)
         {
-            return new Mp3FileReader(fileName);
+            return new AiffFileReader(fileName);
         }
     }
 }

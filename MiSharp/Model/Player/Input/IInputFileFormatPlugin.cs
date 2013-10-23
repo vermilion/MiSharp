@@ -1,6 +1,6 @@
 ﻿using NAudio.Wave;
 
-namespace MiSharp
+namespace MiSharp.Model.Playlist.Input
 {
     public interface IInputFileFormatPlugin
     {

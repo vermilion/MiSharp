@@ -14,7 +14,7 @@ namespace MiSharp
         private string _songTitle;
 
         [ImportingConstructor]
-        public SongTagEditorViewModel(List<Tag> mediaToModify) : base(mediaToModify)
+        public SongTagEditorViewModel(List<Song> mediaToModify) : base(mediaToModify)
         {
             if ((from m in mediaToModify select m.Title).Distinct().Count() > 1)
                 SongTitle = "Multiple Titles";
@@ -45,10 +45,10 @@ namespace MiSharp
             else
                 SongConductor = (from m in mediaToModify select m.Conductor).ToArray()[0];
 
-            if ((from m in mediaToModify select m.AlbumArtist).Distinct().Count() > 1)
+            if ((from m in mediaToModify select m.Artist).Distinct().Count() > 1)
                 SongAlbumArtist = "Multiple Artists";
             else
-                SongAlbumArtist = (from m in mediaToModify select m.AlbumArtist).ToArray()[0];
+                SongAlbumArtist = (from m in mediaToModify select m.Artist).ToArray()[0];
 
             if ((from m in mediaToModify select m.Genre).Distinct().Count() > 1)
                 SongGenre = "Multiple Genres";
@@ -60,10 +60,10 @@ namespace MiSharp
             else
                 SongYear = (from m in mediaToModify select m.Year).ToArray()[0];
 
-            if ((from m in mediaToModify select m.Track).Distinct().Count() > 1)
+            if ((from m in mediaToModify select m.TrackNumber).Distinct().Count() > 1)
                 SongId = "Multiple Track Numbers";
             else
-                SongId = (from m in mediaToModify select m.Track).ToArray()[0].ToString();
+                SongId = (from m in mediaToModify select m.TrackNumber).ToArray()[0].ToString();
         }
 
         public string SongTitle
@@ -93,7 +93,7 @@ namespace MiSharp
                 MessageBox.Show("Please provide an Song Title.", "Error", MessageBoxButtons.OK);
             }
 
-            foreach (Tag media in MediaList)
+            foreach (Song media in MediaList)
             {
                 try
                 {
@@ -123,7 +123,7 @@ namespace MiSharp
                         media.Conductor = SongConductor.Trim();
 
                     if (SongAlbumArtist.Trim() != "Multiple Artists")
-                        media.AlbumArtist = SongAlbumArtist.Trim();
+                        media.Artist = SongAlbumArtist.Trim();
 
                     if (SongGenre.Trim() != "Multiple Genres")
                         media.Genre = SongGenre.Trim();
@@ -136,7 +136,7 @@ namespace MiSharp
                         int outTrack = 0;
 
                         if (int.TryParse(SongId.Trim(), out outTrack))
-                            media.Track = outTrack;
+                            media.TrackNumber = outTrack;
                     }
 
                     media.WriteTag();

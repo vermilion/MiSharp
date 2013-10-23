@@ -37,7 +37,7 @@ namespace MiSharp
         }
 
         //TODO: multiple selection
-        public Tag SelectedSong { get; set; }
+        public Song SelectedSong { get; set; }
 
 
         public Album SelectedAlbum
@@ -64,11 +64,11 @@ namespace MiSharp
             }
         }
 
-        public IEnumerable<Tag> Songs
+        public IEnumerable<Song> Songs
         {
             get
             {
-                if (SelectedBand == null || SelectedAlbum == null) return new List<Tag>();
+                if (SelectedBand == null || SelectedAlbum == null) return new List<Song>();
                 return
                     MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand, SelectedAlbum.Name));
             }
@@ -84,7 +84,7 @@ namespace MiSharp
         {
             if (SelectedAlbum == null) return;
 
-            List<Tag> list =
+            List<Song> list =
                 MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(null, SelectedAlbum.Name)).ToList();
             _windowManager.ShowDialog(new AlbumTagEditorViewModel(list));
         }
@@ -93,14 +93,14 @@ namespace MiSharp
         {
             if (SelectedBand == null) return;
 
-            List<Tag> list = MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand, null)).ToList();
+            List<Song> list = MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand, null)).ToList();
             _windowManager.ShowDialog(new ArtistTagEditorViewModel(list));
         }
 
         public void EditorEditSongs()
         {
             if (SelectedSong != null)
-                _windowManager.ShowDialog(new SongTagEditorViewModel(new List<Tag> {SelectedSong}));
+                _windowManager.ShowDialog(new SongTagEditorViewModel(new List<Song> {SelectedSong}));
         }
 
         public void RescanLibrary()

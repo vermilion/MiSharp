@@ -6,7 +6,7 @@ namespace MiSharp
 {
     public class PlaylistEntry : IComparable<PlaylistEntry>
     {
-        internal PlaylistEntry(int index, Tag song)
+        internal PlaylistEntry(int index, Song song)
         {
             if (index < 0)
                 Throw.ArgumentOutOfRangeException(() => index, 0);
@@ -20,7 +20,7 @@ namespace MiSharp
 
         public int Index { get; internal set; }
 
-        public Tag Song { get; private set; }
+        public Song Song { get; private set; }
 
         public int CompareTo(PlaylistEntry other)
         {

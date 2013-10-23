@@ -29,29 +29,29 @@ namespace MiSharp.Model.Repository
 
         public IEnumerable<Album> GetAllAlbums(string bandName)
         {
-            return GetAllSongs().Where(x => x.AlbumArtist == bandName)
+            return GetAllSongs().Where(x => x.Artist == bandName)
                                 .Distinct(new AlbumEqualityComparer())
                                 .Select(x => new Album {Name = x.Album, Year = x.Year});
         }
 
         public IEnumerable<string> GetAllBands()
         {
-            return GetAllSongs().Select(x => x.AlbumArtist).Distinct();
+            return GetAllSongs().Select(x => x.Artist).Distinct();
         }
 
-        public IEnumerable<Tag> GetAllSongsFiltered(TagFilter filter)
+        public IEnumerable<Song> GetAllSongsFiltered(TagFilter filter)
         {
-            IEnumerable<Tag> result = GetAllSongs();
+            IEnumerable<Song> result = GetAllSongs();
             if (filter.BandName != null)
-                result = result.Where(x => x.AlbumArtist == filter.BandName);
+                result = result.Where(x => x.Artist == filter.BandName);
             if (filter.AlbumName != null)
                 result = result.Where(x => x.Album == filter.AlbumName);
             return result;
         }
 
-        public IEnumerable<Tag> GetAllSongs()
+        public IEnumerable<Song> GetAllSongs()
         {
-            return Repository.GetAll<Tag>();
+            return Repository.GetAll<Song>();
         }
 
         public event FileFoundEventHandler FileFound;
@@ -73,7 +73,7 @@ namespace MiSharp.Model.Repository
                 FileFound(new FileStatEventargs {File = file, CurrentFileNumber = index, TotalFiles = count});
                 try
                 {
-                    var tag = new Tag(file.FullName);
+                    var tag = new Song(file.FullName);
                     await Repository.Save(tag);
                 }
                 catch

@@ -11,11 +11,11 @@ namespace MiSharp
     [Export(typeof (ArtistTagEditorViewModel))]
     internal class ArtistTagEditorViewModel : Screen
     {
-        protected List<Tag> MediaList;
+        protected List<Song> MediaList;
         private string _songAlbumArtist;
 
         [ImportingConstructor]
-        public ArtistTagEditorViewModel(List<Tag> mediaToModify)
+        public ArtistTagEditorViewModel(List<Song> mediaToModify)
         {
             DisplayName = "Mi# Tag Editor";
             MediaList = mediaToModify;
@@ -24,10 +24,10 @@ namespace MiSharp
                 return;
             }
 
-            if ((from m in mediaToModify select m.AlbumArtist).Distinct().Count() > 1)
+            if ((from m in mediaToModify select m.Artist).Distinct().Count() > 1)
                 SongAlbumArtist = "Multiple Artists";
             else
-                SongAlbumArtist = (from m in mediaToModify select m.AlbumArtist).ToArray()[0];
+                SongAlbumArtist = (from m in mediaToModify select m.Artist).ToArray()[0];
         }
 
         public string SongAlbumArtist
@@ -54,11 +54,11 @@ namespace MiSharp
                 yield return new CloseResult();
             }
 
-            foreach (Tag media in MediaList)
+            foreach (Song media in MediaList)
             {
                 try
                 {
-                    media.AlbumArtist = SongAlbumArtist;
+                    media.Artist = SongAlbumArtist;
                     media.WriteTag();
                 }
                 catch

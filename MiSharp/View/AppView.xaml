@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cal="http://www.caliburnproject.org"
-             Width="1000" Height="750">
+             Width="1250" Height="750">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="120" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="780*" />
-            <ColumnDefinition Width="220*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="720" />
         </Grid.ColumnDefinitions>
         <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         x:Name="PlayerViewModel"

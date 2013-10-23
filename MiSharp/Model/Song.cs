@@ -2,20 +2,21 @@
 using System.IO;
 using TagLib;
 using File = TagLib.File;
+using Tag = TagLib.Id3v2.Tag;
 
 namespace MiSharp.Model
 {
-    public class Tag
+    public class Song
     {
-        public Tag()
+        public Song()
         {
             Title = string.Empty;
-            AlbumArtist = "Unknown Artist";
+            Artist = "Unknown Artist";
             Album = string.Empty;
             Conductor = string.Empty;
             Year = string.Empty;
             Comment = string.Empty;
-            Track = 0;
+            TrackNumber = 0;
             Genre = "Unknown Genre";
             Year = string.Empty;
             DateAdded = DateTime.MinValue;
@@ -23,11 +24,11 @@ namespace MiSharp.Model
         }
 
 
-        public Tag(string path)
+        public Song(string path)
         {
-            MediaPath = path;
+            OriginalPath = path;
             File file = File.Create(path);
-            var id3v2 = (TagLib.Id3v2.Tag) file.GetTag(TagTypes.Id3v2);
+            var id3v2 = (Tag) file.GetTag(TagTypes.Id3v2);
 
             if (id3v2 == null)
             {
@@ -54,9 +55,9 @@ namespace MiSharp.Model
 
             // album artists
             if (id3v2.AlbumArtists.Length > 0)
-                AlbumArtist = id3v2.AlbumArtists[0];
+                Artist = id3v2.AlbumArtists[0];
             else
-                AlbumArtist = "Unknown Artist";
+                Artist = "Unknown Artist";
 
             // composers
             if (id3v2.Composers.Length > 0)
@@ -82,11 +83,14 @@ namespace MiSharp.Model
             else
                 Comment = string.Empty;
 
-            // Track number
+            // TrackNumber number
             if (id3v2.Track.ToString() != string.Empty)
-                Track = Convert.ToInt32(id3v2.Track);
+                TrackNumber = Convert.ToInt32(id3v2.Track);
             else
-                Track = 0;
+                TrackNumber = 0;
+
+            // Duration
+            Duration = file.Properties.Duration;
 
             // BPM
             BeatsPerMinute = id3v2.BeatsPerMinute;
@@ -117,12 +121,11 @@ namespace MiSharp.Model
             DateUpdated = DateTime.Now;
         }
 
-
-        public string MediaPath { get; set; }
+        public string OriginalPath { get; set; }
 
         public string Title { get; set; }
 
-        public string AlbumArtist { get; set; }
+        public string Artist { get; set; }
 
         public string Album { get; set; }
 
@@ -130,11 +133,13 @@ namespace MiSharp.Model
 
         public string Comment { get; set; }
 
-        public int Track { get; set; }
+        public int TrackNumber { get; set; }
 
         public string Genre { get; set; }
 
         public uint BeatsPerMinute { get; set; }
+
+        public TimeSpan Duration { get; set; }
 
         public string Lyrics { get; set; }
 
@@ -150,17 +155,22 @@ namespace MiSharp.Model
 
         public DateTime DateUpdated { get; set; }
 
+        internal AudioPlayer CreateAudioPlayer()
+        {
+            return new LocalAudioPlayer(this);
+        }
+
         public void WriteTag()
         {
-            File file = File.Create(MediaPath);
+            File file = File.Create(OriginalPath);
 
             if (file == null)
                 return;
 
-            // artist tag editor
-            file.Tag.AlbumArtists = new[] {AlbumArtist};
+            // artist Song editor
+            file.Tag.AlbumArtists = new[] {Artist};
 
-            // album tag editor
+            // album Song editor
             file.Tag.Album = Album;
             file.Tag.Genres = new[] {Genre};
             file.Tag.Composers = Composers;
@@ -168,7 +178,7 @@ namespace MiSharp.Model
 
             // song
             file.Tag.Title = Title;
-            file.Tag.Track = Convert.ToUInt32(Track);
+            file.Tag.Track = Convert.ToUInt32(TrackNumber);
 
             uint year = 0;
             if (UInt32.TryParse(Year, out year))

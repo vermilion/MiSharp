@@ -2,16 +2,16 @@
 
 namespace MiSharp.Model.EqualityComparers
 {
-    public class ArtistEqualityComparer : IEqualityComparer<Tag>
+    public class ArtistEqualityComparer : IEqualityComparer<Song>
     {
-        public bool Equals(Tag x, Tag y)
+        public bool Equals(Song x, Song y)
         {
-            return x.AlbumArtist == y.AlbumArtist;
+            return x.Artist == y.Artist;
         }
 
-        public int GetHashCode(Tag obj)
+        public int GetHashCode(Song obj)
         {
-            return obj.AlbumArtist.GetHashCode();
+            return obj.Artist.GetHashCode();
         }
     }
 }

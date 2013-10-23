@@ -1,191 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Windows.Forms;
 using Caliburn.Micro;
-using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
-using Screen = Caliburn.Micro.Screen;
+using MiSharp.Model.Playlist;
 
 namespace MiSharp
 {
-    public class PlaylistProcessor
-    {
-        public void PlaybackStart()
-        {
-            if (_waveOut != null)
-            {
-                if (_waveOut.PlaybackState == PlaybackState.Playing)
-                {
-                    return;
-                }
-                if (_waveOut.PlaybackState == PlaybackState.Paused)
-                {
-                    _waveOut.Play();
-                    return;
-                }
-            }
-
-            try
-            {
-                CreateWaveOut();
-            }
-            catch (Exception driverCreateException)
-            {
-                MessageBox.Show(String.Format("{0}", driverCreateException.Message));
-                return;
-            }
-
-            ISampleProvider sampleProvider = null;
-            try
-            {
-                // sampleProvider = CreateInputStream(_fileName);
-            }
-            catch (Exception createException)
-            {
-                MessageBox.Show(String.Format("{0}", createException.Message), "Error Loading File");
-                return;
-            }
-
-
-            //Maximum = (int)_fileWaveStream.TotalTime.TotalSeconds;
-            //TotalTime = String.Format("{0:00}:{1:00}", (int)_fileWaveStream.TotalTime.TotalMinutes,
-            //                          _fileWaveStream.TotalTime.Seconds);
-            //TickFrequency = Maximum / 30;
-
-            try
-            {
-                _waveOut.Init(new SampleToWaveProvider(sampleProvider));
-            }
-            catch (Exception initException)
-            {
-                MessageBox.Show(String.Format("{0}", initException.Message), "Error Initializing Output");
-                return;
-            }
-
-            // setVolumeDelegate(volumeSlider1.Volume);
-            //groupBoxDriverModel.Enabled = false;
-            _waveOut.Play();
-        }
-
-        public void PlaybackPause()
-        {
-            if (_waveOut != null)
-            {
-                if (_waveOut.PlaybackState == PlaybackState.Playing)
-                {
-                    _waveOut.Pause();
-                }
-            }
-        }
-
-        public void PlaybackStop()
-        {
-            if (_waveOut != null)
-            {
-                _waveOut.Stop();
-            }
-        }
-
-        private ISampleProvider CreateInputStream(string fileName)
-        {
-            IInputFileFormatPlugin plugin = GetPluginForFile(fileName);
-            if (plugin == null)
-            {
-                throw new InvalidOperationException("Unsupported file extension");
-            }
-            _fileWaveStream = plugin.CreateWaveStream(fileName);
-            var waveChannel = new SampleChannel(_fileWaveStream, true);
-            _setVolumeDelegate = vol => waveChannel.Volume = vol;
-            //waveChannel.PreVolumeMeter += OnPreVolumeMeter;
-
-            var postVolumeMeter = new MeteringSampleProvider(waveChannel);
-            //postVolumeMeter.StreamVolume += OnPostVolumeMeter;
-
-
-            return postVolumeMeter;
-        }
-
-        private IInputFileFormatPlugin GetPluginForFile(string fileName)
-        {
-            return
-                (from f in InputFileFormats
-                 where fileName.EndsWith(f.Extension, StringComparison.OrdinalIgnoreCase)
-                 select f).FirstOrDefault();
-        }
-
-
-        private void CreateWaveOut()
-        {
-            CloseWaveOut();
-            //int latency = SelectedLatency;
-            int latency = 300;
-            // _waveOut = SelectedOutputDriver.CreateDevice(latency);
-            _waveOut.PlaybackStopped += OnPlaybackStopped;
-        }
-
-        private void CloseWaveOut()
-        {
-            if (_waveOut != null)
-            {
-                _waveOut.Stop();
-            }
-            if (_fileWaveStream != null)
-            {
-                // this one really closes the file and ACM conversion
-                _fileWaveStream.Dispose();
-                _setVolumeDelegate = null;
-            }
-            if (_waveOut != null)
-            {
-                _waveOut.Dispose();
-                _waveOut = null;
-            }
-        }
-
-        [ImportMany(typeof (IInputFileFormatPlugin))]
-        public IEnumerable<IInputFileFormatPlugin> InputFileFormats { get; set; }
-
-
-        private void OnPlaybackStopped(object sender, StoppedEventArgs e)
-        {
-            //groupBoxDriverModel.Enabled = true;
-            if (e.Exception != null)
-            {
-                MessageBox.Show(e.Exception.Message, "Playback Device Error");
-            }
-        }
-
-        private WaveStream _fileWaveStream;
-        private Action<float> _setVolumeDelegate;
-        private IWavePlayer _waveOut;
-    }
-
-
     [Export(typeof (PlayerViewModel))]
-    public class PlayerViewModel : Screen, IHandle<Playlist>
+    public class PlayerViewModel : Screen, IHandle<List<PlaylistEntryViewModel>>
     {
+        private readonly Library _library;
         private string _currentTime;
-        private string _fileName;
-
         private int _maximum;
 
         private double _positionValue;
 
         private int _tickFrequency;
         private string _totalTime;
-        private readonly PlaylistProcessor _processor;
 
         [ImportingConstructor]
         public PlayerViewModel(IEventAggregator events)
         {
-            _processor = new PlaylistProcessor();
+            _library = new Library();
+            //_library.PlaybackParamsChanged += ProcessorPlaybackParamsChanged;
+            //_library.TrackbarValueChanged += _processor_TrackbarValueChanged;
             events.Subscribe(this);
         }
-
-
-
 
         public int Maximum
         {
@@ -199,17 +38,9 @@ namespace MiSharp
 
         public double PositionValue
         {
-            get
-            {
-                // if (_fileWaveStream == null) return _positionValue;
-                //TimeSpan currentTime = _fileWaveStream.CurrentTime;
-                //_positionValue = currentTime.TotalSeconds;
-                //CurrentTime = String.Format("{0:00}:{1:00}", (int) currentTime.TotalMinutes, currentTime.Seconds);
-                return _positionValue;
-            }
+            get { return _positionValue; }
             set
             {
-                // _fileWaveStream.CurrentTime = TimeSpan.FromSeconds(value);
                 _positionValue = value;
                 NotifyOfPropertyChange(() => PositionValue);
             }
@@ -236,7 +67,6 @@ namespace MiSharp
         }
 
 
-
         public string CurrentTime
         {
             get { return _currentTime; }
@@ -247,6 +77,24 @@ namespace MiSharp
             }
         }
 
+        private void _processor_TrackbarValueChanged(TrackbarEventArgs args)
+        {
+            PositionValue = args.Position;
+            CurrentTime = args.CurrentTime;
+        }
+
+        private void ProcessorPlaybackParamsChanged(PlaybackEventArgs args)
+        {
+            Maximum = args.Maximum;
+            TickFrequency = args.TickFrequency;
+            TotalTime = args.TotalTime;
+        }
+
+        public void ChangePosition(double pos)
+        {
+            // _library.SetPosition(pos);
+        }
+
         public void StartClick()
         {
             //if (!SelectedOutputDriver.IsAvailable)
@@ -255,39 +103,39 @@ namespace MiSharp
             //    return;
             //}
 
-            _processor.PlaybackStart();
+            _library.PlayNextSong(); //.Start();
         }
 
 
         public void PauseClick()
         {
-            _processor.PlaybackPause();
+            _library.PauseSong(); //.PlaybackPause();
         }
 
         public void StopClick()
         {
-            _processor.PlaybackStop();
+            //_library.PlaybackStop();
         }
 
-        //TODO: another event
         public void VolumeValueChanged(float value)
         {
-            //if (_setVolumeDelegate != null)
-            //{
-            //    _setVolumeDelegate(value);
-            //}
+            // _library.SetVolumeLevel(value);
         }
-
-
-
 
         #region IHandle implementation
 
-        public void Handle(Playlist playlist)
+        public void Handle(List<PlaylistEntryViewModel> playlist)
         {
-            _fileName = playlist.TagPlaylist[playlist.CurrentIndex].MediaPath;
             //TODO: playlist queue
-            StartClick();
+            foreach (PlaylistEntryViewModel playlistEntryViewModel in playlist)
+            {
+                _library.AddSongToPlaylist(playlistEntryViewModel.Model);
+            }
+
+            _library.PlayNextSong();
+            // _library.AddSongsToPlaylist(playlist);
+            //_library.SetPlaylist(playlist);
+            //_library.Start();
         }
 
         #endregion
