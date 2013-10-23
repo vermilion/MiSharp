@@ -72,9 +72,9 @@ namespace MiSharp
 
         public IWavePlayer CreateDevice(int latency)
         {
-            AudioClientShareMode shareMode = ShareMode ?
-                                                 AudioClientShareMode.Shared :
-                                                 AudioClientShareMode.Exclusive;
+            AudioClientShareMode shareMode = ShareMode
+                ? AudioClientShareMode.Shared
+                : AudioClientShareMode.Exclusive;
             var wasapi = new WasapiOut(
                 SelectedDevice,
                 shareMode,

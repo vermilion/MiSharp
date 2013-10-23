@@ -1,15 +1,14 @@
-﻿using System;
+﻿using MiSharp.Model;
 
 namespace MiSharp
 {
-    public sealed class PlaylistEntryViewModel : SongViewModelBase
+    public sealed class PlaylistEntryViewModel : Song
     {
         private readonly PlaylistEntry _entry;
         private bool _isInactive;
         private bool _isPlaying;
 
         public PlaylistEntryViewModel(PlaylistEntry entry)
-            : base(entry.Song)
         {
             _entry = entry;
         }
@@ -27,7 +26,7 @@ namespace MiSharp
                 if (IsInactive != value)
                 {
                     _isInactive = value;
-                    NotifyOfPropertyChange(() => IsInactive);
+                    //NotifyOfPropertyChange(() => IsInactive);
                 }
             }
         }
@@ -40,21 +39,8 @@ namespace MiSharp
                 if (IsPlaying != value)
                 {
                     _isPlaying = value;
-                    NotifyOfPropertyChange(() => IsPlaying);
+                    //NotifyOfPropertyChange(() => IsPlaying);
                 }
-            }
-        }
-
-        public string Source
-        {
-            get
-            {
-                if (Model != null)
-                {
-                    return "Local";
-                }
-
-                throw new InvalidOperationException();
             }
         }
     }

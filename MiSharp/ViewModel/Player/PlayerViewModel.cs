@@ -103,39 +103,35 @@ namespace MiSharp
             //    return;
             //}
 
-            _library.PlayNextSong(); //.Start();
+            _library.PlayNextSong();
         }
 
 
         public void PauseClick()
         {
-            _library.PauseSong(); //.PlaybackPause();
+            _library.PauseSong();
         }
 
         public void StopClick()
         {
-            //_library.PlaybackStop();
+            _library.PauseSong();
         }
 
         public void VolumeValueChanged(float value)
         {
-            // _library.SetVolumeLevel(value);
+            _library.SetVolumeLevel(value);
         }
 
         #region IHandle implementation
 
         public void Handle(List<PlaylistEntryViewModel> playlist)
         {
-            //TODO: playlist queue
             foreach (PlaylistEntryViewModel playlistEntryViewModel in playlist)
             {
-                _library.AddSongToPlaylist(playlistEntryViewModel.Model);
+                _library.AddSongToPlaylist(playlistEntryViewModel);
             }
 
             _library.PlayNextSong();
-            // _library.AddSongsToPlaylist(playlist);
-            //_library.SetPlaylist(playlist);
-            //_library.Start();
         }
 
         #endregion

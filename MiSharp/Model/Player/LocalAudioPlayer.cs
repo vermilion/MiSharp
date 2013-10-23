@@ -32,11 +32,11 @@ namespace MiSharp
             Volume = 1.0f;
 
             InputFileFormats = new List<IInputFileFormatPlugin>
-                {
-                    new AiffInputFilePlugin(),
-                    new Mp3InputFilePlugin(),
-                    new WaveInputFilePlugin()
-                };
+            {
+                new AiffInputFilePlugin(),
+                new Mp3InputFilePlugin(),
+                new WaveInputFilePlugin()
+            };
         }
 
         public override TimeSpan CurrentTime
@@ -175,7 +175,8 @@ namespace MiSharp
         {
             lock (_playerLock)
             {
-                if (_wavePlayer == null || _inputStream == null || _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Paused)
+                if (_wavePlayer == null || _inputStream == null ||
+                    _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Paused)
                     return;
 
                 _wavePlayer.Pause();
@@ -188,34 +189,35 @@ namespace MiSharp
         {
             lock (_playerLock)
             {
-                if (_wavePlayer == null || _inputStream == null || _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Playing)
+                if (_wavePlayer == null || _inputStream == null ||
+                    _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Playing)
                     return;
 
                 // Create a new thread, so that we can spawn the song state check on the same thread as the play method
                 // With this, we can avoid cross-threading issues with the NAudio library
                 Task.Factory.StartNew(() =>
+                {
+                    bool wasPaused = PlaybackState == AudioPlayerState.Paused;
+
+                    try
                     {
-                        bool wasPaused = PlaybackState == AudioPlayerState.Paused;
+                        _wavePlayer.Play();
+                    }
 
-                        try
-                        {
-                            _wavePlayer.Play();
-                        }
+                    catch (MmException ex)
+                    {
+                        throw new PlaybackException("The playback couldn't be started.", ex);
+                    }
 
-                        catch (MmException ex)
+                    if (!wasPaused)
+                    {
+                        while (PlaybackState != AudioPlayerState.Stopped && PlaybackState != AudioPlayerState.None)
                         {
-                            throw new PlaybackException("The playback couldn't be started.", ex);
+                            UpdateSongState();
+                            Thread.Sleep(250);
                         }
-
-                        if (!wasPaused)
-                        {
-                            while (PlaybackState != AudioPlayerState.Stopped && PlaybackState != AudioPlayerState.None)
-                            {
-                                UpdateSongState();
-                                Thread.Sleep(250);
-                            }
-                        }
-                    });
+                    }
+                });
 
                 EnsureState(AudioPlayerState.Playing);
             }

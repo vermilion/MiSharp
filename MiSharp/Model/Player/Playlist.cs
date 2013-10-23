@@ -128,7 +128,8 @@ namespace MiSharp
         }
 
         /// <summary>
-        ///     Inserts a song from a specified index to a other index in the playlist and moves all songs in between these indexes one index back.
+        ///     Inserts a song from a specified index to a other index in the playlist and moves all songs in between these indexes
+        ///     one index back.
         /// </summary>
         /// <param name="fromIndex">The index of the song to move.</param>
         /// <param name="toIndex">To index to insert the song.</param>
@@ -143,7 +144,7 @@ namespace MiSharp
             if (toIndex >= fromIndex)
                 Throw.ArgumentException(
                     String.Format("{0} has to be smaller than {1}",
-                                  Reflector.GetMemberName(() => toIndex), Reflector.GetMemberName(() => fromIndex)),
+                        Reflector.GetMemberName(() => toIndex), Reflector.GetMemberName(() => fromIndex)),
                     () => toIndex);
 
             PlaylistEntry from = this[fromIndex];

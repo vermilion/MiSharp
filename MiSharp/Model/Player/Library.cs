@@ -1,37 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using MiSharp.Model;
 using Rareform.Extensions;
 using Rareform.Validation;
-using TagLib;
 
 namespace MiSharp
 {
     public sealed class Library : IDisposable
     {
-        private readonly AutoResetEvent cacheResetHandle;
-
         // We need a lock when disposing songs to prevent a modification of the enumeration
-        private readonly object disposeLock;
+        private readonly object _disposeLock;
 
-        private readonly List<Playlist> playlists;
-        private readonly object songLock;
-        private readonly HashSet<Song> songs;
-        private bool abortSongAdding;
-        private AudioPlayer currentPlayer;
-        private Playlist currentPlayingPlaylist;
-        private bool isWaitingOnCache;
-        private DateTime lastSongAddTime;
+        private readonly List<Playlist> _playlists;
+        private readonly object _songLock;
+        private readonly HashSet<Song> _songs;
+        private AudioPlayer _currentPlayer;
+        private Playlist _currentPlayingPlaylist;
+
         public Library()
         {
-            songLock = new object();
-            songs = new HashSet<Song>();
-            playlists = new List<Playlist>();
-            cacheResetHandle = new AutoResetEvent(false);
-            disposeLock = new object();
+            _songLock = new object();
+            _songs = new HashSet<Song>();
+            _playlists = new List<Playlist>();
+            _disposeLock = new object();
         }
 
         /// <summary>
@@ -63,8 +56,8 @@ namespace MiSharp
         /// </summary>
         public TimeSpan CurrentTime
         {
-            get { return currentPlayer == null ? TimeSpan.Zero : currentPlayer.CurrentTime; }
-            set { currentPlayer.CurrentTime = value; }
+            get { return _currentPlayer == null ? TimeSpan.Zero : _currentPlayer.CurrentTime; }
+            set { _currentPlayer.CurrentTime = value; }
         }
 
         //public bool EnablePlaylistTimeout
@@ -84,7 +77,7 @@ namespace MiSharp
         /// </value>
         public bool IsPaused
         {
-            get { return currentPlayer != null && currentPlayer.PlaybackState == AudioPlayerState.Paused; }
+            get { return _currentPlayer != null && _currentPlayer.PlaybackState == AudioPlayerState.Paused; }
         }
 
         /// <summary>
@@ -95,7 +88,7 @@ namespace MiSharp
         /// </value>
         public bool IsPlaying
         {
-            get { return currentPlayer != null && currentPlayer.PlaybackState == AudioPlayerState.Playing; }
+            get { return _currentPlayer != null && _currentPlayer.PlaybackState == AudioPlayerState.Playing; }
         }
 
         /// <summary>
@@ -103,12 +96,12 @@ namespace MiSharp
         /// </summary>
         public Song LoadedSong
         {
-            get { return currentPlayer == null ? null : currentPlayer.Song; }
+            get { return _currentPlayer == null ? null : _currentPlayer.Song; }
         }
 
         public IEnumerable<Playlist> Playlists
         {
-            get { return playlists; }
+            get { return _playlists; }
         }
 
         //public TimeSpan PlaylistTimeout
@@ -139,9 +132,9 @@ namespace MiSharp
             {
                 IEnumerable<Song> tempSongs;
 
-                lock (songLock)
+                lock (_songLock)
                 {
-                    tempSongs = songs.ToList();
+                    tempSongs = _songs.ToList();
                 }
 
                 return tempSongs;
@@ -153,21 +146,17 @@ namespace MiSharp
         /// </summary>
         public TimeSpan TotalTime
         {
-            get { return currentPlayer == null ? TimeSpan.Zero : currentPlayer.TotalTime; }
+            get { return _currentPlayer == null ? TimeSpan.Zero : _currentPlayer.TotalTime; }
         }
 
         public void Dispose()
         {
-            if (currentPlayer != null)
+            if (_currentPlayer != null)
             {
-                currentPlayer.Dispose();
+                _currentPlayer.Dispose();
             }
 
-            abortSongAdding = true;
-
-            cacheResetHandle.Dispose();
-
-            lock (disposeLock)
+            lock (_disposeLock)
             {
                 //DisposeSongs(this.songs);
             }
@@ -260,7 +249,7 @@ namespace MiSharp
             if (GetPlaylistByName(name) != null)
                 throw new InvalidOperationException("A playlist with this name already exists.");
 
-            playlists.Add(new Playlist(name));
+            _playlists.Add(new Playlist(name));
         }
 
         /// <summary>
@@ -274,7 +263,8 @@ namespace MiSharp
                 Throw.ArgumentNullException(() => songList);
 
 
-            CurrentPlaylist.AddSongs(songList.ToList()); // Copy the sequence to a list, so that the enumeration doesn't gets modified
+            CurrentPlaylist.AddSongs(songList.ToList());
+                // Copy the sequence to a list, so that the enumeration doesn't gets modified
 
             PlaylistChanged.RaiseSafe(this, EventArgs.Empty);
         }
@@ -292,8 +282,6 @@ namespace MiSharp
             if (CurrentPlaylist == null) CurrentPlaylist = new Playlist("Default");
             CurrentPlaylist.AddSongs(new[] {song});
 
-            lastSongAddTime = DateTime.Now;
-
             PlaylistChanged.RaiseSafe(this, EventArgs.Empty);
         }
 
@@ -303,7 +291,7 @@ namespace MiSharp
         /// </summary>
         public void ContinueSong()
         {
-            currentPlayer.Play();
+            _currentPlayer.Play();
         }
 
 
@@ -312,7 +300,7 @@ namespace MiSharp
             if (playlistName == null)
                 Throw.ArgumentNullException(() => playlistName);
 
-            return playlists.FirstOrDefault(playlist => playlist.Name == playlistName);
+            return _playlists.FirstOrDefault(playlist => playlist.Name == playlistName);
         }
 
         public void Initialize()
@@ -325,7 +313,7 @@ namespace MiSharp
         /// </summary>
         public void PauseSong()
         {
-            currentPlayer.Pause();
+            _currentPlayer.Pause();
         }
 
         /// <summary>
@@ -370,13 +358,13 @@ namespace MiSharp
 
             // DisposeSongs(songList);
 
-            lock (songLock)
+            lock (_songLock)
             {
-                playlists.ForEach(playlist => RemoveFromPlaylist(playlist, songList));
+                _playlists.ForEach(playlist => RemoveFromPlaylist(playlist, songList));
 
                 foreach (Song song in songList)
                 {
-                    songs.Remove(song);
+                    _songs.Remove(song);
                 }
             }
         }
@@ -423,7 +411,7 @@ namespace MiSharp
             if (playlist == null)
                 throw new InvalidOperationException("No playlist with the specified name exists.");
 
-            playlists.Remove(playlist);
+            _playlists.Remove(playlist);
         }
 
         public void Save()
@@ -470,8 +458,8 @@ namespace MiSharp
                 CurrentPlaylist.CurrentSongIndex = null;
             }
 
-            currentPlayer.Dispose();
-            currentPlayer = null;
+            _currentPlayer.Dispose();
+            _currentPlayer = null;
 
             SongFinished.RaiseSafe(this, EventArgs.Empty);
 
@@ -487,7 +475,6 @@ namespace MiSharp
                 throw new InvalidOperationException("The next song couldn't be played.");
 
             int nextIndex = CurrentPlaylist.CurrentSongIndex.Value + 1;
-            Song nextSong = CurrentPlaylist[nextIndex].Song;
 
             // We want the to swap the songs, if the song that should be played next is currently caching
             if (CurrentPlaylist.ContainsIndex(nextIndex + 1))
@@ -523,20 +510,12 @@ namespace MiSharp
             if (playlistIndex < 0)
                 Throw.ArgumentOutOfRangeException(() => playlistIndex, 0);
 
-            if (isWaitingOnCache)
+            if (_currentPlayingPlaylist != null)
             {
-                overrideCurrentCaching = true;
-
-                // Let the song that is selected to be played wait here, if there is currently another song caching
-                cacheResetHandle.WaitOne();
+                _currentPlayingPlaylist.CurrentSongIndex = null;
             }
 
-            if (currentPlayingPlaylist != null)
-            {
-                currentPlayingPlaylist.CurrentSongIndex = null;
-            }
-
-            currentPlayingPlaylist = CurrentPlaylist;
+            _currentPlayingPlaylist = CurrentPlaylist;
 
             CurrentPlaylist.CurrentSongIndex = playlistIndex;
 
@@ -545,41 +524,39 @@ namespace MiSharp
             RenewCurrentPlayer(song);
 
             Task.Factory.StartNew(() =>
+            {
+                try
                 {
-                    overrideCurrentCaching = false;
+                    _currentPlayer.Load();
+                }
 
-                    try
-                    {
-                        currentPlayer.Load();
-                    }
+                catch (SongLoadException)
+                {
+                    //song.IsCorrupted = true;
+                    SongCorrupted.RaiseSafe(this, EventArgs.Empty);
 
-                    catch (SongLoadException)
-                    {
-                        //song.IsCorrupted = true;
-                        SongCorrupted.RaiseSafe(this, EventArgs.Empty);
+                    HandleSongCorruption();
 
-                        HandleSongCorruption();
+                    return;
+                }
 
-                        return;
-                    }
+                try
+                {
+                    _currentPlayer.Play();
+                }
 
-                    try
-                    {
-                        currentPlayer.Play();
-                    }
+                catch (PlaybackException)
+                {
+                    //song.IsCorrupted = true;
+                    SongCorrupted.RaiseSafe(this, EventArgs.Empty);
 
-                    catch (PlaybackException)
-                    {
-                        //song.IsCorrupted = true;
-                        SongCorrupted.RaiseSafe(this, EventArgs.Empty);
+                    HandleSongCorruption();
 
-                        HandleSongCorruption();
+                    return;
+                }
 
-                        return;
-                    }
-
-                    SongStarted.RaiseSafe(this, EventArgs.Empty);
-                });
+                SongStarted.RaiseSafe(this, EventArgs.Empty);
+            });
         }
 
         private void Load()
@@ -598,7 +575,8 @@ namespace MiSharp
 
         private void RemoveFromPlaylist(Playlist playlist, IEnumerable<int> indexes)
         {
-            bool stopCurrentSong = playlist == CurrentPlaylist && indexes.Any(index => index == CurrentPlaylist.CurrentSongIndex);
+            bool stopCurrentSong = playlist == CurrentPlaylist &&
+                                   indexes.Any(index => index == CurrentPlaylist.CurrentSongIndex);
 
             playlist.RemoveSongs(indexes);
 
@@ -606,7 +584,7 @@ namespace MiSharp
 
             if (stopCurrentSong)
             {
-                currentPlayer.Stop();
+                _currentPlayer.Stop();
                 SongFinished.RaiseSafe(this, EventArgs.Empty);
             }
         }
@@ -618,15 +596,19 @@ namespace MiSharp
 
         private void RenewCurrentPlayer(Song song)
         {
-            if (currentPlayer != null)
+            if (_currentPlayer != null)
             {
-                currentPlayer.Dispose();
+                _currentPlayer.Dispose();
             }
 
-            currentPlayer = song.CreateAudioPlayer();
+            _currentPlayer = song.CreateAudioPlayer();
 
-            currentPlayer.SongFinished += (sender, e) => HandleSongFinish();
-            // this.currentPlayer.Volume = this.Volume;
+            _currentPlayer.SongFinished += (sender, e) => HandleSongFinish();
+        }
+
+        public void SetVolumeLevel(float level)
+        {
+            _currentPlayer.Volume = level;
         }
     }
 }

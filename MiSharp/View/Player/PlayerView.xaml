@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cal="http://www.caliburnproject.org" xmlns:miSharp="clr-namespace:MiSharp"
-             mc:Ignorable="d" Width="580" Height="106">
+             mc:Ignorable="d" Width="580" Height="78">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -16,14 +16,8 @@
     </UserControl.Resources>
 
     <Grid>
-        <Menu Height="44" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320" Background="{x:Null}">
-            <Label Content="Current time:" Height="25" Width="80" />
-            <Label Content="{Binding CurrentTime}" Height="25" Width="60" />
-            <Label Content="Total time:" Height="25" Width="65" />
-            <Label Content="{Binding TotalTime}" Height="25" Width="40" />
-        </Menu>
         <Border Grid.Column="0" CornerRadius="5,5,5,5" Background="WhiteSmoke" BorderBrush="Gray"
-                BorderThickness="4,4,4,4" Margin="17,60,6,0" Height="42" VerticalAlignment="Top">
+                BorderThickness="4,4,4,4" Margin="13,31,10,0" Height="42" VerticalAlignment="Top">
             <StackPanel Background="Transparent" Width="Auto" Margin="0,0,0,0" Orientation="Horizontal" Height="Auto">
                 <Button Width="50" Height="50" Margin="-15,-50,0,0" Template="{StaticResource controlButtonTemplate}"
                         FontSize="14" FontWeight="Bold" Foreground="LightGreen" Content="4" FontFamily="Webdings"
@@ -58,8 +52,8 @@
                 </TextBlock>
                 <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}"
                                                   TickFrequency="{Binding TickFrequency}"
-                                                  Maximum="{Binding Maximum}" Margin="2,6,0,6"
-                                                  VerticalAlignment="Center" Width="309"
+                                                  Maximum="{Binding Maximum}" Margin="2,8,0,8"
+                                                  VerticalAlignment="Center" Width="223"
                                                   Height="Auto">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="ThumbDragCompleted">
@@ -69,6 +63,14 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </miSharp:SliderWithDraggingEvents>
+                <TextBlock Foreground="Gray" Margin="5,10.35,5,9.65" VerticalAlignment="Center" FontSize="10">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat=" {0}/{1}">
+                            <Binding Path="CurrentTime" />
+                            <Binding Path="TotalTime" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <!-- Volume Control -->
                 <TextBlock Foreground="Gray" Margin="5,5,5,5" VerticalAlignment="Center" FontSize="10">
                     <Run Text="Volume" />

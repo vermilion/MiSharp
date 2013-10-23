@@ -16,8 +16,7 @@
             <ColumnDefinition Width="720" />
         </Grid.ColumnDefinitions>
         <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                        x:Name="PlayerViewModel"
-                        Grid.Row="0" />
+                        x:Name="PlayerViewModel" Grid.Row="0" Grid.ColumnSpan="2" />
         <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         x:Name="LibraryViewModel"
                         Grid.Row="1" />
