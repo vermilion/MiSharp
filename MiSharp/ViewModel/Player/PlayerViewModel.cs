@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using MiSharp.Model.Playlist;
+using MiSharp.Core.Player;
 
 namespace MiSharp
 {
     [Export(typeof (PlayerViewModel))]
-    public class PlayerViewModel : Screen, IHandle<List<PlaylistEntryViewModel>>
+    public class PlayerViewModel : Screen
     {
-        private readonly Library _library;
         private string _currentTime;
         private int _maximum;
 
@@ -20,7 +18,7 @@ namespace MiSharp
         [ImportingConstructor]
         public PlayerViewModel(IEventAggregator events)
         {
-            _library = new Library();
+            //_library = new Library();
             //_library.PlaybackParamsChanged += ProcessorPlaybackParamsChanged;
             //_library.TrackbarValueChanged += _processor_TrackbarValueChanged;
             events.Subscribe(this);
@@ -103,37 +101,23 @@ namespace MiSharp
             //    return;
             //}
 
-            _library.PlayNextSong();
+            // _library.PlayNextSong();
         }
 
 
         public void PauseClick()
         {
-            _library.PauseSong();
+            //_library.PauseSong();
         }
 
         public void StopClick()
         {
-            _library.PauseSong();
+            //_library.PauseSong();
         }
 
         public void VolumeValueChanged(float value)
         {
-            _library.SetVolumeLevel(value);
+            //_library.SetVolumeLevel(value);
         }
-
-        #region IHandle implementation
-
-        public void Handle(List<PlaylistEntryViewModel> playlist)
-        {
-            foreach (PlaylistEntryViewModel playlistEntryViewModel in playlist)
-            {
-                _library.AddSongToPlaylist(playlistEntryViewModel);
-            }
-
-            _library.PlayNextSong();
-        }
-
-        #endregion
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using MiSharp.Core.Player.Output;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
 
@@ -73,8 +74,8 @@ namespace MiSharp
         public IWavePlayer CreateDevice(int latency)
         {
             AudioClientShareMode shareMode = ShareMode
-                ? AudioClientShareMode.Shared
-                : AudioClientShareMode.Exclusive;
+                                                 ? AudioClientShareMode.Shared
+                                                 : AudioClientShareMode.Exclusive;
             var wasapi = new WasapiOut(
                 SelectedDevice,
                 shareMode,

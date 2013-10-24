@@ -3,9 +3,9 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using MiSharp.Model;
-using MiSharp.Model.Library;
-using MiSharp.Model.Repository;
+using MiSharp.Core;
+using MiSharp.Core.Library;
+using MiSharp.Core.Repository;
 
 namespace MiSharp
 {

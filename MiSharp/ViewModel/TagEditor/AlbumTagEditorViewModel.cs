@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Forms;
 using Caliburn.Micro;
-using MiSharp.Model;
+using MiSharp.Core;
 
 namespace MiSharp
 {

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B15B28FC-FF24-4871-B539-C4EB78788612}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MiSharp.Core</RootNamespace>
+    <AssemblyName>MiSharp.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Db4objects.Db4o">
+      <HintPath>..\packages\db4o-devel.8.1.184.15492\lib\net40\Db4objects.Db4o.dll</HintPath>
+    </Reference>
+    <Reference Include="Db4objects.Db4o.Data.Services">
+      <HintPath>..\packages\db4o-devel.8.1.184.15492\lib\net40\Db4objects.Db4o.Data.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Db4objects.Db4o.Linq">
+      <HintPath>..\packages\db4o-devel.8.1.184.15492\lib\net40\Db4objects.Db4o.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\packages\NAudio.1.6\lib\net20\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WindowsMediaFormat">
+      <HintPath>..\packages\NAudio.Wma.1.0\lib\net20\NAudio.WindowsMediaFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="NVorbis">
+      <HintPath>..\packages\NVorbis.0.6.0\lib\NVorbis.dll</HintPath>
+    </Reference>
+    <Reference Include="NVorbis.NAudioSupport">
+      <HintPath>..\packages\NVorbis.NAudioSupport.0.5.6\lib\NVorbis.NAudioSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Rareform">
+      <HintPath>..\packages\Rareform.1.5.2\lib\Rareform.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="taglib-sharp">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Album.cs" />
+    <Compile Include="EqualityComparers\AlbumEqualityComparer.cs" />
+    <Compile Include="EqualityComparers\ArtistEqualityComparer.cs" />
+    <Compile Include="Library\FileStatEventargs.cs" />
+    <Compile Include="Library\TagFilter.cs" />
+    <Compile Include="Player\AudioPlayer.cs" />
+    <Compile Include="Player\AudioPlayerState.cs" />
+    <Compile Include="Player\Input\AiffInputFilePlugin.cs" />
+    <Compile Include="Player\Input\IInputFileFormatPlugin.cs" />
+    <Compile Include="Player\Input\Mp3InputFilePlugin.cs" />
+    <Compile Include="Player\Input\WaveInputFilePlugin.cs" />
+    <Compile Include="Player\Output\IOutputDevicePlugin.cs" />
+    <Compile Include="Player\LocalAudioPlayer.cs" />
+    <Compile Include="Player\PlaybackEventArgs.cs" />
+    <Compile Include="Player\Exceptions\PlaybackException.cs" />
+    <Compile Include="Player\Exceptions\SongLoadException.cs" />
+    <Compile Include="Player\TrackbarEventArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Db4ORepository.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\MediaRepository.cs" />
+    <Compile Include="Repository\RepositoryBase.cs" />
+    <Compile Include="Repository\SettingsRepository.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Song.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

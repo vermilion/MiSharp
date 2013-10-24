@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using MiSharp.Core.Player.Output;
 using NAudio.Wave;
 
 namespace MiSharp

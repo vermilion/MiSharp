@@ -10,8 +10,8 @@ namespace MiSharp
 
         [ImportingConstructor]
         public AppViewModel(LibraryViewModel libraryViewModel, PlayerViewModel playerViewModel,
-            PlaylistViewModel playlistViewModel,
-            IWindowManager windowManager, IEventAggregator events)
+                            PlaylistViewModel playlistViewModel,
+                            IWindowManager windowManager, IEventAggregator events)
         {
             DisplayName = "Mi#";
             LibraryViewModel = libraryViewModel;

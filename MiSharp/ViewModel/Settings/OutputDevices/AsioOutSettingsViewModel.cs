@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using MiSharp.Core.Player.Output;
 using NAudio.Wave;
 
 namespace MiSharp

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using MiSharp.Model;
+using MiSharp.Core;
+using MiSharp.Core.Player.Output;
 
 namespace MiSharp
 {

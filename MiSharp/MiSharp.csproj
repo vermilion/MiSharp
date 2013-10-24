@@ -52,25 +52,9 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Db4objects.Db4o, Version=8.1.184.15492, Culture=neutral, PublicKeyToken=6199cd4f203aa8eb, processorArchitecture=MSIL">
+    <Reference Include="NAudio, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\db4o-devel.8.1.184.15492\lib\net40\Db4objects.Db4o.dll</HintPath>
-    </Reference>
-    <Reference Include="Db4objects.Db4o.Linq, Version=8.1.184.15492, Culture=neutral, PublicKeyToken=6199cd4f203aa8eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\db4o-devel.8.1.184.15492\lib\net40\Db4objects.Db4o.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio">
       <HintPath>..\packages\NAudio.1.6\lib\net20\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.WindowsMediaFormat">
-      <HintPath>..\packages\NAudio.Wma.1.0\lib\net20\NAudio.WindowsMediaFormat.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis">
-      <HintPath>..\packages\NVorbis.0.6.0\lib\NVorbis.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis.NAudioSupport">
-      <HintPath>..\packages\NVorbis.NAudioSupport.0.5.6\lib\NVorbis.NAudioSupport.dll</HintPath>
     </Reference>
     <Reference Include="Rareform">
       <HintPath>..\packages\Rareform.1.5.2\lib\Rareform.dll</HintPath>
@@ -86,9 +70,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="taglib-sharp">
-      <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -99,44 +80,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Model\Album.cs" />
-    <Compile Include="Model\EqualityComparers\AlbumEqualityComparer.cs" />
-    <Compile Include="Model\EqualityComparers\ArtistEqualityComparer.cs" />
-    <Compile Include="Model\Player\AudioPlayer.cs" />
-    <Compile Include="Model\Player\AudioPlayerState.cs" />
-    <Compile Include="Model\Player\Library.cs" />
-    <Compile Include="Model\Player\LocalAudioPlayer.cs" />
-    <Compile Include="Model\Player\PlaybackException.cs" />
-    <Compile Include="Model\Player\Playlist.cs" />
-    <Compile Include="ViewModel\Player\PlaylistEntryViewModel.cs" />
-    <Compile Include="Model\Player\SongLoadException.cs" />
-    <Compile Include="Model\Player\SongViewModelBase.cs" />
-    <Compile Include="Model\Repository\RepositoryBase.cs" />
-    <Compile Include="Model\Repository\Db4ORepository.cs" />
-    <Compile Include="Model\Library\FileStatEventargs.cs" />
-    <Compile Include="Model\Repository\IRepository.cs" />
-    <Compile Include="Model\Repository\MediaRepository.cs" />
-    <Compile Include="Model\Settings.cs" />
-    <Compile Include="Model\Repository\SettingsRepository.cs" />
-    <Compile Include="Model\Song.cs" />
-    <Compile Include="Model\Library\TagFilter.cs" />
     <Compile Include="SliderEx.cs" />
     <Compile Include="ViewModel\AppViewModel.cs" />
-    <Compile Include="Model\Player\PlaybackEventArgs.cs" />
-    <Compile Include="Model\Player\TrackbarEventArgs.cs" />
+    <Compile Include="ViewModel\Player\PlaylistViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\AsioOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\DirectSoundOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\WasapiOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\WaveOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Player\PlayerViewModel.cs" />
-    <Compile Include="Model\Player\Input\AiffInputFilePlugin.cs" />
-    <Compile Include="Model\Player\Input\IInputFileFormatPlugin.cs" />
-    <Compile Include="ViewModel\Settings\OutputDevices\IOutputDevicePlugin.cs" />
-    <Compile Include="Model\Player\Input\Mp3InputFilePlugin.cs" />
-    <Compile Include="Model\Player\Input\WaveInputFilePlugin.cs" />
-    <Compile Include="Model\Player\PlaylistEntry.cs" />
-    <Compile Include="ViewModel\Player\PlaylistViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\Player\SongViewModelBase.cs" />
     <Compile Include="ViewModel\TagEditor\ArtistTagEditorViewModel.cs" />
     <Compile Include="ViewModel\TagEditor\AlbumTagEditorViewModel.cs" />
     <Compile Include="ViewModel\DialogResults\ChangesSaved.cs" />
@@ -283,7 +236,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MiSharp.Core\MiSharp.Core.csproj">
+      <Project>{b15b28fc-ff24-4871-b539-c4eb78788612}</Project>
+      <Name>MiSharp.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
