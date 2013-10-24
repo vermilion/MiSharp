@@ -7,7 +7,7 @@
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro" Width="400" Height="500">
     <Grid>
         <ListView Grid.Column="0"
-                  Margin="10,34,10,10"
+                  Margin="10,30,10,10"
                   FocusVisualStyle="{x:Null}"
                   ItemsSource="{Binding Songs}"
                   SelectedIndex="{Binding CurrentSongIndex}"
@@ -80,6 +80,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="Current Playlist" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Left" Width="132" />
+        <Label Content="Current Playlist" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Left" Width="122" Margin="10,0,0,0" />
     </Grid>
 </UserControl>

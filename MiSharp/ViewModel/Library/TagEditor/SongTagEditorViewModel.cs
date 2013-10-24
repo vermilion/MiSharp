@@ -12,6 +12,7 @@ namespace MiSharp
     {
         private string _songId;
         private string _songTitle;
+        private string _songComposer;
 
         [ImportingConstructor]
         public SongTagEditorViewModel(List<Song> mediaToModify) : base(mediaToModify)
@@ -21,10 +22,10 @@ namespace MiSharp
             else
                 SongTitle = (from m in mediaToModify select m.Title).ToArray()[0];
 
-            if ((from m in mediaToModify select m.Album).Distinct().Count() > 1)
-                SongAlbum = "Multiple Albums";
+            if ((from m in mediaToModify select m.TrackNumber).Distinct().Count() > 1)
+                SongId = "Multiple Track Numbers";
             else
-                SongAlbum = (from m in mediaToModify select m.Album).ToArray()[0];
+                SongId = (from m in mediaToModify select m.TrackNumber).ToArray()[0].ToString();
 
             if (mediaToModify.Count > 1)
                 SongComposer += "Multiple Composers";
@@ -39,31 +40,6 @@ namespace MiSharp
                         SongComposer += composer.Trim() + ";";
                 }
             }
-
-            if ((from m in mediaToModify select m.Conductor).Distinct().Count() > 1)
-                SongConductor = "Multiple Conductors";
-            else
-                SongConductor = (from m in mediaToModify select m.Conductor).ToArray()[0];
-
-            if ((from m in mediaToModify select m.Artist).Distinct().Count() > 1)
-                SongAlbumArtist = "Multiple Artists";
-            else
-                SongAlbumArtist = (from m in mediaToModify select m.Artist).ToArray()[0];
-
-            if ((from m in mediaToModify select m.Genre).Distinct().Count() > 1)
-                SongGenre = "Multiple Genres";
-            else
-                SongGenre = (from m in mediaToModify select m.Genre).ToArray()[0];
-
-            if ((from m in mediaToModify select m.Year).Distinct().Count() > 1)
-                SongYear = "Multiple Years";
-            else
-                SongYear = (from m in mediaToModify select m.Year).ToArray()[0];
-
-            if ((from m in mediaToModify select m.TrackNumber).Distinct().Count() > 1)
-                SongId = "Multiple Track Numbers";
-            else
-                SongId = (from m in mediaToModify select m.TrackNumber).ToArray()[0].ToString();
         }
 
         public string SongTitle
@@ -83,6 +59,16 @@ namespace MiSharp
             {
                 _songId = value;
                 NotifyOfPropertyChange(() => SongId);
+            }
+        }
+
+        public string SongComposer
+        {
+            get { return _songComposer; }
+            set
+            {
+                _songComposer = value;
+                NotifyOfPropertyChange(() => SongComposer);
             }
         }
 
@@ -118,9 +104,6 @@ namespace MiSharp
 
                         media.Composers = composers.ToArray();
                     }
-
-                    if (SongConductor.Trim() != "Multiple Conductors")
-                        media.Conductor = SongConductor.Trim();
 
                     if (SongAlbumArtist.Trim() != "Multiple Artists")
                         media.Artist = SongAlbumArtist.Trim();

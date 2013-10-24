@@ -13,7 +13,6 @@ namespace MiSharp.Core
             Title = string.Empty;
             Artist = "Unknown Artist";
             Album = string.Empty;
-            Conductor = string.Empty;
             Year = string.Empty;
             Comment = string.Empty;
             TrackNumber = 0;
@@ -28,19 +27,19 @@ namespace MiSharp.Core
         {
             OriginalPath = path;
             File file = File.Create(path);
-            var id3v2 = (Tag) file.GetTag(TagTypes.Id3v2);
+            var tag = file.GetTag(TagTypes.Id3v2);
 
-            if (id3v2 == null)
+            if (tag == null)
             {
                 Title = Path.GetFileName(path);
                 return;
             }
 
             // Title
-            if (id3v2.Title != null)
+            if (tag.Title != null)
             {
-                if (id3v2.Title != string.Empty)
-                    Title = id3v2.Title;
+                if (tag.Title != string.Empty)
+                    Title = tag.Title;
                 else
                     Title = Path.GetFileName(path);
             }
@@ -48,44 +47,38 @@ namespace MiSharp.Core
                 Title = Path.GetFileName(path);
 
             // Album
-            if (id3v2.Album != null)
-                Album = id3v2.Album;
+            if (tag.Album != null)
+                Album = tag.Album;
             else
                 Album = "Unknown Album";
 
             // album artists
-            if (id3v2.AlbumArtists.Length > 0)
-                Artist = id3v2.AlbumArtists[0];
+            if (tag.AlbumArtists.Length > 0)
+                Artist = tag.AlbumArtists[0];
             else
                 Artist = "Unknown Artist";
 
             // composers
-            if (id3v2.Composers.Length > 0)
-                Composers = id3v2.Composers;
+            if (tag.Composers.Length > 0)
+                Composers = tag.Composers;
             else
                 Composers = new[] {"Unknown Artist"};
 
-            // conductors
-            if (id3v2.Conductor != null)
-                Conductor = id3v2.Conductor;
-            else
-                Conductor = "Unknown Conductor";
-
             // Genres
-            if (id3v2.Genres.Length > 0)
-                Genre = id3v2.Genres[0];
+            if (tag.Genres.Length > 0)
+                Genre = tag.Genres[0];
             else
                 Genre = "Unknown Genre";
 
             // comments
-            if (id3v2.Comment != string.Empty)
-                Comment = id3v2.Comment;
+            if (tag.Comment != string.Empty)
+                Comment = tag.Comment;
             else
                 Comment = string.Empty;
 
             // TrackNumber number
-            if (id3v2.Track.ToString() != string.Empty)
-                TrackNumber = Convert.ToInt32(id3v2.Track);
+            if (tag.Track.ToString() != string.Empty)
+                TrackNumber = Convert.ToInt32(tag.Track);
             else
                 TrackNumber = 0;
 
@@ -93,23 +86,23 @@ namespace MiSharp.Core
             Duration = file.Properties.Duration;
 
             // BPM
-            BeatsPerMinute = id3v2.BeatsPerMinute;
+            BeatsPerMinute = tag.BeatsPerMinute;
 
             // Performers
-            if (id3v2.Performers.Length > 0)
-                Performers = id3v2.Performers;
+            if (tag.Performers.Length > 0)
+                Performers = tag.Performers;
             else
                 Performers = new[] {"Unknown Performer"};
 
             // Lyrics
-            if (id3v2.Lyrics != null)
-                Lyrics = id3v2.Lyrics;
+            if (tag.Lyrics != null)
+                Lyrics = tag.Lyrics;
             else
                 Lyrics = string.Empty;
 
             // year
-            if (id3v2.Year.ToString() != string.Empty)
-                Year = id3v2.Year.ToString();
+            if (tag.Year.ToString() != string.Empty)
+                Year = tag.Year.ToString();
             else
                 Year = "Unknown Year";
 
@@ -145,8 +138,6 @@ namespace MiSharp.Core
 
         public string[] Composers { get; set; }
 
-        public string Conductor { get; set; }
-
         public string[] Performers { get; set; }
 
         public int Rating { get; set; }
@@ -169,7 +160,6 @@ namespace MiSharp.Core
             file.Tag.Album = Album;
             file.Tag.Genres = new[] {Genre};
             file.Tag.Composers = Composers;
-            file.Tag.Conductor = Conductor;
 
             // song
             file.Tag.Title = Title;

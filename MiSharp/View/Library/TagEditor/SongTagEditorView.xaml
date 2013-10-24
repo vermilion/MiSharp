@@ -53,9 +53,6 @@
             <Label Grid.Row="2" FontWeight="Bold">Composer:</Label>
             <TextBox Text="{Binding SongComposer}" Grid.Row="2" Grid.Column="1" TextAlignment="Center"
                      VerticalContentAlignment="Center" FontWeight="Bold" />
-            <Label Grid.Row="2" Grid.Column="2" FontWeight="Bold">Conductor:</Label>
-            <TextBox Text="{Binding SongConductor}" Grid.Row="2" Grid.Column="3" TextAlignment="Center"
-                     VerticalContentAlignment="Center" FontWeight="Bold" />
 
             <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">Year:</Label>

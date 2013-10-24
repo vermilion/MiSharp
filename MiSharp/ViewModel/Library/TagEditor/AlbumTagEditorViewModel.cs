@@ -10,9 +10,7 @@ namespace MiSharp
     [Export(typeof (AlbumTagEditorViewModel))]
     internal class AlbumTagEditorViewModel : ArtistTagEditorViewModel
     {
-        private string _songAlbum;
-        private string _songComposer;
-        private string _songConductor;
+        private string _songAlbum;        
         private string _songGenre;
         private string _songYear;
 
@@ -23,11 +21,6 @@ namespace MiSharp
                 SongAlbum = "Multiple Albums";
             else
                 SongAlbum = (from m in mediaToModify select m.Album).ToArray()[0];
-
-            if ((from m in mediaToModify select m.Conductor).Distinct().Count() > 1)
-                SongConductor = "Multiple Conductors";
-            else
-                SongConductor = (from m in mediaToModify select m.Conductor).ToArray()[0];
 
             if ((from m in mediaToModify select m.Genre).Distinct().Count() > 1)
                 SongGenre = "Multiple Genres";
@@ -50,16 +43,6 @@ namespace MiSharp
             }
         }
 
-        public string SongComposer
-        {
-            get { return _songComposer; }
-            set
-            {
-                _songComposer = value;
-                NotifyOfPropertyChange(() => SongComposer);
-            }
-        }
-
         public string SongGenre
         {
             get { return _songGenre; }
@@ -77,16 +60,6 @@ namespace MiSharp
             {
                 _songYear = value;
                 NotifyOfPropertyChange(() => SongYear);
-            }
-        }
-
-        public string SongConductor
-        {
-            get { return _songConductor; }
-            set
-            {
-                _songConductor = value;
-                NotifyOfPropertyChange(() => SongConductor);
             }
         }
 
@@ -134,15 +107,6 @@ namespace MiSharp
                         if (media.Year != SongYear.Trim())
                         {
                             media.Year = SongYear.Trim();
-                            hasChanged = true;
-                        }
-                    }
-
-                    if (SongConductor != "Multiple Conductors")
-                    {
-                        if (media.Conductor != SongConductor.Trim())
-                        {
-                            media.Conductor = SongConductor.Trim();
                             hasChanged = true;
                         }
                     }
