@@ -4,15 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro" Width="572" Height="500">
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro" Width="400" Height="500">
     <Grid>
         <ListView Grid.Column="0"
                   Margin="10,34,10,10"
                   FocusVisualStyle="{x:Null}"
-                  ItemsSource="{Binding Path=Songs}"
+                  ItemsSource="{Binding Songs}"
+                  SelectedIndex="{Binding CurrentSongIndex}"
                   ScrollViewer.CanContentScroll="True">
             <ListView.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="Play">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="PlaySelected" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
                     <MenuItem Header="Remove">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -72,13 +80,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="Current Playlist" Margin="0,0,440,0" VerticalAlignment="Top" FontSize="14" />
-        <Button Content="Play" HorizontalAlignment="Left" Margin="487,4,0,0" VerticalAlignment="Top" Width="75">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <cal:ActionMessage MethodName="PlayClick" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Button>
+        <Label Content="Current Playlist" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Left" Width="132" />
     </Grid>
 </UserControl>

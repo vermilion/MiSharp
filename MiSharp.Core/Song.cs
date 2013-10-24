@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using MiSharp.Core.Player;
 using TagLib;
 using File = TagLib.File;
 using Tag = TagLib.Id3v2.Tag;
@@ -155,11 +154,6 @@ namespace MiSharp.Core
         public DateTime DateAdded { get; set; }
 
         public DateTime DateUpdated { get; set; }
-
-        internal AudioPlayer CreateAudioPlayer()
-        {
-            return new LocalAudioPlayer(this);
-        }
 
         public void WriteTag()
         {

@@ -13,8 +13,10 @@ using Sharpen.Lang;
 
 namespace MiSharp.Core.Player
 {
-    internal sealed class LocalAudioPlayer : AudioPlayer
+    public class LocalAudioPlayer : AudioPlayer
     {
+        public delegate void PlaybackEventHandler(PlaybackEventArgs args);
+
         private readonly object _playerLock = new object();
         public List<IInputFileFormatPlugin> InputFileFormats;
         private WaveStream _inputStream;
@@ -23,14 +25,8 @@ namespace MiSharp.Core.Player
         private float _volume;
         private IWavePlayer _wavePlayer;
 
-        public LocalAudioPlayer(Song song)
+        public LocalAudioPlayer()
         {
-            if (song == null)
-                Throw.ArgumentNullException(() => song);
-
-            Song = song;
-            Volume = 1.0f;
-
             InputFileFormats = new List<IInputFileFormatPlugin>
                 {
                     new AiffInputFilePlugin(),
@@ -42,7 +38,7 @@ namespace MiSharp.Core.Player
         public override TimeSpan CurrentTime
         {
             get { return _inputStream == null ? TimeSpan.Zero : _inputStream.CurrentTime; }
-            set { _inputStream.CurrentTime = value; }
+            set { if (_inputStream != null) _inputStream.CurrentTime = value; }
         }
 
         public override AudioPlayerState PlaybackState
@@ -83,10 +79,15 @@ namespace MiSharp.Core.Player
                 if (_inputStream != null)
                 {
                     if (_setVolumeDelegate != null)
+                    {
                         _setVolumeDelegate(value);
+                        NotifyOfPropertyChange(() => Volume);
+                    }
                 }
             }
         }
+
+        public event PlaybackEventHandler PlaybackUpdated;
 
         public override void Dispose()
         {
@@ -117,10 +118,16 @@ namespace MiSharp.Core.Player
             }
         }
 
-        public override void Load()
+        public override void Load(Song song)
         {
             lock (_playerLock)
             {
+                if (song == null)
+                    Throw.ArgumentNullException(() => song);
+
+                Song = song;
+                Volume = 1.0f;
+
                 CreateWavePlayer();
 
                 try
@@ -176,7 +183,8 @@ namespace MiSharp.Core.Player
             lock (_playerLock)
             {
                 if (_wavePlayer == null || _inputStream == null ||
-                    _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Paused)
+                    _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Paused
+                    || _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Stopped)
                     return;
 
                 _wavePlayer.Pause();
@@ -230,7 +238,7 @@ namespace MiSharp.Core.Player
                 if (_wavePlayer != null && _wavePlayer.PlaybackState != NAudio.Wave.PlaybackState.Stopped)
                 {
                     _wavePlayer.Stop();
-
+                    PlaybackUpdated(new PlaybackEventArgs());
                     EnsureState(AudioPlayerState.Stopped);
 
                     _isLoaded = false;
@@ -276,7 +284,14 @@ namespace MiSharp.Core.Player
             {
                 Stop();
                 OnSongFinished(EventArgs.Empty);
+                return;
             }
+
+            PlaybackUpdated(new PlaybackEventArgs
+                {
+                    CurrentTime = CurrentTime,
+                    TotalTime = TotalTime,
+                });
         }
     }
 }

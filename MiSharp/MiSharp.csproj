@@ -89,13 +89,12 @@
     <Compile Include="ViewModel\Settings\OutputDevices\WaveOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Player\PlayerViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
-    <Compile Include="ViewModel\Player\SongViewModelBase.cs" />
-    <Compile Include="ViewModel\TagEditor\ArtistTagEditorViewModel.cs" />
-    <Compile Include="ViewModel\TagEditor\AlbumTagEditorViewModel.cs" />
+    <Compile Include="ViewModel\Library\TagEditor\ArtistTagEditorViewModel.cs" />
+    <Compile Include="ViewModel\Library\TagEditor\AlbumTagEditorViewModel.cs" />
     <Compile Include="ViewModel\DialogResults\ChangesSaved.cs" />
     <Compile Include="ViewModel\DialogResults\CloseResult.cs" />
     <Compile Include="ViewModel\DialogResults\Result.cs" />
-    <Compile Include="ViewModel\TagEditor\SongTagEditorViewModel.cs" />
+    <Compile Include="ViewModel\Library\TagEditor\SongTagEditorViewModel.cs" />
     <Compile Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml.cs">
       <DependentUpon>AsioOutSettingsView.xaml</DependentUpon>
     </Compile>
@@ -114,16 +113,16 @@
     <Compile Include="View\Player\PlaylistView.xaml.cs">
       <DependentUpon>PlaylistView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TagEditor\ArtistTagEditorView.xaml.cs">
+    <Compile Include="View\Library\TagEditor\ArtistTagEditorView.xaml.cs">
       <DependentUpon>ArtistTagEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TagEditor\SongTagEditorView.xaml.cs">
+    <Compile Include="View\Library\TagEditor\SongTagEditorView.xaml.cs">
       <DependentUpon>SongTagEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\LibraryView.xaml.cs">
+    <Compile Include="View\Library\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\LibraryViewModel.cs" />
+    <Compile Include="ViewModel\Library\LibraryViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -131,7 +130,7 @@
     <Compile Include="View\AppView.xaml.cs">
       <DependentUpon>AppView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TagEditor\AlbumTagEditorView.xaml.cs">
+    <Compile Include="View\Library\TagEditor\AlbumTagEditorView.xaml.cs">
       <DependentUpon>AlbumTagEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Settings\SettingsView.xaml.cs">
@@ -169,15 +168,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TagEditor\ArtistTagEditorView.xaml">
+    <Page Include="View\Library\TagEditor\ArtistTagEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\TagEditor\SongTagEditorView.xaml">
+    <Page Include="View\Library\TagEditor\SongTagEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\LibraryView.xaml">
+    <Page Include="View\Library\LibraryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,7 +184,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TagEditor\AlbumTagEditorView.xaml">
+    <Page Include="View\Library\TagEditor\AlbumTagEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

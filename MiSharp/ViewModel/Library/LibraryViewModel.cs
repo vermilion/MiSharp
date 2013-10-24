@@ -74,27 +74,43 @@ namespace MiSharp
             }
         }
 
-        public void AddToPlaylist()
+        public void AddArtistToPlaylist()
         {
-            _events.Publish(SelectedSong);
+            _events.Publish(GetSongsByArtist());
         }
 
+        public void AddAlbumToPlaylist()
+        {
+            _events.Publish(GetSongsByAlbum());
+        }
+
+        public void AddSongToPlaylist()
+        {
+            _events.Publish(new List<Song> {SelectedSong});
+        }
+
+        private List<Song> GetSongsByArtist()
+        {
+            return MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand, null)).ToList();
+        }
+
+        private List<Song> GetSongsByAlbum()
+        {
+            return MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(null, SelectedAlbum.Name)).ToList();
+        }
 
         public void EditorEditAlbums()
         {
             if (SelectedAlbum == null) return;
 
-            List<Song> list =
-                MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(null, SelectedAlbum.Name)).ToList();
-            _windowManager.ShowDialog(new AlbumTagEditorViewModel(list));
+            _windowManager.ShowDialog(new AlbumTagEditorViewModel(GetSongsByAlbum()));
         }
 
         public void EditorEditArtists()
         {
             if (SelectedBand == null) return;
 
-            List<Song> list = MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand, null)).ToList();
-            _windowManager.ShowDialog(new ArtistTagEditorViewModel(list));
+            _windowManager.ShowDialog(new ArtistTagEditorViewModel(GetSongsByArtist()));
         }
 
         public void EditorEditSongs()

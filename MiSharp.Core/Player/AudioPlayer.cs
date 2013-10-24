@@ -1,10 +1,11 @@
 ﻿using System;
+using Caliburn.Micro;
 using MiSharp.Core.Player.Exceptions;
 using Rareform.Extensions;
 
 namespace MiSharp.Core.Player
 {
-    internal abstract class AudioPlayer : IDisposable
+    public abstract class AudioPlayer : PropertyChangedBase, IDisposable
     {
         /// <summary>
         ///     Gets or sets the current time.
@@ -51,7 +52,7 @@ namespace MiSharp.Core.Player
         ///     Loads the specified song into the <see cref="SongLoadException" />. This is required before playing a new song.
         /// </summary>
         /// <exception cref="LocalAudioPlayer">The song could not be loaded.</exception>
-        public virtual void Load()
+        public virtual void Load(Song song)
         {
         }
 

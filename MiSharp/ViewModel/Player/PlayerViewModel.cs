@@ -1,26 +1,26 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using MiSharp.Core.Player;
 
 namespace MiSharp
 {
     [Export(typeof (PlayerViewModel))]
-    public class PlayerViewModel : Screen
+    public class PlayerViewModel : Screen, IHandle<PlaybackEventArgs>
     {
-        private string _currentTime;
-        private int _maximum;
+        private readonly PlaylistViewModel _playlistViewModel;
+        private string _currentTime = "00:00";
+        private int _maximum = 1;
 
         private double _positionValue;
 
         private int _tickFrequency;
-        private string _totalTime;
+        private string _totalTime = "00:00";
 
         [ImportingConstructor]
-        public PlayerViewModel(IEventAggregator events)
+        public PlayerViewModel(IEventAggregator events, PlaylistViewModel playlistViewModel)
         {
-            //_library = new Library();
-            //_library.PlaybackParamsChanged += ProcessorPlaybackParamsChanged;
-            //_library.TrackbarValueChanged += _processor_TrackbarValueChanged;
+            _playlistViewModel = playlistViewModel;
             events.Subscribe(this);
         }
 
@@ -75,49 +75,38 @@ namespace MiSharp
             }
         }
 
-        private void _processor_TrackbarValueChanged(TrackbarEventArgs args)
+        public void Handle(PlaybackEventArgs args)
         {
-            PositionValue = args.Position;
-            CurrentTime = args.CurrentTime;
-        }
-
-        private void ProcessorPlaybackParamsChanged(PlaybackEventArgs args)
-        {
-            Maximum = args.Maximum;
-            TickFrequency = args.TickFrequency;
-            TotalTime = args.TotalTime;
+            TotalTime = String.Format("{0:00}:{1:00}", (int) args.TotalTime.TotalMinutes, args.TotalTime.Seconds);
+            CurrentTime = String.Format("{0:00}:{1:00}", (int) args.CurrentTime.TotalMinutes, args.CurrentTime.Seconds);
+            TickFrequency = (int) args.TotalTime.TotalSeconds/30;
+            Maximum = (int) args.TotalTime.TotalSeconds;
+            PositionValue = (int) args.CurrentTime.TotalSeconds;
         }
 
         public void ChangePosition(double pos)
         {
-            // _library.SetPosition(pos);
+            _playlistViewModel.Player.CurrentTime = TimeSpan.FromSeconds(pos);
         }
 
         public void StartClick()
         {
-            //if (!SelectedOutputDriver.IsAvailable)
-            //{
-            //    MessageBox.Show("The selected output driver is not available on this system");
-            //    return;
-            //}
-
-            // _library.PlayNextSong();
+            _playlistViewModel.Player.Play();
         }
-
 
         public void PauseClick()
         {
-            //_library.PauseSong();
+            _playlistViewModel.Player.Pause();
         }
 
         public void StopClick()
         {
-            //_library.PauseSong();
+            _playlistViewModel.Player.Stop();
         }
 
         public void VolumeValueChanged(float value)
         {
-            //_library.SetVolumeLevel(value);
+            _playlistViewModel.Player.Volume = value;
         }
     }
 }

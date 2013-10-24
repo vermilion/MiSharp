@@ -6,16 +6,16 @@
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:local="clr-namespace:MiSharp" x:Class="MiSharp.LibraryView"
-    mc:Ignorable="d" Width="800" Height="500">
-    <Grid Margin="10,10,10,0">
+    mc:Ignorable="d" Width="550" Height="500">
+    <Grid Margin="5,5,5,0">
         <ListBox ItemsSource="{Binding Songs}" SelectionMode="Single" SelectedItem="{Binding SelectedSong}"
-                 Margin="278,193,10,10">
+                 Margin="177,193,5,10">
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add to Now Playing" Visibility="Visible">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="AddToPlaylist" />
+                                <cal:ActionMessage MethodName="AddSongToPlaylist" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
@@ -56,10 +56,16 @@
         </ListBox>
 
         <ListBox ItemsSource="{Binding Bands}" SelectedItem="{Binding SelectedBand}" Margin="0,25,0,10"
-                 HorizontalAlignment="Left" Width="273">
+                 HorizontalAlignment="Left" Width="172">
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add to Now Playing" Visibility="Hidden" />
+                    <MenuItem Header="Add to Now Playing" Visibility="Visible">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="AddArtistToPlaylist" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
                     <MenuItem Header="Replace now playing with selection" Visibility="Hidden" />
                     <Separator />
                     <MenuItem Header="Playlists" Visibility="Hidden">
@@ -94,11 +100,17 @@
         </ListBox>
 
         <ListBox ItemsSource="{Binding Albums}" SelectedItem="{Binding SelectedAlbum}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="278,25,10,0" Height="163"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="177,25,5,0" Height="163"
                  VerticalAlignment="Top">
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add to Now Playing" Visibility="Hidden" />
+                    <MenuItem Header="Add to Now Playing" Visibility="Visible">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="AddAlbumToPlaylist" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
                     <MenuItem Header="Replace now playing with selection" Visibility="Hidden" />
                     <Separator />
                     <MenuItem Header="Playlists" Visibility="Hidden">
@@ -138,8 +150,8 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="Rescan Library" Command="{Binding RescanCommand}" Margin="10,0,0,0"
-                VerticalAlignment="Top" HorizontalAlignment="Left" Width="181">
+        <Button Content="Rescan Library" Command="{Binding RescanCommand}" Margin="5,0,0,0"
+                VerticalAlignment="Top" HorizontalAlignment="Left" Width="162">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <cal:ActionMessage MethodName="RescanLibrary" />
