@@ -8,12 +8,18 @@ using Caliburn.Micro;
 
 namespace MiSharp
 {
-    public class Bootstrapper : Bootstrapper<AppViewModel>
+    public class Bootstrapper : Bootstrapper<IShellViewModel>
     {
         private CompositionContainer _container;
 
         protected override void Configure()
         {
+            ViewLocator.NameTransformer.AddRule(
+                @"(?<nsbefore>([A-Za-z_]\w*\.)*)?(?<nsvm>ViewModels\.)(?<nsafter>([A-Za-z_]\w*\.)*)(?<basename>[A-Za-z_]\w*)(?<suffix>ViewModel$)",
+                @"${nsbefore}Views.${nsafter}${basename}View",
+                @"(([A-Za-z_]\w*\.)*)?ViewModels\.([A-Za-z_]\w*\.)*[A-Za-z_]\w*ViewModel$"
+                );
+
             _container =
                 new CompositionContainer(
                     new AggregateCatalog(

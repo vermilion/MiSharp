@@ -69,7 +69,7 @@ namespace MiSharp.Core.Repository
             Int64 count = files.Count();
             for (int index = 1; index <= files.Length; index++)
             {
-                FileInfo file = files[index-1];
+                FileInfo file = files[index - 1];
                 FileFound(new FileStatEventArgs {File = file, CurrentFileNumber = index, TotalFiles = count});
                 try
                 {

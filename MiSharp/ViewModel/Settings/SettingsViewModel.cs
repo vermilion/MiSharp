@@ -13,9 +13,9 @@ namespace MiSharp
     [Export(typeof (SettingsViewModel))]
     public class SettingsViewModel : Screen
     {
+        private readonly IEventAggregator _events;
         private IOutputDevicePlugin _outSettingsViewModel;
         private List<int> _requestedLatency = new List<int>();
-        private readonly IEventAggregator _events;
 
         [ImportingConstructor]
         public SettingsViewModel(IEventAggregator events)

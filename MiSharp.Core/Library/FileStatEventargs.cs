@@ -8,6 +8,10 @@ namespace MiSharp.Core.Library
         public FileInfo File { get; set; }
         public Int64 CurrentFileNumber { get; set; }
         public Int64 TotalFiles { get; set; }
-        public bool Completed { get { return CurrentFileNumber == TotalFiles; } }
+
+        public bool Completed
+        {
+            get { return CurrentFileNumber == TotalFiles; }
+        }
     }
 }

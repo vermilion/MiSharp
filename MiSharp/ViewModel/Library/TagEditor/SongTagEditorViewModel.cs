@@ -10,9 +10,9 @@ namespace MiSharp
     [Export(typeof (SongTagEditorViewModel))]
     internal class SongTagEditorViewModel : AlbumTagEditorViewModel
     {
+        private string _songComposer;
         private string _songId;
         private string _songTitle;
-        private string _songComposer;
 
         [ImportingConstructor]
         public SongTagEditorViewModel(List<Song> mediaToModify) : base(mediaToModify)

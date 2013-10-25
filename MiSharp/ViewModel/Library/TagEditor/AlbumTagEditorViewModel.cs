@@ -10,7 +10,7 @@ namespace MiSharp
     [Export(typeof (AlbumTagEditorViewModel))]
     internal class AlbumTagEditorViewModel : ArtistTagEditorViewModel
     {
-        private string _songAlbum;        
+        private string _songAlbum;
         private string _songGenre;
         private string _songYear;
 

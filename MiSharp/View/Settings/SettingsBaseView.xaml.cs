@@ -1,11 +1,11 @@
 ﻿namespace MiSharp
 {
     /// <summary>
-    ///     Interaction logic for PlayerView.xaml
+    ///     Interaction logic for Settings.xaml
     /// </summary>
-    public partial class PlayerView
+    public partial class SettingsBaseView
     {
-        public PlayerView()
+        public SettingsBaseView()
         {
             InitializeComponent();
         }

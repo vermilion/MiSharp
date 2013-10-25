@@ -7,8 +7,8 @@ namespace MiSharp
     {
         public override void Execute(ActionExecutionContext context)
         {
-            Window window = Window.GetWindow(context.View);
-            if (window != null) window.Close();
+            //Window window = Window.GetWindow(context.View);
+            //if (window != null) window.Close();
 
             base.Execute(context);
         }

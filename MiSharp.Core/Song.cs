@@ -2,7 +2,6 @@
 using System.IO;
 using TagLib;
 using File = TagLib.File;
-using Tag = TagLib.Id3v2.Tag;
 
 namespace MiSharp.Core
 {
@@ -27,7 +26,7 @@ namespace MiSharp.Core
         {
             OriginalPath = path;
             File file = File.Create(path);
-            var tag = file.GetTag(TagTypes.Id3v2);
+            Tag tag = file.GetTag(TagTypes.Id3v2);
 
             if (tag == null)
             {

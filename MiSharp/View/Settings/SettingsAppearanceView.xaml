@@ -1,0 +1,81 @@
+﻿<controls:MetroContentControl x:Class="MiSharp.SettingsAppearanceView"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                              xmlns:valueConverters="clr-namespace:Rareform.ValueConverters;assembly=Rareform"
+                              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+                              mc:Ignorable="d"
+                              d:DesignHeight="600" d:DesignWidth="800">
+    <controls:MetroContentControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ColorPickerButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="80"
+                                    Height="80"
+                                    Margin="0, 0, 20, 20"
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Opacity" Value="0.8" />
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Opacity" Value="0.6" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="SettingsHeaderStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="64" />
+                <Setter Property="FontFamily" Value="{DynamicResource HeaderFontFamily}" />
+                <!--  For some reason the foreground has to be set manually, otherwise it would be black.  -->
+                <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            </Style>
+        </ResourceDictionary>
+    </controls:MetroContentControl.Resources>
+    <Grid>
+        <StackPanel>
+            <TextBlock Style="{StaticResource SettingsHeaderStyle}" Text="accent color" />
+            <WrapPanel Margin="0, 10, 0, 0"
+                       HorizontalAlignment="Left" Orientation="Horizontal"
+                       VerticalAlignment="Top" Width="792">
+                <Button Background="#CC119EDA"
+                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor(Blue)]"
+                        Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button Background="#CC60A917"
+                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor(Green)]"
+                        Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button Background="#CCB400FF"
+                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor(Purple)]"
+                        Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button Background="#CCE51400"
+                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor(Red)]"
+                        Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                        Background="#CCFA6800"
+                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor(Orange)]"
+                        Style="{StaticResource ColorPickerButtonStyle}" />
+            </WrapPanel>
+            <TextBlock Style="{StaticResource SettingsHeaderStyle}" Text="scaling" />
+            <StackPanel Orientation="Horizontal">
+                <Slider Width="200"
+                        VerticalAlignment="Center"
+                        Maximum="2"
+                        Minimum="0.5"
+                        Value="{Binding Path=Scaling}" />
+                <TextBox Width="30"
+                         Margin="10, 0, 0, 0"
+                         Text="{Binding Path=Scaling,
+                                                    UpdateSourceTrigger=PropertyChanged,
+                                                    StringFormat=\{0:F1\}}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</controls:MetroContentControl>

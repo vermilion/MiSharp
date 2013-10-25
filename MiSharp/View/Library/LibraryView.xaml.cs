@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace MiSharp
+﻿namespace MiSharp
 {
     /// <summary>
     ///     Interaction logic for LibraryView.xaml
     /// </summary>
-    public partial class LibraryView : UserControl
+    public partial class LibraryView
     {
         public LibraryView()
         {
