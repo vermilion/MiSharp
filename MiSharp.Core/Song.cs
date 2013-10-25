@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IO;
+using Caliburn.Micro;
+using MiSharp.Core.Player;
 using TagLib;
 using File = TagLib.File;
 
 namespace MiSharp.Core
 {
-    public class Song
+    public class Song : PropertyChangedBase
     {
+        private bool _isPlaying;
+
         public Song()
         {
             Title = string.Empty;
@@ -20,7 +24,6 @@ namespace MiSharp.Core
             DateAdded = DateTime.MinValue;
             DateUpdated = DateTime.MinValue;
         }
-
 
         public Song(string path)
         {
@@ -112,6 +115,18 @@ namespace MiSharp.Core
             DateAdded = DateTime.Now;
             DateUpdated = DateTime.Now;
         }
+
+        public bool IsPlaying
+        {
+            get { return _isPlaying; }
+            set
+            {
+                _isPlaying = value;
+                NotifyOfPropertyChange(() => IsPlaying);
+            }
+        }
+
+        public AudioPlayerState State { get; set; }
 
         public string OriginalPath { get; set; }
 

@@ -6,50 +6,47 @@
                               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                               xmlns:cal="http://www.caliburnproject.org" xmlns:miSharp="clr-namespace:MiSharp"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d" d:DesignHeight="60" d:DesignWidth="620">
+                              mc:Ignorable="d" d:DesignHeight="60" d:DesignWidth="670">
     <Grid Margin="0,5,0,0">
         <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Top">
-            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="4" FontFamily="Webdings"
-                    ToolTip="Play" HorizontalAlignment="Left" Width="50">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="StartClick" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content=";"
-                    FontFamily="Webdings" ToolTip="Pause" HorizontalAlignment="Left" Width="50">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="PauseClick" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" FontFamily="Webdings"
+                    HorizontalAlignment="Left" Width="50">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                                <Setter Property="Content" Value=";" />
+                                <Setter Property="ToolTip" Value="Pause" />
+                                <Setter Property="cal:Message.Attach" Value="[Event Click] = [Action PauseClick()]" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsPlaying}" Value="False">
+                                <Setter Property="Content" Value="4" />
+                                <Setter Property="ToolTip" Value="Play" />
+                                <Setter Property="cal:Message.Attach" Value="[Event Click] = [Action StartClick()]" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
             <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="&lt;" FontFamily="Webdings"
-                    ToolTip="Stop" HorizontalAlignment="Left" Width="50">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="StopClick" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+                    ToolTip="Stop" HorizontalAlignment="Left" Width="50"
+                    cal:Message.Attach="[Event Click] = [Action StopClick()];" />
+            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
+                    ToolTip="Stop" HorizontalAlignment="Left" Width="50"
+                    cal:Message.Attach="[Event Click] = [Action PlayPrev()];" />
+            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
+                    ToolTip="Stop" HorizontalAlignment="Left" Width="50"
+                    cal:Message.Attach="[Event Click] = [Action PlayNext()];" />
             <!-- Seek Control -->
             <TextBlock Margin="5,0,5,0" Foreground="Gray" VerticalAlignment="Center" FontSize="10">
                 <Run Text="Seek To" />
             </TextBlock>
             <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}"
                                               TickFrequency="{Binding TickFrequency}"
+                                              cal:Message.Attach="[Event ThumbDragStarted] = [Action Dragging(1)]; [Event ThumbDragCompleted] = [Action ChangePosition(PositionSlider.Value)]; [Event ThumbDragCompleted] = [Action Dragging(0)];"
                                               Maximum="{Binding Maximum}"
                                               VerticalAlignment="Center" Width="223"
-                                              Height="Auto" Margin="5,0,5,0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="ThumbDragCompleted">
-                        <cal:ActionMessage MethodName="ChangePosition">
-                            <cal:Parameter Value="{Binding Value, ElementName=PositionSlider}" />
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </miSharp:SliderWithDraggingEvents>
+                                              Height="Auto" Margin="5,0,5,0" />
             <TextBlock Foreground="Gray" Margin="5,10.35,5,9.65" VerticalAlignment="Center" FontSize="10">
                 <TextBlock.Text>
                     <MultiBinding StringFormat=" {0}/{1}">
@@ -64,15 +61,7 @@
             </TextBlock>
             <miSharp:SliderWithDraggingEvents x:Name="VolumeSlider" Margin="5,0,5,0" VerticalAlignment="Center"
                                               Width="80" Height="Auto"
-                                              Minimum="0" Maximum="1" Value="0.5">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="ThumbDragCompleted">
-                        <cal:ActionMessage MethodName="VolumeValueChanged">
-                            <cal:Parameter Value="{Binding Value, ElementName=VolumeSlider}" />
-                        </cal:ActionMessage>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </miSharp:SliderWithDraggingEvents>
+                                              Minimum="0" Maximum="1" Value="{Binding Volume}" />
         </StackPanel>
     </Grid>
 </controls:MetroContentControl>

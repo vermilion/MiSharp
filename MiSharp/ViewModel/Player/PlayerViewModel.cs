@@ -1,15 +1,18 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using MiSharp.Core;
 using MiSharp.Core.Player;
 
 namespace MiSharp
 {
-    [Export(typeof (PlayerViewModel))]
-    public class PlayerViewModel : Screen, IHandle<PlaybackEventArgs>
+    [Export]
+    public class PlayerViewModel : PropertyChangedBase, IHandle<Song>
     {
+        private readonly IEventAggregator _events;
         private readonly PlaylistViewModel _playlistViewModel;
         private string _currentTime = "00:00";
+        private bool _isPlaying;
         private int _maximum = 1;
 
         private double _positionValue;
@@ -21,8 +24,104 @@ namespace MiSharp
         public PlayerViewModel(IEventAggregator events, PlaylistViewModel playlistViewModel)
         {
             _playlistViewModel = playlistViewModel;
-            events.Subscribe(this);
+            Player = new LocalAudioPlayer();
+            Player.PlaybackUpdated += Player_PlaybackUpdated;
+            Player.SongFinished += Player_SongFinished;
+            _events = events;
+            _events.Subscribe(this);
         }
+
+        public LocalAudioPlayer Player { get; set; }
+
+        public bool IsPlaying
+        {
+            get { return _isPlaying; }
+            set
+            {
+                _isPlaying = value;
+                NotifyOfPropertyChange(() => IsPlaying);
+            }
+        }
+
+        public void Handle(Song song)
+        {
+            Play(song);
+        }
+
+        private void Player_PlaybackUpdated(PlaybackEventArgs args)
+        {
+            TotalTime = String.Format("{0:00}:{1:00}", (int) args.TotalTime.TotalMinutes, args.TotalTime.Seconds);
+            CurrentTime = String.Format("{0:00}:{1:00}", (int) args.CurrentTime.TotalMinutes, args.CurrentTime.Seconds);
+            TickFrequency = (int) args.TotalTime.TotalSeconds/30;
+            Maximum = (int) args.TotalTime.TotalSeconds;
+            if (!_dragging)
+                PositionValue = (int) args.CurrentTime.TotalSeconds;
+        }
+
+        public void Play(Song song)
+        {
+            Player.Load(song, Volume);
+            Player.Play();
+            IsPlaying = true;
+            song.State = AudioPlayerState.Playing;
+            _playlistViewModel.CurrentSong = song;
+        }
+
+        public void ChangePosition(double pos)
+        {
+            Player.CurrentTime = TimeSpan.FromSeconds(pos);
+        }
+
+        public void StartClick()
+        {
+            Song song = _playlistViewModel.CurrentSong;
+            if (song == null) return;
+            Play(song);
+        }
+
+        public void PauseClick()
+        {
+            Player.Pause();
+            IsPlaying = false;
+            _playlistViewModel.CurrentSong.State = AudioPlayerState.Paused;
+        }
+
+        public void StopClick()
+        {
+            Player.Stop();
+            IsPlaying = false;
+            _playlistViewModel.CurrentSong.State = AudioPlayerState.Stopped;
+        }
+
+        public void PlayNext()
+        {
+            Song song = _playlistViewModel.GetNextSong();
+            if (song != null)
+                Play(song);
+        }
+
+        public void PlayPrev()
+        {
+            Song song = _playlistViewModel.GetPreviousSong();
+            if (song != null)
+                Play(song);
+        }
+
+        #region Playback Events
+
+        private void Player_SongFinished(object sender, EventArgs e)
+        {
+            Song song = _playlistViewModel.GetNextSong();
+            if (song == null) return;
+            Play(song);
+        }
+
+        #endregion
+
+        #region Properties
+
+        private bool _dragging;
+        private float _volume = 1.0f;
 
         public int Maximum
         {
@@ -75,38 +174,22 @@ namespace MiSharp
             }
         }
 
-        public void Handle(PlaybackEventArgs args)
+        public float Volume
         {
-            TotalTime = String.Format("{0:00}:{1:00}", (int) args.TotalTime.TotalMinutes, args.TotalTime.Seconds);
-            CurrentTime = String.Format("{0:00}:{1:00}", (int) args.CurrentTime.TotalMinutes, args.CurrentTime.Seconds);
-            TickFrequency = (int) args.TotalTime.TotalSeconds/30;
-            Maximum = (int) args.TotalTime.TotalSeconds;
-            PositionValue = (int) args.CurrentTime.TotalSeconds;
+            get { return _volume; }
+            set
+            {
+                _volume = value;
+                Player.Volume = value;
+                NotifyOfPropertyChange(() => Volume);
+            }
         }
 
-        public void ChangePosition(double pos)
+        public void Dragging(int flag)
         {
-            _playlistViewModel.Player.CurrentTime = TimeSpan.FromSeconds(pos);
+            _dragging = Convert.ToBoolean(flag);
         }
 
-        public void StartClick()
-        {
-            _playlistViewModel.Player.Play();
-        }
-
-        public void PauseClick()
-        {
-            _playlistViewModel.Player.Pause();
-        }
-
-        public void StopClick()
-        {
-            _playlistViewModel.Player.Stop();
-        }
-
-        public void VolumeValueChanged(float value)
-        {
-            _playlistViewModel.Player.Volume = value;
-        }
+        #endregion
     }
 }

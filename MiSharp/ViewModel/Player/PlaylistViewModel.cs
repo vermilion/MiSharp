@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using MiSharp.Core;
-using MiSharp.Core.Player;
 using Rareform.Collections;
 
 namespace MiSharp
 {
-    [Export(typeof (PlaylistViewModel))]
+    [Export]
     public class PlaylistViewModel : PropertyChangedBase, IHandle<List<Song>>
     {
         private readonly IEventAggregator _events;
-        public LocalAudioPlayer Player;
+        private Song _currentSong;
+
         private int _currentSongIndex;
         private ObservableList<Song> _songs;
 
@@ -20,9 +19,6 @@ namespace MiSharp
         public PlaylistViewModel(IEventAggregator events)
         {
             _events = events;
-            Player = new LocalAudioPlayer();
-            Player.PlaybackUpdated += Player_PlaybackUpdated;
-            Player.SongFinished += Player_SongFinished;
             _songs = new ObservableList<Song>();
             events.Subscribe(this);
         }
@@ -47,12 +43,30 @@ namespace MiSharp
             }
         }
 
+        public Song CurrentSong
+        {
+            get { return _currentSong; }
+            set
+            {
+                _currentSong = value;
+                NotifyOfPropertyChange(() => CurrentSong);
+            }
+        }
+
         #region Triggers
 
-        public void PlaySelected()
+        private bool CanPlayNextSong
         {
-            Player.Load(Songs[CurrentSongIndex]);
-            Player.Play();
+            get { return CurrentSongIndex + 1 < Songs.Count; }
+        }
+
+        private bool CanPlayPreviousSong
+        {
+            get
+            {
+                int prevIndex = CurrentSongIndex - 1;
+                return prevIndex <= Songs.Count && prevIndex >= 0;
+            }
         }
 
         public void RemoveSelected()
@@ -69,24 +83,33 @@ namespace MiSharp
             Songs.AddRange(songs);
         }
 
-        #endregion
-
-        #region Playback Events
-
-        private void Player_SongFinished(object sender, EventArgs e)
+        public void PlaySelected()
         {
-            int nextIndex = CurrentSongIndex + 1;
-            if (nextIndex >= Songs.Count)
-                return;
-            CurrentSongIndex++;
-            PlaySelected();
-        }
-
-        private void Player_PlaybackUpdated(PlaybackEventArgs args)
-        {
-            _events.Publish(args);
+            _events.Publish(CurrentSong);
         }
 
         #endregion
+
+        public Song GetNextSong()
+        {
+            if (CanPlayNextSong)
+            {
+                Song nextSong = Songs[CurrentSongIndex + 1];
+                CurrentSongIndex++;
+                return nextSong;
+            }
+            return null;
+        }
+
+        public Song GetPreviousSong()
+        {
+            if (CanPlayPreviousSong)
+            {
+                Song prevSong = Songs[CurrentSongIndex - 1];
+                CurrentSongIndex--;
+                return prevSong;
+            }
+            return null;
+        }
     }
 }

@@ -118,7 +118,7 @@ namespace MiSharp.Core.Player
             }
         }
 
-        public override void Load(Song song)
+        public override void Load(Song song, float volume)
         {
             lock (_playerLock)
             {
@@ -126,7 +126,7 @@ namespace MiSharp.Core.Player
                     Throw.ArgumentNullException(() => song);
 
                 Song = song;
-                Volume = 1.0f;
+                Volume = volume;
 
                 CreateWavePlayer();
 

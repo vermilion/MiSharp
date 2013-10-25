@@ -13,6 +13,7 @@
                   FocusVisualStyle="{x:Null}"
                   ItemsSource="{Binding Songs}"
                   SelectedIndex="{Binding CurrentSongIndex}"
+                  SelectedItem="{Binding CurrentSong}"
                   ScrollViewer.CanContentScroll="True">
             <ListView.ContextMenu>
                 <ContextMenu>
