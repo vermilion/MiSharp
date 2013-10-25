@@ -10,9 +10,10 @@ namespace MiSharp
         private bool _isSettingsFlyoutOpen;
 
         [ImportingConstructor]
-        public ShellViewModel(LibraryViewModel libraryViewModel, PlayerViewModel playerViewModel, SettingsBaseViewModel settingsBaseViewModel,
-                              PlaylistViewModel playlistViewModel,
-                              IWindowManager windowManager, IEventAggregator events)
+        public ShellViewModel(LibraryViewModel libraryViewModel, PlayerViewModel playerViewModel,
+            SettingsBaseViewModel settingsBaseViewModel,
+            PlaylistViewModel playlistViewModel,
+            IWindowManager windowManager, IEventAggregator events)
         {
             DisplayName = "Mi#";
             LibraryViewModel = libraryViewModel;

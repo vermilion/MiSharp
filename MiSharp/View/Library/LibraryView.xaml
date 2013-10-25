@@ -8,7 +8,7 @@
     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     x:Class="MiSharp.LibraryView"
     mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="350">
-    <Grid Margin="5,5,5,0">
+    <Grid>
         <ListBox ItemsSource="{Binding Songs}" SelectionMode="Single" SelectedItem="{Binding SelectedSong}"
                  Margin="177,193,10,10">
             <ListBox.ContextMenu>

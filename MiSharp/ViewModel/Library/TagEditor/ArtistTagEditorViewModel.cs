@@ -66,7 +66,7 @@ namespace MiSharp
                     MessageBox.Show("Could not update " + media, "Error", MessageBoxButtons.OK);
                 }
 
-                yield return new ChangesSaved();
+                yield return new CloseResult();
             }
         }
 

@@ -34,7 +34,7 @@
     </controls:MetroWindow.Flyouts>
 
 
-    <Grid HorizontalAlignment="Left" Height="570" VerticalAlignment="Top" Width="792">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="65" />
             <RowDefinition Height="*" />

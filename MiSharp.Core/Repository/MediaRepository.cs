@@ -30,8 +30,8 @@ namespace MiSharp.Core.Repository
         public IEnumerable<Album> GetAllAlbums(string bandName)
         {
             return GetAllSongs().Where(x => x.Artist == bandName)
-                                .Distinct(new AlbumEqualityComparer())
-                                .Select(x => new Album {Name = x.Album, Year = x.Year});
+                .Distinct(new AlbumEqualityComparer())
+                .Select(x => new Album {Name = x.Album, Year = x.Year});
         }
 
         public IEnumerable<string> GetAllBands()
@@ -61,10 +61,10 @@ namespace MiSharp.Core.Repository
         public async Task<bool> Rescan()
         {
             FileInfo[] files = Settings.Instance.FileFormats
-                                       .SelectMany(f =>
-                                                   new DirectoryInfo(Settings.Instance.WatchFolder)
-                                                       .GetFiles(f.Trim(), SearchOption.AllDirectories))
-                                       .ToArray();
+                .SelectMany(f =>
+                    new DirectoryInfo(Settings.Instance.WatchFolder)
+                        .GetFiles(f.Trim(), SearchOption.AllDirectories))
+                .ToArray();
 
             Int64 count = files.Count();
             for (int index = 1; index <= files.Length; index++)

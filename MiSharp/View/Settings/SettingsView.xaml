@@ -31,7 +31,8 @@
                   VerticalAlignment="Top" Width="96" />
         <Label Content="ms" HorizontalAlignment="Left" Margin="228,205,0,0" VerticalAlignment="Top" Height="26" />
         <ContentControl Name="SelectedOutputDriver" Margin="10,128,10,0" VerticalAlignment="Top" Height="72" />
-        <Button Content="Save" Margin="0,0,10,10" HorizontalAlignment="Right" Width="90" Height="26" VerticalAlignment="Bottom">
+        <Button Content="Save" Margin="0,0,10,10" HorizontalAlignment="Right" Width="90" Height="26"
+                VerticalAlignment="Bottom">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <cal:ActionMessage MethodName="SaveClick" />

@@ -130,7 +130,7 @@ namespace MiSharp
                 }
             }
 
-            yield return new ChangesSaved();
+            yield return new CloseResult();
         }
     }
 }

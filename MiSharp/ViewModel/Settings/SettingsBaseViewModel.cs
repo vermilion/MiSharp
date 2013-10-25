@@ -7,7 +7,8 @@ namespace MiSharp
     public class SettingsBaseViewModel : Screen
     {
         [ImportingConstructor]
-        public SettingsBaseViewModel(SettingsAppearanceViewModel settingsAppearanceViewModel, SettingsViewModel settingsViewModel)
+        public SettingsBaseViewModel(SettingsAppearanceViewModel settingsAppearanceViewModel,
+            SettingsViewModel settingsViewModel)
         {
             SettingsAppearanceViewModel = settingsAppearanceViewModel;
             SettingsViewModel = settingsViewModel;

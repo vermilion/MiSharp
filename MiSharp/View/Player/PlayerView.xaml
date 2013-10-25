@@ -6,7 +6,7 @@
                               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                               xmlns:cal="http://www.caliburnproject.org" xmlns:miSharp="clr-namespace:MiSharp"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d" d:DesignHeight="60" d:DesignWidth="670">
+                              mc:Ignorable="d" d:DesignHeight="60" d:DesignWidth="620">
     <Grid Margin="0,5,0,0">
         <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Top">
             <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="4" FontFamily="Webdings"
@@ -17,27 +17,19 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
+            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content=";"
+                    FontFamily="Webdings" ToolTip="Pause" HorizontalAlignment="Left" Width="50">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="PauseClick" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
             <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="&lt;" FontFamily="Webdings"
                     ToolTip="Stop" HorizontalAlignment="Left" Width="50">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <cal:ActionMessage MethodName="StopClick" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Foreground="Orange" Content=";"
-                    FontFamily="Webdings" ToolTip="Pause" HorizontalAlignment="Left" Width="50">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="PauseClick" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Foreground="Orange" Content=";"
-                    FontFamily="Webdings" ToolTip="Pause" HorizontalAlignment="Left" Width="50">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="PauseClick" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
