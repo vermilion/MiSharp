@@ -150,14 +150,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="Rescan Library" Command="{Binding RescanCommand}" Margin="5,0,0,0"
-                VerticalAlignment="Top" HorizontalAlignment="Left" Width="162">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <cal:ActionMessage MethodName="RescanLibrary" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Button>
         <TextBlock HorizontalAlignment="Left" Margin="196,0,0,0" TextWrapping="Wrap" Text="{Binding Status}"
                    VerticalAlignment="Top" />
     </Grid>

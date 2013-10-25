@@ -12,7 +12,7 @@
         <TextBox Text="{Binding MediaPath}" Height="23" Margin="115,10,10,0" TextWrapping="Wrap"
                  VerticalAlignment="Top" />
         <Label Content="Rescan time, min" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" />
-        <TextBox Text="{Binding RescanTimeout}" Height="23" Margin="115,38,10,0" TextWrapping="Wrap"
+        <TextBox Text="{Binding RescanTimeout}" Height="23" Margin="115,38,90,0" TextWrapping="Wrap"
                  VerticalAlignment="Top" />
         <Label Content="Allowed formats" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" />
         <TextBox Text="{Binding FileFormats}" Height="23" Margin="115,66,10,0" TextWrapping="Wrap"
@@ -31,6 +31,13 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <cal:ActionMessage MethodName="SaveClick" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="Rescan now" Margin="285,38,10,0" VerticalAlignment="Top">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <cal:ActionMessage MethodName="RescanLibrary" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>

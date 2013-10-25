@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using MiSharp.Core;
+using MiSharp.Core.Library;
 using MiSharp.Core.Player.Output;
+using MiSharp.Core.Repository;
 
 namespace MiSharp
 {
@@ -12,10 +15,13 @@ namespace MiSharp
     {
         private IOutputDevicePlugin _outSettingsViewModel;
         private List<int> _requestedLatency = new List<int>();
+        private readonly IEventAggregator _events;
 
-        public SettingsViewModel()
+        [ImportingConstructor]
+        public SettingsViewModel(IEventAggregator events)
         {
             DisplayName = "Mi# Settings";
+            _events = events;
             RequestedLatency.AddRange(new[] {25, 50, 100, 150, 200, 300, 400, 500});
         }
 
@@ -113,6 +119,18 @@ namespace MiSharp
         {
             Settings.Instance.SaveSettings();
             yield return new ChangesSaved();
+        }
+
+        public void RescanLibrary()
+        {
+            MediaRepository.Instance.Recreate();
+            MediaRepository.Instance.FileFound += Instance_FileFound;
+            Task.Run(() => MediaRepository.Instance.Rescan());
+        }
+
+        private void Instance_FileFound(FileStatEventArgs args)
+        {
+            _events.Publish(args);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MiSharp.Core.Repository
 {
     public class MediaRepository : RepositoryBase
     {
-        public delegate void FileFoundEventHandler(FileStatEventargs e);
+        public delegate void FileFoundEventHandler(FileStatEventArgs e);
 
         public delegate void ScanCompletedEventHandler();
 
@@ -67,10 +67,10 @@ namespace MiSharp.Core.Repository
                                        .ToArray();
 
             Int64 count = files.Count();
-            for (int index = 0; index < files.Length; index++)
+            for (int index = 1; index <= files.Length; index++)
             {
-                FileInfo file = files[index];
-                FileFound(new FileStatEventargs {File = file, CurrentFileNumber = index, TotalFiles = count});
+                FileInfo file = files[index-1];
+                FileFound(new FileStatEventArgs {File = file, CurrentFileNumber = index, TotalFiles = count});
                 try
                 {
                     var tag = new Song(file.FullName);

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Threading.Tasks;
 using Caliburn.Micro;
 using MiSharp.Core;
 using MiSharp.Core.Library;
@@ -10,7 +9,7 @@ using MiSharp.Core.Repository;
 namespace MiSharp
 {
     [Export(typeof (LibraryViewModel))]
-    public class LibraryViewModel : PropertyChangedBase
+    public class LibraryViewModel : PropertyChangedBase, IHandle<FileStatEventArgs>
     {
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
@@ -21,6 +20,7 @@ namespace MiSharp
         public LibraryViewModel(IEventAggregator events, IWindowManager windowManager)
         {
             _events = events;
+            _events.Subscribe(this);
             _windowManager = windowManager;
         }
 
@@ -99,18 +99,18 @@ namespace MiSharp
             return MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(null, SelectedAlbum.Name)).ToList();
         }
 
+        #region TagEditor
+
         public void EditorEditAlbums()
         {
-            if (SelectedAlbum == null) return;
-
-            _windowManager.ShowDialog(new AlbumTagEditorViewModel(GetSongsByAlbum()));
+            if (SelectedAlbum != null)
+                _windowManager.ShowDialog(new AlbumTagEditorViewModel(GetSongsByAlbum()));
         }
 
         public void EditorEditArtists()
         {
-            if (SelectedBand == null) return;
-
-            _windowManager.ShowDialog(new ArtistTagEditorViewModel(GetSongsByArtist()));
+            if (SelectedBand != null)
+                _windowManager.ShowDialog(new ArtistTagEditorViewModel(GetSongsByArtist()));
         }
 
         public void EditorEditSongs()
@@ -119,23 +119,18 @@ namespace MiSharp
                 _windowManager.ShowDialog(new SongTagEditorViewModel(new List<Song> {SelectedSong}));
         }
 
-        public void RescanLibrary()
-        {
-            MediaRepository.Instance.Recreate();
-            MediaRepository.Instance.ScanCompleted += Instance_ScanCompleted;
-            MediaRepository.Instance.FileFound += Instance_FileFound;
-            Task.Run(() => MediaRepository.Instance.Rescan());
-        }
+        #endregion
 
-        private void Instance_FileFound(FileStatEventargs e)
+        #region IHandle
+
+        public void Handle(FileStatEventArgs e)
         {
             Status = e.CurrentFileNumber + ":" + e.TotalFiles;
             NotifyOfPropertyChange(() => Status);
+            if (e.Completed)
+                NotifyOfPropertyChange(() => Bands);
         }
 
-        private void Instance_ScanCompleted()
-        {
-            NotifyOfPropertyChange(() => Bands);
-        }
+        #endregion
     }
 }
