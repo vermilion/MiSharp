@@ -3,11 +3,12 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using MiSharp.Core;
 using MiSharp.Core.Player;
+using ReactiveUI;
 
 namespace MiSharp
 {
     [Export]
-    public class PlayerViewModel : PropertyChangedBase, IHandle<Song>
+    public class PlayerViewModel : ReactiveObject, IHandle<Song>
     {
         private readonly IEventAggregator _events;
         private readonly PlaylistViewModel _playlistViewModel;
@@ -38,8 +39,7 @@ namespace MiSharp
             get { return _isPlaying; }
             set
             {
-                _isPlaying = value;
-                NotifyOfPropertyChange(() => IsPlaying);
+                this.RaiseAndSetIfChanged(ref _isPlaying, value);
             }
         }
 
@@ -128,8 +128,7 @@ namespace MiSharp
             get { return _maximum; }
             set
             {
-                _maximum = value;
-                NotifyOfPropertyChange(() => Maximum);
+                this.RaiseAndSetIfChanged(ref _maximum, value);
             }
         }
 
@@ -138,8 +137,7 @@ namespace MiSharp
             get { return _positionValue; }
             set
             {
-                _positionValue = value;
-                NotifyOfPropertyChange(() => PositionValue);
+                this.RaiseAndSetIfChanged(ref _positionValue, value);
             }
         }
 
@@ -148,8 +146,7 @@ namespace MiSharp
             get { return _tickFrequency; }
             set
             {
-                _tickFrequency = value;
-                NotifyOfPropertyChange(() => TickFrequency);
+                this.RaiseAndSetIfChanged(ref _tickFrequency, value);
             }
         }
 
@@ -158,8 +155,7 @@ namespace MiSharp
             get { return _totalTime; }
             set
             {
-                _totalTime = value;
-                NotifyOfPropertyChange(() => TotalTime);
+                this.RaiseAndSetIfChanged(ref _totalTime, value);
             }
         }
 
@@ -169,8 +165,7 @@ namespace MiSharp
             get { return _currentTime; }
             set
             {
-                _currentTime = value;
-                NotifyOfPropertyChange(() => CurrentTime);
+                this.RaiseAndSetIfChanged(ref _currentTime, value);
             }
         }
 
@@ -179,9 +174,8 @@ namespace MiSharp
             get { return _volume; }
             set
             {
-                _volume = value;
+                this.RaiseAndSetIfChanged(ref _volume, value);
                 Player.Volume = value;
-                NotifyOfPropertyChange(() => Volume);
             }
         }
 

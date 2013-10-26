@@ -3,11 +3,12 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using MiSharp.Core;
 using Rareform.Collections;
+using ReactiveUI;
 
 namespace MiSharp
 {
     [Export]
-    public class PlaylistViewModel : PropertyChangedBase, IHandle<List<Song>>
+    public class PlaylistViewModel : ReactiveObject, IHandle<List<Song>>
     {
         private readonly IEventAggregator _events;
         private Song _currentSong;
@@ -28,8 +29,7 @@ namespace MiSharp
             get { return _songs; }
             set
             {
-                _songs = value;
-                NotifyOfPropertyChange(() => Songs);
+                this.RaiseAndSetIfChanged(ref _songs, value);
             }
         }
 
@@ -38,8 +38,7 @@ namespace MiSharp
             get { return _currentSongIndex; }
             set
             {
-                _currentSongIndex = value;
-                NotifyOfPropertyChange(() => CurrentSongIndex);
+                this.RaiseAndSetIfChanged(ref _currentSongIndex, value);
             }
         }
 
@@ -48,8 +47,7 @@ namespace MiSharp
             get { return _currentSong; }
             set
             {
-                _currentSong = value;
-                NotifyOfPropertyChange(() => CurrentSong);
+                this.RaiseAndSetIfChanged(ref _currentSong, value);
             }
         }
 

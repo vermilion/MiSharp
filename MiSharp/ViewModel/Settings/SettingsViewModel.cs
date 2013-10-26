@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Caliburn.Micro.ReactiveUI;
 using MiSharp.Core;
 using MiSharp.Core.Library;
 using MiSharp.Core.Player.Output;
 using MiSharp.Core.Repository;
+using ReactiveUI;
 
 namespace MiSharp
 {
     [Export(typeof (SettingsViewModel))]
-    public class SettingsViewModel : Screen
+    public class SettingsViewModel : ReactiveScreen
     {
         private readonly IEventAggregator _events;
         private IOutputDevicePlugin _outSettingsViewModel;
@@ -30,8 +32,7 @@ namespace MiSharp
             get { return Settings.Instance.WatchFolder; }
             set
             {
-                Settings.Instance.WatchFolder = value;
-                NotifyOfPropertyChange(() => MediaPath);
+                this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolder, value);
             }
         }
 
@@ -40,8 +41,7 @@ namespace MiSharp
             get { return Settings.Instance.WatchFolderScanInterval; }
             set
             {
-                Settings.Instance.WatchFolderScanInterval = value;
-                NotifyOfPropertyChange(() => RescanTimeout);
+                this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolderScanInterval, value);
             }
         }
 
@@ -50,8 +50,7 @@ namespace MiSharp
             get { return string.Join(",", Settings.Instance.FileFormats); }
             set
             {
-                Settings.Instance.FileFormats = value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-                NotifyOfPropertyChange(() => RescanTimeout);
+                this.RaiseAndSetIfChanged(ref Settings.Instance.FileFormats, value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
             }
         }
 
@@ -63,8 +62,7 @@ namespace MiSharp
             get { return _outSettingsViewModel; }
             set
             {
-                _outSettingsViewModel = value;
-                NotifyOfPropertyChange(() => OutSettingsViewModel);
+                this.RaiseAndSetIfChanged(ref _outSettingsViewModel, value);
             }
         }
 
@@ -90,8 +88,7 @@ namespace MiSharp
                         break;
                 }
                 //TODO:save concrete driver settings
-                Settings.Instance.SelectedOutputDriver = value;
-                NotifyOfPropertyChange(() => SelectedOutputDriver);
+                this.RaiseAndSetIfChanged(ref Settings.Instance.SelectedOutputDriver, value);
             }
         }
 
@@ -100,8 +97,7 @@ namespace MiSharp
             get { return _requestedLatency; }
             set
             {
-                _requestedLatency = value;
-                NotifyOfPropertyChange(() => RequestedLatency);
+                this.RaiseAndSetIfChanged(ref _requestedLatency, value);
             }
         }
 
@@ -110,8 +106,7 @@ namespace MiSharp
             get { return Settings.Instance.RequestedLatency; }
             set
             {
-                Settings.Instance.RequestedLatency = value;
-                NotifyOfPropertyChange(() => SelectedLatency);
+                this.RaiseAndSetIfChanged(ref Settings.Instance.RequestedLatency, value);
             }
         }
 

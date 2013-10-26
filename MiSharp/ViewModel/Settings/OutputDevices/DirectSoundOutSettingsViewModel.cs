@@ -4,12 +4,13 @@ using System.Linq;
 using Caliburn.Micro;
 using MiSharp.Core.Player.Output;
 using NAudio.Wave;
+using ReactiveUI;
 
 namespace MiSharp
 {
     [Export(typeof (DirectSoundOutSettingsViewModel))]
     [Export(typeof (IOutputDevicePlugin))]
-    public class DirectSoundOutSettingsViewModel : PropertyChangedBase, IOutputDevicePlugin
+    public class DirectSoundOutSettingsViewModel : ReactiveObject, IOutputDevicePlugin
     {
         private readonly bool _isAvailable;
         private List<DirectSoundDeviceInfo> _devices = new List<DirectSoundDeviceInfo>();
@@ -28,8 +29,7 @@ namespace MiSharp
             get { return _devices; }
             set
             {
-                _devices = value;
-                NotifyOfPropertyChange(() => Devices);
+                this.RaiseAndSetIfChanged(ref _devices, value);
             }
         }
 
@@ -38,8 +38,7 @@ namespace MiSharp
             get { return _selectedDevice; }
             set
             {
-                _selectedDevice = value;
-                NotifyOfPropertyChange(() => SelectedDevice);
+                this.RaiseAndSetIfChanged(ref _selectedDevice, value);
             }
         }
 

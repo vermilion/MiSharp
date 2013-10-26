@@ -6,12 +6,13 @@ using System.Windows;
 using Caliburn.Micro;
 using MiSharp.Core.Player.Output;
 using NAudio.Wave;
+using ReactiveUI;
 
 namespace MiSharp
 {
     [Export(typeof (AsioOutSettingsViewModel))]
     [Export(typeof (IOutputDevicePlugin))]
-    public class AsioOutSettingsViewModel : PropertyChangedBase, IOutputDevicePlugin
+    public class AsioOutSettingsViewModel : ReactiveObject, IOutputDevicePlugin
     {
         private List<string> _asioDrivers;
 
@@ -25,8 +26,7 @@ namespace MiSharp
             get { return _asioDrivers; }
             set
             {
-                _asioDrivers = value;
-                NotifyOfPropertyChange(() => AsioDrivers);
+                this.RaiseAndSetIfChanged(ref _asioDrivers, value);
             }
         }
 

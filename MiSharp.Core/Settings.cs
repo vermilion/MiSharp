@@ -21,15 +21,15 @@ namespace MiSharp.Core
             get { return _settings ?? (_settings = LoadSettings()); }
         }
 
-        public int WatchFolderScanInterval { get; set; }
+        public int WatchFolderScanInterval;
 
-        public string WatchFolder { get; set; }
+        public string WatchFolder;
 
-        public string[] FileFormats { get; set; }
+        public string[] FileFormats;
 
-        public IOutputDevicePlugin SelectedOutputDriver { get; set; }
+        public IOutputDevicePlugin SelectedOutputDriver;
 
-        public int RequestedLatency { get; set; }
+        public int RequestedLatency;
 
         private static Settings LoadSettings()
         {

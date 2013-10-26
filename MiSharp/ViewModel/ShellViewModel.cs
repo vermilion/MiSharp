@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using Caliburn.Micro.ReactiveUI;
+using ReactiveUI;
 
 namespace MiSharp
 {
     [Export]
-    public class ShellViewModel : Screen, IShellViewModel
+    public class ShellViewModel : ReactiveScreen, IShellViewModel
     {
         private readonly IWindowManager _windowManager;
         private bool _isSettingsFlyoutOpen;
@@ -34,8 +36,7 @@ namespace MiSharp
             get { return _isSettingsFlyoutOpen; }
             set
             {
-                _isSettingsFlyoutOpen = value;
-                NotifyOfPropertyChange(() => IsSettingsFlyoutOpen);
+                this.RaiseAndSetIfChanged(ref _isSettingsFlyoutOpen, value);
             }
         }
 

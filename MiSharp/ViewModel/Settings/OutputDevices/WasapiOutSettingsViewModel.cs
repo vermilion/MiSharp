@@ -6,12 +6,13 @@ using Caliburn.Micro;
 using MiSharp.Core.Player.Output;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
+using ReactiveUI;
 
 namespace MiSharp
 {
     [Export(typeof (WasapiOutSettingsViewModel))]
     [Export(typeof (IOutputDevicePlugin))]
-    public class WasapiOutSettingsViewModel : PropertyChangedBase, IOutputDevicePlugin
+    public class WasapiOutSettingsViewModel : ReactiveObject, IOutputDevicePlugin
     {
         private List<MMDevice> _devices = new List<MMDevice>();
         private MMDevice _selectedDevice;
@@ -35,8 +36,7 @@ namespace MiSharp
             get { return _devices; }
             set
             {
-                _devices = value;
-                NotifyOfPropertyChange(() => Devices);
+                this.RaiseAndSetIfChanged(ref _devices, value);
             }
         }
 
@@ -45,8 +45,7 @@ namespace MiSharp
             get { return _selectedDevice; }
             set
             {
-                _selectedDevice = value;
-                NotifyOfPropertyChange(() => SelectedDevice);
+                this.RaiseAndSetIfChanged(ref _selectedDevice, value);
             }
         }
 
@@ -56,8 +55,7 @@ namespace MiSharp
             get { return _shareMode; }
             set
             {
-                _shareMode = value;
-                NotifyOfPropertyChange(() => ShareMode);
+                this.RaiseAndSetIfChanged(ref _shareMode, value);
             }
         }
 
@@ -66,8 +64,7 @@ namespace MiSharp
             get { return _useEventCallback; }
             set
             {
-                _useEventCallback = value;
-                NotifyOfPropertyChange(() => UseEventCallback);
+                this.RaiseAndSetIfChanged(ref _useEventCallback, value);
             }
         }
 
