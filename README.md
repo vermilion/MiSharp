@@ -4,6 +4,7 @@ Just teaching self some WPF technologies and frameworks to make audio player wit
 
 Used stuff"
 - Caliburn.Micro
+- ReactiveUI
 - MahApps.Metro
 - NAudio
 - Db4o

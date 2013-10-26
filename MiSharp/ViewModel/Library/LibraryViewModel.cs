@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using MiSharp.Core;
 using MiSharp.Core.Library;
 using MiSharp.Core.Repository;
+using Rareform.Extensions;
 
 namespace MiSharp
 {
@@ -14,7 +15,7 @@ namespace MiSharp
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
         private Album _selectedAlbum;
-        private string _selectedBand;
+        private ArtistViewModel _selectedBand;
 
         [ImportingConstructor]
         public LibraryViewModel(IEventAggregator events, IWindowManager windowManager)
@@ -26,7 +27,7 @@ namespace MiSharp
 
         public string Status { get; set; }
 
-        public string SelectedBand
+        public ArtistViewModel SelectedBand
         {
             get { return _selectedBand; }
             set
@@ -50,9 +51,9 @@ namespace MiSharp
             }
         }
 
-        public IEnumerable<string> Bands
+        public IEnumerable<ArtistViewModel> Bands
         {
-            get { return MediaRepository.Instance.GetAllBands(); }
+            get { return MediaRepository.Instance.GetAllBands().OrderBy(x=>x).Select(x => new ArtistViewModel(x)); }
         }
 
         public IEnumerable<Album> Albums
@@ -60,7 +61,7 @@ namespace MiSharp
             get
             {
                 if (SelectedBand == null) return new List<Album>();
-                return MediaRepository.Instance.GetAllAlbums(SelectedBand);
+                return MediaRepository.Instance.GetAllAlbums(SelectedBand.Name);
             }
         }
 
@@ -70,7 +71,7 @@ namespace MiSharp
             {
                 if (SelectedBand == null || SelectedAlbum == null) return new List<Song>();
                 return
-                    MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand, SelectedAlbum.Name));
+                    MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand.Name, SelectedAlbum.Name));
             }
         }
 
@@ -91,7 +92,7 @@ namespace MiSharp
 
         private List<Song> GetSongsByArtist()
         {
-            return MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand, null)).ToList();
+            return MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand.Name, null)).ToList();
         }
 
         private List<Song> GetSongsByAlbum()

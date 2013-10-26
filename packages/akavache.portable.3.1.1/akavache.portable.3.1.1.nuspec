@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>akavache.portable</id>
+    <version>3.1.1</version>
+    <title>Akavache.Portable</title>
+    <authors>GitHub</authors>
+    <owners>GitHub</owners>
+    <licenseUrl>https://github.com/github/Akavache/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/github/Akavache</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An asynchronous, persistent key-value store for desktop and mobile applications on .NET</description>
+    <summary>An asynchronous, persistent key-value store for desktop and mobile applications on .NET</summary>
+    <copyright>Copyright GitHub© 2012</copyright>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="5.0.5" />
+      <dependency id="reactiveui-core" version="5.2.0" />
+    </dependencies>
+  </metadata>
+</package>

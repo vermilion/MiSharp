@@ -9,6 +9,9 @@
                               mc:Ignorable="d" d:DesignHeight="60" d:DesignWidth="670">
     <Grid Margin="0,5,0,0">
         <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Top">
+            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
+                    ToolTip="Stop" HorizontalAlignment="Left" Width="50"
+                    cal:Message.Attach="[Event Click] = [Action PlayPrev()];" />
             <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" FontFamily="Webdings"
                     HorizontalAlignment="Left" Width="50">
                 <Button.Style>
@@ -28,12 +31,6 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="&lt;" FontFamily="Webdings"
-                    ToolTip="Stop" HorizontalAlignment="Left" Width="50"
-                    cal:Message.Attach="[Event Click] = [Action StopClick()];" />
-            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
-                    ToolTip="Stop" HorizontalAlignment="Left" Width="50"
-                    cal:Message.Attach="[Event Click] = [Action PlayPrev()];" />
             <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
                     ToolTip="Stop" HorizontalAlignment="Left" Width="50"
                     cal:Message.Attach="[Event Click] = [Action PlayNext()];" />

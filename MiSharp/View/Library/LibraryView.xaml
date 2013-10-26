@@ -6,42 +6,31 @@
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:miSharp="clr-namespace:MiSharp"
     x:Class="MiSharp.LibraryView"
-    mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="350">
+    mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
+    <controls:MetroContentControl.Resources>
+        <ResourceDictionary>
+            <miSharp:FirstLetterConverter x:Key="firstLetterConverter" />
+            <CollectionViewSource Source="{Binding Bands}" x:Key="GroupedBands">
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Name" Converter="{StaticResource firstLetterConverter}"/>
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+
+        </ResourceDictionary>
+    </controls:MetroContentControl.Resources>
     <Grid>
-        <ListBox ItemsSource="{Binding Songs}" SelectionMode="Single" SelectedItem="{Binding SelectedSong}"
-                 Margin="177,193,10,10">
-            <ListBox.ContextMenu>
+        <ListView ItemsSource="{Binding Songs}" SelectionMode="Single" SelectedItem="{Binding SelectedSong}"
+                 Margin="254,193,10,10">
+            <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add to Now Playing" Visibility="Visible">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="AddSongToPlaylist" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </MenuItem>
-                    <MenuItem Header="Replace now playing with selection" Visibility="Hidden" />
+                    <MenuItem Header="Add to Now Playing" Visibility="Visible" cal:Message.Attach="[Event Click] = [Action AddSongToPlaylist()]"/>
                     <Separator />
-                    <MenuItem Header="Playlists" Visibility="Hidden">
-                        <MenuItem Header="Add to New Playlist" />
-                        <MenuItem Header="Add to Playlist" />
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Edit Song Information">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="EditorEditSongs" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Delete" Visibility="Hidden">
-                        <MenuItem Header="Delete from Library" />
-                        <MenuItem Header="Delete from Library and Computer" />
-                    </MenuItem>
+                    <MenuItem Header="Edit Song Information" cal:Message.Attach="[Event Click] = [Action EditorEditSongs()]"/>
                 </ContextMenu>
-            </ListBox.ContextMenu>
-            <ListBox.ItemTemplate>
+            </ListView.ContextMenu>
+            <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Margin="0,0,0,0">
                         <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center"
@@ -53,57 +42,13 @@
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ListView.ItemTemplate>
+        </ListView>
 
-        <ListBox ItemsSource="{Binding Bands}" SelectedItem="{Binding SelectedBand}" Margin="10,10,0,10"
-                 HorizontalAlignment="Left" Width="162">
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Add to Now Playing" Visibility="Visible">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="AddArtistToPlaylist" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </MenuItem>
-                    <MenuItem Header="Replace now playing with selection" Visibility="Hidden" />
-                    <Separator />
-                    <MenuItem Header="Playlists" Visibility="Hidden">
-                        <MenuItem Header="Add to New Playlist" />
-                        <MenuItem Header="Add to Playlist" />
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Edit Artist Information">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="EditorEditArtists" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Delete" Visibility="Hidden">
-                        <MenuItem Header="Delete from Library" />
-                        <MenuItem Header="Delete from Library and Computer" />
-                    </MenuItem>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
-                        <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center"
-                                    HorizontalAlignment="Left">
-                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding}" />
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <ListBox ItemsSource="{Binding Albums}" SelectedItem="{Binding SelectedAlbum}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="177,10,10,0" Height="178"
+        <ListView ItemsSource="{Binding Albums}" SelectedItem="{Binding SelectedAlbum}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="254,10,10,0" Height="178"
                  VerticalAlignment="Top">
-            <ListBox.ContextMenu>
+            <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add to Now Playing" Visibility="Visible">
                         <i:Interaction.Triggers>
@@ -132,12 +77,12 @@
                         <MenuItem Header="Delete from Library and Computer" />
                     </MenuItem>
                 </ContextMenu>
-            </ListBox.ContextMenu>
-            <ListBox.ItemsPanel>
+            </ListView.ContextMenu>
+            <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel IsItemsHost="True" ItemWidth="300" />
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+            </ListView.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="280">
@@ -150,6 +95,75 @@
                     </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListView>
+        <ListView ItemsSource="{Binding Source={StaticResource GroupedBands}}" SelectedItem="{Binding SelectedBand}" HorizontalAlignment="Left" Margin="10,10,0,10" Width="239">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add to Now Playing" Visibility="Visible">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="AddArtistToPlaylist" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                    <MenuItem Header="Replace now playing with selection" Visibility="Hidden" />
+                    <Separator />
+                    <MenuItem Header="Playlists" Visibility="Hidden">
+                        <MenuItem Header="Add to New Playlist" />
+                        <MenuItem Header="Add to Playlist" />
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Edit Artist Information">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="EditorEditArtists" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Delete" Visibility="Hidden">
+                        <MenuItem Header="Delete from Library" />
+                        <MenuItem Header="Delete from Library and Computer" />
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="GroupItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" FontSize="13" Text="{Binding Path=Name}" Background="#FFB9B9B9" Foreground="White" />
+                                            <ItemsPresenter/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
+                        <Image Source="{Binding Cover}" Width="40" Height="40"/>
+                        <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left">
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}" />
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} songs / {1} albums">
+                                        <Binding Path="SongsCount" />
+                                        <Binding Path="AlbumsCount" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </controls:MetroContentControl>

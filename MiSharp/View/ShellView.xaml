@@ -6,7 +6,7 @@
                       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                       xmlns:cal="http://www.caliburnproject.org"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      Width="800" Height="600" WindowStartupLocation="CenterScreen" Icon="/MiSharp;component/Music.ico">
+                      Width="900" Height="700" WindowStartupLocation="CenterScreen" Icon="/MiSharp;component/Music.ico">
     <controls:MetroWindow.WindowCommands>
         <controls:WindowCommands>
             <Button Content="settings" cal:Message.Attach="OpenSettings" />
@@ -42,14 +42,15 @@
         <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         x:Name="PlayerViewModel" Grid.Row="0" HorizontalAlignment="Center" />
         <TabControl Grid.Row="1" Padding="15, 0, 15, 0">
+            <TabItem Header="Now Playing">
+                <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                x:Name="PlaylistViewModel" />
+            </TabItem>
             <TabItem Header="Library">
                 <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                 x:Name="LibraryViewModel" Grid.Row="1" />
             </TabItem>
-            <TabItem Header="Playlist">
-                <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                                x:Name="PlaylistViewModel" />
-            </TabItem>
+            <TabItem Header="Playlists"/>
         </TabControl>
 
 
