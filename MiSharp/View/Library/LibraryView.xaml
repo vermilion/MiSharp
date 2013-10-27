@@ -96,18 +96,14 @@
                                 <Button HorizontalAlignment="Center" Content="Add to now playing" >
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <cal:ActionMessage MethodName="AddAlbumToPlaylistNew">
-                                                <cal:Parameter Value="{Binding ElementName=LblName, Path=Text}" />
-                                            </cal:ActionMessage>
+                                            <cal:ActionMessage MethodName="AddAlbumToPlaylist"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
                                 <Button HorizontalAlignment="Center" Content="Edit album tags">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <cal:ActionMessage MethodName="EditorEditAlbumsNew">
-                                                <cal:Parameter Value="{Binding ElementName=LblName, Path=Text}" />
-                                            </cal:ActionMessage>
+                                            <cal:ActionMessage MethodName="EditorEditAlbumsNew"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>

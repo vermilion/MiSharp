@@ -86,7 +86,7 @@ namespace MiSharp
             _events.Publish(new List<Song> { SelectedSong });
         }
 
-        public void EditorEditAlbumsNew(string albumName)
+        public void EditorEditAlbumsNew()
         {
             _windowManager.ShowDialog(new AlbumTagEditorViewModel(Songs.ToList()));
         }
