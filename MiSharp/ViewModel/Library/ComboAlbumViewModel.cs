@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
@@ -7,6 +9,7 @@ using MiSharp.Core;
 using MiSharp.Core.Library;
 using MiSharp.Core.Repository;
 using ReactiveUI;
+using File = TagLib.File;
 
 namespace MiSharp
 {
@@ -26,6 +29,8 @@ namespace MiSharp
         {
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
+
+            _cover = new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/Music.ico"));
         }
 
         #region Properties
@@ -44,7 +49,29 @@ namespace MiSharp
 
         public BitmapSource Cover
         {
-            get { return _cover; }
+            get
+            {
+                var item = Songs.FirstOrDefault();
+                if (item != null)
+                {
+                    File file = File.Create(item.OriginalPath);
+                    if (file.Tag.Pictures.Any())
+                    {
+                        var pic = file.Tag.Pictures[0];
+                        var ms = new MemoryStream(pic.Data.Data);
+                        
+                            ms.Seek(0, SeekOrigin.Begin);
+
+                            var bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.StreamSource = ms;
+                        
+                        bitmap.EndInit();
+                        _cover = bitmap;
+                    }
+                }
+                return _cover;
+            }
             set { this.RaiseAndSetIfChanged(ref _cover, value); }
         }
 
@@ -53,6 +80,7 @@ namespace MiSharp
             get { return _year; }
             set { this.RaiseAndSetIfChanged(ref _year, value); }
         }
+        
 
         //TODO: multiple
         public ObservableCollection<Song> SelectedSongs { get; set; }

@@ -6,9 +6,9 @@
                               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                               xmlns:cal="http://www.caliburnproject.org" xmlns:miSharp="clr-namespace:MiSharp"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d" d:DesignWidth="670" Height="82">
-    <Grid Margin="0,5,0,0">
-        <Grid Margin="0" VerticalAlignment="Top">
+                              mc:Ignorable="d" d:DesignWidth="670" d:DesignHeight="85">
+    <Grid>
+        <Grid VerticalAlignment="Top">
             <Button Margin="10,0,0,0" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
                     ToolTip="Stop" HorizontalAlignment="Left" Width="50"
                     cal:Message.Attach="[Event Click] = [Action PlayPrev()];" />
@@ -57,6 +57,6 @@
                                           cal:Message.Attach="[Event ThumbDragStarted] = [Action Dragging(1)]; [Event ThumbDragCompleted] = [Action ChangePosition(PositionSlider.Value)]; [Event ThumbDragCompleted] = [Action Dragging(0)];"
                                           Maximum="{Binding Maximum}"
                                           VerticalAlignment="Center"
-                                          Height="Auto" Margin="0,50,0,2" />
+                                          Height="Auto" Margin="0,63,0,4" />
     </Grid>
 </controls:MetroContentControl>

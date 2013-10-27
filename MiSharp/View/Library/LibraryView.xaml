@@ -1,4 +1,4 @@
-﻿<controls:MetroContentControl x:Name="Root"
+﻿<controls:MetroContentControl 
                               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -82,7 +82,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <ScrollViewer Margin="254,10,10,10">
-            <ItemsControl ItemsSource="{Binding ComboAlbums}">
+            <ItemsControl ItemsSource="{Binding ComboAlbums, IsAsync=True}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel />
@@ -108,11 +108,11 @@
                                     </i:Interaction.Triggers>
                                 </Button>
                                 <Image Height="100" HorizontalAlignment="Center" Width="100"
-                                       Source="/MiSharp;component/Music.ico" />
+                                       Source="{Binding Cover}" />
                                 <Label HorizontalAlignment="Center" Content="{Binding Year}" />                              
                             </StackPanel>
                             <ListView
-                                ItemsSource="{Binding Songs}" SelectedItem="{Binding SelectedSong}"
+                                ItemsSource="{Binding Songs, IsAsync=True}" SelectedItem="{Binding SelectedSong}"
                                 HorizontalAlignment="Left" Margin="175,10,0,0" VerticalAlignment="Top">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
