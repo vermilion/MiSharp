@@ -6,12 +6,13 @@
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800">
     <TabControl Padding="15, 0, 15, 0">
-        <!--TabItem Header="appearance">
+        <TabItem Header="appearance">
             <ContentControl Name="SettingsAppearanceViewModel" />
-        </TabItem-->
+        </TabItem>
         <TabItem Header="settings">
             <ContentControl Name="SettingsViewModel" />
         </TabItem>
+
         <TabItem Header="about">
             <StackPanel />
         </TabItem>

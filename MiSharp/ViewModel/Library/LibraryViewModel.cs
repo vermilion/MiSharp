@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using MiSharp.Core;
 using MiSharp.Core.Library;
 using MiSharp.Core.Repository;
-using Rareform.Extensions;
 
 namespace MiSharp
 {
     [Export(typeof (LibraryViewModel))]
     public class LibraryViewModel : PropertyChangedBase, IHandle<FileStatEventArgs>
     {
-        private readonly IEventAggregator _events;
+        public readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
         private Album _selectedAlbum;
         private ArtistViewModel _selectedBand;
@@ -53,7 +53,7 @@ namespace MiSharp
 
         public IEnumerable<ArtistViewModel> Bands
         {
-            get { return MediaRepository.Instance.GetAllBands().OrderBy(x=>x).Select(x => new ArtistViewModel(x)); }
+            get { return MediaRepository.Instance.GetAllBands().OrderBy(x => x).Select(x => new ArtistViewModel(x)); }
         }
 
         public IEnumerable<Album> Albums
@@ -62,6 +62,15 @@ namespace MiSharp
             {
                 if (SelectedBand == null) return new List<Album>();
                 return MediaRepository.Instance.GetAllAlbums(SelectedBand.Name);
+            }
+        }
+
+        public IEnumerable<Song> SongsAll
+        {
+            get
+            {
+                IEnumerable<Song> list = MediaRepository.Instance.GetAllSongsFiltered(new TagFilter("Hurt", "The Crux"));
+                return list;
             }
         }
 
@@ -85,6 +94,16 @@ namespace MiSharp
             _events.Publish(GetSongsByAlbum());
         }
 
+        public void AddAlbumToPlaylistNew(string albumName)
+        {
+            _events.Publish(GetSongsByAlbumNew(albumName));
+        }
+
+        public List<Song> GetSongsByAlbumNew(string albumName)
+        {
+            return MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(null, albumName)).ToList();
+        }
+
         public void AddSongToPlaylist()
         {
             _events.Publish(new List<Song> {SelectedSong});
@@ -100,12 +119,18 @@ namespace MiSharp
             return MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(null, SelectedAlbum.Name)).ToList();
         }
 
+
         #region TagEditor
 
         public void EditorEditAlbums()
         {
             if (SelectedAlbum != null)
                 _windowManager.ShowDialog(new AlbumTagEditorViewModel(GetSongsByAlbum()));
+        }
+
+        public void EditorEditAlbumsNew(string albumName)
+        {
+            _windowManager.ShowDialog(new AlbumTagEditorViewModel(GetSongsByAlbumNew(albumName)));
         }
 
         public void EditorEditArtists()

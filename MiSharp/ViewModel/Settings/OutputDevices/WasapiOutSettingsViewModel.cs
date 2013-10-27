@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Caliburn.Micro;
 using MiSharp.Core.Player.Output;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
@@ -34,38 +33,26 @@ namespace MiSharp
         public List<MMDevice> Devices
         {
             get { return _devices; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _devices, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _devices, value); }
         }
 
         public MMDevice SelectedDevice
         {
             get { return _selectedDevice; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _selectedDevice, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _selectedDevice, value); }
         }
 
         //TODO: bind to AudioClientShareMode enum
         public bool ShareMode
         {
             get { return _shareMode; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _shareMode, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _shareMode, value); }
         }
 
         public bool UseEventCallback
         {
             get { return _useEventCallback; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _useEventCallback, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _useEventCallback, value); }
         }
 
         public IWavePlayer CreateDevice(int latency)

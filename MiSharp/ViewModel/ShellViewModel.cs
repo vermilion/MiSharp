@@ -5,7 +5,7 @@ using ReactiveUI;
 
 namespace MiSharp
 {
-    [Export]
+    [Export(typeof(ShellViewModel))]
     public class ShellViewModel : ReactiveScreen, IShellViewModel
     {
         private readonly IWindowManager _windowManager;
@@ -34,10 +34,7 @@ namespace MiSharp
         public bool IsSettingsFlyoutOpen
         {
             get { return _isSettingsFlyoutOpen; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _isSettingsFlyoutOpen, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _isSettingsFlyoutOpen, value); }
         }
 
         public void OpenSettings()

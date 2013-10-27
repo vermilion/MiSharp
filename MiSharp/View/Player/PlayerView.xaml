@@ -6,13 +6,13 @@
                               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                               xmlns:cal="http://www.caliburnproject.org" xmlns:miSharp="clr-namespace:MiSharp"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d" d:DesignHeight="60" d:DesignWidth="670">
+                              mc:Ignorable="d" d:DesignWidth="670" Height="82">
     <Grid Margin="0,5,0,0">
-        <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Top">
-            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
+        <Grid Margin="0" VerticalAlignment="Top">
+            <Button Margin="10,0,0,0" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
                     ToolTip="Stop" HorizontalAlignment="Left" Width="50"
                     cal:Message.Attach="[Event Click] = [Action PlayPrev()];" />
-            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" FontFamily="Webdings"
+            <Button Margin="65,0,0,0" Height="50" FontSize="14" FontWeight="Bold" FontFamily="Webdings"
                     HorizontalAlignment="Left" Width="50">
                 <Button.Style>
                     <Style TargetType="Button">
@@ -31,34 +31,32 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Margin="5,0,5,0" Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
+            <Button Margin="120,0,0,0" Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
                     ToolTip="Stop" HorizontalAlignment="Left" Width="50"
                     cal:Message.Attach="[Event Click] = [Action PlayNext()];" />
             <!-- Seek Control -->
-            <TextBlock Margin="5,0,5,0" Foreground="Gray" VerticalAlignment="Center" FontSize="10">
-                <Run Text="Seek To" />
-            </TextBlock>
-            <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}"
-                                              TickFrequency="{Binding TickFrequency}"
-                                              cal:Message.Attach="[Event ThumbDragStarted] = [Action Dragging(1)]; [Event ThumbDragCompleted] = [Action ChangePosition(PositionSlider.Value)]; [Event ThumbDragCompleted] = [Action Dragging(0)];"
-                                              Maximum="{Binding Maximum}"
-                                              VerticalAlignment="Center" Width="223"
-                                              Height="Auto" Margin="5,0,5,0" />
-            <TextBlock Foreground="Gray" Margin="5,10.35,5,9.65" VerticalAlignment="Center" FontSize="10">
+            <TextBlock Foreground="Gray" Margin="586,19,10,18" VerticalAlignment="Center" FontSize="14">
                 <TextBlock.Text>
-                    <MultiBinding StringFormat=" {0}/{1}">
+                    <MultiBinding StringFormat="{}{0}/{1}">
                         <Binding Path="CurrentTime" />
                         <Binding Path="TotalTime" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
             <!-- Volume Control -->
-            <TextBlock Foreground="Gray" Margin="5,0,5,0" VerticalAlignment="Center" FontSize="10">
+            <TextBlock Foreground="Gray" Margin="193,21,0,21" VerticalAlignment="Center" FontSize="10"
+                       HorizontalAlignment="Left" Width="42">
                 <Run Text="Volume" />
             </TextBlock>
-            <miSharp:SliderWithDraggingEvents x:Name="VolumeSlider" Margin="5,0,5,0" VerticalAlignment="Center"
+            <miSharp:SliderWithDraggingEvents x:Name="VolumeSlider" Margin="240,19,350,19" VerticalAlignment="Center"
                                               Width="80" Height="Auto"
                                               Minimum="0" Maximum="1" Value="{Binding Volume}" />
-        </StackPanel>
+        </Grid>
+        <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}"
+                                          TickFrequency="{Binding TickFrequency}"
+                                          cal:Message.Attach="[Event ThumbDragStarted] = [Action Dragging(1)]; [Event ThumbDragCompleted] = [Action ChangePosition(PositionSlider.Value)]; [Event ThumbDragCompleted] = [Action Dragging(0)];"
+                                          Maximum="{Binding Maximum}"
+                                          VerticalAlignment="Center"
+                                          Height="Auto" Margin="0,50,0,2" />
     </Grid>
 </controls:MetroContentControl>

@@ -36,7 +36,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="65" />
+            <RowDefinition Height="85" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
@@ -50,7 +50,7 @@
                 <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                 x:Name="LibraryViewModel" Grid.Row="1" />
             </TabItem>
-            <TabItem Header="Playlists"/>
+            <TabItem Header="Playlists" />
         </TabControl>
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -7,14 +8,15 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Akavache;
 using ReactiveUI;
-using System.Linq;
 using Splat;
 
 namespace MiSharp
 {
     public class ArtistViewModel : ReactiveObject, IComparable<ArtistViewModel>, IEquatable<ArtistViewModel>
     {
-        private static readonly SemaphoreSlim Gate; // This gate is used to limit the I/O access when accessing the artwork cache to 1 item at a time
+        private static readonly SemaphoreSlim Gate;
+            // This gate is used to limit the I/O access when accessing the artwork cache to 1 item at a time
+
         private readonly Subject<IObservable<string>> artworkKeys;
         private readonly ObservableAsPropertyHelper<BitmapSource> cover;
 
@@ -27,7 +29,7 @@ namespace MiSharp
         {
             this.artworkKeys = new Subject<IObservable<string>>();
 
-            this.cover = this.artworkKeys
+            cover = this.artworkKeys
                 .Merge()
                 .Where(x => x != null)
                 .Distinct() // Ignore duplicate artworks
@@ -36,21 +38,21 @@ namespace MiSharp
                 .FirstOrDefaultAsync(pic => pic != null)
                 .ToProperty(this, x => x.Cover);
 
-            this.UpdateArtwork(artworkKeys);
+            UpdateArtwork(artworkKeys);
 
-            this.Name = artistName;
-            this.IsAllArtists = false;
+            Name = artistName;
+            IsAllArtists = false;
         }
 
         public ArtistViewModel(string allArtistsName)
         {
-            this.Name = allArtistsName;
-            this.IsAllArtists = true;
+            Name = allArtistsName;
+            IsAllArtists = true;
         }
 
         public BitmapSource Cover
         {
-            get { return this.cover == null ? null : this.cover.Value; }
+            get { return cover == null ? null : cover.Value; }
         }
 
         public bool IsAllArtists { get; private set; }
@@ -63,12 +65,12 @@ namespace MiSharp
 
         public int CompareTo(ArtistViewModel other)
         {
-            if (this.IsAllArtists && other.IsAllArtists)
+            if (IsAllArtists && other.IsAllArtists)
             {
                 return 0;
             }
 
-            if (this.IsAllArtists)
+            if (IsAllArtists)
             {
                 return -1;
             }
@@ -78,24 +80,25 @@ namespace MiSharp
                 return 1;
             }
 
-            var prefixes = new[] { "A", "The" };
+            var prefixes = new[] {"A", "The"};
 
-            return String.Compare(RemoveArtistPrefixes(this.Name, prefixes), RemoveArtistPrefixes(other.Name, prefixes), StringComparison.InvariantCultureIgnoreCase);
+            return String.Compare(RemoveArtistPrefixes(Name, prefixes), RemoveArtistPrefixes(other.Name, prefixes),
+                StringComparison.InvariantCultureIgnoreCase);
         }
 
         public bool Equals(ArtistViewModel other)
         {
-            return this.Name == other.Name;
+            return Name == other.Name;
         }
 
         public void UpdateArtwork(IEnumerable<IObservable<string>> keys)
         {
-            keys.ToList().ForEach(x => this.artworkKeys.OnNext(x));
+            keys.ToList().ForEach(x => artworkKeys.OnNext(x));
         }
 
         /// <example>
-        /// With prefixes "A" and "The":
-        /// "A Bar" -> "Bar", "The Foos" -> "Foos"
+        ///     With prefixes "A" and "The":
+        ///     "A Bar" -> "Bar", "The Foos" -> "Foos"
         /// </example>
         private static string RemoveArtistPrefixes(string artistName, IEnumerable<string> prefixes)
         {
@@ -103,7 +106,9 @@ namespace MiSharp
             {
                 int lengthWithSpace = s.Length + 1;
 
-                if (artistName.Length >= lengthWithSpace && artistName.Substring(0, lengthWithSpace).Equals(s + " ", StringComparison.InvariantCultureIgnoreCase))
+                if (artistName.Length >= lengthWithSpace &&
+                    artistName.Substring(0, lengthWithSpace)
+                        .Equals(s + " ", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return artistName.Substring(lengthWithSpace);
                 }

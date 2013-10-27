@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
-using Caliburn.Micro;
 using MiSharp.Core.Player.Output;
 using NAudio.Wave;
 using ReactiveUI;
@@ -24,10 +23,7 @@ namespace MiSharp
         public List<string> AsioDrivers
         {
             get { return _asioDrivers; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _asioDrivers, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _asioDrivers, value); }
         }
 
         public string SelectedDeviceName { get; set; }

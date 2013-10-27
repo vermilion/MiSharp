@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Caliburn.Micro;
 using MiSharp.Core.Player.Output;
 using NAudio.Wave;
 using ReactiveUI;
@@ -27,19 +26,13 @@ namespace MiSharp
         public List<DirectSoundDeviceInfo> Devices
         {
             get { return _devices; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _devices, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _devices, value); }
         }
 
         public DirectSoundDeviceInfo SelectedDevice
         {
             get { return _selectedDevice; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _selectedDevice, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _selectedDevice, value); }
         }
 
         public IWavePlayer CreateDevice(int latency)

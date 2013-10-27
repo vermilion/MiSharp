@@ -27,28 +27,19 @@ namespace MiSharp
         public ObservableList<Song> Songs
         {
             get { return _songs; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _songs, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _songs, value); }
         }
 
         public int CurrentSongIndex
         {
             get { return _currentSongIndex; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _currentSongIndex, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _currentSongIndex, value); }
         }
 
         public Song CurrentSong
         {
             get { return _currentSong; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _currentSong, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _currentSong, value); }
         }
 
         #region Triggers

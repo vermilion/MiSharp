@@ -30,19 +30,13 @@ namespace MiSharp
         public string MediaPath
         {
             get { return Settings.Instance.WatchFolder; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolder, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolder, value); }
         }
 
         public int RescanTimeout
         {
             get { return Settings.Instance.WatchFolderScanInterval; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolderScanInterval, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolderScanInterval, value); }
         }
 
         public string FileFormats
@@ -50,7 +44,8 @@ namespace MiSharp
             get { return string.Join(",", Settings.Instance.FileFormats); }
             set
             {
-                this.RaiseAndSetIfChanged(ref Settings.Instance.FileFormats, value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                this.RaiseAndSetIfChanged(ref Settings.Instance.FileFormats,
+                    value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
             }
         }
 
@@ -60,10 +55,7 @@ namespace MiSharp
         public IOutputDevicePlugin OutSettingsViewModel
         {
             get { return _outSettingsViewModel; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _outSettingsViewModel, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _outSettingsViewModel, value); }
         }
 
         public IOutputDevicePlugin SelectedOutputDriver
@@ -95,19 +87,13 @@ namespace MiSharp
         public List<int> RequestedLatency
         {
             get { return _requestedLatency; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _requestedLatency, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _requestedLatency, value); }
         }
 
         public int SelectedLatency
         {
             get { return Settings.Instance.RequestedLatency; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref Settings.Instance.RequestedLatency, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.RequestedLatency, value); }
         }
 
         public IEnumerable<IResult> SaveClick()

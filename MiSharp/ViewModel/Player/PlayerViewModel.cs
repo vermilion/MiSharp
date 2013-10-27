@@ -37,10 +37,7 @@ namespace MiSharp
         public bool IsPlaying
         {
             get { return _isPlaying; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _isPlaying, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _isPlaying, value); }
         }
 
         public void Handle(Song song)
@@ -126,47 +123,32 @@ namespace MiSharp
         public int Maximum
         {
             get { return _maximum; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _maximum, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _maximum, value); }
         }
 
         public double PositionValue
         {
             get { return _positionValue; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _positionValue, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _positionValue, value); }
         }
 
         public int TickFrequency
         {
             get { return _tickFrequency; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _tickFrequency, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _tickFrequency, value); }
         }
 
         public string TotalTime
         {
             get { return _totalTime; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _totalTime, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _totalTime, value); }
         }
 
 
         public string CurrentTime
         {
             get { return _currentTime; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _currentTime, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _currentTime, value); }
         }
 
         public float Volume

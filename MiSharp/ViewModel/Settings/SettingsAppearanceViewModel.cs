@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Caliburn.Micro;
+using MahApps.Metro;
 
 namespace MiSharp
 {
@@ -8,7 +10,7 @@ namespace MiSharp
     {
         public void ChangeAccentColor(string color)
         {
-            //         Settings.Default.AccentColor =
+            ThemeManager.ChangeTheme( IoC.Get<ShellView>(), ThemeManager.DefaultAccents.First(accent => accent.Name == color), Theme.Dark);
         }
     }
 }

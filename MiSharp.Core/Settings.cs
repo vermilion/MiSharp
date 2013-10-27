@@ -9,6 +9,13 @@ namespace MiSharp.Core
     {
         private static Settings _settings;
 
+        public string[] FileFormats;
+
+        public int RequestedLatency;
+        public IOutputDevicePlugin SelectedOutputDriver;
+        public string WatchFolder;
+        public int WatchFolderScanInterval;
+
         private Settings()
         {
             WatchFolderScanInterval = 60;
@@ -20,16 +27,6 @@ namespace MiSharp.Core
         {
             get { return _settings ?? (_settings = LoadSettings()); }
         }
-
-        public int WatchFolderScanInterval;
-
-        public string WatchFolder;
-
-        public string[] FileFormats;
-
-        public IOutputDevicePlugin SelectedOutputDriver;
-
-        public int RequestedLatency;
 
         private static Settings LoadSettings()
         {
