@@ -54,8 +54,8 @@ namespace MiSharp.Core
                 Album = "Unknown Album";
 
             // album artists
-            if (tag.AlbumArtists.Length > 0)
-                Artist = tag.AlbumArtists[0];
+            if (tag.Performers.Length > 0)
+                Artist = tag.Performers[0];
             else
                 Artist = "Unknown Artist";
 
@@ -88,12 +88,6 @@ namespace MiSharp.Core
 
             // BPM
             BeatsPerMinute = tag.BeatsPerMinute;
-
-            // Performers
-            if (tag.Performers.Length > 0)
-                Performers = tag.Performers;
-            else
-                Performers = new[] {"Unknown Performer"};
 
             // Lyrics
             if (tag.Lyrics != null)
@@ -151,8 +145,6 @@ namespace MiSharp.Core
 
         public string[] Composers { get; set; }
 
-        public string[] Performers { get; set; }
-
         public int Rating { get; set; }
 
         public DateTime DateAdded { get; set; }
@@ -167,7 +159,7 @@ namespace MiSharp.Core
                 return;
 
             // artist Song editor
-            file.Tag.AlbumArtists = new[] {Artist};
+            file.Tag.Performers = new[] {Artist};
 
             // album Song editor
             file.Tag.Album = Album;
