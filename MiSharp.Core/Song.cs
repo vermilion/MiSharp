@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
-using Caliburn.Micro;
 using MiSharp.Core.Player;
 using TagLib;
 using File = TagLib.File;
 
 namespace MiSharp.Core
 {
-    public class Song : PropertyChangedBase
+    public class Song 
     {
         private bool _isPlaying;
 
@@ -122,7 +121,7 @@ namespace MiSharp.Core
             set
             {
                 _isPlaying = value;
-                NotifyOfPropertyChange(() => IsPlaying);
+                //NotifyOfPropertyChange(() => IsPlaying);
             }
         }
 

@@ -82,7 +82,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <ScrollViewer Margin="254,10,10,10">
-            <ItemsControl ItemsSource="{Binding Albums}">
+            <ItemsControl ItemsSource="{Binding ComboAlbums}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel />
@@ -116,7 +116,7 @@
                                 <Label HorizontalAlignment="Center" Content="{Binding Year}" />                              
                             </StackPanel>
                             <ListView
-                                ItemsSource="{Binding DataContext.SongsAll, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroContentControl}}}"
+                                ItemsSource="{Binding Songs}" SelectedItem="{Binding SelectedSong}"
                                 HorizontalAlignment="Left" Margin="175,10,0,0" VerticalAlignment="Top">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>

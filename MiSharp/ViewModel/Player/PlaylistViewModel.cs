@@ -8,7 +8,7 @@ using ReactiveUI;
 namespace MiSharp
 {
     [Export]
-    public class PlaylistViewModel : ReactiveObject, IHandle<List<Song>>
+    public class PlaylistViewModel : ReactiveObject, IHandle<IEnumerable<Song>>
     {
         private readonly IEventAggregator _events;
         private Song _currentSong;
@@ -67,7 +67,7 @@ namespace MiSharp
 
         #region IHandle
 
-        public void Handle(List<Song> songs)
+        public void Handle(IEnumerable<Song> songs)
         {
             Songs.AddRange(songs);
         }

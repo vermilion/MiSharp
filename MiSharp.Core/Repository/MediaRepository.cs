@@ -34,6 +34,7 @@ namespace MiSharp.Core.Repository
                 .Select(x => new Album {Name = x.Album, Year = x.Year});
         }
 
+
         public IEnumerable<string> GetAllBands()
         {
             return GetAllSongs().Select(x => x.Artist).Distinct();
