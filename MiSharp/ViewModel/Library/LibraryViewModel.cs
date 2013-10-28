@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using DeadDog.Audio;
 using MiSharp.Core.Library;
 using MiSharp.Core.Repository;
 using ReactiveUI;

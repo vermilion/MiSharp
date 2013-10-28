@@ -39,10 +39,6 @@ namespace DeadDog.Audio
         {
             switch (type)
             {
-                case MediaTypes.Ogg:
-                    return new OggParser();
-                case MediaTypes.Flac:
-                    return new FlacParser();
                 case MediaTypes.Wma:
                     return null;
                 case MediaTypes.Mp3:

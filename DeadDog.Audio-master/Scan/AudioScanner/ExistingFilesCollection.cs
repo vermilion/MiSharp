@@ -2,43 +2,43 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace DeadDog.Audio.Scan
+namespace DeadDog.Audio.Scan.AudioScanner
 {
     public partial class AudioScanner
     {
         public class ExistingFilesCollection : IEnumerable<RawTrack>
         {
-            private readonly Comparer comparer;
-            private readonly List<RawTrack> files;
+            private readonly Comparer _comparer;
+            private readonly List<RawTrack> _files;
 
             public ExistingFilesCollection()
             {
-                files = new List<RawTrack>();
-                comparer = new Comparer();
+                _files = new List<RawTrack>();
+                _comparer = new Comparer();
             }
 
             public int Count
             {
-                get { return files.Count; }
+                get { return _files.Count; }
             }
 
             public IEnumerator<RawTrack> GetEnumerator()
             {
-                return files.GetEnumerator();
+                return _files.GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                return files.GetEnumerator();
+                return _files.GetEnumerator();
             }
 
             public void Add(RawTrack item)
             {
-                int index = files.BinarySearch(item, comparer);
+                int index = _files.BinarySearch(item, _comparer);
                 if (~index < 0)
-                    files.Add(item);
+                    _files.Add(item);
                 else
-                    files.Insert(~index, item);
+                    _files.Insert(~index, item);
             }
 
             public void AddRange(IEnumerable<RawTrack> collection)
@@ -52,10 +52,10 @@ namespace DeadDog.Audio.Scan
                 if (filepath == null)
                     return false;
 
-                int index = files.BinarySearch(RawTrack.Unknown, new CompareToString(filepath));
+                int index = _files.BinarySearch(RawTrack.Unknown, new CompareToString(filepath));
                 if (index >= 0)
                 {
-                    files.RemoveAt(index);
+                    _files.RemoveAt(index);
                     return true;
                 }
                 else
@@ -64,12 +64,12 @@ namespace DeadDog.Audio.Scan
 
             public bool Remove(RawTrack item)
             {
-                return files.Remove(item);
+                return _files.Remove(item);
             }
 
             public void Clear()
             {
-                files.Clear();
+                _files.Clear();
             }
 
             public bool Contains(string filepath)
@@ -77,23 +77,23 @@ namespace DeadDog.Audio.Scan
                 if (filepath == null)
                     return false;
 
-                int index = files.BinarySearch(RawTrack.Unknown, new CompareToString(filepath));
+                int index = _files.BinarySearch(RawTrack.Unknown, new CompareToString(filepath));
                 return index >= 0;
             }
 
             public bool Contains(RawTrack item)
             {
-                return files.Contains(item);
+                return _files.Contains(item);
             }
 
             public void CopyTo(RawTrack[] array, int arrayIndex)
             {
-                files.CopyTo(array, arrayIndex);
+                _files.CopyTo(array, arrayIndex);
             }
 
             public RawTrack[] ToArray()
             {
-                return files.ToArray();
+                return _files.ToArray();
             }
 
             private class CompareToString : IComparer<RawTrack>
@@ -107,7 +107,7 @@ namespace DeadDog.Audio.Scan
 
                 public int Compare(RawTrack x, RawTrack y)
                 {
-                    return x.FullFilename.CompareTo(file.FullName);
+                    return System.String.Compare(x.FullFilename, file.FullName, System.StringComparison.Ordinal);
                 }
             }
 
@@ -116,7 +116,7 @@ namespace DeadDog.Audio.Scan
             {
                 public int Compare(RawTrack x, RawTrack y)
                 {
-                    return x.FullFilename.CompareTo(y.FullFilename);
+                    return System.String.Compare(x.FullFilename, y.FullFilename, System.StringComparison.Ordinal);
                 }
             }
         }

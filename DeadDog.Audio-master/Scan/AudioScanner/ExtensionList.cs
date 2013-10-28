@@ -1,29 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace DeadDog.Audio.Scan
+namespace DeadDog.Audio.Scan.AudioScanner
 {
     public partial class AudioScanner
     {
         public class ExtensionList : IList<string>
         {
-            private readonly List<string> extensions;
+            private readonly List<string> _extensions;
 
             public ExtensionList()
             {
-                extensions = new List<string>();
+                _extensions = new List<string>();
             }
 
             public ExtensionList(IEnumerable<string> collection)
             {
-                extensions = new List<string>();
+                _extensions = new List<string>();
                 foreach (string s in collection)
                     Add(s);
             }
 
             public ExtensionList(params string[] items)
             {
-                extensions = new List<string>(items.Length);
+                _extensions = new List<string>(items.Length);
                 foreach (string s in items)
                     Add(s);
             }
@@ -39,10 +39,10 @@ namespace DeadDog.Audio.Scan
             public override string ToString()
             {
                 string s = "{";
-                for (int i = 0; i < extensions.Count; i++)
+                for (int i = 0; i < _extensions.Count; i++)
                 {
-                    s += extensions[i];
-                    if (i < extensions.Count - 1)
+                    s += _extensions[i];
+                    if (i < _extensions.Count - 1)
                         s += " | ";
                 }
                 s += "}";
@@ -53,23 +53,23 @@ namespace DeadDog.Audio.Scan
 
             public int IndexOf(string item)
             {
-                return extensions.LastIndexOf(convert(item));
+                return _extensions.LastIndexOf(convert(item));
             }
 
             public void Insert(int index, string item)
             {
-                extensions.Insert(index, convert(item));
+                _extensions.Insert(index, convert(item));
             }
 
             public void RemoveAt(int index)
             {
-                extensions.RemoveAt(index);
+                _extensions.RemoveAt(index);
             }
 
             public string this[int index]
             {
-                get { return extensions[index]; }
-                set { extensions[index] = convert(value); }
+                get { return _extensions[index]; }
+                set { _extensions[index] = convert(value); }
             }
 
             #endregion
@@ -78,42 +78,42 @@ namespace DeadDog.Audio.Scan
 
             public void Add(string item)
             {
-                extensions.Add(convert(item));
+                _extensions.Add(convert(item));
             }
 
             public void Clear()
             {
-                extensions.Clear();
+                _extensions.Clear();
             }
 
             public bool Contains(string item)
             {
-                return extensions.Contains(convert(item));
+                return _extensions.Contains(convert(item));
             }
 
             public void CopyTo(string[] array, int arrayIndex)
             {
-                extensions.CopyTo(array, arrayIndex);
+                _extensions.CopyTo(array, arrayIndex);
             }
 
             public int Count
             {
-                get { return extensions.Count; }
+                get { return _extensions.Count; }
             }
 
             public bool IsReadOnly
             {
-                get { return (extensions as IList<string>).IsReadOnly; }
+                get { return (_extensions as IList<string>).IsReadOnly; }
             }
 
             public bool Remove(string item)
             {
-                return extensions.Remove(convert(item));
+                return _extensions.Remove(convert(item));
             }
 
             public string[] ToArray()
             {
-                return extensions.ToArray();
+                return _extensions.ToArray();
             }
 
             #endregion
@@ -122,7 +122,7 @@ namespace DeadDog.Audio.Scan
 
             public IEnumerator<string> GetEnumerator()
             {
-                return extensions.GetEnumerator();
+                return _extensions.GetEnumerator();
             }
 
             #endregion
@@ -131,7 +131,7 @@ namespace DeadDog.Audio.Scan
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                return (extensions as IEnumerable).GetEnumerator();
+                return (_extensions as IEnumerable).GetEnumerator();
             }
 
             #endregion

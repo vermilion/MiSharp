@@ -4,7 +4,7 @@ using System.Linq;
 using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Parsing;
 
-namespace DeadDog.Audio.Scan
+namespace DeadDog.Audio.Scan.AudioScanner
 {
     public partial class AudioScanner
     {

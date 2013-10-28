@@ -1,4 +1,6 @@
-﻿namespace DeadDog.Audio.Scan
+﻿using DeadDog.Audio.Scan.AudioScanner;
+
+namespace DeadDog.Audio.Scan
 {
     /// <summary>
     ///     Describes the current state of an <see cref="AudioScanner" />.

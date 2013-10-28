@@ -18,7 +18,7 @@ namespace MiSharp
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
         private BitmapSource _cover;
-        private RawTrack _selectedSong;     
+        private Track _selectedSong;     
 
         public ComboAlbumViewModel(Album album):base(album.Title)
         {
@@ -61,9 +61,9 @@ namespace MiSharp
         
 
         //TODO: multiple
-        public ObservableCollection<RawTrack> SelectedSongs { get; set; }
+        public ObservableCollection<Track> SelectedSongs { get; set; }
 
-        public RawTrack SelectedSong
+        public Track SelectedSong
         {
             get { return _selectedSong; }
             set { this.RaiseAndSetIfChanged(ref _selectedSong, value); }
@@ -73,12 +73,12 @@ namespace MiSharp
 
         public void AddAlbumToPlaylist()
         {
-            _events.Publish(Tracks);
+            _events.Publish(Tracks.Select(x=>x.Model).ToList());
         }
 
         public void AddSongToPlaylist()
         {
-            _events.Publish(new List<RawTrack> {SelectedSong});
+            _events.Publish(new List<RawTrack> {SelectedSong.Model});
         }
 
         public void EditorEditAlbumsNew()

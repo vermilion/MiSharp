@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using DeadDog.Audio.Parsing.ID3;
 using DeadDog.Audio.Scan;
+using DeadDog.Audio.Scan.AudioScanner;
 using MiSharp.Core.Library;
 
 namespace MiSharp.Core.Repository

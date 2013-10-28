@@ -47,7 +47,7 @@
                     <GridViewColumn Width="{Binding Path=PlaylistTitleColumnWidth, Mode=TwoWay}" Header="Title">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Title}" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Path=TrackTitle}" TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -62,14 +62,14 @@
                     <GridViewColumn Width="{Binding Path=PlaylistArtistColumnWidth, Mode=TwoWay}" Header="Artist">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Artist}" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Path=ArtistName}" TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="{Binding Path=PlaylistAlbumColumnWidth, Mode=TwoWay}" Header="Album">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Album}" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Path=AlbumTitle}" TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

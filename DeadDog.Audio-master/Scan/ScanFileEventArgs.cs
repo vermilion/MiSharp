@@ -1,4 +1,5 @@
 ﻿using System;
+using DeadDog.Audio.Scan.AudioScanner;
 
 namespace DeadDog.Audio.Scan
 {
@@ -7,9 +8,9 @@ namespace DeadDog.Audio.Scan
     /// </summary>
     public class ScanFileEventArgs : EventArgs
     {
-        private readonly string filepath;
-        private readonly FileState filestate;
-        private readonly RawTrack track;
+        private readonly string _filepath;
+        private readonly FileState _filestate;
+        private readonly RawTrack _track;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ScanFileEventArgs" /> class.
@@ -19,9 +20,9 @@ namespace DeadDog.Audio.Scan
         /// <param name="filestate">The file state affected by the event.</param>
         public ScanFileEventArgs(string filepath, RawTrack track, FileState filestate)
         {
-            this.filepath = filepath;
-            this.track = track;
-            this.filestate = filestate;
+            _filepath = filepath;
+            _track = track;
+            _filestate = filestate;
         }
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace DeadDog.Audio.Scan
         /// </summary>
         public RawTrack Track
         {
-            get { return track; }
+            get { return _track; }
         }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace DeadDog.Audio.Scan
         /// </summary>
         public string Path
         {
-            get { return filepath; }
+            get { return _filepath; }
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace DeadDog.Audio.Scan
         /// </summary>
         public FileState State
         {
-            get { return filestate; }
+            get { return _filestate; }
         }
     }
 }
