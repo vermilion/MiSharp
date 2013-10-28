@@ -65,17 +65,14 @@
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Album.cs" />
-    <Compile Include="EqualityComparers\AlbumEqualityComparer.cs" />
-    <Compile Include="EqualityComparers\ArtistEqualityComparer.cs" />
     <Compile Include="Library\FileStatEventargs.cs" />
-    <Compile Include="Library\TagFilter.cs" />
     <Compile Include="Player\AudioPlayer.cs" />
     <Compile Include="Player\AudioPlayerState.cs" />
     <Compile Include="Player\Input\AiffInputFilePlugin.cs" />
@@ -94,10 +91,15 @@
     <Compile Include="Repository\RepositoryBase.cs" />
     <Compile Include="Repository\SettingsRepository.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Song.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeadDog.Audio-master\DeadDog.Audio.csproj">
+      <Project>{a393fd81-a89c-4761-af87-2e5de2b95b61}</Project>
+      <Name>DeadDog.Audio</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

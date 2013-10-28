@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using DeadDog.Audio;
 using MiSharp.Core.Player.Exceptions;
 using MiSharp.Core.Player.Input;
 using NAudio;
@@ -28,11 +29,11 @@ namespace MiSharp.Core.Player
         public LocalAudioPlayer()
         {
             InputFileFormats = new List<IInputFileFormatPlugin>
-            {
-                new AiffInputFilePlugin(),
-                new Mp3InputFilePlugin(),
-                new WaveInputFilePlugin()
-            };
+                {
+                    new AiffInputFilePlugin(),
+                    new Mp3InputFilePlugin(),
+                    new WaveInputFilePlugin()
+                };
         }
 
         public override TimeSpan CurrentTime
@@ -118,7 +119,7 @@ namespace MiSharp.Core.Player
             }
         }
 
-        public override void Load(Song song, float volume)
+        public override void Load(RawTrack song, float volume)
         {
             lock (_playerLock)
             {
@@ -132,7 +133,7 @@ namespace MiSharp.Core.Player
 
                 try
                 {
-                    ISampleProvider sampleProvider = CreateInputStream(Song.OriginalPath);
+                    ISampleProvider sampleProvider = CreateInputStream(Song.FullFilename);
                     _wavePlayer.Init(new SampleToWaveProvider(sampleProvider));
                 }
                 catch (Exception ex)
@@ -204,28 +205,28 @@ namespace MiSharp.Core.Player
                 // Create a new thread, so that we can spawn the song state check on the same thread as the play method
                 // With this, we can avoid cross-threading issues with the NAudio library
                 Task.Factory.StartNew(() =>
-                {
-                    bool wasPaused = PlaybackState == AudioPlayerState.Paused;
-
-                    try
                     {
-                        _wavePlayer.Play();
-                    }
+                        bool wasPaused = PlaybackState == AudioPlayerState.Paused;
 
-                    catch (MmException ex)
-                    {
-                        throw new PlaybackException("The playback couldn't be started.", ex);
-                    }
-
-                    if (!wasPaused)
-                    {
-                        while (PlaybackState != AudioPlayerState.Stopped && PlaybackState != AudioPlayerState.None)
+                        try
                         {
-                            UpdateSongState();
-                            Thread.Sleep(250);
+                            _wavePlayer.Play();
                         }
-                    }
-                });
+
+                        catch (MmException ex)
+                        {
+                            throw new PlaybackException("The playback couldn't be started.", ex);
+                        }
+
+                        if (!wasPaused)
+                        {
+                            while (PlaybackState != AudioPlayerState.Stopped && PlaybackState != AudioPlayerState.None)
+                            {
+                                UpdateSongState();
+                                Thread.Sleep(250);
+                            }
+                        }
+                    });
 
                 EnsureState(AudioPlayerState.Playing);
             }
@@ -288,10 +289,10 @@ namespace MiSharp.Core.Player
             }
 
             PlaybackUpdated(new PlaybackEventArgs
-            {
-                CurrentTime = CurrentTime,
-                TotalTime = TotalTime,
-            });
+                {
+                    CurrentTime = CurrentTime,
+                    TotalTime = TotalTime,
+                });
         }
     }
 }

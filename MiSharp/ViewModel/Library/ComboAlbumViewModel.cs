@@ -5,27 +5,22 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
-using MiSharp.Core;
-using MiSharp.Core.Library;
-using MiSharp.Core.Repository;
+using DeadDog.Audio;
+using DeadDog.Audio.Libraries;
 using ReactiveUI;
+using TagLib;
 using File = TagLib.File;
 
 namespace MiSharp
 {
-    public class ComboAlbumViewModel : ReactiveObject
+    public class ComboAlbumViewModel : Album
     {
-        private string _name;
-        private IEnumerable<Song> _songs;
-        private string _year;
-        private BitmapSource _cover;
-        private string _artist;
-        private Song _selectedSong;
-
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
+        private BitmapSource _cover;
+        private RawTrack _selectedSong;     
 
-        public ComboAlbumViewModel()
+        public ComboAlbumViewModel(string name):base(name)
         {
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
@@ -35,37 +30,26 @@ namespace MiSharp
 
         #region Properties
 
-        public string Name
-        {
-            get { return _name; }
-            set { this.RaiseAndSetIfChanged(ref _name, value); }
-        }
-
-        public string Artist
-        {
-            get { return _artist; }
-            set { this.RaiseAndSetIfChanged(ref _artist, value); }
-        }
 
         public BitmapSource Cover
         {
             get
             {
-                var item = Songs.FirstOrDefault();
+                Track item = Tracks.FirstOrDefault();
                 if (item != null)
                 {
-                    File file = File.Create(item.OriginalPath);
+                    File file = File.Create(item.Model.FullFilename);
                     if (file.Tag.Pictures.Any())
                     {
-                        var pic = file.Tag.Pictures[0];
+                        IPicture pic = file.Tag.Pictures[0];
                         var ms = new MemoryStream(pic.Data.Data);
-                        
-                            ms.Seek(0, SeekOrigin.Begin);
 
-                            var bitmap = new BitmapImage();
-                            bitmap.BeginInit();
-                            bitmap.StreamSource = ms;
-                        
+                        ms.Seek(0, SeekOrigin.Begin);
+
+                        var bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.StreamSource = ms;
+
                         bitmap.EndInit();
                         _cover = bitmap;
                     }
@@ -74,56 +58,38 @@ namespace MiSharp
             }
             set { this.RaiseAndSetIfChanged(ref _cover, value); }
         }
-
-        public string Year
-        {
-            get { return _year; }
-            set { this.RaiseAndSetIfChanged(ref _year, value); }
-        }
         
 
         //TODO: multiple
-        public ObservableCollection<Song> SelectedSongs { get; set; }
+        public ObservableCollection<RawTrack> SelectedSongs { get; set; }
 
-        public Song SelectedSong
+        public RawTrack SelectedSong
         {
             get { return _selectedSong; }
             set { this.RaiseAndSetIfChanged(ref _selectedSong, value); }
-        }
-
-        public IEnumerable<Song> Songs
-        {
-            get
-            {
-                if (Artist == null && Name == null) return new List<Song>();
-                _songs = MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(Artist, Name));
-                return _songs;
-            }
-            set { this.RaiseAndSetIfChanged(ref _songs, value); }
         }
 
         #endregion
 
         public void AddAlbumToPlaylist()
         {
-            _events.Publish(Songs);
+            _events.Publish(Tracks);
         }
 
         public void AddSongToPlaylist()
         {
-            _events.Publish(new List<Song> { SelectedSong });
+            _events.Publish(new List<RawTrack> {SelectedSong});
         }
 
         public void EditorEditAlbumsNew()
         {
-            _windowManager.ShowDialog(new AlbumTagEditorViewModel(Songs.ToList()));
+            //_windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks));
         }
 
         public void EditorEditSongs()
         {
-            if (SelectedSong != null)
-                _windowManager.ShowDialog(new SongTagEditorViewModel(new List<Song> { SelectedSong }));
+            // if (SelectedSong != null)
+            //_windowManager.ShowDialog(new SongTagEditorViewModel(new List<Song> { SelectedSong }));
         }
-
     }
 }

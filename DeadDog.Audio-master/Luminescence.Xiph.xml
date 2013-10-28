@@ -1,0 +1,1513 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Luminescence.Xiph</name>
+    </assembly>
+    <members>
+        <member name="T:Luminescence.Xiph.ExtensionMethods">
+            <summary>
+            Méthodes d'extension diverses.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.ExtensionMethods.AddTag(System.Collections.Generic.SortedList{System.String,System.Collections.Generic.List{System.String}},System.String,System.String)">
+            <summary>
+            Ajoute un tag à une collection existante.
+            </summary>
+            <param name="tags">Collection dans laquelle le tag devra être ajouté</param>
+            <param name="name">Nom du tag à ajouter</param>
+            <param name="content">Valeur du tag à ajouter</param>
+        </member>
+        <member name="M:Luminescence.Xiph.ExtensionMethods.GetNewTagsCollection(System.Collections.Generic.SortedList{System.String,System.Collections.Generic.List{System.String}})">
+            <summary>
+            Copie les valeurs d'un dictionnaire de tags dans un nouveau dictionnaire.
+            </summary>
+            <param name="tags">Collection dont les valeurs seront copiées</param>
+            <returns>Nouvelle collection contenant les valeurs copiées</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.ExtensionMethods.ArrayEquals(System.Byte[],System.Byte[])">
+            <summary>
+            Vérifie si le contenu de deux tableaux d'octets est identique.
+            </summary>
+            <param name="array1">Premier tableau</param>
+            <param name="array2">Second tableau</param>
+            <returns>True si les deux tableaux sont identiques, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.ExtensionMethods.ArrayEquals(System.Byte[],System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Vérifie si le contenu de deux tableaux d'octets est identique.
+            </summary>
+            <param name="array1">Premier tableau</param>
+            <param name="array2">Second tableau</param>
+            <param name="offset">Octet à partir duquel la comparaison doit commencer</param>
+            <param name="count">Nombre d'octets à comparer</param>
+            <returns>True si les deux tableaux sont identiques, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.ExtensionMethods.ReadBigEndianInt32(System.IO.BinaryReader)">
+            <summary>
+            Lit un entier (big endian) signé de 4 octets à partir du flux actuel et avance la position actuelle du flux de 4 octets.
+            </summary>
+            <param name="reader">Un binary reader</param>
+            <returns>Un entier sur 32 bits</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.ExtensionMethods.ToBigEndian(System.Int32)">
+            <summary>
+            Retourne un tableau d'octets contenant l'entier sur 32 bits codé avec une primauté des octets de poids fort (big endian).
+            </summary>
+            <param name="int32">Un entier sur 32 bits</param>
+            <returns>Un tableau d'octets</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.ExtensionMethods.Split(System.Byte[],System.Int32)">
+            <summary>
+            Découpe un tableau d'octets en tableau de tableau d'octets.
+            </summary>
+            <param name="array">Tableau à découper</param>
+            <param name="segment">Taille des segments</param>
+            <returns>Tableau de tableau d'octets</returns>
+        </member>
+        <member name="T:Luminescence.Xiph.OggPageReader">
+            <summary>
+            Classe permettant le lecture séquencielle de pages Ogg dans un flux.
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.OggPage">
+            <summary>
+            Classe immuable stockant les données d'une page Ogg.
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggPage.OggS">
+            <summary>
+            Identificateur d'une page Ogg.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.#ctor">
+            <summary>
+            Constructeur protégé de la classe OggPage.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.GetSegments">
+            <summary>
+            Données par segment de la page Ogg.
+            </summary>
+            <returns>Tableau de tableau d'octets contenant les données par segment de la page Ogg</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.GetData">
+            <summary>
+            Données de la page Ogg.
+            </summary>
+            <returns>Tableau d'octets contenant les données de la page Ogg</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.Renumber(System.Int32)">
+            <summary>
+            Renumérote la page Ogg.
+            </summary>
+            <param name="sequence">Numéro de la page Ogg dans un flux binaire donné</param>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.ToArray">
+            <summary>
+            Données de la page Ogg sous forme d'un tableau d'octets.
+            </summary>
+            <returns>Tableau d'octets contenant les données de la page Ogg</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.ComputeCRC32">
+            <summary>
+            Calcule le checksum de la page Ogg.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.CreateFromPaquet(System.Byte[],System.Int32)">
+            <summary>
+            Retourne un tableau de pages Ogg généré à partir de données à y insérer.
+            </summary>
+            <param name="paquet">Données à insérer dans des pages Ogg</param>
+            <param name="streamSerial">Numéro de série du flux binaire</param>
+            <returns>Tableau de pages Ogg généré à partir des données envoyées</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.Equals(Luminescence.Xiph.OggPage)">
+            <summary>
+            Retourne vrai si la page Ogg est identique à la page Ogg spécifiée.
+            </summary>
+            <param name="other">Page Ogg à tester</param>
+            <returns>True si les deux pages Ogg sont identiques, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.op_Equality(Luminescence.Xiph.OggPage,Luminescence.Xiph.OggPage)">
+            <summary>
+            Surcharge de l'opérateur "==".
+            </summary>
+            <param name="page1">Première page Ogg</param>
+            <param name="page2">Seconde page Ogg</param>
+            <returns>True si les deux pages Ogg sont identiques, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.op_Inequality(Luminescence.Xiph.OggPage,Luminescence.Xiph.OggPage)">
+            <summary>
+            Surcharge de l'opérateur "!=".
+            </summary>
+            <param name="page1">Première page Ogg</param>
+            <param name="page2">Seconde page Ogg</param>
+            <returns>True si les deux pages Ogg sont différentes, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.GetHashCode">
+            <summary>
+            Fonction de hachage pour la page Ogg.
+            </summary>
+            <returns>Code de hachage pour la page Ogg</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPage.Equals(System.Object)">
+            <summary>
+            Retourne vrai si la page Ogg est identique à l'objet spécifié.
+            </summary>
+            <param name="obj">Objet à tester</param>
+            <returns>True si les deux objets sont identiques, sinon False</returns>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.IsCorrupted">
+            <summary>
+            Indique si la page Ogg est corrompue.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.Size">
+            <summary>
+            Indique la taille totale en octet de la page Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.IsComplete">
+            <summary>
+            Indique si la page Ogg termine un paquet.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.IsLastInLogicalBitstream">
+            <summary>
+            Indique si la page Ogg est la dernière du flux binaire.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.PageSequenceNumber">
+            <summary>
+            Numéro de la page dans le flux binaire.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.HeaderType">
+            <summary>
+            Type de la page Ogg.
+            </summary>
+            <remarks>Returne null si sa valeur n'est pas renseignée</remarks>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.AbsoluteGranulePostion">
+            <summary>
+            Absolute Granule Position.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.StreamSerialNumber">
+            <summary>
+            Numéto de série du flux binaire.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.Segments">
+            <summary>
+            Données par segment de la page Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPage.Checksum">
+            <summary>
+            Checksum.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPageReader.#ctor(System.IO.Stream)">
+            <summary>
+            Constructeur de la classe OggPageReader.
+            </summary>
+            <param name="stream">Flux contenant les pages Ogg à lire</param>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPageReader.ReadFirstPage">
+            <summary>
+            Lit la première page Ogg du flux.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPageReader.ReadLastPage">
+            <summary>
+            Lit la dernière page Ogg du flux.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPageReader.ReadNextPage">
+            <summary>
+            Lit la page suivante dans le flux Ogg.
+            </summary>
+            <returns>True si la fin du flux a été atteinte, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPageReader.Dispose(System.Boolean)">
+            <summary>
+            Nettoyage des ressources utilisées par la classe.
+            </summary>
+            <param name="disposing">True si les ressources managées doivent être libérées, sinon False</param>
+        </member>
+        <member name="M:Luminescence.Xiph.OggPageReader.Dispose">
+            <summary>
+            Nettoyage des ressources utilisées par la classe.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPageReader.MultiplexedStreamDetected">
+            <summary>
+            Indique si un flux multiplexé a été détecté à ce stade du parcours dans le flux Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggPageReader.Offset">
+            <summary>
+            Position dans le flux.
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.FlacTagger">
+            <summary>
+            Classe de lecture / écriture des tags des fichiers FLAC natifs.
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.VorbisComment">
+            <summary>
+            Classe abstraite assurant la gestion des tags Vorbis Comment.
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.VorbisComment.OfficialVorbisTags">
+            <summary>
+            Liste des tags Vorbis officiels.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.SaveMetadata">
+            <summary>
+            Méthode d'enregistrement des tags.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.ReadMetadata(System.String)">
+            <summary>
+            Méthode de lecture d'un fichier contenant des métadonnées au format Vorbis Comment.
+            </summary>
+            <param name="fileName">Chemin d'accès du fichier à analyser</param>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.ClearNonOfficialTags">
+            <summary>
+            Supprime tous les tags non officiels.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.ClearTags">
+            <summary>
+            Supprime tous les tags.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.AddTag(System.String,System.String)">
+            <summary>
+            Ajoute un nouveau tag.
+            </summary>
+            <param name="name">Nom du tag</param>
+            <param name="content">Valeur du tag</param>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.RemoveTag(System.String)">
+            <summary>
+            Supprime un tag.
+            </summary>
+            <param name="name">Nom du tag</param>
+            <returns>True si la suppression du tag réussi, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.RemoveTag(System.String,System.Int32)">
+            <summary>
+            Supprime un tag.
+            </summary>
+            <param name="name">Nom du tag</param>
+            <param name="index">Index du tag</param>
+            <returns>True si la suppression du tag à l'index spécifié réussi, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.SetTag(System.String,System.String)">
+            <summary>
+            Modifie un tag.
+            </summary>
+            <param name="name">Nom du tag</param>
+            <param name="content">Valeur du nouveau tag</param>
+            <returns>True si la modification du tag réussi, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.SetTag(System.String,System.String,System.Int32)">
+            <summary>
+            Modifie un tag.
+            </summary>
+            <param name="name">Nom du tag</param>
+            <param name="content">Valeur du nouveau tag</param>
+            <param name="index">Index du tag</param>
+            <returns>True si la modification du tag à l'index spécifié réussi, sinon False</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.GetAllTags">
+            <summary>
+            Retourne une collection contenant tous les tags.
+            </summary>
+            <returns>Collection contenant les noms et valeurs de tous les tags</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.ReadVorbisComment(System.IO.Stream,System.Boolean)">
+            <summary>
+            Lit des tags au format Vorbis Comment dans un flux.
+            </summary>
+            <param name="stream">Flux à partir duquel les tags doivent être lus</param>
+            <param name="readFramingBit">Vrai si le "framing bit" doit être lu</param>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.WriteVorbisComment(System.Boolean)">
+            <summary>
+            Ecrit des tags au format Vorbis Comment à partir d'un dictionnaire les contenant.
+            </summary>
+            <param name="writeFramingBit">Vrai si le "framing bit" doit être ajouté à la fin du block Vorbis Comment</param>
+            <returns>Tableau d'octets contenant les tags au fomat Vorbis Comment</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.VorbisComment.CheckedVorbisCommentKey(System.String)">
+            <summary>
+            S'assure de la validité des clefs utilisé dans les tags Vorbis Comment.
+            </summary>
+            <param name="key">Clef à valider</param>
+            <returns>Valeur du tag en majuscule</returns>
+            <remarks>Déclenche une exception en cas de présence d'un caractère non valide dans le nom du tag</remarks>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Title">
+            <summary>
+            Obtient ou définit le tag "Titre".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Version">
+            <summary>
+            Obtient ou définit le tag "Version".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Album">
+            <summary>
+            Obtient ou définit le tag "Album".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.TrackNumber">
+            <summary>
+            Obtient ou définit le tag "Numéro de piste".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Artist">
+            <summary>
+            Obtient ou définit le tag "Artiste".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Performer">
+            <summary>
+            Obtient ou définit le tag "Compositeur".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Copyright">
+            <summary>
+            Obtient ou définit le tag "Copyright".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.License">
+            <summary>
+            Obtient ou définit le tag "License".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Organization">
+            <summary>
+            Obtient ou définit le tag "Organisation".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Description">
+            <summary>
+            Obtient ou définit le tag "Description".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Genre">
+            <summary>
+            Obtient ou définit le tag "Genre".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Date">
+            <summary>
+            Obtient ou définit le tag "Date".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Location">
+            <summary>
+            Obtient ou définit le tag "Localisation".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Contact">
+            <summary>
+            Obtient ou définit le tag "Contact".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.ISRC">
+            <summary>
+            Obtient ou définit le tag "ISRC".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Vendor">
+            <summary>
+            Retourne le "Vendor".
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.TagsCount">
+            <summary>
+            Retourne le nombre total de tags.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.VorbisComment.Item(System.String)">
+            <summary>
+            Renvoie une collection en lecture seule des tags de même nom.
+            </summary>
+            <param name="key">Nom du tag</param>
+            <returns>Collection en lecture seule contenant les valeurs du tag demandé</returns>
+        </member>
+        <member name="M:Luminescence.Xiph.FlacTagger.#ctor(System.String)">
+            <summary>
+            Constructeur de la classe FlacTagger.
+            </summary>
+            <param name="fileName">Chemin d'accès du fichier FLAC à analyser</param>
+        </member>
+        <member name="M:Luminescence.Xiph.FlacTagger.ReadMetadata(System.String)">
+            <summary>
+            Lit les métadonnées du fichier FLAC.
+            </summary>
+            <param name="fileName">Chemin d'accès du fichier FLAC à analyser</param>
+        </member>
+        <member name="M:Luminescence.Xiph.FlacTagger.SaveMetadata">
+            <summary>
+            Enregistre les tags dans le fichier FLAC.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.Arts">
+            <summary>
+            Collection contenant les images.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.FileName">
+            <summary>
+            Retourne le chemin et le nom du fichier FLAC analysé.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.Channels">
+            <summary>
+            Retourne le nombre de canaux dans le fichier FLAC.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.SampleRate">
+            <summary>
+            Retourne le taux d'échantillonage du fichier FLAC.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.CodecVersion">
+            <summary>
+            Retourne la version du codec utilisé.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.Length">
+            <summary>
+            Retourne la taille du fichiers FLAC (en octets).
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.Samples">
+            <summary>
+            Retourne le nombre d'échantillon contenu dans le fichier FLAC.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.Duration">
+            <summary>
+            Retourne la durée du fichier FLAC (en secondes).
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.BitrateAverage">
+            <summary>
+            Retourne le bitrate moyen du fichier FLAC.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.Ratio">
+            <summary>
+            Retourne le taux de compression du ficher FLAC.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.BitsPerSample">
+            <summary>
+            Retourne la taille de l'échantillon du fichier FLAC.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.FlacTagger.UncompressedFileLength">
+            <summary>
+            Retourne la taille du fichier décompressée (en octets).
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.ID3PictureFrame">
+            <summary>
+            Classe de lecture / écriture des images dans les fichiers FLAC.
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.ID3PictureFrame.#ctor(System.Byte[])">
+            <summary>
+            Constructeur de la classe ID3Picture.
+            </summary>
+            <param name="data">Données METADATA_BLOCK_PICTURE sous la forme d'un tableau d'octets</param>
+        </member>
+        <member name="M:Luminescence.Xiph.ID3PictureFrame.#ctor(System.Windows.Media.Imaging.BitmapFrame)">
+            <summary>
+            Constructeur de la classe ID3Picture.
+            </summary>
+            <param name="data">Bitmap constituant l'image</param>
+        </member>
+        <member name="M:Luminescence.Xiph.ID3PictureFrame.#ctor(System.Windows.Media.Imaging.BitmapFrame,Luminescence.Xiph.ID3PictureType)">
+            <summary>
+            Constructeur de la classe ID3Picture.
+            </summary>
+            <param name="data">Bitmap constituant l'image</param>
+            <param name="pictType">Type d'image selon la norme ID3v2 (frame APIC)</param>
+        </member>
+        <member name="M:Luminescence.Xiph.ID3PictureFrame.ToArray">
+            <summary>
+            Retourne les données de l'image à la norme ID3 (frame APIC).
+            </summary>
+            <returns>Données de la frame sous la forme d'un tableau d'octets</returns>
+        </member>
+        <member name="P:Luminescence.Xiph.ID3PictureFrame.PictureType">
+            <summary>
+            Type d'image selon la norme ID3v2 (frame APIC).
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.ID3PictureFrame.Description">
+            <summary>
+            Description de l'image.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.ID3PictureFrame.Picture">
+            <summary>
+            Bitmap constituant l'image.
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.OggTagger">
+            <summary>
+            Classe de lecture / écriture des tags des fichiers Ogg Vorbis, FLAC (.ogg) et Speex (.spx).
+            </summary>
+        </member>
+        <member name="M:Luminescence.Xiph.OggTagger.#ctor(System.String)">
+            <summary>
+            Constructeur de la classe OggTagger.
+            </summary>
+            <param name="fileName">Chemin d'accès du fichier Ogg à analyser</param>
+        </member>
+        <member name="M:Luminescence.Xiph.OggTagger.ReadMetadata(System.String)">
+            <summary>
+            Lit les métadonnées du fichier Ogg.
+            </summary>
+            <param name="fileName">Chemin d'accès du fichier Ogg à analyser</param>
+        </member>
+        <member name="M:Luminescence.Xiph.OggTagger.SaveMetadata">
+            <summary>
+            Enregistrement les tags dans le fichier Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.FlacArts">
+            <summary>
+            Collection contenant les images.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.Codec">
+            <summary>
+            Retourne le type de codec utilisé dans le fichier Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.SpeexBand">
+            <summary>
+            Retourne le type de largeur de bande utilisé dans le fichier Ogg Speex.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.FileName">
+            <summary>
+            Retourne le chemin et le nom du fichier Ogg analysé.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.Channels">
+            <summary>
+            Retourne le nombre de canaux dans le fcihier Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.MinimumVorbisBitrate">
+            <summary>
+            Retourne le bitrate minimum du fichier Ogg Vorbis.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.SampleRate">
+            <summary>
+            Retourne le taux d'échantillonage du fichier Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.MaximumVorbisBitrate">
+            <summary>
+            Retourne le bitrate maximum du fichier Ogg Vorbis.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.VorbisSpeexNominalBitrate">
+            <summary>
+            Retourne le bitrate nominal du fichier Ogg Vorbis ou Speex.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.IsVariableBitrate">
+            <summary>
+            Retourne Vrai si le fichier Ogg Vorbis ou Speex est encodé avec un débit variable.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.VorbisQuality">
+            <summary>
+            Retourne le niveau de qualité du fichier Ogg Vorbis (de 0.0 à 1.0).
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.CodecVersion">
+            <summary>
+            Retourne la version du codec utilisé.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.Length">
+            <summary>
+            Retourne la taille du fichiers Ogg (en octets).
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.Samples">
+            <summary>
+            Retourne le nombre d'échantillon contenu dans le fichier Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.Duration">
+            <summary>
+            Retourne la durée du fichier Ogg (en secondes).
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.AverageBitrate">
+            <summary>
+            Retourne le bitrate moyen du fichier Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.Ratio">
+            <summary>
+            Retourne le taux de compression du ficher Ogg.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.FlacBitsPerSample">
+            <summary>
+            Retourne la taille de l'échantillon du fichier Ogg FLAC.
+            </summary>
+        </member>
+        <member name="P:Luminescence.Xiph.OggTagger.UncompressedFileLength">
+            <summary>
+            Retourne la taille du fichier décompressée (en octets).
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.Genre">
+            <summary>
+            Classe statique dont les membres renvoient des genres prédéfinis sous forme de chaîne de caractères.
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Acapella">
+            <summary>
+            A capella
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Acid">
+            <summary>
+            Acid
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.AcidJazz">
+            <summary>
+            Acid Jazz
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.AcidPunk">
+            <summary>
+            Acid Punk
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Acoustic">
+            <summary>
+            Acoustic
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Alternative">
+            <summary>
+            Alternative
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.AlternRock">
+            <summary>
+            Alternative Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Ambient">
+            <summary>
+            Ambient
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Avantgarde">
+            <summary>
+            Avant-garde
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Ballad">
+            <summary>
+            Ballad
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Bass">
+            <summary>
+            Bass
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Bebob">
+            <summary>
+            Bebob
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.BigBand">
+            <summary>
+            Big Band
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Bluegrass">
+            <summary>
+            Bluegrass
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Blues">
+            <summary>
+            Blues
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.BootyBass">
+            <summary>
+            Booty Bass
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Cabaret">
+            <summary>
+            Cabaret
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Celtic">
+            <summary>
+            Celtic
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.ChamberMusic">
+            <summary>
+            Chamber Music
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Chanson">
+            <summary>
+            Chanson
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Chorus">
+            <summary>
+            Chorus
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.ChristianRap">
+            <summary>
+            Christian Rap
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.ClassicRock">
+            <summary>
+            Classic Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Classical">
+            <summary>
+            Classical
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Club">
+            <summary>
+            Club
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Comedy">
+            <summary>
+            Comedy
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Country">
+            <summary>
+            Country
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Cult">
+            <summary>
+            Cult
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Dance">
+            <summary>
+            Dance
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.DanceHall">
+            <summary>
+            Dance Hall
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Darkwave">
+            <summary>
+            Darkwave
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.DeathMetal">
+            <summary>
+            Death Metal
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Disco">
+            <summary>
+            Disco
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Dream">
+            <summary>
+            Dream
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.DrumSolo">
+            <summary>
+            Drum Solo
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Duet">
+            <summary>
+            Duet
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.EasyListening">
+            <summary>
+            Easy Listening
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Electronic">
+            <summary>
+            Electronic
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Ethnic">
+            <summary>
+            Ethnic
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Eurodance">
+            <summary>
+            Eurodance
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.EuroHouse">
+            <summary>
+            Euro-House
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.EuroTechno">
+            <summary>
+            Euro-Techno
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.FastFusion">
+            <summary>
+            Fast Fusion
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Folk">
+            <summary>
+            Folk
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Folklore">
+            <summary>
+            Folklore
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.FolkRock">
+            <summary>
+            Folk-Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Freestyle">
+            <summary>
+            Freestyle
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Funk">
+            <summary>
+            Funk
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Fusion">
+            <summary>
+            Fusion
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Game">
+            <summary>
+            Game
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Gangsta">
+            <summary>
+            Gangsta
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Gospel">
+            <summary>
+            Gospel
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Gothic">
+            <summary>
+            Gothic
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.GothicRock">
+            <summary>
+            Gothic Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Grunge">
+            <summary>
+            Grunge
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.HardRock">
+            <summary>
+            Hard Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.HipHop">
+            <summary>
+            Hip-Hop
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.House">
+            <summary>
+            House
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Humour">
+            <summary>
+            Humour
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Industrial">
+            <summary>
+            Industrial
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Instrumental">
+            <summary>
+            Instrumental
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.InstrumentalPop">
+            <summary>
+            Instrumental Pop
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.InstrumentalRock">
+            <summary>
+            Instrumental Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Jazz">
+            <summary>
+            Jazz
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.JazzFunk">
+            <summary>
+            Jazz+Funk
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Jungle">
+            <summary>
+            Jungle
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Latin">
+            <summary>
+            Latin
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.LoFi">
+            <summary>
+            Lo-Fi
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Meditative">
+            <summary>
+            Meditative
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Metal">
+            <summary>
+            Metal
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Musical">
+            <summary>
+            Musical
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.NationalFolk">
+            <summary>
+            National Folk
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.NativeAmerican">
+            <summary>
+            Native American
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.NewAge">
+            <summary>
+            New Age
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.NewWave">
+            <summary>
+            New Wave
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Noise">
+            <summary>
+            Noise
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Oldies">
+            <summary>
+            Oldies
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Opera">
+            <summary>
+            Opera
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Polka">
+            <summary>
+            Polka
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Pop">
+            <summary>
+            Pop
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.PopFunk">
+            <summary>
+            Pop/Funk
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.PopFolk">
+            <summary>
+            Pop-Folk
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.PornGroove">
+            <summary>
+            Porn Groove
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.PowerBallad">
+            <summary>
+            Power Ballad
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Pranks">
+            <summary>
+            Pranks
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Primus">
+            <summary>
+            Primus
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.ProgressiveRock">
+            <summary>
+            Progressive Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Psychadelic">
+            <summary>
+            Psychadelic
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.PsychedelicRock">
+            <summary>
+            Psychedelic Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Punk">
+            <summary>
+            Punk
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.PunkRock">
+            <summary>
+            Punk Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.RnB">
+            <summary>
+            R &amp; B
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Rap">
+            <summary>
+            Rap
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Rave">
+            <summary>
+            Rave
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Reggae">
+            <summary>
+            Reggae
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Retro">
+            <summary>
+            Retro
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Revival">
+            <summary>
+            Revival
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.RhytmicSoul">
+            <summary>
+            Rhythmic Soul
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Rock">
+            <summary>
+            Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.RockRoll">
+            <summary>
+            Rock &amp; Roll
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Samba">
+            <summary>
+            Samba
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Satire">
+            <summary>
+            Satire
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Showtunes">
+            <summary>
+            Showtunes
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Ska">
+            <summary>
+            Ska
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.SlowJam">
+            <summary>
+            Slow Jam
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.SlowRock">
+            <summary>
+            Slow Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Sonata">
+            <summary>
+            Sonata
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Soul">
+            <summary>
+            Soul
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.SoundClip">
+            <summary>
+            Sound Clip
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Soundtrack">
+            <summary>
+            Soundtrack
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.SouthernRock">
+            <summary>
+            Southern Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Space">
+            <summary>
+            Space
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Speech">
+            <summary>
+            Speech
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Swing">
+            <summary>
+            Swing
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.SymphonicRock">
+            <summary>
+            Symphonic Rock
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Symphony">
+            <summary>
+            Symphony
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Tango">
+            <summary>
+            Tango
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Techno">
+            <summary>
+            Techno
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.TechnoIndustrial">
+            <summary>
+            Techno-Industrial
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Top40">
+            <summary>
+            Top 40
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Trailer">
+            <summary>
+            Trailer
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Trance">
+            <summary>
+            Trance
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Tribal">
+            <summary>
+            Tribal
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.TripHop">
+            <summary>
+            Trip-Hop
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.Genre.Vocal">
+            <summary>
+            Vocal
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.OggCodec">
+            <summary>
+            Type de codec utilisé.
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggCodec.Vorbis">
+            <summary>
+            Codec Vorbis
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggCodec.FLAC">
+            <summary>
+            Codec FLAC
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggCodec.Speex">
+            <summary>
+            Codec Speex
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.SpeexBand">
+            <summary>
+            Largeur de bande utilisée pour le fichier Speex.
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.SpeexBand.NarrowBand">
+            <summary>
+            NarrowBand (8 000 Hertz)
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.SpeexBand.WideBand">
+            <summary>
+            WideBand (16 000 Hertz)
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.SpeexBand.UltraWideband">
+            <summary>
+            UltraWideBand (32 000 Hertz)
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.ID3PictureType">
+            <summary>
+            Type d'image selon la norme ID3v2 (frame APIC).
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.Other">
+            <summary>
+            Other
+            </summary>
+            <remarks>
+            'Others' are reserved and should not be used.
+            </remarks>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.PNG32PixelsFileIcon">
+            <summary>
+            32x32 pixels 'file icon' (PNG only)
+            </summary>
+            <remarks>
+            There may only be one of this picture type in a file.
+            </remarks>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.OtherFileIcon">
+            <summary>
+            Other file icon
+            </summary>
+            <remarks>
+            There may only be one of this picture type in a file.
+            </remarks>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.FrontCover">
+            <summary>
+            Cover (front)
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.BackCover">
+            <summary>
+            Cover (back)
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.LeafletPage">
+            <summary>
+            Leaflet page
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.Media">
+            <summary>
+            Media (e.g. label side of CD)
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.LeadArtist">
+            <summary>
+            Lead artist, lead performer or soloist
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.Artist">
+            <summary>
+            Artist or performer
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.Conductor">
+            <summary>
+            Conductor
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.Orchestra">
+            <summary>
+            Band or orchestra
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.Composer">
+            <summary>
+            Composer
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.Lyricist">
+            <summary>
+            Lyricist or text writer
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.RecordingLocation">
+            <summary>
+            Recording location
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.DuringRecording">
+            <summary>
+            During recording
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.DuringPerformance">
+            <summary>
+            During performance
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.VideoScreenCapture">
+            <summary>
+            Movie or video screen capture
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.BrightColouredFish">
+            <summary>
+            A bright coloured fish
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.Illustration">
+            <summary>
+            Illustration
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.ArtistLogo">
+            <summary>
+            Band or artist logotype
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.ID3PictureType.StudioLogo">
+            <summary>
+            Publisher or studio logotype
+            </summary>
+        </member>
+        <member name="T:Luminescence.Xiph.OggHeaderType">
+            <summary>
+            Type de la page Ogg.
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggHeaderType.FreshPaquetInContinuedLogicalBitstream">
+            <summary>
+            On est au milieu d'un flux binaire, et on commence un nouveau paquet avec cette page
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggHeaderType.ContinuedPaquetInContinuedLogicalBitstream">
+            <summary>
+            On est au milieu d'un flux binaire, et on continue un paquet de la page précédente
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggHeaderType.FreshPaquetInNewLogicalBitstream">
+            <summary>
+            On commence un flux binaire, et on démarre avec un nouveau paquet
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggHeaderType.FreshPaquetInLastLogicalBitstream">
+            <summary>
+            On termine un flux binaire, mais on commence cette page avec un nouveau paquet
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggHeaderType.ContinuedPaquetInLastLogicalBitstream">
+            <summary>
+            On termine un flux binaire en continuant un paquet de la page précédente
+            </summary>
+        </member>
+        <member name="F:Luminescence.Xiph.OggHeaderType.StartAndEndLogicalBitstream">
+            <summary>
+            On commence et termine un flux binaire : cela se produit quand le flux rentre entièrement dans une seule page
+            </summary>
+        </member>
+    </members>
+</doc>

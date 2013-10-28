@@ -63,7 +63,7 @@
                         cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Orange')]"
                         Style="{StaticResource ColorPickerButtonStyle}" />
             </WrapPanel>
-            <StackPanel Orientation="Horizontal"/>
+            <StackPanel Orientation="Horizontal" />
         </StackPanel>
     </Grid>
 </controls:MetroContentControl>

@@ -6,7 +6,8 @@
                       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                       xmlns:cal="http://www.caliburnproject.org"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      Width="1050" Height="700" WindowStartupLocation="CenterScreen" Icon="/MiSharp;component/Music.ico">
+                      Width="1050" Height="700" WindowStartupLocation="CenterScreen"
+                      Icon="/MiSharp;component/Music.ico">
     <controls:MetroWindow.WindowCommands>
         <controls:WindowCommands>
             <Button Content="settings" cal:Message.Attach="OpenSettings" />

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using MiSharp.Core;
+using DeadDog.Audio;
 using MiSharp.Core.Player;
 using ReactiveUI;
 
 namespace MiSharp
 {
     [Export]
-    public class PlayerViewModel : ReactiveObject, IHandle<Song>
+    public class PlayerViewModel : ReactiveObject, IHandle<RawTrack>
     {
         private readonly IEventAggregator _events;
         private readonly PlaylistViewModel _playlistViewModel;
@@ -40,7 +40,7 @@ namespace MiSharp
             set { this.RaiseAndSetIfChanged(ref _isPlaying, value); }
         }
 
-        public void Handle(Song song)
+        public void Handle(RawTrack song)
         {
             Play(song);
         }
@@ -55,12 +55,12 @@ namespace MiSharp
                 PositionValue = (int) args.CurrentTime.TotalSeconds;
         }
 
-        public void Play(Song song)
+        public void Play(RawTrack song)
         {
             Player.Load(song, Volume);
             Player.Play();
             IsPlaying = true;
-            song.State = AudioPlayerState.Playing;
+            //song.State = AudioPlayerState.Playing;
             _playlistViewModel.CurrentSong = song;
         }
 
@@ -71,7 +71,7 @@ namespace MiSharp
 
         public void StartClick()
         {
-            Song song = _playlistViewModel.CurrentSong;
+            RawTrack song = _playlistViewModel.CurrentSong;
             if (song == null) return;
             Play(song);
         }
@@ -80,26 +80,26 @@ namespace MiSharp
         {
             Player.Pause();
             IsPlaying = false;
-            _playlistViewModel.CurrentSong.State = AudioPlayerState.Paused;
+            //_playlistViewModel.CurrentSong.State = AudioPlayerState.Paused;
         }
 
         public void StopClick()
         {
             Player.Stop();
             IsPlaying = false;
-            _playlistViewModel.CurrentSong.State = AudioPlayerState.Stopped;
+            //_playlistViewModel.CurrentSong.State = AudioPlayerState.Stopped;
         }
 
         public void PlayNext()
         {
-            Song song = _playlistViewModel.GetNextSong();
+            RawTrack song = _playlistViewModel.GetNextSong();
             if (song != null)
                 Play(song);
         }
 
         public void PlayPrev()
         {
-            Song song = _playlistViewModel.GetPreviousSong();
+            RawTrack song = _playlistViewModel.GetPreviousSong();
             if (song != null)
                 Play(song);
         }
@@ -108,7 +108,7 @@ namespace MiSharp
 
         private void Player_SongFinished(object sender, EventArgs e)
         {
-            Song song = _playlistViewModel.GetNextSong();
+            RawTrack song = _playlistViewModel.GetNextSong();
             if (song == null) return;
             Play(song);
         }

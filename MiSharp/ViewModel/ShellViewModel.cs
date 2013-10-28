@@ -5,25 +5,23 @@ using ReactiveUI;
 
 namespace MiSharp
 {
-    [Export(typeof(ShellViewModel))]
+    [Export(typeof (ShellViewModel))]
     public class ShellViewModel : ReactiveScreen, IShellViewModel
     {
         private readonly IWindowManager _windowManager;
         private bool _isSettingsFlyoutOpen;
 
         [ImportingConstructor]
-        public ShellViewModel(LibraryViewModel libraryViewModel, PlayerViewModel playerViewModel,
-            SettingsBaseViewModel settingsBaseViewModel,
-            PlaylistViewModel playlistViewModel,
-            IWindowManager windowManager, IEventAggregator events)
+        public ShellViewModel(IEventAggregator events)
         {
             DisplayName = "Mi#";
-            LibraryViewModel = libraryViewModel;
-            PlayerViewModel = playerViewModel;
-            PlaylistViewModel = playlistViewModel;
-            SettingsBaseViewModel = settingsBaseViewModel;
+
+            LibraryViewModel = IoC.Get<LibraryViewModel>();
+            PlayerViewModel = IoC.Get<PlayerViewModel>();
+            PlaylistViewModel = IoC.Get<PlaylistViewModel>();
+            SettingsBaseViewModel = IoC.Get<SettingsBaseViewModel>();
             events.Subscribe(this);
-            _windowManager = windowManager;
+            _windowManager = IoC.Get<IWindowManager>();
         }
 
         public SettingsBaseViewModel SettingsBaseViewModel { get; set; }

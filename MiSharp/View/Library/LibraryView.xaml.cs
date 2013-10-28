@@ -5,7 +5,7 @@
     /// </summary>
     public partial class LibraryView
     {
-   public LibraryView()
+        public LibraryView()
         {
             InitializeComponent();
         }

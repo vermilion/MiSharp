@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiSharp", "MiSharp\MiSharp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiSharp.Core", "MiSharp.Core\MiSharp.Core.csproj", "{B15B28FC-FF24-4871-B539-C4EB78788612}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadDog.Audio", "DeadDog.Audio-master\DeadDog.Audio.csproj", "{A393FD81-A89C-4761-AF87-2E5DE2B95B61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{B15B28FC-FF24-4871-B539-C4EB78788612}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B15B28FC-FF24-4871-B539-C4EB78788612}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B15B28FC-FF24-4871-B539-C4EB78788612}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A393FD81-A89C-4761-AF87-2E5DE2B95B61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A393FD81-A89C-4761-AF87-2E5DE2B95B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A393FD81-A89C-4761-AF87-2E5DE2B95B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A393FD81-A89C-4761-AF87-2E5DE2B95B61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

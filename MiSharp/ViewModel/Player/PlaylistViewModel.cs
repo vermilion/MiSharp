@@ -1,30 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using MiSharp.Core;
+using DeadDog.Audio;
 using Rareform.Collections;
 using ReactiveUI;
 
 namespace MiSharp
 {
     [Export]
-    public class PlaylistViewModel : ReactiveObject, IHandle<IEnumerable<Song>>
+    public class PlaylistViewModel : ReactiveObject, IHandle<IEnumerable<RawTrack>>
     {
         private readonly IEventAggregator _events;
-        private Song _currentSong;
+        private RawTrack _currentSong;
 
         private int _currentSongIndex;
-        private ObservableList<Song> _songs;
+        private ObservableList<RawTrack> _songs;
 
         [ImportingConstructor]
         public PlaylistViewModel(IEventAggregator events)
         {
             _events = events;
-            _songs = new ObservableList<Song>();
+            _songs = new ObservableList<RawTrack>();
             events.Subscribe(this);
         }
 
-        public ObservableList<Song> Songs
+        public ObservableList<RawTrack> Songs
         {
             get { return _songs; }
             set { this.RaiseAndSetIfChanged(ref _songs, value); }
@@ -36,7 +36,7 @@ namespace MiSharp
             set { this.RaiseAndSetIfChanged(ref _currentSongIndex, value); }
         }
 
-        public Song CurrentSong
+        public RawTrack CurrentSong
         {
             get { return _currentSong; }
             set { this.RaiseAndSetIfChanged(ref _currentSong, value); }
@@ -67,7 +67,7 @@ namespace MiSharp
 
         #region IHandle
 
-        public void Handle(IEnumerable<Song> songs)
+        public void Handle(IEnumerable<RawTrack> songs)
         {
             Songs.AddRange(songs);
         }
@@ -79,22 +79,22 @@ namespace MiSharp
 
         #endregion
 
-        public Song GetNextSong()
+        public RawTrack GetNextSong()
         {
             if (CanPlayNextSong)
             {
-                Song nextSong = Songs[CurrentSongIndex + 1];
+                RawTrack nextSong = Songs[CurrentSongIndex + 1];
                 CurrentSongIndex++;
                 return nextSong;
             }
             return null;
         }
 
-        public Song GetPreviousSong()
+        public RawTrack GetPreviousSong()
         {
             if (CanPlayPreviousSong)
             {
-                Song prevSong = Songs[CurrentSongIndex - 1];
+                RawTrack prevSong = Songs[CurrentSongIndex - 1];
                 CurrentSongIndex--;
                 return prevSong;
             }

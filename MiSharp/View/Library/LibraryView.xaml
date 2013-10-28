@@ -1,15 +1,15 @@
-﻿<controls:MetroContentControl 
-                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-                              xmlns:cal="http://www.caliburnproject.org"
-                              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              xmlns:miSharp="clr-namespace:MiSharp"
-                              xmlns:system="clr-namespace:System;assembly=mscorlib"
-                              x:Class="MiSharp.LibraryView"
-                              mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
+﻿<controls:MetroContentControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:miSharp="clr-namespace:MiSharp"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    x:Class="MiSharp.LibraryView"
+    mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
     <controls:MetroContentControl.Resources>
         <ResourceDictionary>
             <miSharp:FirstLetterConverter x:Key="firstLetterConverter" />
@@ -17,11 +17,12 @@
                 <CollectionViewSource.GroupDescriptions>
                     <PropertyGroupDescription PropertyName="Name" Converter="{StaticResource firstLetterConverter}" />
                 </CollectionViewSource.GroupDescriptions>
-            </CollectionViewSource>       
+            </CollectionViewSource>
         </ResourceDictionary>
     </controls:MetroContentControl.Resources>
     <Grid>
-        <ListView ItemsSource="{Binding Source={StaticResource GroupedBands}}" SelectedItem="{Binding SelectedBand}"
+        <ListView ItemsSource="{Binding Source={StaticResource GroupedBands}, IsAsync=True}"
+                  SelectedItem="{Binding SelectedBand}"
                   HorizontalAlignment="Left" Margin="10,10,0,10" Width="239">
             <ListView.ContextMenu>
                 <ContextMenu>
@@ -90,36 +91,37 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="LblName" Tag="{Binding Name}">
-                            <StackPanel HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="170">
-                                <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" />
-                                <Button HorizontalAlignment="Center" Content="Add to now playing" >
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="LblName" Tag="{Binding Title}">
+                            <StackPanel HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+                                        Width="170">
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding Title}" />
+                                <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Add to now playing">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <cal:ActionMessage MethodName="AddAlbumToPlaylist"/>
+                                            <cal:ActionMessage MethodName="AddAlbumToPlaylist" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
-                                <Button HorizontalAlignment="Center" Content="Edit album tags">
+                                <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Edit album tags">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <cal:ActionMessage MethodName="EditorEditAlbumsNew"/>
+                                            <cal:ActionMessage MethodName="EditorEditAlbumsNew" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
                                 <Image Height="100" HorizontalAlignment="Center" Width="100"
                                        Source="{Binding Cover}" />
-                                <Label HorizontalAlignment="Center" Content="{Binding Year}" />                              
+                                <Label HorizontalAlignment="Center" Content="{Binding Year}" />
                             </StackPanel>
                             <ListView
-                                ItemsSource="{Binding Songs, IsAsync=True}" SelectedItem="{Binding SelectedSong}"
+                                ItemsSource="{Binding Tracks, IsAsync=True}" SelectedItem="{Binding SelectedSong}"
                                 HorizontalAlignment="Left" Margin="175,10,0,0" VerticalAlignment="Top">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Margin="10,0,0,0" Orientation="Horizontal"
                                                     VerticalAlignment="Center" HorizontalAlignment="Left">
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left"
-                                                       Text="{Binding TrackNumber}" Foreground="Gray" />
+                                                       Text="{Binding Tracknumber}" Foreground="Gray" />
                                             <TextBlock Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center"
                                                        Text="{Binding Title}" />
                                         </StackPanel>

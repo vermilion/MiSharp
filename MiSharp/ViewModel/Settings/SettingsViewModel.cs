@@ -45,7 +45,7 @@ namespace MiSharp
             set
             {
                 this.RaiseAndSetIfChanged(ref Settings.Instance.FileFormats,
-                    value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
+                                          value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
             }
         }
 
@@ -105,8 +105,15 @@ namespace MiSharp
         public void RescanLibrary()
         {
             MediaRepository.Instance.Recreate();
-            MediaRepository.Instance.FileFound += Instance_FileFound;
+            MediaRepository.Instance.ScanCompleted += Instance_ScanCompleted;
+            //MediaRepository.Instance.FileFound += Instance_FileFound;
             Task.Run(() => MediaRepository.Instance.Rescan());
+        }
+
+        void Instance_ScanCompleted()
+        {
+            var model = IoC.Get<LibraryViewModel>();
+            this.NotifyOfPropertyChange(() => model.Bands);
         }
 
         private void Instance_FileFound(FileStatEventArgs args)

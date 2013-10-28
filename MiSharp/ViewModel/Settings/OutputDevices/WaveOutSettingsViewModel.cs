@@ -23,11 +23,11 @@ namespace MiSharp
             }
 
             CallBacks.AddRange(new List<WaveCallbackStrategy>
-            {
-                WaveCallbackStrategy.NewWindow,
-                WaveCallbackStrategy.FunctionCallback,
-                WaveCallbackStrategy.Event
-            });
+                {
+                    WaveCallbackStrategy.NewWindow,
+                    WaveCallbackStrategy.FunctionCallback,
+                    WaveCallbackStrategy.Event
+                });
         }
 
         public List<string> Devices
@@ -68,8 +68,8 @@ namespace MiSharp
             else
             {
                 WaveCallbackInfo callbackInfo = strategy == WaveCallbackStrategy.NewWindow
-                    ? WaveCallbackInfo.NewWindow()
-                    : WaveCallbackInfo.FunctionCallback();
+                                                    ? WaveCallbackInfo.NewWindow()
+                                                    : WaveCallbackInfo.FunctionCallback();
                 var outputDevice = new WaveOut(callbackInfo);
                 outputDevice.DeviceNumber = SelectedDeviceNumber;
                 outputDevice.DesiredLatency = latency;

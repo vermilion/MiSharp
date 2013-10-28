@@ -2,8 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using MiSharp.Core;
-using MiSharp.Core.EqualityComparers;
+using DeadDog.Audio;
 using MiSharp.Core.Library;
 using MiSharp.Core.Repository;
 using ReactiveUI;
@@ -14,16 +13,13 @@ namespace MiSharp
     public class LibraryViewModel : ReactiveObject, IHandle<FileStatEventArgs>
     {
         private readonly IEventAggregator _events;
-        private readonly IWindowManager _windowManager;
-        private ArtistViewModel _selectedBand;
         private IEnumerable<ComboAlbumViewModel> _comboAlbums;
+        private ArtistViewModel _selectedBand;
 
-        [ImportingConstructor]
-        public LibraryViewModel(IEventAggregator events, IWindowManager windowManager)
+        public LibraryViewModel()
         {
-            _events = events;
+            _events = IoC.Get<IEventAggregator>();
             _events.Subscribe(this);
-            _windowManager = windowManager;
         }
 
         public string Status { get; set; }
@@ -31,58 +27,25 @@ namespace MiSharp
         public ArtistViewModel SelectedBand
         {
             get { return _selectedBand; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _selectedBand, value, "ComboAlbums");
-            }
+            set { this.RaiseAndSetIfChanged(ref _selectedBand, value, "ComboAlbums"); }
         }
 
         public IEnumerable<ComboAlbumViewModel> ComboAlbums
         {
             get
             {
-                if (SelectedBand == null) return new List<ComboAlbumViewModel>();
-                return MediaRepository.Instance
-                    .GetAllSongs()
-                    .Where(x => x.Artist == SelectedBand.Name)
-                    .Distinct(new AlbumEqualityComparer())
-                    .Select(x =>
-                        new ComboAlbumViewModel
-                        {
-                            Name = x.Album,
-                            Year = x.Year,
-                            Artist = x.Artist
-                        });
+                if (SelectedBand == null || SelectedBand.Albums.Count==0) return new List<ComboAlbumViewModel>();
+                return SelectedBand.Albums
+                                   .Where(x => x.Artist.Name == SelectedBand.Name)
+                                   .Select(x => new ComboAlbumViewModel(x.Artist.Name));
             }
             set { this.RaiseAndSetIfChanged(ref _comboAlbums, value); }
         }
 
         public IEnumerable<ArtistViewModel> Bands
         {
-            get { return MediaRepository.Instance.GetAllBands().OrderBy(x => x).Select(x => new ArtistViewModel(x)); }
+            get { return MediaRepository.Instance.GetLibrary().Artists.Select(x => new ArtistViewModel(x.Name)); }
         }
-
-
-        public void AddArtistToPlaylist()
-        {
-            _events.Publish(GetSongsByArtist());
-        }
-        
-        private List<Song> GetSongsByArtist()
-        {
-            return MediaRepository.Instance.GetAllSongsFiltered(new TagFilter(SelectedBand.Name, null)).ToList();
-        }
-
-
-        #region TagEditor
-        
-        public void EditorEditArtists()
-        {
-            if (SelectedBand != null)
-                _windowManager.ShowDialog(new ArtistTagEditorViewModel(GetSongsByArtist()));
-        }
-
-        #endregion
 
         #region IHandle
 
@@ -93,7 +56,7 @@ namespace MiSharp
             //NotifyOfPropertyChange(() => Status);
             if (e.Completed)
                 raisePropertyChanged("Bands");
-                //NotifyOfPropertyChange(() => Bands);
+            //NotifyOfPropertyChange(() => Bands);
         }
 
         #endregion

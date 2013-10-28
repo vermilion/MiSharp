@@ -1,5 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
+using DeadDog.Audio;
 using MiSharp.Core.Player.Exceptions;
 using Rareform.Extensions;
 
@@ -27,7 +28,7 @@ namespace MiSharp.Core.Player
         /// <value>
         ///     The song that the <see cref="AudioPlayer" /> is assigned to.
         /// </value>
-        public Song Song { get; protected set; }
+        public RawTrack Song { get; protected set; }
 
         /// <summary>
         ///     Gets the total time.
@@ -52,7 +53,7 @@ namespace MiSharp.Core.Player
         ///     Loads the specified song into the <see cref="SongLoadException" />. This is required before playing a new song.
         /// </summary>
         /// <exception cref="LocalAudioPlayer">The song could not be loaded.</exception>
-        public virtual void Load(Song song, float volume)
+        public virtual void Load(RawTrack song, float volume)
         {
         }
 

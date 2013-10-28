@@ -136,7 +136,16 @@
     <Compile Include="SliderEx.cs" />
     <Compile Include="ViewModel\Library\ArtistViewModel.cs" />
     <Compile Include="ViewModel\Library\ComboAlbumViewModel.cs" />
-    <Compile Include="ViewModel\Library\FirstLetterConverter.cs" />
+    <Compile Include="ViewModel\Converters\FirstLetterConverter.cs" />
+    <Compile Include="ViewModel\Library\TagEditor\AlbumTagEditorViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\Library\TagEditor\ArtistTagEditorViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\Library\TagEditor\SongTagEditorViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModel\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="View\Settings\SettingsAppearanceView.xaml.cs">
       <DependentUpon>SettingsAppearanceView.xaml</DependentUpon>
@@ -150,12 +159,9 @@
     <Compile Include="ViewModel\Settings\OutputDevices\WaveOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Player\PlayerViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
-    <Compile Include="ViewModel\Library\TagEditor\ArtistTagEditorViewModel.cs" />
-    <Compile Include="ViewModel\Library\TagEditor\AlbumTagEditorViewModel.cs" />
     <Compile Include="ViewModel\DialogResults\ChangesSaved.cs" />
     <Compile Include="ViewModel\DialogResults\CloseResult.cs" />
     <Compile Include="ViewModel\DialogResults\Result.cs" />
-    <Compile Include="ViewModel\Library\TagEditor\SongTagEditorViewModel.cs" />
     <Compile Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml.cs">
       <DependentUpon>AsioOutSettingsView.xaml</DependentUpon>
     </Compile>
@@ -279,7 +285,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -306,6 +311,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DeadDog.Audio-master\DeadDog.Audio.csproj">
+      <Project>{a393fd81-a89c-4761-af87-2e5de2b95b61}</Project>
+      <Name>DeadDog.Audio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MiSharp.Core\MiSharp.Core.csproj">
       <Project>{b15b28fc-ff24-4871-b539-c4eb78788612}</Project>
       <Name>MiSharp.Core</Name>

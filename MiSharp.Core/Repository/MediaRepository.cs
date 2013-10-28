@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using MiSharp.Core.EqualityComparers;
+using System.Xml.Serialization;
+using DeadDog.Audio.Parsing.ID3;
+using DeadDog.Audio.Scan;
 using MiSharp.Core.Library;
 
 namespace MiSharp.Core.Repository
@@ -15,11 +16,11 @@ namespace MiSharp.Core.Repository
         public delegate void ScanCompletedEventHandler();
 
 
-        private const string LibPath = "media.lib";
+        private const string LibPath = "library.db4o";
         private static MediaRepository _library;
 
         public MediaRepository() : base(LibPath)
-        {
+        {                        
         }
 
         public static MediaRepository Instance
@@ -27,63 +28,39 @@ namespace MiSharp.Core.Repository
             get { return _library ?? (_library = new MediaRepository()); }
         }
 
-        public IEnumerable<Album> GetAllAlbums(string bandName)
-        {
-            return GetAllSongs().Where(x => x.Artist == bandName)
-                .Distinct(new AlbumEqualityComparer())
-                .Select(x => new Album {Name = x.Album, Year = x.Year});
+        public DeadDog.Audio.Libraries.Library GetLibrary()
+        {            
+            DeadDog.Audio.Libraries.Library lib = Repository.GetAll<DeadDog.Audio.Libraries.Library>().FirstOrDefault();
+            //Repository.Activate(lib,20);
+            return lib ?? new DeadDog.Audio.Libraries.Library();
         }
 
-
-        public IEnumerable<string> GetAllBands()
+        private AudioScanner _scanner;
+        private DeadDog.Audio.Libraries.Library _lib;
+        public async Task<bool> Rescan()
         {
-            return GetAllSongs().Select(x => x.Artist).Distinct();
-        }
-
-        public IEnumerable<Song> GetAllSongsFiltered(TagFilter filter)
-        {
-            IEnumerable<Song> result = GetAllSongs();
-            if (filter.BandName != null)
-                result = result.Where(x => x.Artist == filter.BandName);
-            if (filter.AlbumName != null)
-                result = result.Where(x => x.Album == filter.AlbumName);
-            return result;
-        }
-
-        public IEnumerable<Song> GetAllSongs()
-        {
-            return Repository.GetAll<Song>();
+            _lib = GetLibrary();
+            _scanner = new AudioScanner(new ID3Parser(), Settings.Instance.WatchFolder, SearchOption.AllDirectories);
+            _scanner.MediaLibrary = _lib;
+            _scanner.ScanDone += scanner_ScanDone;
+            _scanner.FileParsed += scanner_FileParsed;
+            await Task.Run(() => _scanner.RunScannerAsync());
+            
+            return true;
         }
 
         public event FileFoundEventHandler FileFound;
         public event ScanCompletedEventHandler ScanCompleted;
-
-        //TODO:fk off events. Make Task<> based
-        public async Task<bool> Rescan()
+        void scanner_FileParsed(AudioScan sender, ScanFileEventArgs e)
         {
-            FileInfo[] files = Settings.Instance.FileFormats
-                .SelectMany(f =>
-                    new DirectoryInfo(Settings.Instance.WatchFolder)
-                        .GetFiles(f.Trim(), SearchOption.AllDirectories))
-                .ToArray();
+            //FileFound(new FileStatEventArgs());
+        }
 
-            Int64 count = files.Count();
-            for (int index = 1; index <= files.Length; index++)
-            {
-                FileInfo file = files[index - 1];
-                FileFound(new FileStatEventArgs {File = file, CurrentFileNumber = index, TotalFiles = count});
-                try
-                {
-                    var tag = new Song(file.FullName);
-                    await Repository.Save(tag);
-                }
-                catch
-                {
-//TODO: dunno why crashes on Tag gen. investigate it
-                }
-            }
+        private void scanner_ScanDone(AudioScan sender, ScanCompletedEventArgs e)
+        {
+            _lib = _scanner.MediaLibrary;
+            Save(_lib);
             ScanCompleted();
-            return true;
         }
     }
 }

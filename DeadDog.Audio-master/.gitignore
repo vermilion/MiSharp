@@ -1,0 +1,12 @@
+########################
+## Visual Studio 2010 ##
+########################
+
+*.cache
+*.tlog
+*.pdb
+*bin/
+*obj/
+*.suo
+*.cachefile
+*.sln
