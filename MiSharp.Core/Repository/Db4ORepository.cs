@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Db4objects.Db4o;
 using Db4objects.Db4o.Config;
 using Db4objects.Db4o.Linq;
+using Db4objects.Db4o.TA;
 
 namespace MiSharp.Core.Repository
 {
@@ -13,7 +14,10 @@ namespace MiSharp.Core.Repository
 
         public Db4ORepository(string storagePath)
         {
-            Container = Db4oEmbedded.OpenFile(Db4oEmbedded.NewConfiguration(), storagePath);
+            IEmbeddedConfiguration configuration = Db4oEmbedded.NewConfiguration();
+            configuration.Common.Add(new TransparentActivationSupport());
+            configuration.Common.Add(new TransparentPersistenceSupport());
+            Container = Db4oEmbedded.OpenFile(configuration, storagePath);
         }
 
         public Db4ORepository(string storagePath, int activationDepth, int updateDepth)

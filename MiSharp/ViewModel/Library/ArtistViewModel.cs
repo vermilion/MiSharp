@@ -9,9 +9,10 @@ namespace MiSharp
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
 
-        public ArtistViewModel(string name)
-            : base(name)
+        public ArtistViewModel(Artist artist)
+            : base(artist.Name)
         {
+            Albums = artist.Albums;
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
         }

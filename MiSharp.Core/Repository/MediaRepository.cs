@@ -16,7 +16,7 @@ namespace MiSharp.Core.Repository
         public delegate void ScanCompletedEventHandler();
 
 
-        private const string LibPath = "library.db4o";
+        private const string LibPath = "library.lib";
         private static MediaRepository _library;
 
         public MediaRepository() : base(LibPath)

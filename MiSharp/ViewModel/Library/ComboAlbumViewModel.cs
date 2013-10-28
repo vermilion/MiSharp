@@ -20,11 +20,11 @@ namespace MiSharp
         private BitmapSource _cover;
         private RawTrack _selectedSong;     
 
-        public ComboAlbumViewModel(string name):base(name)
+        public ComboAlbumViewModel(Album album):base(album.Title)
         {
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
-
+            Tracks = album.Tracks;
             _cover = new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/Music.ico"));
         }
 

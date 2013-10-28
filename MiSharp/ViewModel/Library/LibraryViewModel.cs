@@ -36,15 +36,15 @@ namespace MiSharp
             {
                 if (SelectedBand == null || SelectedBand.Albums.Count==0) return new List<ComboAlbumViewModel>();
                 return SelectedBand.Albums
-                                   .Where(x => x.Artist.Name == SelectedBand.Name)
-                                   .Select(x => new ComboAlbumViewModel(x.Artist.Name));
+                                   //.Where(x => x.Artist.Name == SelectedBand.Name)
+                                   .Select(x => new ComboAlbumViewModel(x));
             }
             set { this.RaiseAndSetIfChanged(ref _comboAlbums, value); }
         }
 
         public IEnumerable<ArtistViewModel> Bands
         {
-            get { return MediaRepository.Instance.GetLibrary().Artists.Select(x => new ArtistViewModel(x.Name)); }
+            get { return MediaRepository.Instance.GetLibrary().Artists.Select(x => new ArtistViewModel(x)); }
         }
 
         #region IHandle

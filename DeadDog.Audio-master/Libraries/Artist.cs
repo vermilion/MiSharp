@@ -7,7 +7,7 @@ namespace DeadDog.Audio.Libraries
     {
         #region Properties
 
-        private readonly AlbumCollection _albums;
+        private AlbumCollection _albums;
         private readonly bool _isunknown;
 
         private string _name;
@@ -26,6 +26,7 @@ namespace DeadDog.Audio.Libraries
         public AlbumCollection Albums
         {
             get { return _albums; }
+            set { _albums = value; }
         }
 
         #endregion
