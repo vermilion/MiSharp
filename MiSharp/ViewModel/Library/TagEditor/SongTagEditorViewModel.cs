@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Caliburn.Micro;
 using DeadDog.Audio;
+using MiSharp.ViewModel.DialogResults;
 
 namespace MiSharp
 {
@@ -78,6 +79,7 @@ namespace MiSharp
             if (SongTitle.Trim() == string.Empty)
             {
                 MessageBox.Show("Please provide an Song Title.", "Error", MessageBoxButtons.OK);
+                yield return null;
             }
 
             foreach (RawTrack media in MediaList)

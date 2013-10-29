@@ -61,7 +61,7 @@ namespace DeadDog.Audio.Libraries
             _year = albumYear;
             _tracks = new TrackCollection(TrackAdded, TrackRemoved);
 
-            _title = album ?? string.Empty;
+            _title = album ?? "Unknown";
         }
 
         public override string ToString()

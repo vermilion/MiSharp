@@ -4,21 +4,8 @@ namespace DeadDog.Audio.Libraries.Collections
 {
     public class AlbumCollection : LibraryCollectionBase<Album>
     {
-        private readonly Album _unknownAlbum;
-
         internal AlbumCollection()
         {
-            _unknownAlbum = new Album(null, 0);
-        }
-
-        public Album UnknownAlbum
-        {
-            get { return _unknownAlbum; }
-        }
-
-        internal override Album UnknownElement
-        {
-            get { return _unknownAlbum; }
         }
 
         public event AlbumEventHandler AlbumAdded , AlbumRemoved;

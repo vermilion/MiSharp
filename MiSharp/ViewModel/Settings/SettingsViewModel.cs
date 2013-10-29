@@ -7,6 +7,7 @@ using Caliburn.Micro.ReactiveUI;
 using MiSharp.Core;
 using MiSharp.Core.Player.Output;
 using MiSharp.Core.Repository;
+using MiSharp.ViewModel.DialogResults;
 using ReactiveUI;
 
 namespace MiSharp
@@ -98,7 +99,7 @@ namespace MiSharp
         public IEnumerable<IResult> SaveClick()
         {
             Settings.Instance.SaveSettings();
-            yield return new ChangesSaved();
+            yield return new DummyResult();
         }
 
         public void RescanLibrary()

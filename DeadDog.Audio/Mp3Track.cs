@@ -24,7 +24,7 @@ namespace DeadDog.Audio
             }
             _filepath = filepath;
 
-            _track = string.IsNullOrEmpty(tag.Title) ? null : tag.Title.Trim();
+            _track = string.IsNullOrEmpty(tag.Title) ? _file.Name : tag.Title.Trim();
             _album = string.IsNullOrEmpty(tag.Album) ? null : tag.Album.Trim();
             _number = (int) tag.Track;
             _artist = !tag.Performers.Any() ? null : string.Join(" & ", tag.Performers);

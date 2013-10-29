@@ -21,11 +21,6 @@ namespace DeadDog.Audio.Libraries.Collections
             _removeHandler = removeHandler;
         }
 
-        internal override Track UnknownElement
-        {
-            get { return null; }
-        }
-
         public event TrackEventHandler TrackAdded , TrackRemoved;
 
         protected override void OnAdded(Track element)

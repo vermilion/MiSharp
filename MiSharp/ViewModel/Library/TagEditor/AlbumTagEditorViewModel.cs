@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Caliburn.Micro;
 using DeadDog.Audio;
+using MiSharp.ViewModel.DialogResults;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace MiSharp
@@ -67,14 +68,16 @@ namespace MiSharp
 
         public override IEnumerable<IResult> SaveChanges()
         {
-            if (SongAlbum.Trim() == string.Empty)
+            if (string.IsNullOrEmpty(SongAlbum))
             {
                 MessageBox.Show("Please provide an Album Name.", "Error", MessageBoxButtons.OK);
+                yield return null;
             }
 
-            if (SongAlbumArtist.Trim() == string.Empty)
+            if (string.IsNullOrEmpty(SongAlbumArtist))
             {
-                MessageBox.Show("Please provide an Album Name.", "Error", MessageBoxButtons.OK);
+                MessageBox.Show("Please provide an Artist Name.", "Error", MessageBoxButtons.OK);
+                yield return null;
             }
 
             foreach (RawTrack media in MediaList)

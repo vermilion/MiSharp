@@ -4,21 +4,8 @@ namespace DeadDog.Audio.Libraries.Collections
 {
     public class ArtistCollection : LibraryCollectionBase<Artist>
     {
-        private readonly Artist _unknownArtist;
-
         internal ArtistCollection()
         {
-            _unknownArtist = new Artist(null);
-        }
-
-        public Artist UnknownArtist
-        {
-            get { return _unknownArtist; }
-        }
-
-        internal override Artist UnknownElement
-        {
-            get { return _unknownArtist; }
         }
 
         public event ArtistEventHandler ArtistAdded , ArtistRemoved;

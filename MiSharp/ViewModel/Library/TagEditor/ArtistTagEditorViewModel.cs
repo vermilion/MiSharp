@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Caliburn.Micro;
 using Caliburn.Micro.ReactiveUI;
 using DeadDog.Audio;
+using MiSharp.ViewModel.DialogResults;
 
 namespace MiSharp
 {
@@ -58,8 +59,9 @@ namespace MiSharp
             {
                 try
                 {
-                    //media.Artist = SongAlbumArtist;
-                    //media.WriteTag();
+                    media.ArtistName = SongAlbumArtist;
+                    if (media is Mp3Track)
+                        (media as Mp3Track).WriteTag();
                 }
                 catch
                 {

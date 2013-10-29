@@ -31,7 +31,7 @@ namespace DeadDog.Audio.Libraries
             _isunknown = name == null;
             Albums = new AlbumCollection();
 
-            _name = name ?? string.Empty;
+            _name = name ?? "Unknown";
         }
 
         public override string ToString()

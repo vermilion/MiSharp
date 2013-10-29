@@ -144,7 +144,7 @@
     <Compile Include="ViewModel\Settings\OutputDevices\WaveOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Player\PlayerViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
-    <Compile Include="ViewModel\DialogResults\ChangesSaved.cs" />
+    <Compile Include="ViewModel\DialogResults\DummyResult.cs" />
     <Compile Include="ViewModel\DialogResults\CloseResult.cs" />
     <Compile Include="ViewModel\DialogResults\Result.cs" />
     <Compile Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml.cs">

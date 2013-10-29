@@ -13,8 +13,6 @@ namespace DeadDog.Audio.Libraries.Collections
             _list = new List<T>();
         }
 
-        internal abstract T UnknownElement { get; }
-
         public int Count
         {
             get { return _list.Count; }
@@ -27,29 +25,17 @@ namespace DeadDog.Audio.Libraries.Collections
 
         public T this[string name]
         {
-            get
-            {
-                if (string.IsNullOrEmpty(name))
-                    return UnknownElement;
-                else
-                    return _list.FirstOrDefault(e => GetName(e) == name);
-            }
+            get { return _list.FirstOrDefault(e => GetName(e) == name); }
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            if (UnknownElement != null)
-                yield return UnknownElement;
-            foreach (T t in _list)
-                yield return t;
+            return ((IEnumerable<T>) _list).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            if (UnknownElement != null)
-                yield return UnknownElement;
-            foreach (T t in _list)
-                yield return t;
+            return _list.GetEnumerator();
         }
 
         protected abstract string GetName(T element);

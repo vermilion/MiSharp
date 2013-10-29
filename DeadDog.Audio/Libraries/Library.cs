@@ -99,7 +99,7 @@ namespace DeadDog.Audio.Libraries
 
                 old.Album.Tracks.Remove(old);
                 old.Album.Tracks.Add(old);
-                if (oldArtist.Albums.Count == 0 && oldArtist.Albums.UnknownAlbum.Tracks.Count == 0)
+                if (oldArtist.Albums.Count == 0)
                     _artists.Remove(oldArtist);
             }
 
@@ -121,7 +121,7 @@ namespace DeadDog.Audio.Libraries
 
             if (artist != null)
             {
-                if (artist.Albums.Count == 0 && artist.Albums.UnknownAlbum.Tracks.Count == 0)
+                if (artist.Albums.Count == 0)
                     _artists.Remove(artist);
             }
 
