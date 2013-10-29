@@ -8,7 +8,7 @@ namespace DeadDog.Audio.Libraries.Collections
 
         internal AlbumCollection()
         {
-            _unknownAlbum = new Album(null);
+            _unknownAlbum = new Album(null, 0);
         }
 
         public Album UnknownAlbum

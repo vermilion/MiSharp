@@ -14,7 +14,7 @@ namespace DeadDog.Audio.Libraries
         private string _title;
 
         private TrackCollection _tracks;
-        private uint _year;
+        private int _year;
 
         // This is correct! - Artist should NOT be a constructor argument.
 
@@ -42,7 +42,7 @@ namespace DeadDog.Audio.Libraries
             internal set { _artist = value; }
         }
 
-        public uint Year
+        public int Year
         {
             get { return _year; }
             set { this.RaiseAndSetIfChanged(ref _year, value); }
@@ -55,9 +55,10 @@ namespace DeadDog.Audio.Libraries
 
         #endregion
 
-        public Album(string album)
+        public Album(string album, int albumYear)
         {
             _isunknown = album == null;
+            _year = albumYear;
             _tracks = new TrackCollection(TrackAdded, TrackRemoved);
 
             _title = album ?? string.Empty;

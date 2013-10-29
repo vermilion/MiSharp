@@ -44,7 +44,7 @@ namespace DeadDog.Audio.Libraries
                 throw new ArgumentException(track.FullFilename + " is already in library - use Update instead.", "track");
 
             Artist artist = _artists[track.ArtistName] ?? CreateArtist(track.ArtistName);
-            Album album = _albums[track.AlbumTitle] ?? CreateAlbum(track.AlbumTitle);
+            Album album = _albums[track.AlbumTitle] ?? CreateAlbum(track.AlbumTitle, track.Year);
 
             var t = new Track(track, album, artist);
             _tracks.Add(t);
@@ -62,9 +62,9 @@ namespace DeadDog.Audio.Libraries
             return artist;
         }
 
-        private Album CreateAlbum(string albumName)
+        private Album CreateAlbum(string albumName, int albumYear)
         {
-            var album = new Album(albumName);
+            var album = new Album(albumName, albumYear);
             _albums.Add(album);
             return album;
         }
@@ -78,7 +78,7 @@ namespace DeadDog.Audio.Libraries
             old.Title = track.TrackTitle;
             old.Tracknumber = track.TrackNumberUnknown ? (int?) null : track.TrackNumber;
 
-            Album album = _albums[track.AlbumTitle] ?? CreateAlbum(track.AlbumTitle);
+            Album album = _albums[track.AlbumTitle] ?? CreateAlbum(track.AlbumTitle, track.Year);
             if (album != old.Album)
             {
                 old.Album.Tracks.Remove(old);

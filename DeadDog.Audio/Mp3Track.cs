@@ -9,6 +9,7 @@ namespace DeadDog.Audio
     public class Mp3Track : RawTrack
     {
         private readonly string _filepath;
+
         public Mp3Track(string filepath, Tag tag)
         {
             if (filepath == null)
@@ -31,7 +32,7 @@ namespace DeadDog.Audio
             _genre = tag.JoinedGenres;
         }
 
-                public void WriteTag()
+        public void WriteTag()
         {
             TagLib.File file = TagLib.File.Create(_filepath);
 

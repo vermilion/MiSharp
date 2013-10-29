@@ -34,9 +34,7 @@ namespace MiSharp
             get
             {
                 if (SelectedBand == null || SelectedBand.Albums.Count == 0) return new List<ComboAlbumViewModel>();
-                return SelectedBand.Albums
-                    //.Where(x => x.Artist.Name == SelectedBand.Name)
-                                   .Select(x => new ComboAlbumViewModel(x));
+                return SelectedBand.Albums.Select(x => new ComboAlbumViewModel(x));
             }
             set { this.RaiseAndSetIfChanged(ref _comboAlbums, value); }
         }

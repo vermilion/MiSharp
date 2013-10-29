@@ -9,7 +9,6 @@ using DeadDog.Audio;
 using DeadDog.Audio.Libraries;
 using ReactiveUI;
 using TagLib;
-using File = TagLib.File;
 
 namespace MiSharp
 {
@@ -21,7 +20,7 @@ namespace MiSharp
         private Track _selectedSong;
 
         public ComboAlbumViewModel(Album album)
-            : base(album.Title)
+            : base(album.Title, album.Year)
         {
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
@@ -38,7 +37,7 @@ namespace MiSharp
                 Track item = Tracks.FirstOrDefault();
                 if (item != null)
                 {
-                    File file = File.Create(item.Model.FullFilename);
+                    TagLib.File file = TagLib.File.Create(item.Model.FullFilename);
                     if (file.Tag.Pictures.Any())
                     {
                         IPicture pic = file.Tag.Pictures[0];
