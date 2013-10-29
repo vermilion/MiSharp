@@ -46,6 +46,13 @@ namespace MiSharp
             get { return MediaRepository.Instance.GetLibrary().Artists.Select(x => new ArtistViewModel(x)); }
         }
 
+        public void EditorEditArtists()
+        {
+            //TODO: move this to ArtistViewModel
+            var windowManager = IoC.Get<IWindowManager>();
+            windowManager.ShowDialog(new ArtistTagEditorViewModel(SelectedBand.Albums.SelectMany(x => x.Tracks).Select(x => x.Model).ToList()));
+        }
+
         #region IHandle
 
         public void Handle(FileStatEventArgs e)

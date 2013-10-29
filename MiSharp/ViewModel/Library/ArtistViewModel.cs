@@ -34,9 +34,10 @@ namespace MiSharp
 
         #region TagEditor
 
+        //TODO: not working here
         public void EditorEditArtists()
         {
-            //_windowManager.ShowDialog(new ArtistTagEditorViewModel(Albums.SelectMany(x => x.Tracks)));
+            _windowManager.ShowDialog(new ArtistTagEditorViewModel(Albums.SelectMany(x => x.Tracks).Select(x=>x.Model).ToList()));
         }
 
         #endregion

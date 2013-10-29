@@ -20,7 +20,8 @@ namespace MiSharp
         private BitmapSource _cover;
         private Track _selectedSong;
 
-        public ComboAlbumViewModel(Album album) : base(album.Title)
+        public ComboAlbumViewModel(Album album)
+            : base(album.Title)
         {
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
@@ -82,13 +83,13 @@ namespace MiSharp
 
         public void EditorEditAlbumsNew()
         {
-            //_windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks));
+            _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model).ToList()));
         }
 
         public void EditorEditSongs()
         {
-            // if (SelectedSong != null)
-            //_windowManager.ShowDialog(new SongTagEditorViewModel(new List<Song> { SelectedSong }));
+            if (SelectedSong != null)
+                _windowManager.ShowDialog(new SongTagEditorViewModel(new List<RawTrack> {SelectedSong.Model}));
         }
     }
 }

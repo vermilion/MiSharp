@@ -21,6 +21,7 @@ namespace DeadDog.Audio
         protected int _number;
         protected string _track;
         protected int _year;
+        protected string _genre;
 
         static RawTrack()
         {
@@ -86,6 +87,7 @@ namespace DeadDog.Audio
         public string TrackTitle
         {
             get { return _track; }
+            set { _track = value; }
         }
 
         /// <summary>
@@ -94,6 +96,7 @@ namespace DeadDog.Audio
         public string AlbumTitle
         {
             get { return _album; }
+            set { _album = value; }
         }
 
         /// <summary>
@@ -102,6 +105,7 @@ namespace DeadDog.Audio
         public int TrackNumber
         {
             get { return _number; }
+            set { _number = value; }
         }
 
         /// <summary>
@@ -118,11 +122,19 @@ namespace DeadDog.Audio
         public string ArtistName
         {
             get { return _artist; }
+            set { _artist = value; }
+        }
+
+        public string Genre
+        {
+            get { return _genre; }
+            set { _genre = value; }
         }
 
         public int Year
         {
             get { return _year; }
+            set { _year = value; }
         }
 
         public bool YearUnknown
