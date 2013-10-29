@@ -1,4 +1,4 @@
-﻿namespace DeadDog.Audio
+﻿namespace DeadDog.Audio.Playlist
 {
     /// <summary>
     ///     Defines constants for playlist file-restriction.

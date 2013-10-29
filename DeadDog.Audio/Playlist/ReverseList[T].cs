@@ -1,44 +1,44 @@
 ﻿using System.Collections.Generic;
 
-namespace DeadDog.Audio
+namespace DeadDog.Audio.Playlist
 {
     internal class ReverseList<T>
     {
-        private readonly List<PlaylistEntry<T>> list;
-        private bool canremovetop;
-        private int index;
+        private readonly List<T> _list;
+        private bool _canremovetop;
+        private int _index;
 
         public ReverseList()
         {
-            index = 0;
-            list = new List<PlaylistEntry<T>>();
+            _index = 0;
+            _list = new List<T>();
         }
 
-        public PlaylistEntry<T> Current
+        public T Current
         {
             get
             {
-                if (list.Count == 0)
-                    return null;
-                else if (list.Count == index)
-                    return null;
+                if (_list.Count == 0)
+                    return default(T);
+                else if (_list.Count == _index)
+                    return default(T);
                 else
-                    return list[index];
+                    return _list[_index];
             }
         }
 
         public bool CanRemoveTop
         {
-            set { canremovetop = true; }
+            set { _canremovetop = true; }
         }
 
         public bool MoveNext()
         {
-            if (index == list.Count)
+            if (_index == _list.Count)
                 return false;
 
-            index++;
-            if (index == list.Count)
+            _index++;
+            if (_index == _list.Count)
                 return false;
 
             return true;
@@ -46,46 +46,46 @@ namespace DeadDog.Audio
 
         public bool MovePrevious()
         {
-            if (index == 0)
+            if (_index == 0)
                 return false;
 
-            index--;
+            _index--;
             return true;
         }
 
-        public void Add(PlaylistEntry<T> entry)
+        public void Add(T entry)
         {
             if (entry == null)
                 return;
-            if (index == list.Count && canremovetop)
+            if (_index == _list.Count && _canremovetop)
             {
-                list.RemoveAt(list.Count - 1);
-                index--;
-                canremovetop = false;
+                _list.RemoveAt(_list.Count - 1);
+                _index--;
+                _canremovetop = false;
             }
 
-            if (index < list.Count)
-                list.RemoveRange(index, list.Count - 1);
+            if (_index < _list.Count)
+                _list.RemoveRange(_index, _list.Count - 1);
 
-            list.Add(entry);
-            index++;
+            _list.Add(entry);
+            _index++;
         }
 
-        public void Remove(PlaylistEntry<T> entry)
+        public void Remove(T entry)
         {
-            while (list.Contains(entry))
+            while (_list.Contains(entry))
             {
-                int i = list.IndexOf(entry);
-                list.RemoveAt(i);
-                if (i <= index)
-                    index--;
+                int i = _list.IndexOf(entry);
+                _list.RemoveAt(i);
+                if (i <= _index)
+                    _index--;
             }
         }
 
         public void Clear()
         {
-            index = 0;
-            list.Clear();
+            _index = 0;
+            _list.Clear();
         }
     }
 }

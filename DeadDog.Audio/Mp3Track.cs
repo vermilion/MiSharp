@@ -16,7 +16,7 @@ namespace DeadDog.Audio
                 throw new ArgumentNullException("filepath", "filepath cannot equal null");
             try
             {
-                _file = new FileInfo(filepath);
+                File = new FileInfo(filepath);
             }
             catch (Exception e)
             {
@@ -24,17 +24,17 @@ namespace DeadDog.Audio
             }
             _filepath = filepath;
 
-            _track = string.IsNullOrEmpty(tag.Title) ? _file.Name : tag.Title.Trim();
-            _album = string.IsNullOrEmpty(tag.Album) ? null : tag.Album.Trim();
-            _number = (int) tag.Track;
-            _artist = !tag.Performers.Any() ? null : string.Join(" & ", tag.Performers);
-            _year = (int) tag.Year;
-            _genre = tag.JoinedGenres;
+            TrackTitle = string.IsNullOrEmpty(tag.Title) ? File.Name : tag.Title.Trim();
+            AlbumTitle = string.IsNullOrEmpty(tag.Album) ? null : tag.Album.Trim();
+            TrackNumber = (int) tag.Track;
+            ArtistName = !tag.Performers.Any() ? null : string.Join(" & ", tag.Performers);
+            Year = (int) tag.Year;
+            Genre = tag.JoinedGenres;
         }
 
         public void WriteTag()
         {
-            TagLib.File file = TagLib.File.Create(_filepath);
+            var file = TagLib.File.Create(_filepath);
 
             if (file == null)
                 return;
@@ -47,7 +47,7 @@ namespace DeadDog.Audio
             file.Tag.Genres = new[] {Genre};
             //file.Tag.Composers = Composers;
             //file.Tag.Conductor = Conductor;
-            uint year = 0;
+            uint year;
             if (UInt32.TryParse(Year.ToString(CultureInfo.InvariantCulture), out year))
                 file.Tag.Year = year;
 

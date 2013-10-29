@@ -1,45 +1,46 @@
 ﻿using System.Collections.Generic;
+using DeadDog.Audio.Playlist.Interfaces;
 
-namespace DeadDog.Audio
+namespace DeadDog.Audio.Playlist
 {
     public class PlayQueue<T> : IPlayQueue<T>
     {
-        private readonly QueueCompare comparer = new QueueCompare();
-        private readonly List<QueueEntry<T>> queue;
-        private QueueEntry<T> lastDequeued;
+        private readonly QueueCompare _comparer = new QueueCompare();
+        private readonly List<QueueEntry<T>> _queue;
+        private QueueEntry<T> _lastDequeued;
 
         public PlayQueue()
         {
-            queue = new List<QueueEntry<T>>();
+            _queue = new List<QueueEntry<T>>();
         }
 
         public QueueEntry<T> this[int index]
         {
-            get { return queue[index]; }
+            get { return _queue[index]; }
         }
 
-        public virtual void Enqueue(PlaylistEntry<T> entry)
+        public virtual void Enqueue(T entry)
         {
             var e = new QueueEntry<T>(entry);
-            int index = queue.BinarySearch(e, comparer);
-            queue.Insert(~index, e);
+            int index = _queue.BinarySearch(e, _comparer);
+            _queue.Insert(~index, e);
         }
 
-        public virtual PlaylistEntry<T> Dequeue()
+        public virtual T Dequeue()
         {
-            lastDequeued = queue[0];
-            queue.RemoveAt(0);
-            return lastDequeued.Entry;
+            _lastDequeued = _queue[0];
+            _queue.RemoveAt(0);
+            return _lastDequeued.Entry;
         }
 
-        public virtual bool Remove(PlaylistEntry<T> item)
+        public virtual bool Remove(T item)
         {
             int c = 0;
-            for (int i = 0; i - c < queue.Count; i++)
+            for (int i = 0; i - c < _queue.Count; i++)
             {
-                if (queue[i].Entry == item)
+                if (_queue[i].Entry.Equals(item))
                 {
-                    queue.RemoveAt(i - c);
+                    _queue.RemoveAt(i - c);
                     c++;
                 }
             }
@@ -48,30 +49,30 @@ namespace DeadDog.Audio
 
         public virtual void Clear()
         {
-            queue.Clear();
-            lastDequeued = null;
+            _queue.Clear();
+            _lastDequeued = null;
         }
 
         public int Count
         {
-            get { return queue.Count; }
+            get { return _queue.Count; }
         }
 
-        public PlaylistEntry<T> Peek()
+        public T Peek()
         {
-            return queue[0].Entry;
+            return _queue[0].Entry;
         }
 
         public virtual void RemoveAt(int index)
         {
-            queue.RemoveAt(index);
+            _queue.RemoveAt(index);
         }
 
-        public bool Contains(PlaylistEntry<T> item)
+        public bool Contains(T item)
         {
-            for (int i = 0; i < queue.Count; i++)
+            for (int i = 0; i < _queue.Count; i++)
             {
-                if (queue[i].Entry == item)
+                if (_queue[i].Entry.Equals(item))
                     return true;
             }
             return false;

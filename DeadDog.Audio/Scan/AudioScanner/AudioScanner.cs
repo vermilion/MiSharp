@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DeadDog.Audio.Libraries;
@@ -115,11 +116,10 @@ namespace DeadDog.Audio.Scan.AudioScanner
             get { return _lastScan != null && _lastScan.IsRunning; }
         }
 
-        //public IEnumerable<RawTrack> GetExistingFiles()
-        //{
-        //    foreach (RawTrack rt in MediaLibrary.Tracks)
-        //        yield return rt;
-        //}
+        public IEnumerable<RawTrack> GetExistingFiles()
+        {
+            return MediaLibrary.Tracks.Select(x => x.Model);
+        }
 
         public AudioScan RunScannerAsync()
         {
@@ -138,14 +138,14 @@ namespace DeadDog.Audio.Scan.AudioScanner
             ignoreFiles.CopyTo(ig, 0);
 
             ScanFileEventHandler parsed = FileParsed;
-            parsed += AudioScanner_FileParsed;
+            parsed += AudioScannerFileParsed;
 
             return new AudioScan(_directory, _searchoption, _parseAdd, _parseUpdate, _removeDeadFiles,
                                  _extensionList.ToArray(), MediaLibrary.Tracks.Select(x => x.Model).ToArray(), ig,
                                  parsed, ScanDone);
         }
 
-        private void AudioScanner_FileParsed(AudioScan sender, ScanFileEventArgs e)
+        private void AudioScannerFileParsed(AudioScan sender, ScanFileEventArgs e)
         {
             switch (e.State)
             {

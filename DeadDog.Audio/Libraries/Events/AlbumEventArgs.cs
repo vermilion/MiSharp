@@ -1,11 +1,12 @@
 ﻿using System;
+using DeadDog.Audio.Libraries.Collections;
 
-namespace DeadDog.Audio.Libraries
+namespace DeadDog.Audio.Libraries.Events
 {
     /// <summary>
-    ///     Provides data for the <see cref="DeadDog.Audio.Libraries.Album.AlbumCollection.AlbumAdded" /> and the
+    ///     Provides data for the <see cref="AlbumCollection.AlbumAdded" /> and the
     ///     <see
-    ///         cref="DeadDog.Audio.Libraries.Album.AlbumCollection.AlbumRemoved" />
+    ///         cref="AlbumCollection.AlbumRemoved" />
     ///     events.
     /// </summary>
     public class AlbumEventArgs : EventArgs

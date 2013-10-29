@@ -3,24 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Libraries.Collections;
+using DeadDog.Audio.Libraries.Events;
+using DeadDog.Audio.Playlist.Interfaces;
 
-namespace DeadDog.Audio
+namespace DeadDog.Audio.Playlist
 {
     public class AlbumPlaylist : IPlaylist<Track>
     {
         private readonly Album _album;
-        private readonly List<PlaylistEntry<Track>> _entries;
+        private readonly List<Track> _entries;
         private int _index;
         private Comparison<Track> _sort;
 
         public AlbumPlaylist(Album album)
         {
             _album = album;
-            _entries = new List<PlaylistEntry<Track>>();
+            _entries = new List<Track>();
 
             foreach (Track track in album.Tracks)
             {
-                _entries.Add(new PlaylistEntry<Track>(track));
+                _entries.Add(track);
             }
 
             _album.Tracks.TrackAdded += Tracks_TrackAdded;
@@ -34,7 +36,7 @@ namespace DeadDog.Audio
             get { return Compare; }
         }
 
-        public PlaylistEntry<Track> CurrentEntry
+        public Track CurrentEntry
         {
             get { return _index < 0 ? null : _entries[_index]; }
         }
@@ -114,7 +116,7 @@ namespace DeadDog.Audio
             }
         }
 
-        public bool MoveToEntry(PlaylistEntry<Track> entry)
+        public bool MoveToEntry(Track entry)
         {
             if (_entries.Contains(entry))
             {
@@ -128,7 +130,7 @@ namespace DeadDog.Audio
             }
         }
 
-        public bool Contains(PlaylistEntry<Track> entry)
+        public bool Contains(Track entry)
         {
             if (_entries.Contains(entry))
                 return true;
@@ -137,20 +139,20 @@ namespace DeadDog.Audio
 
         private void Tracks_TrackAdded(TrackCollection collection, TrackEventArgs e)
         {
-            int i = _entries.BinarySearch(e.Track, _sort, x => x.Track);
-            if (i >= 0 && _entries[i].Track == e.Track)
+            int i = _entries.BinarySearch(e.Track, _sort, x => x);
+            if (i >= 0 && _entries[i] == e.Track)
                 throw new ArgumentException("A playlist cannot contain the same track twice");
             else if (i < 0)
                 i = ~i;
 
-            _entries.Insert(i, new PlaylistEntry<Track>(e.Track));
+            _entries.Insert(i, e.Track);
             if (i <= _index)
                 _index++;
         }
 
         private void Tracks_TrackRemoved(TrackCollection collection, TrackEventArgs e)
         {
-            int i = _entries.BinarySearch(e.Track, _sort, x => x.Track);
+            int i = _entries.BinarySearch(e.Track, _sort, x => x);
             if (i >= 0)
             {
                 _entries.RemoveAt(i);
@@ -169,15 +171,15 @@ namespace DeadDog.Audio
             else
             {
                 _sort = sort;
-                PlaylistEntry<Track> track = _entries[_index];
-                sortEntries();
+                Track track = _entries[_index];
+                SortEntries();
                 _index = _entries.IndexOf(track);
             }
         }
 
-        private void sortEntries()
+        private void SortEntries()
         {
-            _entries.Sort((x, y) => _sort(x.Track, y.Track));
+            _entries.Sort((x, y) => _sort(x, y));
         }
 
         private static int Compare(Track element1, Track element2)
@@ -191,7 +193,7 @@ namespace DeadDog.Audio
 
         #region IEnumerable<PlaylistEntry<Track>> Members
 
-        IEnumerator<PlaylistEntry<Track>> IEnumerable<PlaylistEntry<Track>>.GetEnumerator()
+        IEnumerator<Track> IEnumerable<Track>.GetEnumerator()
         {
             return _entries.GetEnumerator();
         }

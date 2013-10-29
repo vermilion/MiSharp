@@ -2,65 +2,40 @@
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using DeadDog.Audio;
-using Rareform.Collections;
-using ReactiveUI;
+using DeadDog.Audio.Playlist;
 
 namespace MiSharp
 {
     [Export]
-    public class PlaylistViewModel : ReactiveObject, IHandle<List<RawTrack>>
+    public class PlaylistViewModel : IHandle<List<RawTrack>>
     {
         private readonly IEventAggregator _events;
-        private RawTrack _currentSong;
 
-        private int _currentSongIndex;
-        private ObservableList<RawTrack> _songs;
+        public PlaylistCollection<RawTrack> PlaylistCollection { get; set; }
+
+        public Playlist<RawTrack> SelectedPlaylist { get; set; }
 
         [ImportingConstructor]
         public PlaylistViewModel(IEventAggregator events)
         {
+            //TODO: remove it
+            var playlist = new Playlist<RawTrack>();
+            playlist.Name = "Now playing";
+            PlaylistCollection = new PlaylistCollection<RawTrack>();
+            PlaylistCollection.Add(playlist);
+            var playlist2 = new Playlist<RawTrack>();
+            playlist2.Name = "Test";
+            PlaylistCollection.Add(playlist2);
+            SelectedPlaylist = playlist;
             _events = events;
-            _songs = new ObservableList<RawTrack>();
             events.Subscribe(this);
-        }
-
-        public ObservableList<RawTrack> Songs
-        {
-            get { return _songs; }
-            set { this.RaiseAndSetIfChanged(ref _songs, value); }
-        }
-
-        public int CurrentSongIndex
-        {
-            get { return _currentSongIndex; }
-            set { this.RaiseAndSetIfChanged(ref _currentSongIndex, value); }
-        }
-
-        public RawTrack CurrentSong
-        {
-            get { return _currentSong; }
-            set { this.RaiseAndSetIfChanged(ref _currentSong, value); }
         }
 
         #region Triggers
 
-        private bool CanPlayNextSong
-        {
-            get { return CurrentSongIndex + 1 < Songs.Count; }
-        }
-
-        private bool CanPlayPreviousSong
-        {
-            get
-            {
-                int prevIndex = CurrentSongIndex - 1;
-                return prevIndex <= Songs.Count && prevIndex >= 0;
-            }
-        }
-
         public void RemoveSelected()
         {
-            Songs.RemoveAt(CurrentSongIndex);
+            SelectedPlaylist.RemoveAt(SelectedPlaylist.CurrentIndex);
         }
 
         #endregion
@@ -69,35 +44,29 @@ namespace MiSharp
 
         public void Handle(List<RawTrack> songs)
         {
-            Songs.AddRange(songs);
+            SelectedPlaylist.AddRange(songs);
         }
 
         public void PlaySelected()
         {
-            _events.Publish(CurrentSong);
+            _events.Publish(SelectedPlaylist.CurrentEntry);
         }
 
         #endregion
 
         public RawTrack GetNextSong()
         {
-            if (CanPlayNextSong)
-            {
-                RawTrack nextSong = Songs[CurrentSongIndex + 1];
-                CurrentSongIndex++;
-                return nextSong;
-            }
+            if (SelectedPlaylist.MoveNext())
+                return SelectedPlaylist.CurrentEntry;
+
             return null;
         }
 
         public RawTrack GetPreviousSong()
         {
-            if (CanPlayPreviousSong)
-            {
-                RawTrack prevSong = Songs[CurrentSongIndex - 1];
-                CurrentSongIndex--;
-                return prevSong;
-            }
+            if (SelectedPlaylist.MovePrevious())
+                return SelectedPlaylist.CurrentEntry;
+
             return null;
         }
     }

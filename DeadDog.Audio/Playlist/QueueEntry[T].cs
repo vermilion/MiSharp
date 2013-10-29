@@ -1,26 +1,26 @@
-﻿namespace DeadDog.Audio
+﻿namespace DeadDog.Audio.Playlist
 {
     public class QueueEntry<T>
     {
         private static int nextid;
-        private readonly PlaylistEntry<T> entry;
-        private readonly int id;
+        private readonly T _entry;
+        private readonly int _id;
 
-        public QueueEntry(PlaylistEntry<T> entry)
+        public QueueEntry(T entry)
         {
-            this.entry = entry;
-            id = nextid;
+            _entry = entry;
+            _id = nextid;
             nextid++;
         }
 
-        public PlaylistEntry<T> Entry
+        public T Entry
         {
-            get { return entry; }
+            get { return _entry; }
         }
 
         public int CompareTo(QueueEntry<T> x)
         {
-            return id.CompareTo(x.id);
+            return _id.CompareTo(x._id);
         }
     }
 }

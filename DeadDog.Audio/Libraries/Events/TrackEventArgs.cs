@@ -1,16 +1,17 @@
 ﻿using System;
+using DeadDog.Audio.Libraries.Collections;
 
-namespace DeadDog.Audio.Libraries
+namespace DeadDog.Audio.Libraries.Events
 {
     /// <summary>
-    ///     Provides data for the <see cref="DeadDog.Audio.Libraries.Track.TrackCollection.TrackAdded" /> and the
+    ///     Provides data for the <see cref="TrackCollection.TrackAdded" /> and the
     ///     <see
-    ///         cref="DeadDog.Audio.Libraries.Track.TrackCollection.TrackRemoved" />
+    ///         cref="TrackCollection.TrackRemoved" />
     ///     events.
     /// </summary>
     public class TrackEventArgs : EventArgs
     {
-        private readonly Track track;
+        private readonly Track _track;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="TrackEventArgs" /> class.
@@ -18,7 +19,7 @@ namespace DeadDog.Audio.Libraries
         /// <param name="track">The track.</param>
         public TrackEventArgs(Track track)
         {
-            this.track = track;
+            this._track = track;
         }
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace DeadDog.Audio.Libraries
         /// </value>
         public Track Track
         {
-            get { return track; }
+            get { return _track; }
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿namespace DeadDog.Audio
+﻿namespace DeadDog.Audio.Playlist.Interfaces
 {
     public interface IQueuePeekable<T> : IPlayQueue<T>
     {
-        PlaylistEntry<T> Peek();
+        T Peek();
     }
 }

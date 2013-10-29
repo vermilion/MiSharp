@@ -9,11 +9,10 @@
                               mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500">
     <Grid>
         <ListView Grid.Column="0"
-                  Margin="10"
+                  Margin="10,57,10,10"
                   FocusVisualStyle="{x:Null}"
-                  ItemsSource="{Binding Songs}"
-                  SelectedIndex="{Binding CurrentSongIndex}"
-                  SelectedItem="{Binding CurrentSong}"
+                  ItemsSource="{Binding SelectedPlaylist}"
+                  SelectedIndex="{Binding Playlist.CurrentIndex}"
                   ScrollViewer.CanContentScroll="True">
             <ListView.ContextMenu>
                 <ContextMenu>
@@ -83,5 +82,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <ComboBox ItemsSource="{Binding PlaylistCollection}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPlaylist}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="200" Height="33"/>
     </Grid>
 </controls:MetroContentControl>

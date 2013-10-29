@@ -1,38 +1,34 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DeadDog.Audio.Playlist.Interfaces;
+using Rareform.Collections;
 
-namespace DeadDog.Audio
+namespace DeadDog.Audio.Playlist
 {
-    public class Playlist<T> : IPlaylist<T>, IList<PlaylistEntry<T>>
+    public class Playlist<T> : ObservableList<T>, IPlaylist<T>, INamedPlaylist
     {
-        private readonly List<PlaylistEntry<T>> entries;
-        private int index = -1;
-
         public Playlist()
         {
-            entries = new List<PlaylistEntry<T>>();
+            CurrentIndex = -1;
         }
 
-        public int CurrentIndex
-        {
-            get { return index; }
-        }
+        public int CurrentIndex { get; set; }
 
-        public PlaylistEntry<T> CurrentEntry
+        public T CurrentEntry
         {
-            get { return index < 0 ? null : entries[index]; }
+            get { return CurrentIndex < 0 ? default(T) : this[CurrentIndex]; }
         }
 
         public bool MoveNext()
         {
-            if (index == -2)
+            if (CurrentIndex == -2)
                 return false;
 
-            index++;
-            if (index >= entries.Count)
+            CurrentIndex++;
+            if (CurrentIndex >= Count)
             {
-                index = -2;
+                CurrentIndex = -2;
                 return false;
             }
             else
@@ -41,13 +37,13 @@ namespace DeadDog.Audio
 
         public bool MovePrevious()
         {
-            if (index == -2)
+            if (CurrentIndex == -2)
                 return false;
 
-            index--;
-            if (index == -1)
+            CurrentIndex--;
+            if (CurrentIndex == -1)
             {
-                index = -2;
+                CurrentIndex = -2;
                 return false;
             }
             else
@@ -56,168 +52,79 @@ namespace DeadDog.Audio
 
         public bool MoveRandom()
         {
-            if (entries.Count == 0)
+            if (Count == 0)
             {
-                index = -2;
+                CurrentIndex = -2;
                 return false;
             }
 
             var rnd = new Random();
-            index = rnd.Next(entries.Count);
+            CurrentIndex = rnd.Next(Count);
             return true;
         }
 
         public bool MoveToFirst()
         {
-            if (entries.Count == 0)
+            if (this.Count == 0)
             {
-                index = -2;
+                CurrentIndex = -2;
                 return false;
             }
             else
             {
-                index = 0;
+                CurrentIndex = 0;
                 return true;
             }
         }
 
         public bool MoveToLast()
         {
-            if (entries.Count == 0)
+            if (Count == 0)
             {
-                index = -2;
+                CurrentIndex = -2;
                 return false;
             }
             else
             {
-                index = entries.Count - 1;
+                CurrentIndex = Count - 1;
                 return true;
             }
         }
 
-        public bool MoveToEntry(PlaylistEntry<T> entry)
+        public bool MoveToEntry(T entry)
         {
-            int i = entries.IndexOf(entry);
+            int i = IndexOf(entry);
             if (i == -1)
             {
-                index = -2;
+                CurrentIndex = -2;
                 return false;
             }
             else
             {
-                index = i;
+                CurrentIndex = i;
                 return true;
             }
         }
 
         public void Reset()
         {
-            index = -1;
+            CurrentIndex = -1;
         }
 
-        #region IList<PlaylistEntry<T>> Members
+        #region IEnumerable<T> Members
 
-        public PlaylistEntry<T> this[int index]
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            get { return entries[index]; }
+            return GetEnumerator();
         }
-
-        public int IndexOf(PlaylistEntry<T> item)
-        {
-            return entries.IndexOf(item);
-        }
-
-        public void Insert(int index, PlaylistEntry<T> item)
-        {
-            entries.Insert(index, item);
-        }
-
-        public void RemoveAt(int index)
-        {
-            PlaylistEntry<T> entry = entries[index];
-            if (index == this.index && index >= entries.Count - 1)
-                this.index = -2;
-            else if (index > this.index)
-                this.index--;
-            entries.Remove(entry);
-        }
-
-        PlaylistEntry<T> IList<PlaylistEntry<T>>.this[int index]
-        {
-            get { return this[index]; }
-            set { throw new InvalidOperationException("Property cannot be set."); }
-        }
-
-        public int IndexOf(T item)
-        {
-            return entries.FindIndex(x => x.Track.Equals(item));
-        }
-
-        #endregion
-
-        #region ICollection<PlaylistEntry<T>> Members
-
-        public void Add(PlaylistEntry<T> item)
-        {
-            entries.Add(item);
-        }
-
-        public void Clear()
-        {
-            entries.Clear();
-            index = -2;
-        }
-
-        void ICollection<PlaylistEntry<T>>.CopyTo(PlaylistEntry<T>[] array, int arrayIndex)
-        {
-            entries.CopyTo(array, arrayIndex);
-        }
-
-        public int Count
-        {
-            get { return entries.Count; }
-        }
-
-        bool ICollection<PlaylistEntry<T>>.IsReadOnly
-        {
-            get { return false; }
-        }
-
-        public bool Remove(PlaylistEntry<T> item)
-        {
-            int index = entries.IndexOf(item);
-            if (index == -1)
-                return false;
-            else
-            {
-                RemoveAt(index);
-                return true;
-            }
-        }
-
-        public bool Contains(PlaylistEntry<T> item)
-        {
-            return entries.Contains(item);
-        }
-
-        #endregion
-
-        #region IEnumerable<PlaylistEntry<T>> Members
-
-        IEnumerator<PlaylistEntry<T>> IEnumerable<PlaylistEntry<T>>.GetEnumerator()
-        {
-            return entries.GetEnumerator();
-        }
-
-        #endregion
-
-        #region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return entries.GetEnumerator();
+            return GetEnumerator();
         }
 
         #endregion
+
+        public string Name { get; set; }
     }
 }

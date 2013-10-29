@@ -1,12 +1,12 @@
-﻿namespace DeadDog.Audio
+﻿namespace DeadDog.Audio.Playlist.Interfaces
 {
     public interface IPlayQueue<T>
     {
         int Count { get; }
-        void Enqueue(PlaylistEntry<T> entry);
-        PlaylistEntry<T> Dequeue();
+        void Enqueue(T entry);
+        T Dequeue();
 
-        bool Remove(PlaylistEntry<T> item);
+        bool Remove(T item);
 
         void Clear();
     }

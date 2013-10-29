@@ -99,16 +99,16 @@ namespace DeadDog.Audio.Scan.AudioScanner
 
             private class CompareToString : IComparer<RawTrack>
             {
-                private readonly FileInfo file;
+                private readonly FileInfo _file;
 
                 public CompareToString(string path)
                 {
-                    file = new FileInfo(path);
+                    _file = new FileInfo(path);
                 }
 
                 public int Compare(RawTrack x, RawTrack y)
                 {
-                    return String.Compare(x.FullFilename, file.FullName, StringComparison.Ordinal);
+                    return String.Compare(x.FullFilename, _file.FullName, StringComparison.Ordinal);
                 }
             }
 

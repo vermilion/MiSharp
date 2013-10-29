@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 
-namespace DeadDog.Audio
+namespace DeadDog.Audio.Playlist.Interfaces
 {
     /// <summary>
     ///     Represents a collection of objects that can be iterated through a selection of commands.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IPlaylist<T> : IEnumerable<PlaylistEntry<T>>
+    public interface IPlaylist<T> : IEnumerable<T>
     {
         /// <summary>
-        ///     Gets the currently selected <see cref="PlaylistEntry{T}" />.
+        ///     Gets the currently selected <see cref="T" />.
         /// </summary>
         /// <value>
-        ///     The currently selected <see cref="PlaylistEntry{T}" />.
+        ///     The currently selected <see cref="T" />.
         /// </value>
-        PlaylistEntry<T> CurrentEntry { get; }
+        T CurrentEntry { get; }
 
         /// <summary>
         ///     Moves to the next item in the playlist.
@@ -37,8 +37,8 @@ namespace DeadDog.Audio
         bool MoveToFirst();
         bool MoveToLast();
 
-        bool MoveToEntry(PlaylistEntry<T> entry);
-        bool Contains(PlaylistEntry<T> entry);
+        bool MoveToEntry(T entry);
+        bool Contains(T entry);
 
         /// <summary>
         ///     Resets the playlist.

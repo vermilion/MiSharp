@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using DeadDog.Audio.Parsing.ID3;
 
-namespace DeadDog.Audio.Parsing
+namespace DeadDog.Audio.Parsing.Parsers
 {
     public class MediaParser : IDataParser
     {

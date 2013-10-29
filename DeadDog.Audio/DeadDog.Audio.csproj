@@ -37,6 +37,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Rareform">
+      <HintPath>..\packages\Rareform.1.5.2\lib\Rareform.dll</HintPath>
+    </Reference>
     <Reference Include="ReactiveUI">
       <HintPath>..\packages\reactiveui-core.5.2.0\lib\Portable-Net45+WinRT45+WP8\ReactiveUI.dll</HintPath>
     </Reference>
@@ -46,14 +49,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Libraries\Collections\LibraryCollectionBase.cs" />
     <Compile Include="Mp3Track.cs" />
-    <Compile Include="Parsing\MediaParser.cs" />
+    <Compile Include="Parsing\Parsers\MediaParser.cs" />
     <Compile Include="Parsing\MediaTypes.cs" />
     <Compile Include="Parsing\IDataParser.cs" />
-    <Compile Include="Parsing\ID3\ID3Parser.cs" />
+    <Compile Include="Parsing\Parsers\ID3Parser.cs" />
     <Compile Include="Libraries\Album.cs" />
     <Compile Include="Libraries\Collections\AlbumCollection.cs" />
     <Compile Include="Libraries\Artist.cs" />
@@ -70,13 +74,12 @@
     <Compile Include="Libraries\Collections\TrackCollection.cs" />
     <Compile Include="Playlist\AlbumPlaylist[T].cs" />
     <Compile Include="Playlist\ArtistPlaylist[T].cs" />
+    <Compile Include="Playlist\Interfaces\INamedPlaylist.cs" />
     <Compile Include="Playlist\Interfaces\IPlaylist[T].cs" />
     <Compile Include="Playlist\Interfaces\IPlayQueue[T].cs" />
     <Compile Include="Playlist\Interfaces\IQueueList[T].cs" />
     <Compile Include="Playlist\Interfaces\IQueuePeekable[T].cs" />
     <Compile Include="Playlist\PlaylistCollection[T].cs" />
-    <Compile Include="Playlist\PlaylistEntry[T].cs" />
-    <Compile Include="Playlist\PlaylistList[T].cs" />
     <Compile Include="Playlist\Playlist[T].cs" />
     <Compile Include="Playlist\PlayQueue[T, Q].cs" />
     <Compile Include="Playlist\PlayQueue[T].cs" />

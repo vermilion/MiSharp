@@ -1,6 +1,6 @@
 ﻿using DeadDog.Audio.Libraries.Collections;
 
-namespace DeadDog.Audio.Libraries
+namespace DeadDog.Audio.Libraries.Events
 {
     /// <summary>
     ///     Represents a method that handles the <see cref="AlbumCollection.AlbumAdded" /> and the

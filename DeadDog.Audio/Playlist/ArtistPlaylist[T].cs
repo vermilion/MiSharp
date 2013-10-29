@@ -2,35 +2,36 @@
 using System.Collections.Generic;
 using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Libraries.Collections;
+using DeadDog.Audio.Libraries.Events;
 
-namespace DeadDog.Audio
+namespace DeadDog.Audio.Playlist
 {
     public class ArtistPlaylist : PlaylistCollection<Track>
     {
-        private readonly Artist artist;
+        private readonly Artist _artist;
         private readonly Dictionary<Album, AlbumPlaylist> playlists;
 
         public ArtistPlaylist(Artist artist)
         {
-            this.artist = artist;
+            _artist = artist;
             playlists = new Dictionary<Album, AlbumPlaylist>();
 
             foreach (Album album in artist.Albums)
             {
                 var albumplaylist = new AlbumPlaylist(album);
                 playlists.Add(album, albumplaylist);
-                addPlaylist(albumplaylist);
+                AddPlaylist(albumplaylist);
             }
 
-            this.artist.Albums.AlbumAdded += Albums_AlbumAdded;
-            this.artist.Albums.AlbumRemoved += Albums_AlbumRemoved;
+            this._artist.Albums.AlbumAdded += Albums_AlbumAdded;
+            this._artist.Albums.AlbumRemoved += Albums_AlbumRemoved;
         }
 
         private void Albums_AlbumRemoved(AlbumCollection collection, AlbumEventArgs e)
         {
             if (playlists.ContainsKey(e.Album))
             {
-                removePlaylist(playlists[e.Album]);
+                RemovePlaylist(playlists[e.Album]);
                 playlists.Remove(e.Album);
             }
             else throw new InvalidOperationException("Playlist was not in the ArtistPlaylist and could not be removed");
@@ -40,7 +41,7 @@ namespace DeadDog.Audio
         {
             var albumplaylist = new AlbumPlaylist(e.Album);
             playlists.Add(e.Album, albumplaylist);
-            addPlaylist(albumplaylist);
+            AddPlaylist(albumplaylist);
         }
     }
 }

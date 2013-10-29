@@ -1,56 +1,54 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using DeadDog.Audio.Playlist.Interfaces;
+using Rareform.Collections;
 
-namespace DeadDog.Audio
+namespace DeadDog.Audio.Playlist
 {
-    public abstract class PlaylistCollection<T> : IPlaylist<T>
+    public class PlaylistCollection<T> : ObservableList<IPlaylist<T>>, IPlaylist<T>
     {
-        private readonly List<IPlaylist<T>> playlists;
-        private int index = -1;
+        private int _index = -1;
 
-        private bool isSorted;
-        private Comparison<IPlaylist<T>> sortMethod;
+        private bool _isSorted;
+        private Comparison<IPlaylist<T>> _sortMethod;
 
-        public PlaylistCollection()
-        {
-            playlists = new List<IPlaylist<T>>();
-        }
 
         protected int count
         {
-            get { return playlists.Count; }
+            get { return Count; }
         }
 
-        public PlaylistEntry<T> CurrentEntry
+        public T CurrentEntry
         {
-            get { return index < 0 ? null : playlists[index].CurrentEntry; }
+            get { return _index < 0 ? default(T) : this[_index].CurrentEntry; }
         }
 
         public bool MoveNext()
         {
-            if (index == -2)
+            if (_index == -2)
                 return false;
-            else if (playlists.Count == 0)
+            else if (Count == 0)
             {
-                index = -2;
+                _index = -2;
                 return false;
             }
-            else if (index == -1)
+            else if (_index == -1)
             {
-                index = 0;
-                playlists[index].Reset();
+                _index = 0;
+                this[_index].Reset();
             }
 
-            if (!playlists[index].MoveNext())
+            if (!this[_index].MoveNext())
             {
-                index++;
-                if (index >= playlists.Count)
+                _index++;
+                if (_index >= Count)
                 {
-                    index = -2;
+                    _index = -2;
                     return false;
                 }
-                playlists[index].Reset();
+                this[_index].Reset();
                 return MoveNext();
             }
             return true;
@@ -58,25 +56,25 @@ namespace DeadDog.Audio
 
         public bool MovePrevious()
         {
-            if (index == -2)
+            if (_index == -2)
                 return false;
 
-            if (playlists.Count == 0 || index == -1)
+            if (Count == 0 || _index == -1)
             {
-                index = -2;
+                _index = -2;
                 return false;
             }
 
-            if (!playlists[index].MovePrevious())
+            if (!this[_index].MovePrevious())
             {
-                index--;
-                if (index < 0)
+                _index--;
+                if (_index < 0)
                 {
-                    index = -2;
+                    _index = -2;
                     return false;
                 }
-                playlists[index].Reset();
-                if (!playlists[index].MoveToLast())
+                this[_index].Reset();
+                if (!this[_index].MoveToLast())
                     return MovePrevious();
             }
             return true;
@@ -85,38 +83,38 @@ namespace DeadDog.Audio
         public bool MoveRandom()
         {
             var rnd = new Random();
-            var temp = new List<IPlaylist<T>>(playlists);
+            var temp = new List<IPlaylist<T>>(this);
 
             while (temp.Count > 0)
             {
                 int i = rnd.Next(temp.Count);
                 if (temp[i].MoveRandom())
                 {
-                    index = i;
+                    _index = i;
                     return true;
                 }
                 else
                     temp.RemoveAt(i);
             }
-            index = -2;
+            _index = -2;
             return false;
         }
 
         public bool MoveToFirst()
         {
-            if (playlists.Count == 0)
+            if (Count == 0)
             {
-                index = -2;
+                _index = -2;
                 return false;
             }
 
-            index = 0;
-            while (!playlists[index].MoveToFirst())
+            _index = 0;
+            while (!this[_index].MoveToFirst())
             {
-                index++;
-                if (index >= playlists.Count)
+                _index++;
+                if (_index >= Count)
                 {
-                    index = -2;
+                    _index = -2;
                     return false;
                 }
             }
@@ -125,141 +123,135 @@ namespace DeadDog.Audio
 
         public bool MoveToLast()
         {
-            if (playlists.Count == 0)
+            if (Count == 0)
             {
-                index = -2;
+                _index = -2;
                 return false;
             }
 
-            index = playlists.Count - 1;
-            while (!playlists[index].MoveToLast())
+            _index = Count - 1;
+            while (!this[_index].MoveToLast())
             {
-                index--;
-                if (index < 0)
+                _index--;
+                if (_index < 0)
                 {
-                    index = -2;
+                    _index = -2;
                     return false;
                 }
             }
             return true;
         }
 
-        public bool MoveToEntry(PlaylistEntry<T> entry)
+        public bool MoveToEntry(T entry)
         {
-            for (int i = 0; i < playlists.Count; i++)
-                if (playlists[i].MoveToEntry(entry))
+            for (int i = 0; i < Count; i++)
+                if (this[i].MoveToEntry(entry))
                 {
-                    index = i;
+                    _index = i;
                     return true;
                 }
 
-            index = -2;
+            _index = -2;
             return false;
         }
 
-        public bool Contains(PlaylistEntry<T> entry)
+        public bool Contains(T entry)
         {
-            for (int i = 0; i < playlists.Count; i++)
-                if (playlists[i].Contains(entry))
+            foreach (IPlaylist<T> playlist in this)
+                if (Enumerable.Contains(playlist, entry))
                     return true;
             return false;
         }
 
+
         public void Reset()
         {
-            index = -1;
+            _index = -1;
         }
 
-        protected void setSortMethod(Comparison<IPlaylist<T>> method)
+        protected void SetSortMethod(Comparison<IPlaylist<T>> method)
         {
             if (method == null)
                 throw new ArgumentNullException("Sort method cannot be null.");
             else
             {
-                isSorted = true;
-                sortMethod = method;
-
-                IPlaylist<T> current = index >= 0 ? playlists[index] : null;
-                playlists.Sort(sortMethod);
+                _isSorted = true;
+                _sortMethod = method;
+                
+                IPlaylist<T> current = _index >= 0 ? this[_index] : null;
+                Sort();
                 if (current != null)
-                    index = playlists.IndexOf(current);
+                    _index = this.IndexOf(current);
             }
         }
 
-        protected IPlaylist<T> getPlaylist(int index)
+        protected IPlaylist<T> GetPlaylist(int index)
         {
-            return playlists[index];
+            return this[index];
         }
 
-        protected bool contains(IPlaylist<T> playlist)
+        protected bool Move(IPlaylist<T> playlist, int index)
         {
-            return playlists.Contains(playlist);
-        }
-
-        protected bool move(IPlaylist<T> playlist, int index)
-        {
-            int i = playlists.IndexOf(playlist);
+            int i = IndexOf(playlist);
 
             if (i == -1)
                 return false;
 
-            IPlaylist<T> selected = index < 0 ? null : playlists[this.index];
+            IPlaylist<T> selected = index < 0 ? null : this[_index];
 
-            playlists.RemoveAt(i);
-            playlists.Insert(index, playlist);
+            RemoveAt(i);
+            Insert(index, playlist);
 
             if (selected != null)
-                this.index = playlists.IndexOf(selected);
+                _index = IndexOf(selected);
             return true;
         }
 
-        protected void addPlaylist(IPlaylist<T> playlist)
+        protected void AddPlaylist(IPlaylist<T> playlist)
         {
-            if (isSorted)
+            if (_isSorted)
             {
-                int i = playlists.BinarySearch(playlist, sortMethod);
-                if (i >= 0 && playlists[i] == playlist)
+                int i = this.BinarySearch(playlist, _sortMethod);
+                if (i >= 0 && this[i] == playlist)
                     throw new ArgumentException("A playlist cannot contain the same playlist twice.");
                 else if (i < 0)
                     i = ~i;
 
-                playlists.Insert(i, playlist);
-                if (i <= index)
-                    index++;
+                Insert(i, playlist);
+                if (i <= _index)
+                    _index++;
             }
             else
-                playlists.Add(playlist);
+                Add(playlist);
         }
 
-        protected bool removePlaylist(IPlaylist<T> playlist)
+        protected bool RemovePlaylist(IPlaylist<T> playlist)
         {
-            bool removed = playlists.Remove(playlist);
-            if (index >= playlists.Count)
-                index = -2;
+            bool removed = Remove(playlist);
+            if (_index >= Count)
+                _index = -2;
             else
-                playlists[index].Reset();
+                this[_index].Reset();
             return removed;
         }
 
+        #region IEnumerable Members
+
         #region IEnumerable<T> Members
 
-        IEnumerator<PlaylistEntry<T>> IEnumerable<PlaylistEntry<T>>.GetEnumerator()
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            foreach (var playlist in playlists)
-                foreach (var t in playlist)
+            foreach (IPlaylist<T> playlist in this)
+                foreach (T t in playlist)
                     yield return t;
         }
-
-        #endregion
-
-        #region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (var playlist in playlists)
-                foreach (var t in playlist)
-                    yield return t;
+            return GetEnumerator();
         }
+
+        #endregion
 
         #endregion
     }

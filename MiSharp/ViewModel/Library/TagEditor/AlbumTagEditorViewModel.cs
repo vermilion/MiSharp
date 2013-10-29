@@ -94,7 +94,7 @@ namespace MiSharp
 
                     if (SongAlbumArtist.Trim() != "Multiple Album Artists")
                     {
-                        media.AlbumTitle = SongAlbumArtist.Trim();
+                        media.ArtistName = SongAlbumArtist.Trim();
                         hasChanged = true;
                     }
 

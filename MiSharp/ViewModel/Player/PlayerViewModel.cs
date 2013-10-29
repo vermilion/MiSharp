@@ -61,7 +61,7 @@ namespace MiSharp
             Player.Play();
             IsPlaying = true;
             //song.State = AudioPlayerState.Playing;
-            _playlistViewModel.CurrentSong = song;
+            //_playlistViewModel.CurrentEntry = song;
         }
 
         public void ChangePosition(double pos)
@@ -71,7 +71,7 @@ namespace MiSharp
 
         public void StartClick()
         {
-            RawTrack song = _playlistViewModel.CurrentSong;
+            RawTrack song = _playlistViewModel.SelectedPlaylist.CurrentEntry;
             if (song == null) return;
             Play(song);
         }
@@ -80,14 +80,14 @@ namespace MiSharp
         {
             Player.Pause();
             IsPlaying = false;
-            //_playlistViewModel.CurrentSong.State = AudioPlayerState.Paused;
+            //_playlistViewModel.CurrentEntry.State = AudioPlayerState.Paused;
         }
 
         public void StopClick()
         {
             Player.Stop();
             IsPlaying = false;
-            //_playlistViewModel.CurrentSong.State = AudioPlayerState.Stopped;
+            //_playlistViewModel.CurrentEntry.State = AudioPlayerState.Stopped;
         }
 
         public void PlayNext()

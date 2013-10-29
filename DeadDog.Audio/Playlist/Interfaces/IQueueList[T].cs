@@ -1,13 +1,13 @@
-﻿namespace DeadDog.Audio
+﻿namespace DeadDog.Audio.Playlist.Interfaces
 {
     public interface IQueueList<T> : IPlayQueue<T>
     {
-        PlaylistEntry<T> this[int index] { get; }
+        T this[int index] { get; }
 
-        int IndexOf(PlaylistEntry<T> item);
+        int IndexOf(T item);
         void RemoveAt(int index);
 
-        bool Contains(PlaylistEntry<T> item);
-        void CopyTo(PlaylistEntry<T>[] array, int arrayIndex);
+        bool Contains(T item);
+        void CopyTo(T[] array, int arrayIndex);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using DeadDog.Audio.Libraries.Events;
 
 namespace DeadDog.Audio.Libraries.Collections
 {

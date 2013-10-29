@@ -16,13 +16,6 @@ namespace DeadDog.Audio
         public const int YearIfUnknown = -1;
         private static readonly RawTrack unknown;
 
-        protected string _album, _artist;
-        protected FileInfo _file;
-        protected int _number;
-        protected string _track;
-        protected int _year;
-        protected string _genre;
-
         static RawTrack()
         {
             unknown = new RawTrack();
@@ -33,14 +26,14 @@ namespace DeadDog.Audio
         /// </summary>
         protected RawTrack()
         {
-            _file = null;
+            File = null;
 
-            _track = null;
-            _album = "Unknown";
-            _number = TrackNumberIfUnknown;
-            _year = YearIfUnknown;
+            TrackTitle = null;
+            AlbumTitle = "Unknown";
+            TrackNumber = TrackNumberIfUnknown;
+            Year = YearIfUnknown;
 
-            _artist = "Unknown";
+            ArtistName = "Unknown";
         }
 
         /// <summary>
@@ -57,18 +50,18 @@ namespace DeadDog.Audio
                 throw new ArgumentNullException("filepath", "filepath cannot equal null");
             try
             {
-                _file = new FileInfo(filepath);
+                File = new FileInfo(filepath);
             }
             catch (Exception e)
             {
                 throw new ArgumentException("An error occured from the passed filepath", "filepath", e);
             }
 
-            _track = string.IsNullOrEmpty(tracktitle) ? null : tracktitle.Trim();
-            _album = string.IsNullOrEmpty(albumtitle) ? null : albumtitle.Trim();
-            _number = tracknumber;
-            _artist = string.IsNullOrEmpty(artistname) ? null : artistname.Trim();
-            _year = year;
+            TrackTitle = string.IsNullOrEmpty(tracktitle) ? null : tracktitle.Trim();
+            AlbumTitle = string.IsNullOrEmpty(albumtitle) ? null : albumtitle.Trim();
+            TrackNumber = tracknumber;
+            ArtistName = string.IsNullOrEmpty(artistname) ? null : artistname.Trim();
+            Year = year;
         }
 
         internal static RawTrack Unknown
@@ -84,75 +77,48 @@ namespace DeadDog.Audio
         /// <summary>
         ///     Gets the title of the track. If the title is unknown, null is returned.
         /// </summary>
-        public string TrackTitle
-        {
-            get { return _track; }
-            set { _track = value; }
-        }
+        public string TrackTitle { get; set; }
 
         /// <summary>
         ///     Gets the album name of the track. If the title is unknown, null is returned.
         /// </summary>
-        public string AlbumTitle
-        {
-            get { return _album; }
-            set { _album = value; }
-        }
+        public string AlbumTitle { get; set; }
 
         /// <summary>
         ///     Gets the tracknumber of the track on the album.
         /// </summary>
-        public int TrackNumber
-        {
-            get { return _number; }
-            set { _number = value; }
-        }
+        public int TrackNumber { get; set; }
 
         /// <summary>
         ///     Gets a boolean indicating whether the tracknumber is known.
         /// </summary>
         public bool TrackNumberUnknown
         {
-            get { return _number == TrackNumberIfUnknown; }
+            get { return TrackNumber == TrackNumberIfUnknown; }
         }
 
         /// <summary>
         ///     Gets the artistname for the track. If the artist is unknown, null is returned.
         /// </summary>
-        public string ArtistName
-        {
-            get { return _artist; }
-            set { _artist = value; }
-        }
+        public string ArtistName { get; set; }
 
-        public string Genre
-        {
-            get { return _genre; }
-            set { _genre = value; }
-        }
+        public string Genre { get; set; }
 
-        public int Year
-        {
-            get { return _year; }
-            set { _year = value; }
-        }
+        public int Year { get; set; }
 
         public bool YearUnknown
         {
-            get { return _number == YearIfUnknown; }
+            get { return Year == YearIfUnknown; }
         }
 
-        internal FileInfo File
-        {
-            get { return _file; }
-        }
+        internal FileInfo File { get; set; }
 
         /// <summary>
         ///     Gets the filename (e.g. mysong.mp3)
         /// </summary>
         public string Filename
         {
-            get { return _file.Name; }
+            get { return File.Name; }
         }
 
         /// <summary>
@@ -160,7 +126,7 @@ namespace DeadDog.Audio
         /// </summary>
         public string FullFilename
         {
-            get { return _file.FullName; }
+            get { return File.FullName; }
         }
 
         /// <summary>
@@ -171,11 +137,11 @@ namespace DeadDog.Audio
         {
             var rt = new RawTrack
                 {
-                    _album = _album,
-                    _artist = _artist,
-                    _file = _file,
-                    _number = _number,
-                    _track = _track
+                    AlbumTitle = AlbumTitle,
+                    ArtistName = ArtistName,
+                    File = File,
+                    TrackNumber = TrackNumber,
+                    TrackTitle = TrackTitle
                 };
             return rt;
         }
@@ -185,7 +151,7 @@ namespace DeadDog.Audio
             if (Equals(item, unknown))
                 throw new ArgumentException("Cannot alter \"Unknown\"");
 
-            item._artist = newname;
+            item.ArtistName = newname;
         }
 
 
@@ -197,27 +163,27 @@ namespace DeadDog.Audio
         /// </returns>
         public override string ToString()
         {
-            if (_track != null)
+            if (TrackTitle != null)
             {
-                if (_artist != null && _album != null)
-                    return _artist + " [" + _album + "] - " + _track;
+                if (ArtistName != null && AlbumTitle != null)
+                    return ArtistName + " [" + AlbumTitle + "] - " + TrackTitle;
                 else
-                    return _track;
+                    return TrackTitle;
             }
             else
-                return _file.FullName;
+                return File.FullName;
         }
 
         #region IEquatable<RawTrack> Members
 
         public bool Equals(RawTrack other)
         {
-            return _file.FullName == other._file.FullName &&
-                   _artist == other._artist &&
-                   _album == other._album &&
-                   _track == other._track &&
-                   _number == other._number &&
-                   _year == other._year;
+            return File.FullName == other.File.FullName &&
+                   ArtistName == other.ArtistName &&
+                   AlbumTitle == other.AlbumTitle &&
+                   TrackTitle == other.TrackTitle &&
+                   TrackNumber == other.TrackNumber &&
+                   Year == other.Year;
         }
 
         public override bool Equals(object obj)

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using DeadDog.Audio.Parsing;
+using DeadDog.Audio.Parsing.Parsers;
 
 namespace DeadDog.Audio.Scan.AudioScanner
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using DeadDog.Audio.Libraries.Collections;
+using DeadDog.Audio.Libraries.Events;
 using ReactiveUI;
 
 namespace DeadDog.Audio.Libraries

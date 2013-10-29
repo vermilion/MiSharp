@@ -1,7 +1,7 @@
 ﻿using System;
 using TagLib;
 
-namespace DeadDog.Audio.Parsing.ID3
+namespace DeadDog.Audio.Parsing.Parsers
 {
     /// <summary>
     ///     Provides a method for reading metadata from files with an ID3 tag.
