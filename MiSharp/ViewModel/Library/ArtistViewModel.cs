@@ -29,7 +29,7 @@ namespace MiSharp
 
         public void AddArtistToPlaylist()
         {
-            _events.Publish(Albums.SelectMany(x=>x.Tracks));
+            _events.Publish(Albums.SelectMany(x => x.Tracks));
         }
 
         #region TagEditor

@@ -1,12 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Windows.Forms;
-using Caliburn.Micro;
-using MiSharp.Core;
-using Screen = Caliburn.Micro.Screen;
-
-namespace MiSharp
+﻿namespace MiSharp
 {
     //[Export(typeof (ArtistTagEditorViewModel))]
     //internal class ArtistTagEditorViewModel : Screen

@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using MiSharp.Core.Library;
+using MiSharp.Core;
 using MiSharp.Core.Repository;
 using ReactiveUI;
 
@@ -33,9 +33,9 @@ namespace MiSharp
         {
             get
             {
-                if (SelectedBand == null || SelectedBand.Albums.Count==0) return new List<ComboAlbumViewModel>();
+                if (SelectedBand == null || SelectedBand.Albums.Count == 0) return new List<ComboAlbumViewModel>();
                 return SelectedBand.Albums
-                                   //.Where(x => x.Artist.Name == SelectedBand.Name)
+                    //.Where(x => x.Artist.Name == SelectedBand.Name)
                                    .Select(x => new ComboAlbumViewModel(x));
             }
             set { this.RaiseAndSetIfChanged(ref _comboAlbums, value); }

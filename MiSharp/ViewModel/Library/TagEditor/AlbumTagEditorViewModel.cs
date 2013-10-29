@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Windows.Forms;
-using Caliburn.Micro;
-using MiSharp.Core;
-
-namespace MiSharp
+﻿namespace MiSharp
 {
     //[Export(typeof (AlbumTagEditorViewModel))]
     //internal class AlbumTagEditorViewModel : ArtistTagEditorViewModel

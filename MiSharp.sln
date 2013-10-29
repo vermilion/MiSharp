@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiSharp", "MiSharp\MiSharp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiSharp.Core", "MiSharp.Core\MiSharp.Core.csproj", "{B15B28FC-FF24-4871-B539-C4EB78788612}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadDog.Audio", "DeadDog.Audio-master\DeadDog.Audio.csproj", "{A393FD81-A89C-4761-AF87-2E5DE2B95B61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadDog.Audio", "DeadDog.Audio\DeadDog.Audio.csproj", "{A393FD81-A89C-4761-AF87-2E5DE2B95B61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

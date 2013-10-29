@@ -86,7 +86,7 @@
             <ItemsControl ItemsSource="{Binding ComboAlbums, IsAsync=True}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel ItemWidth="400"/>
+                        <WrapPanel ItemWidth="400" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

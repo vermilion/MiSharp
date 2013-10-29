@@ -18,9 +18,9 @@ namespace MiSharp
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
         private BitmapSource _cover;
-        private Track _selectedSong;     
+        private Track _selectedSong;
 
-        public ComboAlbumViewModel(Album album):base(album.Title)
+        public ComboAlbumViewModel(Album album) : base(album.Title)
         {
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
@@ -29,7 +29,6 @@ namespace MiSharp
         }
 
         #region Properties
-
 
         public BitmapSource Cover
         {
@@ -58,7 +57,7 @@ namespace MiSharp
             }
             set { this.RaiseAndSetIfChanged(ref _cover, value); }
         }
-        
+
 
         //TODO: multiple
         public ObservableCollection<Track> SelectedSongs { get; set; }
@@ -73,7 +72,7 @@ namespace MiSharp
 
         public void AddAlbumToPlaylist()
         {
-            _events.Publish(Tracks.Select(x=>x.Model).ToList());
+            _events.Publish(Tracks.Select(x => x.Model).ToList());
         }
 
         public void AddSongToPlaylist()
