@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using DeadDog.Audio;
 using MiSharp.Core.Player.Exceptions;
 using MiSharp.Core.Player.Input;
 using NAudio;

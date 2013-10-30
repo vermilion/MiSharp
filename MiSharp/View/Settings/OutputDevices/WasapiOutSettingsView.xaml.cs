@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace MiSharp
+﻿namespace MiSharp
 {
     /// <summary>
     ///     Interaction logic for AsioOutSettingsView.xaml

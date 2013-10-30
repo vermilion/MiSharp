@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Caliburn.Micro;
 using MiSharp.Core.CustomEventArgs;
 using MiSharp.Core.Repository;

@@ -46,7 +46,7 @@ namespace MiSharp
             set
             {
                 this.RaiseAndSetIfChanged(ref Settings.Instance.FileFormats,
-                                          value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
+                    value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
             }
         }
 
@@ -107,7 +107,7 @@ namespace MiSharp
         {
             MediaRepository.Instance.Recreate();
             MediaScanner.Instance.ScanCompleted += () => _events.Publish(new ScanCompletedEventArgs());
-            MediaScanner.Instance.FileFound += (s) => _events.Publish(s);
+            MediaScanner.Instance.FileFound += s => _events.Publish(s);
             Task.Run(() => MediaScanner.Instance.Rescan());
         }
     }

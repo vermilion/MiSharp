@@ -1,5 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
+using DeadDog.Audio;
 using MiSharp.Core.Player.Exceptions;
 using Rareform.Extensions;
 

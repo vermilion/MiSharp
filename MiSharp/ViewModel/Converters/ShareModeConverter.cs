@@ -16,7 +16,7 @@ namespace MiSharp.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var exclusive = System.Convert.ToBoolean(value);
+            bool exclusive = System.Convert.ToBoolean(value);
             if (exclusive) return AudioClientShareMode.Exclusive;
             return AudioClientShareMode.Shared;
         }

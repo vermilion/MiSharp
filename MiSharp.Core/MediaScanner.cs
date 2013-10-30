@@ -1,5 +1,9 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using DeadDog.Audio.Libraries;
+using DeadDog.Audio.Parsing.Parsers;
+using DeadDog.Audio.Scan;
+using DeadDog.Audio.Scan.AudioScanner;
 using MiSharp.Core.CustomEventArgs;
 using MiSharp.Core.Repository;
 
