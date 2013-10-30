@@ -7,4 +7,5 @@ Used stuff"
 - ReactiveUI
 - MahApps.Metro
 - NAudio
+- Taglib-sharp
 - Db4o
