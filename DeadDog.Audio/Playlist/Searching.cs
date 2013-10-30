@@ -7,12 +7,14 @@ namespace DeadDog.Audio.Playlist
 {
     public static class Searching
     {
-        public static IEnumerable<T> Search<T>(this IEnumerable<T> list, PredicateString<T> predicate, SearchMethods method, string searchstring)
+        public static IEnumerable<T> Search<T>(this IEnumerable<T> list, PredicateString<T> predicate,
+            SearchMethods method, string searchstring)
         {
             return Search(list, predicate, method, SplitString(searchstring));
         }
 
-        public static IEnumerable<T> Search<T>(this IEnumerable<T> list, PredicateString<T> predicate, SearchMethods method, params string[] searchstring)
+        public static IEnumerable<T> Search<T>(this IEnumerable<T> list, PredicateString<T> predicate,
+            SearchMethods method, params string[] searchstring)
         {
             string[] search = searchstring;
             for (int i = 0; i < search.Length; i++)
@@ -31,22 +33,26 @@ namespace DeadDog.Audio.Playlist
             }
         }
 
-        public static IEnumerable<T> Search<T, R>(this IEnumerable<T> list, Converter<T, R> convert, PredicateString<R> predicate, SearchMethods method, string searchstring)
+        public static IEnumerable<T> Search<T, R>(this IEnumerable<T> list, Converter<T, R> convert,
+            PredicateString<R> predicate, SearchMethods method, string searchstring)
         {
             return Search(list, convert, predicate, method, SplitString(searchstring));
         }
 
-        public static IEnumerable<T> Search<T, R>(this IEnumerable<T> list, Converter<T, R> convert, PredicateString<R> predicate, SearchMethods method, params string[] searchstring)
+        public static IEnumerable<T> Search<T, R>(this IEnumerable<T> list, Converter<T, R> convert,
+            PredicateString<R> predicate, SearchMethods method, params string[] searchstring)
         {
             return Search(list, (t, s) => predicate(convert(t), s), method, searchstring);
         }
 
-        public static IEnumerable<T> Search<T>(this IPlaylist<T> playlist, PredicateString<T> predicate, SearchMethods method, string searchstring)
+        public static IEnumerable<T> Search<T>(this IPlaylist<T> playlist, PredicateString<T> predicate,
+            SearchMethods method, string searchstring)
         {
             return Search(playlist, predicate, method, SplitString(searchstring));
         }
 
-        public static IEnumerable<T> Search<T>(this IPlaylist<T> playlist, PredicateString<T> predicate, SearchMethods method, params string[] searchstring)
+        public static IEnumerable<T> Search<T>(this IPlaylist<T> playlist, PredicateString<T> predicate,
+            SearchMethods method, params string[] searchstring)
         {
             return Search(playlist, t => t, predicate, method, searchstring);
         }
@@ -56,17 +62,20 @@ namespace DeadDog.Audio.Playlist
             return Search(list, method, SplitString(searchstring));
         }
 
-        public static IEnumerable<Track> Search(this IEnumerable<Track> list, SearchMethods method, params string[] searchstring)
+        public static IEnumerable<Track> Search(this IEnumerable<Track> list, SearchMethods method,
+            params string[] searchstring)
         {
             return Search(list, ContainedInTitleArtistAlbum, method, searchstring);
         }
 
-        public static IEnumerable<Track> Search(this IPlaylist<Track> playlist, SearchMethods method, string searchstring)
+        public static IEnumerable<Track> Search(this IPlaylist<Track> playlist, SearchMethods method,
+            string searchstring)
         {
             return Search(playlist, method, SplitString(searchstring));
         }
 
-        public static IEnumerable<Track> Search(this IPlaylist<Track> playlist, SearchMethods method, params string[] searchstring)
+        public static IEnumerable<Track> Search(this IPlaylist<Track> playlist, SearchMethods method,
+            params string[] searchstring)
         {
             return Search(playlist, ContainedInTitleArtistAlbum, method, searchstring);
         }
@@ -76,7 +85,8 @@ namespace DeadDog.Audio.Playlist
             return searchstring.Trim().Split(' ');
         }
 
-        private static bool CompareElement<T>(T track, PredicateString<T> pre, SearchMethods method, string[] searchstring)
+        private static bool CompareElement<T>(T track, PredicateString<T> pre, SearchMethods method,
+            string[] searchstring)
         {
             switch (method)
             {

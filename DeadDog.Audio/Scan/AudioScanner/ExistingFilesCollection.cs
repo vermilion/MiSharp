@@ -59,8 +59,7 @@ namespace DeadDog.Audio.Scan.AudioScanner
                     _files.RemoveAt(index);
                     return true;
                 }
-                else
-                    return false;
+                return false;
             }
 
             public bool Remove(RawTrack item)

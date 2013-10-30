@@ -1,10 +1,12 @@
 ﻿namespace DeadDog.Audio
 {
     /// <summary>
-    ///     Represents the method that defines a set of criteria and determines whether the specified object meets those criteria.
+    ///     Represents the method that defines a set of criteria and determines whether the specified object meets those
+    ///     criteria.
     /// </summary>
     /// <remarks>
-    ///     The criteria are defined as; the object must contain the value specified by the <paramref name="searchstring" /> parameter.
+    ///     The criteria are defined as; the object must contain the value specified by the <paramref name="searchstring" />
+    ///     parameter.
     /// </remarks>
     /// <typeparam name="T">
     ///     The type of the object to compare.This type parameter is contravariant.

@@ -51,7 +51,7 @@
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" FontSize="13" Text="{Binding Path=Name}"
-                                                       Background="#FFB9B9B9" Foreground="White" />
+                                                       Foreground="DarkGray" />
                                             <ItemsPresenter />
                                         </StackPanel>
                                     </ControlTemplate>
@@ -142,5 +142,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        <controls:ProgressRing IsActive="{Binding UpdatingWindowVisible}" Margin="65,55,0,0" VerticalAlignment="Top"
+                               HorizontalAlignment="Left" Height="120" Width="120" />
     </Grid>
 </controls:MetroContentControl>

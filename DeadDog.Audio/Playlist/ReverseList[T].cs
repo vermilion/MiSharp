@@ -20,10 +20,9 @@ namespace DeadDog.Audio.Playlist
             {
                 if (_list.Count == 0)
                     return default(T);
-                else if (_list.Count == _index)
+                if (_list.Count == _index)
                     return default(T);
-                else
-                    return _list[_index];
+                return _list[_index];
             }
         }
 

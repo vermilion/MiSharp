@@ -17,7 +17,6 @@
     <controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MiSharp;component/Resources/LoadingFlyoutStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
@@ -34,11 +33,7 @@
                          IsOpen="{Binding IsSettingsFlyoutOpen}">
             <controls:MetroContentControl cal:View.Model="{Binding SettingsBaseViewModel}" Width="575" />
         </controls:Flyout>
-        <miSharp:LoadingFlyout Style="{StaticResource LeftLoadingFlyoutStyle}" Position="Left" IsOpen="{Binding IsSettingsFlyoutOpen}">
-            <ContentControl MinWidth="250" cal:View.Model="{Binding LibraryUpdateStateViewModel}" />
-    </miSharp:LoadingFlyout>
     </controls:MetroWindow.Flyouts>
-
 
     <Grid>
         <Grid.RowDefinitions>

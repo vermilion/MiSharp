@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using Caliburn.Micro;
-using MiSharp.Core;
 using MiSharp.Core.CustomEventArgs;
 using MiSharp.Core.Repository;
 using ReactiveUI;
@@ -45,11 +43,6 @@ namespace MiSharp
             get { return MediaRepository.Instance.GetLibrary().Artists.Select(x => new ArtistViewModel(x)); }
         }
 
-        public void Handle(ScanCompletedEventArgs message)
-        {
-            this.RaisePropertyChanged("Bands");
-        }
-
         public void AddArtistToPlaylist()
         {
             _events.Publish(SelectedBand.Albums.SelectMany(x => x.Tracks).Select(x => x.Model).ToList());
@@ -59,17 +52,33 @@ namespace MiSharp
         {
             //TODO: move this to ArtistViewModel
             var windowManager = IoC.Get<IWindowManager>();
-            windowManager.ShowDialog(new ArtistTagEditorViewModel(SelectedBand.Albums.SelectMany(x => x.Tracks).Select(x => x.Model).ToList()));
+            windowManager.ShowDialog(
+                new ArtistTagEditorViewModel(SelectedBand.Albums.SelectMany(x => x.Tracks).Select(x => x.Model).ToList()));
         }
 
         #region IHandle
 
+        private bool _updatingWindowVisible;
+
+        public bool UpdatingWindowVisible
+        {
+            get { return _updatingWindowVisible; }
+            set { this.RaiseAndSetIfChanged(ref _updatingWindowVisible, value); }
+        }
+
         public void Handle(FileStatEventArgs e)
         {
+            UpdatingWindowVisible = true;
             Status = e.CurrentFileNumber + ":" + e.TotalFiles;
             this.RaisePropertyChanged("Status");
             if (e.Completed)
                 this.RaisePropertyChanged("Bands");
+        }
+
+        public void Handle(ScanCompletedEventArgs message)
+        {
+            UpdatingWindowVisible = false;
+            this.RaisePropertyChanged("Bands");
         }
 
         #endregion

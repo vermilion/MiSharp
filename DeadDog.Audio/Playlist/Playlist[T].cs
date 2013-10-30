@@ -32,8 +32,7 @@ namespace DeadDog.Audio.Playlist
                 CurrentIndex = -2;
                 return false;
             }
-            else
-                return true;
+            return true;
         }
 
         public bool MovePrevious()
@@ -47,8 +46,7 @@ namespace DeadDog.Audio.Playlist
                 CurrentIndex = -2;
                 return false;
             }
-            else
-                return true;
+            return true;
         }
 
         public bool MoveRandom()
@@ -71,11 +69,8 @@ namespace DeadDog.Audio.Playlist
                 CurrentIndex = -2;
                 return false;
             }
-            else
-            {
-                CurrentIndex = 0;
-                return true;
-            }
+            CurrentIndex = 0;
+            return true;
         }
 
         public bool MoveToLast()
@@ -85,11 +80,8 @@ namespace DeadDog.Audio.Playlist
                 CurrentIndex = -2;
                 return false;
             }
-            else
-            {
-                CurrentIndex = Count - 1;
-                return true;
-            }
+            CurrentIndex = Count - 1;
+            return true;
         }
 
         public bool MoveToEntry(T entry)
@@ -100,11 +92,8 @@ namespace DeadDog.Audio.Playlist
                 CurrentIndex = -2;
                 return false;
             }
-            else
-            {
-                CurrentIndex = i;
-                return true;
-            }
+            CurrentIndex = i;
+            return true;
         }
 
         public void Reset()

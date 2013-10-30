@@ -1,15 +1,15 @@
 ﻿<controls:MetroContentControl x:Class="MiSharp.WasapiOutSettingsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
-                           xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                           xmlns:miSharp="clr-namespace:MiSharp"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+                              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                              xmlns:miSharp="clr-namespace:MiSharp"
                               xmlns:converters="clr-namespace:MiSharp.Converters"
                               mc:Ignorable="d"
-             Height="70" Width="350">
+                              Height="70" Width="350">
     <controls:MetroContentControl.Resources>
         <ResourceDictionary>
             <converters:ShareModeConverter x:Key="shareModeConverter" />
@@ -20,7 +20,9 @@
                   VerticalAlignment="Top" />
         <CheckBox Content="Event Callback" IsChecked="{Binding UseEventCallback}" HorizontalAlignment="Left"
                   Margin="10,44,0,0" VerticalAlignment="Top" />
-        <CheckBox Content="Exclusive Mode" IsChecked="{Binding ExclusiveMode, Converter={StaticResource shareModeConverter}}" HorizontalAlignment="Left"
+        <CheckBox Content="Exclusive Mode"
+                  IsChecked="{Binding ExclusiveMode, Converter={StaticResource shareModeConverter}}"
+                  HorizontalAlignment="Left"
                   Margin="145,44,0,0" VerticalAlignment="Top" />
 
     </Grid>

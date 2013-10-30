@@ -44,7 +44,8 @@ namespace DeadDog.Audio
         /// <param name="albumtitle">The album name of the track. Should be set to null if unknown.</param>
         /// <param name="tracknumber">The tracknumber of the track on the album. Should be set to -1 if unknown.</param>
         /// <param name="artistname">The artistname for the track. Should be set to null if unknown.</param>
-        public RawTrack(string filepath, string tracktitle, string albumtitle, int tracknumber, string artistname, int year)
+        public RawTrack(string filepath, string tracktitle, string albumtitle, int tracknumber, string artistname,
+            int year)
         {
             if (filepath == null)
                 throw new ArgumentNullException("filepath", "filepath cannot equal null");
@@ -163,11 +164,9 @@ namespace DeadDog.Audio
             {
                 if (ArtistName != null && AlbumTitle != null)
                     return ArtistName + " [" + AlbumTitle + "] - " + TrackTitle;
-                else
-                    return TrackTitle;
+                return TrackTitle;
             }
-            else
-                return File.FullName;
+            return File.FullName;
         }
 
         #region IEquatable<RawTrack> Members
@@ -186,10 +185,9 @@ namespace DeadDog.Audio
         {
             if (obj == null)
                 return false;
-            else if (obj is RawTrack)
+            if (obj is RawTrack)
                 return Equals(obj as RawTrack);
-            else
-                return false;
+            return false;
         }
 
         #endregion

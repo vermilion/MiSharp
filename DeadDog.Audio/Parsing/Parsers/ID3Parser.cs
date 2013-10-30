@@ -13,7 +13,8 @@ namespace DeadDog.Audio.Parsing.Parsers
         /// </summary>
         /// <param name="filepath">The full path of the file from which to read.</param>
         /// <returns>
-        ///     A <see cref="RawTrack" /> containing the parsed metadata, if parsing succeeded. If parsing fails an exception is thrown.
+        ///     A <see cref="RawTrack" /> containing the parsed metadata, if parsing succeeded. If parsing fails an exception is
+        ///     thrown.
         /// </returns>
         public RawTrack ParseTrack(string filepath)
         {

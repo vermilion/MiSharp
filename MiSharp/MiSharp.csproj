@@ -133,15 +133,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\Library\TrackViewModel.cs" />
-    <Compile Include="LoadingFlyout.cs" />
     <Compile Include="ViewModel\Player\NowPlayingViewModel.cs" />
     <Compile Include="ViewModel\Player\TrackState.cs" />
     <Compile Include="ViewModel\Converters\ShareModeConverter.cs" />
-    <Compile Include="ViewModel\Settings\LibraryUpdateStateViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsAppearanceViewModel.cs" />
-    <Compile Include="View\Library\LibraryUpdateStateView.xaml.cs">
-      <DependentUpon>LibraryUpdateStateView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Player\NowPlayingView.xaml.cs">
       <DependentUpon>NowPlayingView.xaml</DependentUpon>
     </Compile>
@@ -207,14 +202,6 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\LoadingFlyoutStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Library\LibraryUpdateStateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Player\NowPlayingView.xaml">
       <Generator>MSBuild:Compile</Generator>

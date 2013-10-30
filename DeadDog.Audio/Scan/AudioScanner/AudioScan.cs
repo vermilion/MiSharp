@@ -31,10 +31,10 @@ namespace DeadDog.Audio.Scan.AudioScanner
         private int _updated;
 
         internal AudioScan(DirectoryInfo directory, SearchOption searchoption,
-                           bool parseAdd, bool parseUpdate, bool removeDeadFiles,
-                           string[] extensions, IEnumerable<RawTrack> existingFiles, IEnumerable<string> ignoredFiles,
-                           ScanFileEventHandler parsed,
-                           ScanCompletedEventHandler done)
+            bool parseAdd, bool parseUpdate, bool removeDeadFiles,
+            string[] extensions, IEnumerable<RawTrack> existingFiles, IEnumerable<string> ignoredFiles,
+            ScanFileEventHandler parsed,
+            ScanCompletedEventHandler done)
         {
             var thread = new Thread(Run);
 
@@ -190,7 +190,8 @@ namespace DeadDog.Audio.Scan.AudioScanner
             }
         }
 
-        private Dictionary<FileInfo, Action> BuildActionDictionary(IEnumerable<FileInfo> scanFiles, IEnumerable<FileInfo> existingFiles)
+        private Dictionary<FileInfo, Action> BuildActionDictionary(IEnumerable<FileInfo> scanFiles,
+            IEnumerable<FileInfo> existingFiles)
         {
             var dictionary = new Dictionary<FileInfo, Action>();
 

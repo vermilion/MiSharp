@@ -24,12 +24,12 @@ namespace DeadDog.Audio.Playlist
         {
             if (_index == -2)
                 return false;
-            else if (Count == 0)
+            if (Count == 0)
             {
                 _index = -2;
                 return false;
             }
-            else if (_index == -1)
+            if (_index == -1)
             {
                 _index = 0;
                 this[_index].Reset();
@@ -88,8 +88,7 @@ namespace DeadDog.Audio.Playlist
                     _index = i;
                     return true;
                 }
-                else
-                    temp.RemoveAt(i);
+                temp.RemoveAt(i);
             }
             _index = -2;
             return false;
@@ -168,16 +167,13 @@ namespace DeadDog.Audio.Playlist
         {
             if (method == null)
                 throw new ArgumentNullException("Sort method cannot be null.");
-            else
-            {
-                _isSorted = true;
-                _sortMethod = method;
+            _isSorted = true;
+            _sortMethod = method;
 
-                IPlaylist<T> current = _index >= 0 ? this[_index] : null;
-                Sort();
-                if (current != null)
-                    _index = IndexOf(current);
-            }
+            IPlaylist<T> current = _index >= 0 ? this[_index] : null;
+            Sort();
+            if (current != null)
+                _index = IndexOf(current);
         }
 
         protected IPlaylist<T> GetPlaylist(int index)
@@ -209,7 +205,7 @@ namespace DeadDog.Audio.Playlist
                 int i = this.BinarySearch(playlist, _sortMethod);
                 if (i >= 0 && this[i] == playlist)
                     throw new ArgumentException("A playlist cannot contain the same playlist twice.");
-                else if (i < 0)
+                if (i < 0)
                     i = ~i;
 
                 Insert(i, playlist);

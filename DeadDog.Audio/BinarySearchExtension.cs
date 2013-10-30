@@ -8,7 +8,8 @@ namespace DeadDog.Audio
         #region ListSearch
 
         /// <summary>
-        ///     Searches the entire sorted <see cref="IList{T}" /> for an element using the specified comparer and returns the zero-based index of the element.
+        ///     Searches the entire sorted <see cref="IList{T}" /> for an element using the specified comparer and returns the
+        ///     zero-based index of the element.
         /// </summary>
         /// <typeparam name="TSource">The type of elements in the list.</typeparam>
         /// <param name="source">
@@ -23,7 +24,8 @@ namespace DeadDog.Audio
         /// </param>
         /// <returns>
         ///     The zero-based index of item in the sorted <see cref="IList{T}" />, if item is found;
-        ///     otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than item or,
+        ///     otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than
+        ///     item or,
         ///     if there is no larger element, the bitwise complement of <see cref="IList{T}" />.Count.
         /// </returns>
         public static int BinarySearch<TSource>(this IList<TSource> source, TSource item, Comparison<TSource> compare)
@@ -32,7 +34,8 @@ namespace DeadDog.Audio
         }
 
         /// <summary>
-        ///     Searches a range of elements in the sorted <see cref="IList{T}" /> for an element using the specified comparer and returns the zero-based index of the element.
+        ///     Searches a range of elements in the sorted <see cref="IList{T}" /> for an element using the specified comparer and
+        ///     returns the zero-based index of the element.
         /// </summary>
         /// <typeparam name="TSource">The type of elements in the list.</typeparam>
         /// <param name="source">
@@ -49,10 +52,12 @@ namespace DeadDog.Audio
         /// </param>
         /// <returns>
         ///     The zero-based index of item in the sorted <see cref="IList{T}" />, if item is found;
-        ///     otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than item or,
+        ///     otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than
+        ///     item or,
         ///     if there is no larger element, the bitwise complement of <see cref="IList{T}" />.Count.
         /// </returns>
-        public static int BinarySearch<TSource>(this IList<TSource> source, int index, int count, TSource item, Comparison<TSource> compare)
+        public static int BinarySearch<TSource>(this IList<TSource> source, int index, int count, TSource item,
+            Comparison<TSource> compare)
         {
             if (count == 0)
                 return ~index;
@@ -73,18 +78,19 @@ namespace DeadDog.Audio
             cmp = compare(item, source[i]);
             if (cmp == 0)
                 return i;
-            else if (cmp > 0)
+            if (cmp > 0)
                 return ~(i + 1);
-            else
-                return ~i;
+            return ~i;
         }
 
-        public static int BinarySearch<TSource, TFind>(this IList<TSource> source, TFind item, Comparison<TFind> compare, Converter<TSource, TFind> convert)
+        public static int BinarySearch<TSource, TFind>(this IList<TSource> source, TFind item, Comparison<TFind> compare,
+            Converter<TSource, TFind> convert)
         {
             return BinarySearch(source, 0, source.Count, item, compare, convert);
         }
 
-        public static int BinarySearch<TSource, TFind>(this IList<TSource> source, int index, int count, TFind item, Comparison<TFind> compare, Converter<TSource, TFind> convert)
+        public static int BinarySearch<TSource, TFind>(this IList<TSource> source, int index, int count, TFind item,
+            Comparison<TFind> compare, Converter<TSource, TFind> convert)
         {
             if (count == 0)
                 return ~index;
@@ -105,10 +111,9 @@ namespace DeadDog.Audio
             cmp = compare(item, convert(source[i]));
             if (cmp == 0)
                 return i;
-            else if (cmp > 0)
+            if (cmp > 0)
                 return ~(i + 1);
-            else
-                return ~i;
+            return ~i;
         }
 
         #endregion
@@ -116,7 +121,8 @@ namespace DeadDog.Audio
         #region ArraySearch
 
         /// <summary>
-        ///     Searches the entire sorted array for an element using the specified comparer and returns the zero-based index of the element.
+        ///     Searches the entire sorted array for an element using the specified comparer and returns the zero-based index of
+        ///     the element.
         /// </summary>
         /// <typeparam name="TSource">The type of elements in the array.</typeparam>
         /// <param name="source">The array to search.</param>
@@ -129,7 +135,8 @@ namespace DeadDog.Audio
         /// </param>
         /// <returns>
         ///     The zero-based index of item in the sorted array, if item is found;
-        ///     otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than item or,
+        ///     otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than
+        ///     item or,
         ///     if there is no larger element, the bitwise complement of the length of the array.
         /// </returns>
         public static int BinarySearch<TSource>(this TSource[] source, TSource item, Comparison<TSource> compare)
@@ -138,7 +145,8 @@ namespace DeadDog.Audio
         }
 
         /// <summary>
-        ///     Searches a range of elements in the sorted array for an element using the specified comparer and returns the zero-based index of the element.
+        ///     Searches a range of elements in the sorted array for an element using the specified comparer and returns the
+        ///     zero-based index of the element.
         /// </summary>
         /// <typeparam name="TSource">The type of elements in the array.</typeparam>
         /// <param name="source">The array to search.</param>
@@ -153,10 +161,12 @@ namespace DeadDog.Audio
         /// </param>
         /// <returns>
         ///     The zero-based index of item in the sorted array, if item is found;
-        ///     otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than item or,
+        ///     otherwise, a negative number that is the bitwise complement of the index of the next element that is larger than
+        ///     item or,
         ///     if there is no larger element, the bitwise complement of the length of the array.
         /// </returns>
-        public static int BinarySearch<TSource>(this TSource[] source, int index, int count, TSource item, Comparison<TSource> compare)
+        public static int BinarySearch<TSource>(this TSource[] source, int index, int count, TSource item,
+            Comparison<TSource> compare)
         {
             if (count == 0)
                 return ~index;
@@ -177,18 +187,19 @@ namespace DeadDog.Audio
             cmp = compare(item, source[i]);
             if (cmp == 0)
                 return i;
-            else if (cmp > 0)
+            if (cmp > 0)
                 return ~(i + 1);
-            else
-                return ~i;
+            return ~i;
         }
 
-        public static int BinarySearch<TSource, TFind>(this TSource[] source, TFind item, Comparison<TFind> compare, Converter<TSource, TFind> convert)
+        public static int BinarySearch<TSource, TFind>(this TSource[] source, TFind item, Comparison<TFind> compare,
+            Converter<TSource, TFind> convert)
         {
             return BinarySearch(source, 0, source.Length, item, compare, convert);
         }
 
-        public static int BinarySearch<TSource, TFind>(this TSource[] source, int index, int count, TFind item, Comparison<TFind> compare, Converter<TSource, TFind> convert)
+        public static int BinarySearch<TSource, TFind>(this TSource[] source, int index, int count, TFind item,
+            Comparison<TFind> compare, Converter<TSource, TFind> convert)
         {
             if (count == 0)
                 return ~index;
@@ -209,10 +220,9 @@ namespace DeadDog.Audio
             cmp = compare(item, convert(source[i]));
             if (cmp == 0)
                 return i;
-            else if (cmp > 0)
+            if (cmp > 0)
                 return ~(i + 1);
-            else
-                return ~i;
+            return ~i;
         }
 
         #endregion

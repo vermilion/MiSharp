@@ -49,11 +49,8 @@ namespace DeadDog.Audio.Playlist
             _index++;
             if (_index < _entries.Count)
                 return true;
-            else
-            {
-                _index = -2;
-                return false;
-            }
+            _index = -2;
+            return false;
         }
 
         public bool MovePrevious()
@@ -64,11 +61,8 @@ namespace DeadDog.Audio.Playlist
             _index--;
             if (_index < 0)
                 return true;
-            else
-            {
-                _index = -2;
-                return false;
-            }
+            _index = -2;
+            return false;
         }
 
         public bool MoveRandom()
@@ -79,11 +73,8 @@ namespace DeadDog.Audio.Playlist
                 _index = r.Next(_entries.Count);
                 return true;
             }
-            else
-            {
-                _index = -2;
-                return false;
-            }
+            _index = -2;
+            return false;
         }
 
         public void Reset()
@@ -95,11 +86,8 @@ namespace DeadDog.Audio.Playlist
         {
             if (_entries.Count == 0)
                 return false;
-            else
-            {
-                _index = 0;
-                return true;
-            }
+            _index = 0;
+            return true;
         }
 
         public bool MoveToLast()
@@ -109,11 +97,8 @@ namespace DeadDog.Audio.Playlist
                 _index = -2;
                 return false;
             }
-            else
-            {
-                _index = _entries.Count;
-                return true;
-            }
+            _index = _entries.Count;
+            return true;
         }
 
         public bool MoveToEntry(Track entry)
@@ -123,18 +108,15 @@ namespace DeadDog.Audio.Playlist
                 _index = _entries.IndexOf(entry);
                 return true;
             }
-            else
-            {
-                _index = -2;
-                return false;
-            }
+            _index = -2;
+            return false;
         }
 
         public bool Contains(Track entry)
         {
             if (_entries.Contains(entry))
                 return true;
-            else return false;
+            return false;
         }
 
         private void Tracks_TrackAdded(TrackCollection collection, TrackEventArgs e)
@@ -142,7 +124,7 @@ namespace DeadDog.Audio.Playlist
             int i = _entries.BinarySearch(e.Track, _sort, x => x);
             if (i >= 0 && _entries[i] == e.Track)
                 throw new ArgumentException("A playlist cannot contain the same track twice");
-            else if (i < 0)
+            if (i < 0)
                 i = ~i;
 
             _entries.Insert(i, e.Track);
@@ -168,13 +150,10 @@ namespace DeadDog.Audio.Playlist
         {
             if (sort == null)
                 throw new ArgumentNullException("Sortmethod cannot be null. Consider setting to the DefaultSort Method");
-            else
-            {
-                _sort = sort;
-                Track track = _entries[_index];
-                SortEntries();
-                _index = _entries.IndexOf(track);
-            }
+            _sort = sort;
+            Track track = _entries[_index];
+            SortEntries();
+            _index = _entries.IndexOf(track);
         }
 
         private void SortEntries()
@@ -187,8 +166,7 @@ namespace DeadDog.Audio.Playlist
             int? v1 = element1.Tracknumber, v2 = element2.Tracknumber;
             if (v1.HasValue)
                 return v2.HasValue ? v1.Value.CompareTo(v2.Value) : 1;
-            else
-                return v2.HasValue ? -1 : 0;
+            return v2.HasValue ? -1 : 0;
         }
 
         #region IEnumerable<PlaylistEntry<Track>> Members
