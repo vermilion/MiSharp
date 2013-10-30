@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using TagLib;
+using File = TagLib.File;
 
 namespace DeadDog.Audio
 {
@@ -10,7 +10,7 @@ namespace DeadDog.Audio
     {
         private readonly string _filepath;
 
-        public Mp3Track(string filepath, Tag tag)
+        public Mp3Track(string filepath, File tag)
         {
             if (filepath == null)
                 throw new ArgumentNullException("filepath", "filepath cannot equal null");
@@ -24,17 +24,19 @@ namespace DeadDog.Audio
             }
             _filepath = filepath;
 
-            TrackTitle = string.IsNullOrEmpty(tag.Title) ? File.Name : tag.Title.Trim();
-            AlbumTitle = string.IsNullOrEmpty(tag.Album) ? null : tag.Album.Trim();
-            TrackNumber = (int) tag.Track;
-            ArtistName = !tag.Performers.Any() ? null : string.Join(" & ", tag.Performers);
-            Year = (int) tag.Year;
-            Genre = tag.JoinedGenres;
+            TrackTitle = string.IsNullOrEmpty(tag.Tag.Title) ? File.Name : tag.Tag.Title.Trim();
+            AlbumTitle = string.IsNullOrEmpty(tag.Tag.Album) ? null : tag.Tag.Album.Trim();
+            TrackNumber = (int) tag.Tag.Track;
+            ArtistName = !tag.Tag.Performers.Any() ? null : string.Join(" & ", tag.Tag.Performers);
+            Year = (int) tag.Tag.Year;
+            Genre = tag.Tag.JoinedGenres;
+            Bitrate = tag.Tag.BeatsPerMinute;
+            Duration = tag.Properties.Duration;
         }
 
         public void WriteTag()
         {
-            var file = TagLib.File.Create(_filepath);
+            File file = TagLib.File.Create(_filepath);
 
             if (file == null)
                 return;
@@ -58,6 +60,5 @@ namespace DeadDog.Audio
             // save
             file.Save();
         }
-
     }
 }

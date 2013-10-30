@@ -1,96 +1,65 @@
 ﻿using System;
 using DeadDog.Audio.Libraries.Collections;
 using DeadDog.Audio.Libraries.Events;
-using ReactiveUI;
 
 namespace DeadDog.Audio.Libraries
 {
-    public class Album : ReactiveObject
+    public class Album
     {
         #region Properties
 
-        private Artist _artist;
-        private bool _isunknown;
+        public bool IsUnknown { get; set; }
 
-        private string _title;
+        public string Title { get; set; }
 
-        private TrackCollection _tracks;
-        private int _year;
+        public TrackCollection Tracks { get; set; }
 
-        // This is correct! - Artist should NOT be a constructor argument.
+        public Artist Artist { get; set; }
 
-        public bool IsUnknown
-        {
-            get { return _isunknown; }
-            set { this.RaiseAndSetIfChanged(ref _isunknown, value); }
-        }
-
-        public string Title
-        {
-            get { return _title; }
-            set { this.RaiseAndSetIfChanged(ref _title, value); }
-        }
-
-        public TrackCollection Tracks
-        {
-            get { return _tracks; }
-            set { this.RaiseAndSetIfChanged(ref _tracks, value); }
-        }
-
-        public Artist Artist
-        {
-            get { return _artist; }
-            internal set { _artist = value; }
-        }
-
-        public int Year
-        {
-            get { return _year; }
-            set { this.RaiseAndSetIfChanged(ref _year, value); }
-        }
+        public int Year { get; set; }
 
         public bool HasArtist
         {
-            get { return _artist != null; }
+            get { return Artist != null; }
         }
 
         #endregion
 
         public Album(string album, int albumYear)
         {
-            _isunknown = album == null;
-            _year = albumYear;
-            _tracks = new TrackCollection(TrackAdded, TrackRemoved);
+            IsUnknown = album == null;
+            Year = albumYear;
+            Tracks = new TrackCollection(TrackAdded, TrackRemoved);
 
-            _title = album ?? "Unknown";
+            Title = album ?? "Unknown";
         }
 
         public override string ToString()
         {
-            return _title;
+            return Title;
         }
 
         private void TrackAdded(TrackCollection collection, TrackEventArgs e)
         {
-            if (collection != _tracks)
+            if (collection != Tracks)
                 throw new InvalidOperationException("Album attempted to alter wrong trackcollection.");
 
             if (collection.Count == 1)
             {
-                _artist = e.Track.Artist;
-                _artist.Albums.Add(this);
+                Artist = e.Track.Artist;
+                Artist.Albums.Add(this);
             }
-            else if (e.Track.Artist != null && e.Track.Artist != _artist)
+            else if (e.Track.Artist != null && e.Track.Artist != Artist)
             {
-                if (_artist != null)
-                    _artist.Albums.Remove(this);
-                _artist = null;
+                if (Artist != null)
+                    Artist.Albums.Remove(this);
+                Artist = null;
             }
         }
 
         private void TrackRemoved(TrackCollection collection, TrackEventArgs e)
         {
-            if (collection != _tracks)
+            if (collection != Tracks)
                 throw new InvalidOperationException("Album attempted to alter wrong trackcollection.");
 
             Artist temp = null;
@@ -99,20 +68,20 @@ namespace DeadDog.Audio.Libraries
                     temp = collection[i].Artist;
                 else if (collection[i].Artist != null && collection[i].Artist != temp)
                 {
-                    if (_artist != null)
-                        _artist.Albums.Remove(this);
-                    _artist = null;
+                    if (Artist != null)
+                        Artist.Albums.Remove(this);
+                    Artist = null;
                     return;
                 }
 
             // All track artist are the same (or null)
-            if (_artist != null)
-                _artist.Albums.Remove(this);
+            if (Artist != null)
+                Artist.Albums.Remove(this);
 
-            _artist = temp;
+            Artist = temp;
 
             if (temp != null)
-                _artist.Albums.Add(this);
+                Artist.Albums.Add(this);
         }
     }
 }

@@ -51,6 +51,7 @@
             <miSharp:SliderWithDraggingEvents x:Name="VolumeSlider" Margin="240,19,350,19" VerticalAlignment="Center"
                                               Width="80" Height="Auto"
                                               Minimum="0" Maximum="1" Value="{Binding Volume}" />
+            <Label Margin="340,5,80,10" Content="{Binding CurrentlyPlaying.TrackTitle}" />
         </Grid>
         <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}"
                                           TickFrequency="{Binding TickFrequency}"

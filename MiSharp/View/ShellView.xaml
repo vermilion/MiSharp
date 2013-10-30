@@ -37,7 +37,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="85" />
+            <RowDefinition Height="95" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
@@ -45,13 +45,16 @@
         <TabControl Grid.Row="1" Padding="15, 0, 15, 0">
             <TabItem Header="Now Playing">
                 <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                                x:Name="PlaylistViewModel" />
+                                x:Name="NowPlayingViewModel" />
             </TabItem>
             <TabItem Header="Library">
                 <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                 x:Name="LibraryViewModel" />
             </TabItem>
-            <TabItem Header="Playlists" />
+            <TabItem Header="Playlists">
+                <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                x:Name="PlaylistManagerViewModel" />
+            </TabItem>
         </TabControl>
 
 

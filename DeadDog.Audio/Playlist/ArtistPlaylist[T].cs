@@ -23,8 +23,8 @@ namespace DeadDog.Audio.Playlist
                 AddPlaylist(albumplaylist);
             }
 
-            this._artist.Albums.AlbumAdded += Albums_AlbumAdded;
-            this._artist.Albums.AlbumRemoved += Albums_AlbumRemoved;
+            _artist.Albums.AlbumAdded += Albums_AlbumAdded;
+            _artist.Albums.AlbumRemoved += Albums_AlbumRemoved;
         }
 
         private void Albums_AlbumRemoved(AlbumCollection collection, AlbumEventArgs e)

@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using MiSharp.ViewModel.DialogResults;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace MiSharp
 {

@@ -14,6 +14,7 @@ namespace DeadDog.Audio.Playlist
         }
 
         public int CurrentIndex { get; set; }
+        public string Name { get; set; }
 
         public T CurrentEntry
         {
@@ -65,7 +66,7 @@ namespace DeadDog.Audio.Playlist
 
         public bool MoveToFirst()
         {
-            if (this.Count == 0)
+            if (Count == 0)
             {
                 CurrentIndex = -2;
                 return false;
@@ -125,6 +126,21 @@ namespace DeadDog.Audio.Playlist
 
         #endregion
 
-        public string Name { get; set; }
+        public bool MoveNextOrFirst()
+        {
+            if (MoveNext()) return true;
+
+            if (CurrentIndex == -2)
+                CurrentIndex = 0;
+            return true;
+        }
+
+        public bool MovePreviousOrLast()
+        {
+            if (MovePrevious()) return true;
+            if (CurrentIndex == -2)
+                CurrentIndex = 0;
+            return true;
+        }
     }
 }

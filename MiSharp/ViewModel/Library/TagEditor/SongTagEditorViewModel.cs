@@ -8,7 +8,7 @@ using MiSharp.ViewModel.DialogResults;
 
 namespace MiSharp
 {
-    [Export(typeof(SongTagEditorViewModel))]
+    [Export(typeof (SongTagEditorViewModel))]
     internal class SongTagEditorViewModel : AlbumTagEditorViewModel
     {
         private string _songComposer;
@@ -117,7 +117,7 @@ namespace MiSharp
                     if (SongYear != -1)
                         media.Year = SongYear;
 
-                    if (SongId !=-1)
+                    if (SongId != -1)
                         media.TrackNumber = SongId;
 
                     if (media is Mp3Track)

@@ -19,7 +19,7 @@ namespace DeadDog.Audio.Libraries.Events
         /// <param name="track">The track.</param>
         public TrackEventArgs(Track track)
         {
-            this._track = track;
+            _track = track;
         }
 
         /// <summary>

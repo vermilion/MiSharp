@@ -19,7 +19,7 @@ namespace DeadDog.Audio.Libraries.Events
         /// <param name="artist">The artist.</param>
         public ArtistEventArgs(Artist artist)
         {
-            this._artist = artist;
+            _artist = artist;
         }
 
         /// <summary>

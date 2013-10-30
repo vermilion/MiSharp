@@ -131,13 +131,20 @@
     <Compile Include="ViewModel\Library\TagEditor\SongTagEditorViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\Library\TrackViewModel.cs" />
+    <Compile Include="ViewModel\Player\NowPlayingViewModel.cs" />
+    <Compile Include="ViewModel\Player\TrackState.cs" />
+    <Compile Include="ViewModel\Converters\ShareModeConverter.cs" />
     <Compile Include="ViewModel\Settings\SettingsAppearanceViewModel.cs" />
+    <Compile Include="View\Player\NowPlayingView.xaml.cs">
+      <DependentUpon>NowPlayingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Settings\SettingsAppearanceView.xaml.cs">
       <DependentUpon>SettingsAppearanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Settings\SettingsBaseViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
-    <Compile Include="ViewModel\Player\PlaylistViewModel.cs" />
+    <Compile Include="ViewModel\Player\PlaylistManagerViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\AsioOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\DirectSoundOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\WasapiOutSettingsViewModel.cs" />
@@ -162,8 +169,8 @@
     <Compile Include="View\Player\PlayerView.xaml.cs">
       <DependentUpon>PlayerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Player\PlaylistView.xaml.cs">
-      <DependentUpon>PlaylistView.xaml</DependentUpon>
+    <Compile Include="View\Player\PlaylistManagerView.xaml.cs">
+      <DependentUpon>PlaylistManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Library\TagEditor\ArtistTagEditorView.xaml.cs">
       <DependentUpon>ArtistTagEditorView.xaml</DependentUpon>
@@ -195,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Player\NowPlayingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -215,7 +226,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Player\PlaylistView.xaml">
+    <Page Include="View\Player\PlaylistManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

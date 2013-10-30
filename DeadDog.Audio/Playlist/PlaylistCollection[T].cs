@@ -15,11 +15,6 @@ namespace DeadDog.Audio.Playlist
         private Comparison<IPlaylist<T>> _sortMethod;
 
 
-        protected int count
-        {
-            get { return Count; }
-        }
-
         public T CurrentEntry
         {
             get { return _index < 0 ? default(T) : this[_index].CurrentEntry; }
@@ -157,7 +152,7 @@ namespace DeadDog.Audio.Playlist
 
         public bool Contains(T entry)
         {
-            foreach (IPlaylist<T> playlist in this)
+            foreach (var playlist in this)
                 if (Enumerable.Contains(playlist, entry))
                     return true;
             return false;
@@ -177,11 +172,11 @@ namespace DeadDog.Audio.Playlist
             {
                 _isSorted = true;
                 _sortMethod = method;
-                
+
                 IPlaylist<T> current = _index >= 0 ? this[_index] : null;
                 Sort();
                 if (current != null)
-                    _index = this.IndexOf(current);
+                    _index = IndexOf(current);
             }
         }
 
@@ -241,7 +236,7 @@ namespace DeadDog.Audio.Playlist
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            foreach (IPlaylist<T> playlist in this)
+            foreach (var playlist in this)
                 foreach (T t in playlist)
                     yield return t;
         }

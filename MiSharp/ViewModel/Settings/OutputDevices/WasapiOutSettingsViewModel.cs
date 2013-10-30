@@ -14,8 +14,8 @@ namespace MiSharp
     public class WasapiOutSettingsViewModel : ReactiveObject, IOutputDevicePlugin
     {
         private List<MMDevice> _devices = new List<MMDevice>();
+        private AudioClientShareMode _exclusiveMode;
         private MMDevice _selectedDevice;
-        private bool _shareMode;
         private bool _useEventCallback;
 
         public WasapiOutSettingsViewModel()
@@ -42,11 +42,10 @@ namespace MiSharp
             set { this.RaiseAndSetIfChanged(ref _selectedDevice, value); }
         }
 
-        //TODO: bind to AudioClientShareMode enum
-        public bool ShareMode
+        public AudioClientShareMode ExclusiveMode
         {
-            get { return _shareMode; }
-            set { this.RaiseAndSetIfChanged(ref _shareMode, value); }
+            get { return _exclusiveMode; }
+            set { this.RaiseAndSetIfChanged(ref _exclusiveMode, value); }
         }
 
         public bool UseEventCallback
@@ -57,12 +56,9 @@ namespace MiSharp
 
         public IWavePlayer CreateDevice(int latency)
         {
-            AudioClientShareMode shareMode = ShareMode
-                                                 ? AudioClientShareMode.Shared
-                                                 : AudioClientShareMode.Exclusive;
             var wasapi = new WasapiOut(
                 SelectedDevice,
-                shareMode,
+                ExclusiveMode,
                 UseEventCallback,
                 latency);
             return wasapi;

@@ -3,9 +3,9 @@
     /// <summary>
     ///     Interaction logic for PlaylistView.xaml
     /// </summary>
-    public partial class PlaylistView
+    public partial class PlaylistManagerView
     {
-        public PlaylistView()
+        public PlaylistManagerView()
         {
             InitializeComponent();
         }

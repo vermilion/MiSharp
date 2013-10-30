@@ -1,15 +1,12 @@
 ﻿using System.IO;
-using ReactiveUI;
 
 namespace DeadDog.Audio.Libraries
 {
-    public class Track : ReactiveObject
+    public class Track
     {
         #region Fields and properties
 
         private readonly FileInfo _file;
-        private string _title;
-        private int? _tracknumber;
 
         public bool FileExist
         {
@@ -25,17 +22,9 @@ namespace DeadDog.Audio.Libraries
             get { return _file.FullName; }
         }
 
-        public string Title
-        {
-            get { return _title; }
-            set { this.RaiseAndSetIfChanged(ref _title, value); }
-        }
+        public string Title { get; set; }
 
-        public int? Tracknumber
-        {
-            get { return _tracknumber; }
-            set { this.RaiseAndSetIfChanged(ref _tracknumber, value); }
-        }
+        public int? Tracknumber { get; set; }
 
         public Album Album { get; internal set; }
 
@@ -50,14 +39,14 @@ namespace DeadDog.Audio.Libraries
             _file = trackinfo.File;
             Album = album;
             Artist = artist;
-            _title = trackinfo.TrackTitle;
-            _tracknumber = trackinfo.TrackNumberUnknown ? (int?) null : trackinfo.TrackNumber;
+            Title = trackinfo.TrackTitle;
+            Tracknumber = trackinfo.TrackNumberUnknown ? (int?) null : trackinfo.TrackNumber;
             Model = trackinfo;
         }
 
         public override string ToString()
         {
-            return (_tracknumber == null ? "" : "#" + _tracknumber + " ") + _title;
+            return (Tracknumber == null ? "" : "#" + Tracknumber + " ") + Title;
         }
     }
 }

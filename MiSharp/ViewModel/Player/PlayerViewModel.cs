@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using MiSharp.Core.Player;
+using MiSharp.ViewModel.Player;
 using ReactiveUI;
 
 namespace MiSharp
@@ -11,7 +12,7 @@ namespace MiSharp
     public class PlayerViewModel : ReactiveObject, IHandle<RawTrack>
     {
         private readonly IEventAggregator _events;
-        private readonly PlaylistViewModel _playlistViewModel;
+        private readonly NowPlayingViewModel _nowPlayingViewModel;
         private string _currentTime = "00:00";
         private bool _isPlaying;
         private int _maximum = 1;
@@ -22,14 +23,20 @@ namespace MiSharp
         private string _totalTime = "00:00";
 
         [ImportingConstructor]
-        public PlayerViewModel(IEventAggregator events, PlaylistViewModel playlistViewModel)
+        public PlayerViewModel(IEventAggregator events, NowPlayingViewModel nowPlayingViewModel)
         {
-            _playlistViewModel = playlistViewModel;
+            _nowPlayingViewModel = nowPlayingViewModel;
             Player = new LocalAudioPlayer();
             Player.PlaybackUpdated += Player_PlaybackUpdated;
             Player.SongFinished += Player_SongFinished;
             _events = events;
             _events.Subscribe(this);
+        }
+
+        public RawTrack CurrentlyPlaying
+        {
+            get { return _currentlyPlaying; }
+            set { this.RaiseAndSetIfChanged(ref _currentlyPlaying, value); }
         }
 
         public LocalAudioPlayer Player { get; set; }
@@ -57,11 +64,14 @@ namespace MiSharp
 
         public void Play(RawTrack song)
         {
-            Player.Load(song, Volume);
+            if (!Equals(CurrentlyPlaying, song))
+            {
+                CurrentlyPlaying = song;
+                Player.Load(song, Volume);
+            }
             Player.Play();
             IsPlaying = true;
-            //song.State = AudioPlayerState.Playing;
-            //_playlistViewModel.CurrentEntry = song;
+            _events.Publish(new TrackState(song, AudioPlayerState.Playing));
         }
 
         public void ChangePosition(double pos)
@@ -71,7 +81,7 @@ namespace MiSharp
 
         public void StartClick()
         {
-            RawTrack song = _playlistViewModel.SelectedPlaylist.CurrentEntry;
+            RawTrack song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
             if (song == null) return;
             Play(song);
         }
@@ -80,26 +90,28 @@ namespace MiSharp
         {
             Player.Pause();
             IsPlaying = false;
-            //_playlistViewModel.CurrentEntry.State = AudioPlayerState.Paused;
+            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
         }
 
         public void StopClick()
         {
             Player.Stop();
             IsPlaying = false;
-            //_playlistViewModel.CurrentEntry.State = AudioPlayerState.Stopped;
+            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Stopped));
         }
 
         public void PlayNext()
         {
-            RawTrack song = _playlistViewModel.GetNextSong();
+            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
+            RawTrack song = _nowPlayingViewModel.GetNextSong();
             if (song != null)
                 Play(song);
         }
 
         public void PlayPrev()
         {
-            RawTrack song = _playlistViewModel.GetPreviousSong();
+            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
+            RawTrack song = _nowPlayingViewModel.GetPreviousSong();
             if (song != null)
                 Play(song);
         }
@@ -108,7 +120,7 @@ namespace MiSharp
 
         private void Player_SongFinished(object sender, EventArgs e)
         {
-            RawTrack song = _playlistViewModel.GetNextSong();
+            RawTrack song = _nowPlayingViewModel.GetNextSong();
             if (song == null) return;
             Play(song);
         }
@@ -117,6 +129,7 @@ namespace MiSharp
 
         #region Properties
 
+        private RawTrack _currentlyPlaying;
         private bool _dragging;
         private float _volume = 1.0f;
 

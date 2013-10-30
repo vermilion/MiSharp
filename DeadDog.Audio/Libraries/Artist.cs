@@ -1,26 +1,19 @@
 ﻿using DeadDog.Audio.Libraries.Collections;
-using ReactiveUI;
 
 namespace DeadDog.Audio.Libraries
 {
-    public class Artist : ReactiveObject
+    public class Artist
     {
         #region Properties
 
         private readonly bool _isunknown;
-
-        private string _name;
 
         public bool IsUnknown
         {
             get { return _isunknown; }
         }
 
-        public string Name
-        {
-            get { return _name; }
-            set { this.RaiseAndSetIfChanged(ref _name, value); }
-        }
+        public string Name { get; set; }
 
         public AlbumCollection Albums { get; set; }
 
@@ -31,12 +24,12 @@ namespace DeadDog.Audio.Libraries
             _isunknown = name == null;
             Albums = new AlbumCollection();
 
-            _name = name ?? "Unknown";
+            Name = name ?? "Unknown";
         }
 
         public override string ToString()
         {
-            return _name;
+            return Name;
         }
     }
 }

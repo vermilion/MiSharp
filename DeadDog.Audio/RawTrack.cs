@@ -106,6 +106,10 @@ namespace DeadDog.Audio
 
         public int Year { get; set; }
 
+        public uint Bitrate { get; set; }
+
+        public TimeSpan Duration { get; set; }
+
         public bool YearUnknown
         {
             get { return Year == YearIfUnknown; }
@@ -135,15 +139,7 @@ namespace DeadDog.Audio
         /// <returns>A new cloned instance of the current object.</returns>
         public object Clone()
         {
-            var rt = new RawTrack
-                {
-                    AlbumTitle = AlbumTitle,
-                    ArtistName = ArtistName,
-                    File = File,
-                    TrackNumber = TrackNumber,
-                    TrackTitle = TrackTitle
-                };
-            return rt;
+            return MemberwiseClone();
         }
 
         internal static void SetNewArtistName(RawTrack item, string newname)

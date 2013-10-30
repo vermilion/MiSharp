@@ -9,7 +9,7 @@ using MiSharp.ViewModel.DialogResults;
 
 namespace MiSharp
 {
-    [Export(typeof(ArtistTagEditorViewModel))]
+    [Export(typeof (ArtistTagEditorViewModel))]
     internal class ArtistTagEditorViewModel : ReactiveScreen
     {
         protected List<RawTrack> MediaList;
@@ -36,7 +36,7 @@ namespace MiSharp
             get { return _songAlbumArtist; }
             set
             {
-                _songAlbumArtist = value;                
+                _songAlbumArtist = value;
                 NotifyOfPropertyChange(() => SongAlbumArtist);
             }
         }

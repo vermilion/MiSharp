@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using DeadDog.Audio.Libraries;
-using ReactiveUI;
 using TagLib;
+using File = TagLib.File;
 
 namespace MiSharp
 {
-    public class ComboAlbumViewModel : Album
+    public class ComboAlbumViewModel : Album, INotifyPropertyChanged
     {
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
@@ -37,7 +39,7 @@ namespace MiSharp
                 Track item = Tracks.FirstOrDefault();
                 if (item != null)
                 {
-                    TagLib.File file = TagLib.File.Create(item.Model.FullFilename);
+                    File file = File.Create(item.Model.FullFilename);
                     if (file.Tag.Pictures.Any())
                     {
                         IPicture pic = file.Tag.Pictures[0];
@@ -55,7 +57,11 @@ namespace MiSharp
                 }
                 return _cover;
             }
-            set { this.RaiseAndSetIfChanged(ref _cover, value); }
+            set
+            {
+                _cover = value;
+                OnPropertyChanged();
+            }
         }
 
 
@@ -65,10 +71,16 @@ namespace MiSharp
         public Track SelectedSong
         {
             get { return _selectedSong; }
-            set { this.RaiseAndSetIfChanged(ref _selectedSong, value); }
+            set
+            {
+                _selectedSong = value;
+                OnPropertyChanged();
+            }
         }
 
         #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void AddAlbumToPlaylist()
         {
@@ -89,6 +101,12 @@ namespace MiSharp
         {
             if (SelectedSong != null)
                 _windowManager.ShowDialog(new SongTagEditorViewModel(new List<RawTrack> {SelectedSong.Model}));
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

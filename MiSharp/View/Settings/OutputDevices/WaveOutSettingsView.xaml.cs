@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace MiSharp
+﻿namespace MiSharp
 {
     /// <summary>
     ///     Interaction logic for AsioOutSettingsView.xaml
     /// </summary>
-    public partial class WaveOutSettingsView : UserControl
+    public partial class WaveOutSettingsView
     {
         public WaveOutSettingsView()
         {

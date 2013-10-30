@@ -1,4 +1,4 @@
-﻿<controls:MetroContentControl x:Class="MiSharp.PlaylistView"
+﻿<controls:MetroContentControl x:Class="MiSharp.PlaylistManagerView"
                               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -82,6 +82,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ComboBox ItemsSource="{Binding PlaylistCollection}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPlaylist}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="200" Height="33"/>
+        <ComboBox ItemsSource="{Binding PlaylistCollection}" DisplayMemberPath="Name"
+                  SelectedItem="{Binding SelectedPlaylist}" HorizontalAlignment="Left" Margin="10,10,0,0"
+                  VerticalAlignment="Top" Width="200" Height="33" />
     </Grid>
 </controls:MetroContentControl>

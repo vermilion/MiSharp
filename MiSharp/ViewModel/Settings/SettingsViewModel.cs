@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Caliburn.Micro.ReactiveUI;
 using MiSharp.Core;
+using MiSharp.Core.CustomEventArgs;
 using MiSharp.Core.Player.Output;
 using MiSharp.Core.Repository;
 using MiSharp.ViewModel.DialogResults;
@@ -105,21 +106,9 @@ namespace MiSharp
         public void RescanLibrary()
         {
             MediaRepository.Instance.Recreate();
-            MediaScanner.Instance.ScanCompleted += Instance_ScanCompleted;
-            //MediaRepository.Instance.FileFound += Instance_FileFound;
+            MediaScanner.Instance.ScanCompleted += () => _events.Publish(new ScanCompletedEventArgs());
+            MediaScanner.Instance.FileFound += (s) => _events.Publish(s);
             Task.Run(() => MediaScanner.Instance.Rescan());
-        }
-
-        private void Instance_ScanCompleted()
-        {
-            //TODO: notify. current way not working
-            var model = IoC.Get<LibraryViewModel>();
-            NotifyOfPropertyChange(() => model.Bands);
-        }
-
-        private void Instance_FileFound(FileStatEventArgs args)
-        {
-            _events.Publish(args);
         }
     }
 }

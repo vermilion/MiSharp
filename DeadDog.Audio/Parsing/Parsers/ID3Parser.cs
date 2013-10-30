@@ -23,7 +23,7 @@ namespace DeadDog.Audio.Parsing.Parsers
             if (tag == null)
                 throw new Exception("No tags found.");
 
-            return new Mp3Track(filepath, tag);
+            return new Mp3Track(filepath, tagFile);
         }
     }
 }
