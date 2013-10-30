@@ -1,7 +1,7 @@
 ﻿using DeadDog.Audio;
 using MiSharp.Core.Player;
 
-namespace MiSharp.ViewModel.Player
+namespace MiSharp.Player
 {
     public class TrackState
     {

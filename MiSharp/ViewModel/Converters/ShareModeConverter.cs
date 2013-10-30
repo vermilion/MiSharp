@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using NAudio.CoreAudioApi;
 
-namespace MiSharp.ViewModel.Converters
+namespace MiSharp.Converters
 {
     public class ShareModeConverter : IValueConverter
     {

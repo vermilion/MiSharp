@@ -21,6 +21,7 @@ namespace MiSharp
             PlaylistManagerViewModel = IoC.Get<PlaylistManagerViewModel>();
             SettingsBaseViewModel = IoC.Get<SettingsBaseViewModel>();
             NowPlayingViewModel = IoC.Get<NowPlayingViewModel>();
+            LibraryUpdateStateViewModel = IoC.Get<LibraryUpdateStateViewModel>();
             events.Subscribe(this);
             _windowManager = IoC.Get<IWindowManager>();
         }
@@ -30,7 +31,7 @@ namespace MiSharp
         public PlayerViewModel PlayerViewModel { get; set; }
         public PlaylistManagerViewModel PlaylistManagerViewModel { get; set; }
         public NowPlayingViewModel NowPlayingViewModel { get; set; }
-
+        public LibraryUpdateStateViewModel LibraryUpdateStateViewModel { get; set; }
         public bool IsSettingsFlyoutOpen
         {
             get { return _isSettingsFlyoutOpen; }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Caliburn.Micro;
 using DeadDog.Audio;
-using MiSharp.ViewModel.DialogResults;
+using MiSharp.DialogResults;
 
 namespace MiSharp
 {

@@ -59,7 +59,8 @@
     <Reference Include="Caliburn.Micro.ReactiveUI">
       <HintPath>..\packages\Caliburn.Micro.ReactiveUI.1.2.2\lib\net45\Caliburn.Micro.ReactiveUI.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro">
+    <Reference Include="MahApps.Metro, Version=0.10.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.0.10.1.1\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -97,7 +98,7 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.10.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -132,10 +133,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\Library\TrackViewModel.cs" />
+    <Compile Include="LoadingFlyout.cs" />
     <Compile Include="ViewModel\Player\NowPlayingViewModel.cs" />
     <Compile Include="ViewModel\Player\TrackState.cs" />
     <Compile Include="ViewModel\Converters\ShareModeConverter.cs" />
+    <Compile Include="ViewModel\Settings\LibraryUpdateStateViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsAppearanceViewModel.cs" />
+    <Compile Include="View\Library\LibraryUpdateStateView.xaml.cs">
+      <DependentUpon>LibraryUpdateStateView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Player\NowPlayingView.xaml.cs">
       <DependentUpon>NowPlayingView.xaml</DependentUpon>
     </Compile>
@@ -201,6 +207,14 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\LoadingFlyoutStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Library\LibraryUpdateStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Player\NowPlayingView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -317,10 +331,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
+    <Resource Include="Music.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Music.ico" />
+    <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

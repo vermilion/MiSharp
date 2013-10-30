@@ -4,7 +4,7 @@ using System.Linq;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using DeadDog.Audio.Playlist;
-using MiSharp.ViewModel.Player;
+using MiSharp.Player;
 
 namespace MiSharp
 {

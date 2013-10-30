@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using MiSharp.Core.Player;
-using MiSharp.ViewModel.Player;
+using MiSharp.Player;
 using ReactiveUI;
 
 namespace MiSharp

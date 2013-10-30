@@ -8,7 +8,7 @@ using MiSharp.Core;
 using MiSharp.Core.CustomEventArgs;
 using MiSharp.Core.Player.Output;
 using MiSharp.Core.Repository;
-using MiSharp.ViewModel.DialogResults;
+using MiSharp.DialogResults;
 using ReactiveUI;
 
 namespace MiSharp

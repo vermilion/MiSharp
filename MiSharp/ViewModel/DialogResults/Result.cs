@@ -1,7 +1,7 @@
 ﻿using System;
 using Caliburn.Micro;
 
-namespace MiSharp.ViewModel.DialogResults
+namespace MiSharp.DialogResults
 {
     public abstract class Result : IResult
     {

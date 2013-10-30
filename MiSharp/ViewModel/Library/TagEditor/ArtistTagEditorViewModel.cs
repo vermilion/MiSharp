@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Caliburn.Micro;
 using Caliburn.Micro.ReactiveUI;
 using DeadDog.Audio;
-using MiSharp.ViewModel.DialogResults;
+using MiSharp.DialogResults;
 
 namespace MiSharp
 {

@@ -7,7 +7,7 @@
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                            xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                            xmlns:miSharp="clr-namespace:MiSharp"
-                              xmlns:converters="clr-namespace:MiSharp.ViewModel.Converters"
+                              xmlns:converters="clr-namespace:MiSharp.Converters"
                               mc:Ignorable="d"
              Height="70" Width="350">
     <controls:MetroContentControl.Resources>
