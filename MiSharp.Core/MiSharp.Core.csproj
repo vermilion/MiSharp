@@ -42,14 +42,16 @@
     <Reference Include="Db4objects.Db4o.Linq">
       <HintPath>..\packages\db4o-devel.8.1.184.15492\lib\net40\Db4objects.Db4o.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\packages\NAudio.1.6\lib\net20\NAudio.dll</HintPath>
+    <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="NAudio.WindowsMediaFormat">
       <HintPath>..\packages\NAudio.Wma.1.0\lib\net20\NAudio.WindowsMediaFormat.dll</HintPath>
     </Reference>
-    <Reference Include="NVorbis">
-      <HintPath>..\packages\NVorbis.0.6.0\lib\NVorbis.dll</HintPath>
+    <Reference Include="NVorbis, Version=0.7.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NVorbis.0.7.2\lib\NVorbis.dll</HintPath>
     </Reference>
     <Reference Include="NVorbis.NAudioSupport">
       <HintPath>..\packages\NVorbis.NAudioSupport.0.5.6\lib\NVorbis.NAudioSupport.dll</HintPath>

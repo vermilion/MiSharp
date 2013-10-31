@@ -17,7 +17,7 @@
     <controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary
@@ -33,20 +33,22 @@
         </ResourceDictionary>
     </controls:MetroWindow.Resources>
     <controls:MetroWindow.Flyouts>
-        <controls:Flyout Header="Settings" Background="#9f000000" Position="Right"
-                         IsOpen="{Binding IsSettingsFlyoutOpen}">
-            <controls:MetroContentControl cal:View.Model="{Binding SettingsBaseViewModel}" Width="575" />
-        </controls:Flyout>
+        <controls:FlyoutsControl>
+            <controls:Flyout Header="Settings" Background="#9f000000" Position="Right"
+                             IsOpen="{Binding IsSettingsFlyoutOpen}">
+                <controls:MetroContentControl cal:View.Model="{Binding SettingsBaseViewModel}" Width="575" />
+            </controls:Flyout>
+        </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="95" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="95" />
         </Grid.RowDefinitions>
-        <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                        x:Name="PlayerViewModel" Grid.Row="0" HorizontalAlignment="Center" />
-        <TabControl Grid.Row="1" Padding="15, 0, 15, 0">
+        <ContentControl Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                        x:Name="PlayerViewModel" Margin="0" />
+        <TabControl Padding="15, 0, 15, 0">
             <TabItem Header="Now Playing">
                 <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                 x:Name="NowPlayingViewModel" />

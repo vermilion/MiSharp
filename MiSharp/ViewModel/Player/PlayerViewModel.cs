@@ -14,7 +14,7 @@ namespace MiSharp
         private readonly IEventAggregator _events;
         private readonly NowPlayingViewModel _nowPlayingViewModel;
         private string _currentTime = "00:00";
-        private int _maximum = 1;
+        private int _maximum;
 
         private double _positionValue;
 
