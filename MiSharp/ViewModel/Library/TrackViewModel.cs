@@ -8,9 +8,9 @@ namespace MiSharp
 {
     public class TrackViewModel : ReactiveObject
     {
-        private AudioPlayerState _playingState;
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
+        private AudioPlayerState _playingState;
 
         public TrackViewModel(RawTrack track)
         {

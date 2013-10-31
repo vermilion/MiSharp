@@ -29,11 +29,11 @@ namespace MiSharp.Core.Player
         public LocalAudioPlayer()
         {
             InputFileFormats = new List<IInputFileFormatPlugin>
-            {
-                new AiffInputFilePlugin(),
-                new Mp3InputFilePlugin(),
-                new WaveInputFilePlugin()
-            };
+                {
+                    new AiffInputFilePlugin(),
+                    new Mp3InputFilePlugin(),
+                    new WaveInputFilePlugin()
+                };
         }
 
         public override TimeSpan CurrentTime
@@ -205,28 +205,28 @@ namespace MiSharp.Core.Player
                 // Create a new thread, so that we can spawn the song state check on the same thread as the play method
                 // With this, we can avoid cross-threading issues with the NAudio library
                 Task.Factory.StartNew(() =>
-                {
-                    bool wasPaused = PlaybackState == AudioPlayerState.Paused;
-
-                    try
                     {
-                        _wavePlayer.Play();
-                    }
+                        bool wasPaused = PlaybackState == AudioPlayerState.Paused;
 
-                    catch (MmException ex)
-                    {
-                        throw new PlaybackException("The playback couldn't be started.", ex);
-                    }
-
-                    if (!wasPaused)
-                    {
-                        while (PlaybackState != AudioPlayerState.Stopped && PlaybackState != AudioPlayerState.None)
+                        try
                         {
-                            UpdateSongState();
-                            Thread.Sleep(250);
+                            _wavePlayer.Play();
                         }
-                    }
-                });
+
+                        catch (MmException ex)
+                        {
+                            throw new PlaybackException("The playback couldn't be started.", ex);
+                        }
+
+                        if (!wasPaused)
+                        {
+                            while (PlaybackState != AudioPlayerState.Stopped && PlaybackState != AudioPlayerState.None)
+                            {
+                                UpdateSongState();
+                                Thread.Sleep(250);
+                            }
+                        }
+                    });
 
                 EnsureState(AudioPlayerState.Playing);
             }
@@ -289,10 +289,10 @@ namespace MiSharp.Core.Player
             }
 
             PlaybackUpdated(new PlaybackEventArgs
-            {
-                CurrentTime = CurrentTime,
-                TotalTime = TotalTime,
-            });
+                {
+                    CurrentTime = CurrentTime,
+                    TotalTime = TotalTime,
+                });
         }
     }
 }

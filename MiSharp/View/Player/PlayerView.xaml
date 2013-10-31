@@ -13,8 +13,10 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
@@ -26,13 +28,17 @@
     <Grid>
         <Grid VerticalAlignment="Top">
             <Button Margin="10,0,0,0" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
-                    ToolTip="Stop" HorizontalAlignment="Left" Width="50" Style="{DynamicResource MetroCircleButtonStyle}"
-                    cal:Message.Attach="[Event Click] = [Action PlayPrev()];" />
+                    ToolTip="Previous" HorizontalAlignment="Left" Width="50"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    cal:Message.Attach="PlayPrev()" />
             <Button Margin="65,0,0,0" Height="50" FontSize="14" FontWeight="Bold" FontFamily="Webdings"
-                    HorizontalAlignment="Left" Width="50" Style="{DynamicResource MetroCircleButtonStyle}" ToolTip="{Binding PlayPauseTooltip}" Content="{Binding PlayPauseContent}" cal:Message.Attach="[Event Click] = [Action PlayPauseClick()]"/>
+                    HorizontalAlignment="Left" Width="50" Style="{DynamicResource MetroCircleButtonStyle}"
+                    ToolTip="{Binding PlayPauseTooltip}" Content="{Binding PlayPauseContent}"
+                    cal:Message.Attach="[Event Click] = [Action PlayPauseClick()]" />
             <Button Margin="120,0,0,0" Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
-                    ToolTip="Stop" HorizontalAlignment="Left" Width="50" Style="{DynamicResource MetroCircleButtonStyle}"
-                    cal:Message.Attach="[Event Click] = [Action PlayNext()];" />
+                    ToolTip="Next" HorizontalAlignment="Left" Width="50"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    cal:Message.Attach="PlayNext()" />
             <!-- Seek Control -->
             <TextBlock Foreground="Gray" Margin="795,29,10,28" VerticalAlignment="Center" FontSize="14">
                 <TextBlock.Text>
@@ -51,8 +57,10 @@
                                               Width="80" Height="Auto"
                                               Minimum="0" Maximum="1" Value="{Binding Volume}" />
             <Label Margin="528,5,80,10" Content="{Binding CurrentlyPlaying.TrackTitle}" />
-            <controls:ToggleSwitch Margin="175,10,0,10" Header="Repeat" HorizontalAlignment="Left" Width="102" IsChecked="{Binding RepeatState}"/>
-            <controls:ToggleSwitch Margin="282,10,0,10" Header="Shuffle" HorizontalAlignment="Left" Width="102" IsChecked="{Binding ShuffleState}" />
+            <controls:ToggleSwitch Margin="175,10,0,10" Header="Repeat" HorizontalAlignment="Left" Width="102"
+                                   IsChecked="{Binding RepeatState}" />
+            <controls:ToggleSwitch Margin="282,10,0,10" Header="Shuffle" HorizontalAlignment="Left" Width="102"
+                                   IsChecked="{Binding ShuffleState}" />
         </Grid>
         <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}"
                                           TickFrequency="{Binding TickFrequency}"

@@ -35,23 +35,25 @@ namespace MiSharp
 
         #region IHandle
 
+        //event from lib to add new items to list
         public void Handle(List<RawTrack> songs)
         {
             NowPlayingPlaylist.AddRange(songs.Select(x => new TrackViewModel(x)));
         }
 
-        public void PlaySelected()
+        //event from player to set track state
+        public void Handle(TrackState message)
         {
-            _events.Publish(NowPlayingPlaylist.CurrentEntry.Model);
+            TrackViewModel track = NowPlayingPlaylist.FirstOrDefault(x => Equals(x.Model, message.Track));
+            if (track == null) return;
+            track.PlayingState = message.State;
         }
 
         #endregion
 
-        public void Handle(TrackState message)
+        public void PlaySelected()
         {
-            TrackViewModel track = NowPlayingPlaylist.FirstOrDefault(x => x.Model == message.Track);
-            if (track == null) return;
-            track.PlayingState = message.State;
+            _events.Publish(NowPlayingPlaylist.CurrentEntry.Model);
         }
 
         public RawTrack GetNextSong(bool repeat, bool random)

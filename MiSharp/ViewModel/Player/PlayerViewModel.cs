@@ -40,7 +40,38 @@ namespace MiSharp
 
         public LocalAudioPlayer Player { get; set; }
 
-        public bool IsPlaying { get; set; }
+        public bool IsPlaying
+        {
+            get { return _isPlaying; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isPlaying, value);
+                this.RaisePropertyChanged("PlayPauseTooltip");
+                this.RaisePropertyChanged("PlayPauseContent");
+            }
+        }
+
+        public string PlayPauseTooltip
+        {
+            get { return IsPlaying ? "Pause" : "Play"; }
+        }
+
+        public string PlayPauseContent
+        {
+            get { return IsPlaying ? ";" : "4"; }
+        }
+
+        public bool RepeatState
+        {
+            get { return _repeatState; }
+            set { this.RaiseAndSetIfChanged(ref _repeatState, value); }
+        }
+
+        public bool ShuffleState
+        {
+            get { return _shuffleState; }
+            set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
+        }
 
         public void Handle(RawTrack song)
         {
@@ -74,21 +105,6 @@ namespace MiSharp
             Player.CurrentTime = TimeSpan.FromSeconds(pos);
         }
 
-        public string PlayPauseTooltip { get { return IsPlaying ? "Pause" : "Play"; } }
-        public string PlayPauseContent { get { return IsPlaying ? "7" : ";"; } }
-
-        public bool RepeatState
-        {
-            get { return _repeatState; }
-            set { this.RaiseAndSetIfChanged(ref _repeatState, value); }
-        }
-
-        public bool ShuffleState
-        {
-            get { return _shuffleState; }
-            set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
-        }
-
         public void PlayPauseClick()
         {
             if (IsPlaying)
@@ -99,8 +115,13 @@ namespace MiSharp
             }
             else
             {
-                RawTrack song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
-                if (song == null) return;
+                RawTrack song;
+                if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
+                    song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
+                else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
+                    song = _nowPlayingViewModel.NowPlayingPlaylist[0].Model;
+                else return;
+
                 Play(song);
             }
         }
@@ -114,7 +135,7 @@ namespace MiSharp
 
         public void PlayNext()
         {
-            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));            
+            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
             RawTrack song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
 
             if (song != null)
@@ -133,9 +154,10 @@ namespace MiSharp
 
         private RawTrack _currentlyPlaying;
         private bool _dragging;
-        private float _volume = 1.0f;
+        private bool _isPlaying;
         private bool _repeatState;
         private bool _shuffleState;
+        private float _volume = 1.0f;
 
         public int Maximum
         {

@@ -11,7 +11,7 @@ namespace MiSharp
         public void ChangeAccentColor(string color)
         {
             ThemeManager.ChangeTheme(IoC.Get<ShellView>(),
-                ThemeManager.DefaultAccents.First(accent => accent.Name == color), Theme.Light);
+                                     ThemeManager.DefaultAccents.First(accent => accent.Name == color), Theme.Light);
         }
     }
 }

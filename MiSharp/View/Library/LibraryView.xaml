@@ -7,7 +7,7 @@
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:miSharp="clr-namespace:MiSharp"
-    xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:library="clr-namespace:MiSharp.View.Library"
+    xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:library="clr-namespace:MiSharp"
     xmlns:tagEditor="clr-namespace:MiSharp"
     x:Class="MiSharp.LibraryView"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
@@ -46,7 +46,7 @@
             </ListView.GroupStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <miSharp:ArtistView Width="Auto" DataContext="{Binding}"/>
+                    <miSharp:ArtistView Width="Auto" DataContext="{Binding}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -59,7 +59,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <library:AlbumView Width="Auto" DataContext="{Binding}"/>
+                        <library:AlbumView Width="Auto" DataContext="{Binding}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
