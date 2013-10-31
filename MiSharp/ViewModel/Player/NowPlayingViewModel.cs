@@ -54,19 +54,38 @@ namespace MiSharp
             track.PlayingState = message.State;
         }
 
-        public RawTrack GetNextSong()
+        public RawTrack GetNextSong(bool repeat, bool random)
         {
-            if (NowPlayingPlaylist.MoveNext())
+            if (random) return GetRandom();
+            if (!repeat)
+            {
+                if (NowPlayingPlaylist.MoveNext())
+                    return NowPlayingPlaylist.CurrentEntry.Model;
+            }
+            else if (NowPlayingPlaylist.MoveNextOrFirst())
                 return NowPlayingPlaylist.CurrentEntry.Model;
 
             return null;
         }
 
-        public RawTrack GetPreviousSong()
+        public RawTrack GetPreviousSong(bool repeat, bool random)
         {
-            if (NowPlayingPlaylist.MovePrevious())
+            if (random) return GetRandom();
+            if (!repeat)
+            {
+                if (NowPlayingPlaylist.MovePrevious())
+                    return NowPlayingPlaylist.CurrentEntry.Model;
+            }
+            else if (NowPlayingPlaylist.MovePreviousOrLast())
                 return NowPlayingPlaylist.CurrentEntry.Model;
 
+            return null;
+        }
+
+        private RawTrack GetRandom()
+        {
+            if (NowPlayingPlaylist.MoveRandom())
+                return NowPlayingPlaylist.CurrentEntry.Model;
             return null;
         }
     }

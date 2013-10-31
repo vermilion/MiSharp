@@ -14,7 +14,6 @@ namespace MiSharp
         private readonly IEventAggregator _events;
         private readonly NowPlayingViewModel _nowPlayingViewModel;
         private string _currentTime = "00:00";
-        private bool _isPlaying;
         private int _maximum = 1;
 
         private double _positionValue;
@@ -28,7 +27,7 @@ namespace MiSharp
             _nowPlayingViewModel = nowPlayingViewModel;
             Player = new LocalAudioPlayer();
             Player.PlaybackUpdated += Player_PlaybackUpdated;
-            Player.SongFinished += Player_SongFinished;
+            Player.SongFinished += (s, e) => PlayNext();
             _events = events;
             _events.Subscribe(this);
         }
@@ -41,11 +40,7 @@ namespace MiSharp
 
         public LocalAudioPlayer Player { get; set; }
 
-        public bool IsPlaying
-        {
-            get { return _isPlaying; }
-            set { this.RaiseAndSetIfChanged(ref _isPlaying, value); }
-        }
+        public bool IsPlaying { get; set; }
 
         public void Handle(RawTrack song)
         {
@@ -79,18 +74,35 @@ namespace MiSharp
             Player.CurrentTime = TimeSpan.FromSeconds(pos);
         }
 
-        public void StartClick()
+        public string PlayPauseTooltip { get { return IsPlaying ? "Pause" : "Play"; } }
+        public string PlayPauseContent { get { return IsPlaying ? "7" : ";"; } }
+
+        public bool RepeatState
         {
-            RawTrack song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
-            if (song == null) return;
-            Play(song);
+            get { return _repeatState; }
+            set { this.RaiseAndSetIfChanged(ref _repeatState, value); }
         }
 
-        public void PauseClick()
+        public bool ShuffleState
         {
-            Player.Pause();
-            IsPlaying = false;
-            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
+            get { return _shuffleState; }
+            set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
+        }
+
+        public void PlayPauseClick()
+        {
+            if (IsPlaying)
+            {
+                Player.Pause();
+                IsPlaying = false;
+                _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
+            }
+            else
+            {
+                RawTrack song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
+                if (song == null) return;
+                Play(song);
+            }
         }
 
         public void StopClick()
@@ -102,8 +114,9 @@ namespace MiSharp
 
         public void PlayNext()
         {
-            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-            RawTrack song = _nowPlayingViewModel.GetNextSong();
+            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));            
+            RawTrack song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
+
             if (song != null)
                 Play(song);
         }
@@ -111,27 +124,18 @@ namespace MiSharp
         public void PlayPrev()
         {
             _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-            RawTrack song = _nowPlayingViewModel.GetPreviousSong();
+            RawTrack song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
             if (song != null)
                 Play(song);
         }
-
-        #region Playback Events
-
-        private void Player_SongFinished(object sender, EventArgs e)
-        {
-            RawTrack song = _nowPlayingViewModel.GetNextSong();
-            if (song == null) return;
-            Play(song);
-        }
-
-        #endregion
 
         #region Properties
 
         private RawTrack _currentlyPlaying;
         private bool _dragging;
         private float _volume = 1.0f;
+        private bool _repeatState;
+        private bool _shuffleState;
 
         public int Maximum
         {

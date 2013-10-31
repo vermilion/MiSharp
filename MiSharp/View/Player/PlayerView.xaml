@@ -6,36 +6,35 @@
                               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                               xmlns:cal="http://www.caliburnproject.org" xmlns:miSharp="clr-namespace:MiSharp"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d" d:DesignWidth="670" d:DesignHeight="85">
+                              mc:Ignorable="d" d:DesignWidth="870" d:DesignHeight="85">
+    <controls:MetroContentControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </controls:MetroContentControl.Resources>
     <Grid>
         <Grid VerticalAlignment="Top">
             <Button Margin="10,0,0,0" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
-                    ToolTip="Stop" HorizontalAlignment="Left" Width="50"
+                    ToolTip="Stop" HorizontalAlignment="Left" Width="50" Style="{DynamicResource MetroCircleButtonStyle}"
                     cal:Message.Attach="[Event Click] = [Action PlayPrev()];" />
             <Button Margin="65,0,0,0" Height="50" FontSize="14" FontWeight="Bold" FontFamily="Webdings"
-                    HorizontalAlignment="Left" Width="50">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsPlaying}" Value="True">
-                                <Setter Property="Content" Value=";" />
-                                <Setter Property="ToolTip" Value="Pause" />
-                                <Setter Property="cal:Message.Attach" Value="[Event Click] = [Action PauseClick()]" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsPlaying}" Value="False">
-                                <Setter Property="Content" Value="4" />
-                                <Setter Property="ToolTip" Value="Play" />
-                                <Setter Property="cal:Message.Attach" Value="[Event Click] = [Action StartClick()]" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+                    HorizontalAlignment="Left" Width="50" Style="{DynamicResource MetroCircleButtonStyle}" ToolTip="{Binding PlayPauseTooltip}" Content="{Binding PlayPauseContent}" cal:Message.Attach="[Event Click] = [Action PlayPauseClick()]"/>
             <Button Margin="120,0,0,0" Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
-                    ToolTip="Stop" HorizontalAlignment="Left" Width="50"
+                    ToolTip="Stop" HorizontalAlignment="Left" Width="50" Style="{DynamicResource MetroCircleButtonStyle}"
                     cal:Message.Attach="[Event Click] = [Action PlayNext()];" />
             <!-- Seek Control -->
-            <TextBlock Foreground="Gray" Margin="586,19,10,18" VerticalAlignment="Center" FontSize="14">
+            <TextBlock Foreground="Gray" Margin="795,29,10,28" VerticalAlignment="Center" FontSize="14">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1}">
                         <Binding Path="CurrentTime" />
@@ -44,14 +43,16 @@
                 </TextBlock.Text>
             </TextBlock>
             <!-- Volume Control -->
-            <TextBlock Foreground="Gray" Margin="193,21,0,21" VerticalAlignment="Center" FontSize="10"
+            <TextBlock Foreground="Gray" Margin="395,34,0,28" VerticalAlignment="Center" FontSize="10"
                        HorizontalAlignment="Left" Width="42">
                 <Run Text="Volume" />
             </TextBlock>
-            <miSharp:SliderWithDraggingEvents x:Name="VolumeSlider" Margin="240,19,350,19" VerticalAlignment="Center"
+            <miSharp:SliderWithDraggingEvents x:Name="VolumeSlider" Margin="442,30,348,24" VerticalAlignment="Center"
                                               Width="80" Height="Auto"
                                               Minimum="0" Maximum="1" Value="{Binding Volume}" />
-            <Label Margin="340,5,80,10" Content="{Binding CurrentlyPlaying.TrackTitle}" />
+            <Label Margin="528,5,80,10" Content="{Binding CurrentlyPlaying.TrackTitle}" />
+            <controls:ToggleSwitch Margin="175,10,0,10" Header="Repeat" HorizontalAlignment="Left" Width="102" IsChecked="{Binding RepeatState}"/>
+            <controls:ToggleSwitch Margin="282,10,0,10" Header="Shuffle" HorizontalAlignment="Left" Width="102" IsChecked="{Binding ShuffleState}" />
         </Grid>
         <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}"
                                           TickFrequency="{Binding TickFrequency}"
