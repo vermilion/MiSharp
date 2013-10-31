@@ -7,7 +7,8 @@
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:miSharp="clr-namespace:MiSharp"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:library="clr-namespace:MiSharp.View.Library"
+    xmlns:tagEditor="clr-namespace:MiSharp"
     x:Class="MiSharp.LibraryView"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
     <controls:MetroContentControl.Resources>
@@ -24,24 +25,6 @@
         <ListView ItemsSource="{Binding Source={StaticResource GroupedBands}, IsAsync=True}"
                   SelectedItem="{Binding SelectedBand}"
                   HorizontalAlignment="Left" Margin="10,10,0,10" Width="239">
-            <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Add to Now Playing" Visibility="Visible">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="AddArtistToPlaylist" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </MenuItem>
-                    <MenuItem Header="Edit Artist Information">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="EditorEditArtists" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </MenuItem>
-                </ContextMenu>
-            </ListView.ContextMenu>
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -63,22 +46,7 @@
             </ListView.GroupStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                Margin="0,0,0,0">
-                        <Image Width="40" Height="40" Source="/MiSharp;component/Music.ico" />
-                        <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center"
-                                    HorizontalAlignment="Left">
-                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}" />
-                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} songs / {1} albums">
-                                        <Binding Path="SongsCount" />
-                                        <Binding Path="AlbumsCount" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </StackPanel>
-                    </StackPanel>
+                    <miSharp:ArtistView Width="Auto" DataContext="{Binding}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -91,53 +59,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="LblName" Tag="{Binding Title}">
-                            <StackPanel HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
-                                        Width="170">
-                                <TextBlock HorizontalAlignment="Center" Text="{Binding Title}" />
-                                <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Add to now playing">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <cal:ActionMessage MethodName="AddAlbumToPlaylist" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Edit album tags">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <cal:ActionMessage MethodName="EditorEditAlbumsNew" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Image Height="100" HorizontalAlignment="Center" Width="100"
-                                       Source="{Binding Cover}" />
-                                <Label HorizontalAlignment="Center" Content="{Binding Year}" />
-                            </StackPanel>
-                            <ListView
-                                ItemsSource="{Binding Tracks, IsAsync=True}" SelectedItem="{Binding SelectedSong}"
-                                HorizontalAlignment="Left" Margin="175,10,0,0" VerticalAlignment="Top">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Margin="10,0,0,0" Orientation="Horizontal"
-                                                    VerticalAlignment="Center" HorizontalAlignment="Left">
-                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left"
-                                                       Text="{Binding Tracknumber}" Foreground="Gray" />
-                                            <TextBlock Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center"
-                                                       Text="{Binding Title}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                                <ListView.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="Add to Now Playing" Visibility="Visible"
-                                                  cal:Message.Attach="[Event Click] = [Action AddSongToPlaylist()]" />
-                                        <Separator />
-                                        <MenuItem Header="Edit Song Information"
-                                                  cal:Message.Attach="[Event Click] = [Action EditorEditSongs()]" />
-                                    </ContextMenu>
-                                </ListView.ContextMenu>
-                            </ListView>
-                        </Grid>
+                        <library:AlbumView Width="Auto" DataContext="{Binding}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

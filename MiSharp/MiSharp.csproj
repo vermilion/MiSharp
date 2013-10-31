@@ -121,7 +121,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="SliderEx.cs" />
     <Compile Include="ViewModel\Library\ArtistViewModel.cs" />
-    <Compile Include="ViewModel\Library\ComboAlbumViewModel.cs" />
+    <Compile Include="ViewModel\Library\AlbumViewModel.cs" />
     <Compile Include="ViewModel\Converters\FirstLetterConverter.cs" />
     <Compile Include="ViewModel\Library\TagEditor\AlbumTagEditorViewModel.cs">
       <SubType>Code</SubType>
@@ -137,6 +137,15 @@
     <Compile Include="ViewModel\Player\TrackState.cs" />
     <Compile Include="ViewModel\Converters\ShareModeConverter.cs" />
     <Compile Include="ViewModel\Settings\SettingsAppearanceViewModel.cs" />
+    <Compile Include="View\Library\AlbumView.xaml.cs">
+      <DependentUpon>AlbumView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Library\ArtistView.xaml.cs">
+      <DependentUpon>ArtistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Library\TrackView.xaml.cs">
+      <DependentUpon>TrackView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Player\NowPlayingView.xaml.cs">
       <DependentUpon>NowPlayingView.xaml</DependentUpon>
     </Compile>
@@ -200,6 +209,18 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Library\AlbumView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Library\ArtistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Library\TrackView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

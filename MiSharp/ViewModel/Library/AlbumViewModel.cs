@@ -1,32 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
-using DeadDog.Audio;
 using DeadDog.Audio.Libraries;
+using Rareform.Collections;
+using ReactiveUI;
 using TagLib;
 using File = TagLib.File;
 
 namespace MiSharp
 {
-    public class ComboAlbumViewModel : Album, INotifyPropertyChanged
+    public class AlbumViewModel : ReactiveObject
     {
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
         private BitmapSource _cover;
-        private Track _selectedSong;
 
-        public ComboAlbumViewModel(Album album)
-            : base(album.Title, album.Year)
+        public AlbumViewModel(Album album)
         {
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
-            Tracks = album.Tracks;
+            Tracks = new ObservableList<TrackViewModel>();
+            Tracks.AddRange(album.Tracks.Select(x => new TrackViewModel(x.Model)));
             _cover = new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/Music.ico"));
         }
 
@@ -36,10 +32,10 @@ namespace MiSharp
         {
             get
             {
-                Track item = Tracks.FirstOrDefault();
+                var item = Tracks.Select(x=>x.Model).FirstOrDefault();
                 if (item != null)
                 {
-                    File file = File.Create(item.Model.FullFilename);
+                    File file = File.Create(item.FullFilename);
                     if (file.Tag.Pictures.Any())
                     {
                         IPicture pic = file.Tag.Pictures[0];
@@ -57,56 +53,21 @@ namespace MiSharp
                 }
                 return _cover;
             }
-            set
-            {
-                _cover = value;
-                OnPropertyChanged();
-            }
+            set { this.RaiseAndSetIfChanged(ref _cover, value); }
         }
 
-
-        //TODO: multiple
-        public ObservableCollection<Track> SelectedSongs { get; set; }
-
-        public Track SelectedSong
-        {
-            get { return _selectedSong; }
-            set
-            {
-                _selectedSong = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableList<TrackViewModel> Tracks { get; set; }
 
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public void AddAlbumToPlaylist()
         {
             _events.Publish(Tracks.Select(x => x.Model).ToList());
         }
 
-        public void AddSongToPlaylist()
-        {
-            _events.Publish(new List<RawTrack> {SelectedSong.Model});
-        }
-
         public void EditorEditAlbumsNew()
         {
             _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model).ToList()));
-        }
-
-        public void EditorEditSongs()
-        {
-            if (SelectedSong != null)
-                _windowManager.ShowDialog(new SongTagEditorViewModel(new List<RawTrack> {SelectedSong.Model}));
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
