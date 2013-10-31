@@ -28,7 +28,7 @@
         </ResourceDictionary>
     </controls:MetroContentControl.Resources>
     <Grid Background="#FFCCCCCC">
-        <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}"
+        <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}" Style="{DynamicResource MetroSlider}"
                                           TickFrequency="{Binding TickFrequency}"
                                           cal:Message.Attach="[Event ThumbDragStarted] = [Action Dragging(1)]; [Event ThumbDragCompleted] = [Action ChangePosition(PositionSlider.Value)]; [Event ThumbDragCompleted] = [Action Dragging(0)];"
                                           Maximum="{Binding Maximum}"
@@ -82,7 +82,7 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </ToggleButton>
-            <miSharp:SliderWithDraggingEvents Margin="375,48,0,0" VerticalAlignment="Top"
+            <miSharp:SliderWithDraggingEvents Margin="375,48,0,0" VerticalAlignment="Top" Style="{DynamicResource MetroSlider}"
                                               Width="80" Height="Auto"
                                               Minimum="0" Maximum="1" Value="{Binding Volume}"
                                               HorizontalAlignment="Left" />

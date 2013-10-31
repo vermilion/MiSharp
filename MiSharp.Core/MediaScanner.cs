@@ -48,10 +48,10 @@ namespace MiSharp.Core
                 FileFound(new FileStatEventArgs());
         }
 
-        private void scanner_ScanDone(AudioScan sender, ScanCompletedEventArgs e)
+        private async void scanner_ScanDone(AudioScan sender, ScanCompletedEventArgs e)
         {
             _lib = _scanner.MediaLibrary;
-            MediaRepository.Instance.Save(_lib);
+            await MediaRepository.Instance.Save(_lib);
             ScanCompleted();
         }
     }
