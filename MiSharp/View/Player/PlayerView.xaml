@@ -28,7 +28,8 @@
         </ResourceDictionary>
     </controls:MetroContentControl.Resources>
     <Grid Background="#FFCCCCCC">
-        <ProgressBar x:Name="PositionSlider" Value="{Binding PositionValue}" Style="{DynamicResource MetroProgressBar}"
+        <ProgressBar x:Name="PositionSlider" Value="{Binding PositionValue, Mode=OneWay}"
+                     Style="{DynamicResource MetroProgressBar}"
                      cal:Message.Attach="[Event MouseDown] = [Action ChangePosition($source, $eventArgs)];"
                      Maximum="{Binding Maximum}"
                      VerticalAlignment="Top"
@@ -37,7 +38,7 @@
             <Button Margin="0,16,120,10" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
                     ToolTip="Previous" HorizontalAlignment="Right" Width="50"
                     Style="{DynamicResource MetroCircleButtonStyle}"
-                   Command="{Binding PlayPrevCommand}" />
+                    Command="{Binding PlayPrevCommand}" />
             <Button Margin="0,16,65,10" Height="50" FontSize="14" FontWeight="Bold" FontFamily="Webdings"
                     HorizontalAlignment="Right" Width="50" Style="{DynamicResource MetroCircleButtonStyle}"
                     ToolTip="{Binding PlayPauseTooltip}" Content="{Binding PlayPauseContent}"
@@ -50,8 +51,8 @@
             <TextBlock Foreground="Gray" Margin="10,16,795,41" VerticalAlignment="Center" FontSize="14">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1}">
-                        <Binding Path="CurrentTime" />
-                        <Binding Path="TotalTime" />
+                        <Binding Path="CurrentTime" Mode="OneWay" />
+                        <Binding Path="TotalTime" Mode="OneWay" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>

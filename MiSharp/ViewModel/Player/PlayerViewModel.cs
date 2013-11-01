@@ -14,25 +14,18 @@ namespace MiSharp
     public class PlayerViewModel : ReactiveObject, IHandle<RawTrack>
     {
         private readonly IEventAggregator _events;
+        private readonly ObservableAsPropertyHelper<bool> _isMuted;
         private readonly NowPlayingViewModel _nowPlayingViewModel;
         private readonly ObservableAsPropertyHelper<string> _playPauseContent;
         private readonly ObservableAsPropertyHelper<string> _playPauseTooltip;
-        private readonly ObservableAsPropertyHelper<bool> _isMuted;
-        private string _currentTime = "00:00";
-        private int _maximum;
 
-        private double _positionValue;
         private float _tempVolume;
-
-        private int _tickFrequency;
-        private string _totalTime = "00:00";
 
         [ImportingConstructor]
         public PlayerViewModel(IEventAggregator events, NowPlayingViewModel nowPlayingViewModel)
         {
             _nowPlayingViewModel = nowPlayingViewModel;
             Player = new LocalAudioPlayer();
-            Player.PlaybackUpdated += Player_PlaybackUpdated;
             Player.SongFinished += (s, e) => PlayNextCommand.Execute(null);
 
             _events = events;
@@ -62,25 +55,25 @@ namespace MiSharp
 
             PlayPauseCommand = new ReactiveCommand();
             PlayPauseCommand.Subscribe(param =>
-            {
-                if (IsPlaying)
                 {
-                    Player.Pause();
-                    IsPlaying = false;
-                    _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
-                }
-                else
-                {
-                    RawTrack song;
-                    if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
-                        song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
-                    else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
-                        song = _nowPlayingViewModel.NowPlayingPlaylist[0].Model;
-                    else return;
+                    if (IsPlaying)
+                    {
+                        Player.Pause();
+                        IsPlaying = false;
+                        _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
+                    }
+                    else
+                    {
+                        RawTrack song;
+                        if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
+                            song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
+                        else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
+                            song = _nowPlayingViewModel.NowPlayingPlaylist[0].Model;
+                        else return;
 
-                    Play(song);
-                }
-            });
+                        Play(song);
+                    }
+                });
 
             _playPauseTooltip = this.WhenAnyValue(x => x.IsPlaying, x => x ? "Pause" : "Play")
                                     .ToProperty(this, x => x.PlayPauseTooltip);
@@ -90,7 +83,17 @@ namespace MiSharp
 
             _isMuted = this.WhenAnyValue(x => x.Volume, x => Equals(x, 0.0f)).ToProperty(this, x => x.IsMuted);
 
-
+            Player.TotalTimeChanged.Subscribe(x =>
+                {
+                    this.RaisePropertyChanged("Maximum");
+                    this.RaisePropertyChanged("TickFrequency");
+                    this.RaisePropertyChanged("TotalTime");
+                });
+            Player.CurrentTimeChanged.Subscribe(x =>
+                {
+                    this.RaisePropertyChanged("PositionValue");
+                    this.RaisePropertyChanged("CurrentTime");
+                });
         }
 
         public ReactiveCommand PlayNextCommand { get; private set; }
@@ -123,7 +126,7 @@ namespace MiSharp
 
         public bool IsMuted
         {
-            get{return _isMuted.Value;}
+            get { return _isMuted.Value; }
             set
             {
                 if (value)
@@ -151,15 +154,6 @@ namespace MiSharp
         public void Handle(RawTrack song)
         {
             Play(song);
-        }
-
-        private void Player_PlaybackUpdated(PlaybackEventArgs args)
-        {
-            TotalTime = String.Format("{0:00}:{1:00}", (int) args.TotalTime.TotalMinutes, args.TotalTime.Seconds);
-            CurrentTime = String.Format("{0:00}:{1:00}", (int) args.CurrentTime.TotalMinutes, args.CurrentTime.Seconds);
-            TickFrequency = (int) args.TotalTime.TotalSeconds/30;
-            Maximum = (int) args.TotalTime.TotalSeconds;
-            PositionValue = (int) args.CurrentTime.TotalSeconds;
         }
 
         public void Play(RawTrack song)
@@ -192,33 +186,27 @@ namespace MiSharp
 
         public int Maximum
         {
-            get { return _maximum; }
-            set { this.RaiseAndSetIfChanged(ref _maximum, value); }
+            get { return (int) Player.TotalTime.TotalSeconds; }
         }
 
         public double PositionValue
         {
-            get { return _positionValue; }
-            set { this.RaiseAndSetIfChanged(ref _positionValue, value); }
+            get { return (int) Player.CurrentTime.TotalSeconds; }
         }
 
         public int TickFrequency
         {
-            get { return _tickFrequency; }
-            set { this.RaiseAndSetIfChanged(ref _tickFrequency, value); }
+            get { return (int) Player.TotalTime.TotalSeconds/30; }
         }
 
         public string TotalTime
         {
-            get { return _totalTime; }
-            set { this.RaiseAndSetIfChanged(ref _totalTime, value); }
+            get { return String.Format("{0:00}:{1:00}", (int) Player.TotalTime.TotalMinutes, Player.TotalTime.Seconds); }
         }
-
 
         public string CurrentTime
         {
-            get { return _currentTime; }
-            set { this.RaiseAndSetIfChanged(ref _currentTime, value); }
+            get { return String.Format("{0:00}:{1:00}", (int) Player.CurrentTime.TotalMinutes, Player.CurrentTime.Seconds); }
         }
 
         public float Volume
