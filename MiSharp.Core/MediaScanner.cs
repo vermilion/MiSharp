@@ -6,6 +6,7 @@ using DeadDog.Audio.Scan;
 using DeadDog.Audio.Scan.AudioScanner;
 using MiSharp.Core.CustomEventArgs;
 using MiSharp.Core.Repository;
+using ScanCompletedEventArgs = DeadDog.Audio.Scan.ScanCompletedEventArgs;
 
 namespace MiSharp.Core
 {
@@ -47,10 +48,10 @@ namespace MiSharp.Core
                 FileFound(new FileStatEventArgs());
         }
 
-        private void scanner_ScanDone(AudioScan sender, DeadDog.Audio.Scan.ScanCompletedEventArgs e)
+        private async void scanner_ScanDone(AudioScan sender, ScanCompletedEventArgs e)
         {
             _lib = _scanner.MediaLibrary;
-            MediaRepository.Instance.Save(_lib);
+            await MediaRepository.Instance.Save(_lib);
             ScanCompleted();
         }
     }

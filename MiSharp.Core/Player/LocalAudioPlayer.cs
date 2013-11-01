@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using DeadDog.Audio;
@@ -29,12 +30,29 @@ namespace MiSharp.Core.Player
         public LocalAudioPlayer()
         {
             InputFileFormats = new List<IInputFileFormatPlugin>
-            {
-                new AiffInputFilePlugin(),
-                new Mp3InputFilePlugin(),
-                new WaveInputFilePlugin()
-            };
+                {
+                    new AiffInputFilePlugin(),
+                    new Mp3InputFilePlugin(),
+                    new WaveInputFilePlugin()
+                };
+
+            CurrentTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(300))
+                                           .Select(x => CurrentTime)
+                                           .DistinctUntilChanged(x => x.TotalSeconds);
+
+            PlaybackStateChanged = Observable.Interval(TimeSpan.FromMilliseconds(300))
+                                             .Select(x => PlaybackState)
+                                             .DistinctUntilChanged(x => x);
+
+            TotalTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(300))
+                                         .Select(x => TotalTime)
+                                         .DistinctUntilChanged(x => x.TotalSeconds);
         }
+
+        public IObservable<TimeSpan> CurrentTimeChanged { get; private set; }
+        public IObservable<TimeSpan> TotalTimeChanged { get; private set; }
+        public IObservable<AudioPlayerState> PlaybackStateChanged { get; private set; }
+
 
         public override TimeSpan CurrentTime
         {
@@ -87,8 +105,6 @@ namespace MiSharp.Core.Player
                 }
             }
         }
-
-        public event PlaybackEventHandler PlaybackUpdated;
 
         public override void Dispose()
         {
@@ -205,28 +221,28 @@ namespace MiSharp.Core.Player
                 // Create a new thread, so that we can spawn the song state check on the same thread as the play method
                 // With this, we can avoid cross-threading issues with the NAudio library
                 Task.Factory.StartNew(() =>
-                {
-                    bool wasPaused = PlaybackState == AudioPlayerState.Paused;
-
-                    try
                     {
-                        _wavePlayer.Play();
-                    }
+                        bool wasPaused = PlaybackState == AudioPlayerState.Paused;
 
-                    catch (MmException ex)
-                    {
-                        throw new PlaybackException("The playback couldn't be started.", ex);
-                    }
-
-                    if (!wasPaused)
-                    {
-                        while (PlaybackState != AudioPlayerState.Stopped && PlaybackState != AudioPlayerState.None)
+                        try
                         {
-                            UpdateSongState();
-                            Thread.Sleep(250);
+                            _wavePlayer.Play();
                         }
-                    }
-                });
+
+                        catch (MmException ex)
+                        {
+                            throw new PlaybackException("The playback couldn't be started.", ex);
+                        }
+
+                        if (!wasPaused)
+                        {
+                            while (PlaybackState != AudioPlayerState.Stopped && PlaybackState != AudioPlayerState.None)
+                            {
+                                UpdateSongState();
+                                Thread.Sleep(250);
+                            }
+                        }
+                    });
 
                 EnsureState(AudioPlayerState.Playing);
             }
@@ -239,7 +255,6 @@ namespace MiSharp.Core.Player
                 if (_wavePlayer != null && _wavePlayer.PlaybackState != NAudio.Wave.PlaybackState.Stopped)
                 {
                     _wavePlayer.Stop();
-                    PlaybackUpdated(new PlaybackEventArgs());
                     EnsureState(AudioPlayerState.Stopped);
 
                     _isLoaded = false;
@@ -287,12 +302,6 @@ namespace MiSharp.Core.Player
                 OnSongFinished(EventArgs.Empty);
                 return;
             }
-
-            PlaybackUpdated(new PlaybackEventArgs
-            {
-                CurrentTime = CurrentTime,
-                TotalTime = TotalTime,
-            });
         }
     }
 }

@@ -46,7 +46,7 @@
                     <GridViewColumn Width="{Binding Path=PlaylistTitleColumnWidth, Mode=TwoWay}" Header="Title">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=TrackTitle}" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Path=TrackTitle}" TextTrimming="CharacterEllipsis" FontFamily="/MiSharp;component/Resources/#Open Sans"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

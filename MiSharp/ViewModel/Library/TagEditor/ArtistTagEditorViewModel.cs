@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Forms;
+using System.Windows;
 using Caliburn.Micro;
 using Caliburn.Micro.ReactiveUI;
 using DeadDog.Audio;
@@ -46,7 +46,7 @@ namespace MiSharp
         {
             if (SongAlbumArtist.Trim() == string.Empty)
             {
-                MessageBox.Show("Please provide an Artist Name.", "Error", MessageBoxButtons.OK);
+                MessageBox.Show("Please provide an Artist Name.", "Error", MessageBoxButton.OK);
                 yield return null;
             }
 
@@ -65,7 +65,7 @@ namespace MiSharp
                 }
                 catch
                 {
-                    MessageBox.Show("Could not update " + media, "Error", MessageBoxButtons.OK);
+                    MessageBox.Show("Could not update " + media, "Error", MessageBoxButton.OK);
                 }
 
                 yield return new CloseResult();

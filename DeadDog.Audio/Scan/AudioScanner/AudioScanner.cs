@@ -47,7 +47,7 @@ namespace DeadDog.Audio.Scan.AudioScanner
         }
 
         public AudioScanner(IDataParser parser, DirectoryInfo directory, SearchOption searchoption,
-            params string[] extensions)
+                            params string[] extensions)
         {
             if (parser == null)
                 throw new ArgumentNullException("parser");
@@ -142,8 +142,8 @@ namespace DeadDog.Audio.Scan.AudioScanner
             parsed += AudioScannerFileParsed;
 
             return new AudioScan(_directory, _searchoption, _parseAdd, _parseUpdate, _removeDeadFiles,
-                _extensionList.ToArray(), MediaLibrary.Tracks.Select(x => x.Model).ToArray(), ig,
-                parsed, ScanDone);
+                                 _extensionList.ToArray(), MediaLibrary.Tracks.Select(x => x.Model).ToArray(), ig,
+                                 parsed, ScanDone);
         }
 
         private void AudioScannerFileParsed(AudioScan sender, ScanFileEventArgs e)

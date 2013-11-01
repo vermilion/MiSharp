@@ -17,6 +17,8 @@ namespace MiSharp
             _windowManager = IoC.Get<IWindowManager>();
         }
 
+        #region Properties
+
         public int SongsCount
         {
             get { return Albums.Sum(x => x.Tracks.Count); }
@@ -27,15 +29,15 @@ namespace MiSharp
             get { return Albums.Count; }
         }
 
-        //TODO: not working here
+        #endregion
+
         public void AddArtistToPlaylist()
         {
-            _events.Publish(Albums.SelectMany(x => x.Tracks));
+            _events.Publish(Albums.SelectMany(x => x.Tracks).Select(x => x.Model).ToList());
         }
 
         #region TagEditor
 
-        //TODO: not working here
         public void EditorEditArtists()
         {
             _windowManager.ShowDialog(

@@ -11,7 +11,6 @@
               FocusVisualStyle="{x:Null}"
               ItemsSource="{Binding NowPlayingPlaylist}"
               SelectedIndex="{Binding NowPlayingPlaylist.CurrentIndex, Mode=OneWayToSource}"
-              SelectedItem="{Binding SelectedTrack}"
               ScrollViewer.CanContentScroll="True">
         <ListView.ContextMenu>
             <ContextMenu>

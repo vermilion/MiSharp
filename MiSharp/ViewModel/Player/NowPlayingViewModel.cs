@@ -22,8 +22,6 @@ namespace MiSharp
 
         public Playlist<TrackViewModel> NowPlayingPlaylist { get; set; }
 
-        public TrackViewModel SelectedTrack { get; set; }
-
         #region Triggers
 
         public void RemoveSelected()
@@ -35,38 +33,59 @@ namespace MiSharp
 
         #region IHandle
 
+        //event from lib to add new items to list
         public void Handle(List<RawTrack> songs)
         {
             NowPlayingPlaylist.AddRange(songs.Select(x => new TrackViewModel(x)));
         }
+
+        //event from player to set track state
+        public void Handle(TrackState message)
+        {
+            TrackViewModel track = NowPlayingPlaylist.FirstOrDefault(x => Equals(x.Model, message.Track));
+            if (track == null) return;
+            track.PlayingState = message.State;
+        }
+
+        #endregion
 
         public void PlaySelected()
         {
             _events.Publish(NowPlayingPlaylist.CurrentEntry.Model);
         }
 
-        #endregion
-
-        public void Handle(TrackState message)
+        public RawTrack GetNextSong(bool repeat, bool random)
         {
-            TrackViewModel track = NowPlayingPlaylist.FirstOrDefault(x => x.Model == message.Track);
-            if (track == null) return;
-            track.PlayingState = message.State;
-        }
-
-        public RawTrack GetNextSong()
-        {
-            if (NowPlayingPlaylist.MoveNext())
+            if (random) return GetRandom();
+            if (!repeat)
+            {
+                if (NowPlayingPlaylist.MoveNext())
+                    return NowPlayingPlaylist.CurrentEntry.Model;
+            }
+            else if (NowPlayingPlaylist.MoveNextOrFirst())
                 return NowPlayingPlaylist.CurrentEntry.Model;
 
             return null;
         }
 
-        public RawTrack GetPreviousSong()
+        public RawTrack GetPreviousSong(bool repeat, bool random)
         {
-            if (NowPlayingPlaylist.MovePrevious())
+            if (random) return GetRandom();
+            if (!repeat)
+            {
+                if (NowPlayingPlaylist.MovePrevious())
+                    return NowPlayingPlaylist.CurrentEntry.Model;
+            }
+            else if (NowPlayingPlaylist.MovePreviousOrLast())
                 return NowPlayingPlaylist.CurrentEntry.Model;
 
+            return null;
+        }
+
+        private RawTrack GetRandom()
+        {
+            if (NowPlayingPlaylist.MoveRandom())
+                return NowPlayingPlaylist.CurrentEntry.Model;
             return null;
         }
     }

@@ -1,0 +1,41 @@
+﻿<controls:MetroContentControl x:Class="MiSharp.ArtistView"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+                              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                              mc:Ignorable="d"
+                              d:DesignHeight="50" d:DesignWidth="300">
+    <Grid>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Add to Now Playing" Visibility="Visible" cal:Message.Attach="AddArtistToPlaylist()" />
+                <MenuItem Header="Edit Artist Information">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="EditorEditArtists" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+            </ContextMenu>
+        </Grid.ContextMenu>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="45" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Image Width="40" Height="40" Source="/MiSharp;component/MusicAndCatalog.ico" />
+        <StackPanel Grid.Column="1" Margin="5,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}" FontFamily="/MiSharp;component/Resources/#Open Sans"/>
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="/MiSharp;component/Resources/#Open Sans">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} songs / {1} albums">
+                        <Binding Path="SongsCount" />
+                        <Binding Path="AlbumsCount" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</controls:MetroContentControl>
