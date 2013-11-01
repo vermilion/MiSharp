@@ -22,8 +22,6 @@ namespace MiSharp
 
         public Playlist<TrackViewModel> NowPlayingPlaylist { get; set; }
 
-        public TrackViewModel SelectedTrack { get; set; }
-
         #region Triggers
 
         public void RemoveSelected()

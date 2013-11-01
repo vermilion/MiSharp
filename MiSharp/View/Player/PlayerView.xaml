@@ -28,12 +28,11 @@
         </ResourceDictionary>
     </controls:MetroContentControl.Resources>
     <Grid Background="#FFCCCCCC">
-        <miSharp:SliderWithDraggingEvents x:Name="PositionSlider" Value="{Binding PositionValue}" Style="{DynamicResource MetroSlider}"
-                                          TickFrequency="{Binding TickFrequency}"
-                                          cal:Message.Attach="[Event ThumbDragStarted] = [Action Dragging(1)]; [Event ThumbDragCompleted] = [Action ChangePosition(PositionSlider.Value)]; [Event ThumbDragCompleted] = [Action Dragging(0)];"
-                                          Maximum="{Binding Maximum}"
-                                          VerticalAlignment="Top"
-                                          Height="Auto" Margin="5,2,5,0" />
+        <ProgressBar x:Name="PositionSlider" Value="{Binding PositionValue}" Style="{DynamicResource MetroProgressBar}"
+                     cal:Message.Attach="[Event MouseDown] = [Action ChangePosition($source, $eventArgs)];"
+                     Maximum="{Binding Maximum}"
+                     VerticalAlignment="Top"
+                     Height="12" Margin="0" />
         <Grid VerticalAlignment="Bottom">
             <Button Margin="0,16,120,10" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
                     ToolTip="Previous" HorizontalAlignment="Right" Width="50"
@@ -56,13 +55,8 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <!-- Volume Control -->
-            <TextBlock Foreground="Gray" Margin="328,53,0,0" VerticalAlignment="Top" FontSize="10"
-                       HorizontalAlignment="Left" Width="42">
-                <Run Text="Volume" />
-            </TextBlock>
-            <Label Margin="10,40,556,5" Content="{Binding CurrentlyPlaying.TrackTitle}" />
-            <ToggleButton Margin="0,36,207,10" Height="40" IsChecked="{Binding RepeatState}"
+            <Label Margin="170,20,287,5" Content="{Binding CurrentlyPlaying.TrackTitle}" />
+            <ToggleButton Margin="0,40,207,5" Height="40" IsChecked="{Binding RepeatState}"
                           ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
                           Style="{DynamicResource MetroCircleToggleButtonStyle}">
                 <Rectangle Width="16" Height="16">
@@ -72,7 +66,7 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </ToggleButton>
-            <ToggleButton Margin="0,36,242,10" Height="40" IsChecked="{Binding ShuffleState}"
+            <ToggleButton Margin="0,40,242,5" IsChecked="{Binding ShuffleState}"
                           ToolTip="Shuffle" HorizontalAlignment="Right" Width="40"
                           Style="{DynamicResource MetroCircleToggleButtonStyle}">
                 <Rectangle Width="16" Height="16">
@@ -82,10 +76,21 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </ToggleButton>
-            <miSharp:SliderWithDraggingEvents Margin="375,48,0,0" VerticalAlignment="Top" Style="{DynamicResource MetroSlider}"
-                                              Width="80" Height="Auto"
+            <miSharp:SliderWithDraggingEvents Margin="55,52,0,0" VerticalAlignment="Top"
+                                              Style="{DynamicResource MetroSlider}"
+                                              Width="100" Height="Auto"
                                               Minimum="0" Maximum="1" Value="{Binding Volume}"
                                               HorizontalAlignment="Left" />
+            <ToggleButton Margin="10,40,0,5"
+                          ToolTip="Shuffle" IsChecked="{Binding IsMuted}"
+                          Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Left" Width="40">
+                <Rectangle Width="16" Height="16">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"
+                                     Visual="{StaticResource appbar_sound_3}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </ToggleButton>
         </Grid>
     </Grid>
 </controls:MetroContentControl>

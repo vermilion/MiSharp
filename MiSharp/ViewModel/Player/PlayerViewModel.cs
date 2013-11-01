@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using MiSharp.Core.Player;
@@ -17,6 +19,7 @@ namespace MiSharp
         private int _maximum;
 
         private double _positionValue;
+        private float _tempVolume;
 
         private int _tickFrequency;
         private string _totalTime = "00:00";
@@ -61,6 +64,23 @@ namespace MiSharp
             get { return IsPlaying ? ";" : "4"; }
         }
 
+        public bool IsMuted
+        {
+            get { return _isMuted; }
+            set
+            {
+                if (value)
+                {
+                    _tempVolume = Volume;
+                    Volume = 0;
+                }
+                else Volume = _tempVolume;
+                this.RaiseAndSetIfChanged(ref _isMuted, value);
+                this.RaisePropertyChanged("Volume");
+            }
+        }
+
+
         public bool RepeatState
         {
             get { return _repeatState; }
@@ -84,8 +104,7 @@ namespace MiSharp
             CurrentTime = String.Format("{0:00}:{1:00}", (int) args.CurrentTime.TotalMinutes, args.CurrentTime.Seconds);
             TickFrequency = (int) args.TotalTime.TotalSeconds/30;
             Maximum = (int) args.TotalTime.TotalSeconds;
-            if (!_dragging)
-                PositionValue = (int) args.CurrentTime.TotalSeconds;
+            PositionValue = (int) args.CurrentTime.TotalSeconds;
         }
 
         public void Play(RawTrack song)
@@ -100,8 +119,11 @@ namespace MiSharp
             _events.Publish(new TrackState(song, AudioPlayerState.Playing));
         }
 
-        public void ChangePosition(double pos)
+        public void ChangePosition(object sender, MouseEventArgs e)
         {
+            double x = e.GetPosition((ProgressBar) sender).X;
+            double ratio = x/((ProgressBar) sender).ActualWidth;
+            double pos = ratio*((ProgressBar) sender).Maximum;
             Player.CurrentTime = TimeSpan.FromSeconds(pos);
         }
 
@@ -135,7 +157,9 @@ namespace MiSharp
 
         public void PlayNext()
         {
+            IsPlaying = false;
             _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
+            CurrentlyPlaying = null;
             RawTrack song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
 
             if (song != null)
@@ -153,7 +177,7 @@ namespace MiSharp
         #region Properties
 
         private RawTrack _currentlyPlaying;
-        private bool _dragging;
+        private bool _isMuted;
         private bool _isPlaying;
         private bool _repeatState;
         private bool _shuffleState;
@@ -197,12 +221,8 @@ namespace MiSharp
             {
                 this.RaiseAndSetIfChanged(ref _volume, value);
                 Player.Volume = value;
+                this.RaiseAndSetIfChanged(ref _isMuted, Equals(value, 0.0f), "IsMuted");
             }
-        }
-
-        public void Dragging(int flag)
-        {
-            _dragging = Convert.ToBoolean(flag);
         }
 
         #endregion
