@@ -9,7 +9,7 @@
     xmlns:miSharp="clr-namespace:MiSharp"
     xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:library="clr-namespace:MiSharp"
     xmlns:tagEditor="clr-namespace:MiSharp"
-    x:Class="MiSharp.LibraryView"
+    x:Class="MiSharp.LibraryView" TextOptions.TextFormattingMode="Display"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
     <controls:MetroContentControl.Resources>
         <ResourceDictionary>

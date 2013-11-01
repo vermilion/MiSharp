@@ -25,7 +25,7 @@ namespace MiSharp
             Model = album;
             Tracks = new ObservableList<TrackViewModel>();
             Tracks.AddRange(album.Tracks.Select(x => new TrackViewModel(x.Model)));
-            _cover = new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/Music.ico"));
+            _cover = new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
         }
 
         #region Properties

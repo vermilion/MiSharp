@@ -48,7 +48,7 @@
                     Style="{DynamicResource MetroCircleButtonStyle}"
                     HorizontalAlignment="Right" Width="50" />
             <!-- Seek Control -->
-            <TextBlock Foreground="Gray" Margin="10,16,795,41" VerticalAlignment="Center" FontSize="14">
+            <TextBlock Foreground="Gray" Margin="15,0,0,0" VerticalAlignment="Center" FontSize="18" HorizontalAlignment="Left" Width="91" Height="32">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1}">
                         <Binding Path="CurrentTime" Mode="OneWay" />
@@ -56,7 +56,7 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <Label Margin="170,20,287,5" Content="{Binding CurrentlyPlaying.TrackTitle}" />
+            <Label Margin="285,20,287,5" Content="{Binding CurrentlyPlaying.TrackTitle}" VerticalContentAlignment="Center" />
             <ToggleButton Margin="0,40,207,5" Height="40" IsChecked="{Binding RepeatState}"
                           ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
                           Style="{DynamicResource MetroCircleToggleButtonStyle}">
@@ -77,18 +77,17 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </ToggleButton>
-            <miSharp:SliderWithDraggingEvents Margin="55,52,0,0" VerticalAlignment="Top"
+            <miSharp:SliderWithDraggingEvents Margin="180,52,0,0" VerticalAlignment="Top"
                                               Style="{DynamicResource MetroSlider}"
                                               Width="100" Height="Auto"
                                               Minimum="0" Maximum="1" Value="{Binding Volume}"
                                               HorizontalAlignment="Left" />
-            <ToggleButton Margin="10,40,0,5"
+            <ToggleButton Margin="135,40,0,5"
                           ToolTip="Shuffle" IsChecked="{Binding IsMuted}"
                           Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Left" Width="40">
                 <Rectangle Width="16" Height="16">
                     <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-                                     Visual="{StaticResource appbar_sound_3}" />
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_sound_3}" />
                     </Rectangle.Fill>
                 </Rectangle>
             </ToggleButton>

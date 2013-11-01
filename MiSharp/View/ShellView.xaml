@@ -8,7 +8,7 @@
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:miSharp="clr-namespace:MiSharp"
                       Width="1200" Height="700" WindowStartupLocation="CenterScreen"
-                      Icon="/MiSharp;component/Music.ico">
+                      Icon="/MiSharp;component/MusicAndCatalog.ico">
     <controls:MetroWindow.WindowCommands>
         <controls:WindowCommands>
             <Button Content="settings" cal:Message.Attach="OpenSettings" />

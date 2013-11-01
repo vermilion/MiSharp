@@ -28,13 +28,17 @@
         </ResourceDictionary>
     </controls:MetroContentControl.Resources>
     <Grid x:Name="LblName" Tag="{Binding Title}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackPanel HorizontalAlignment="Left" Width="170">
-            <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Title}" />
-            <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Add to now playing"
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Text="{Binding Model.Title}" Grid.ColumnSpan="2" FontSize="18" Margin="25,0,0,0" FontFamily="/MiSharp;component/Resources/#Open Sans" />
+        <StackPanel HorizontalAlignment="Left" Width="170" Grid.Row="1" Grid.Column="0">
+            <Button Margin="0,5,0,0" HorizontalAlignment="Center" Content="Add to now playing" FontFamily="/MiSharp;component/Resources/#Open Sans"
                     Style="{DynamicResource SquareButtonStyle}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -42,7 +46,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
-            <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Edit album tags"
+            <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Edit album tags" FontFamily="/MiSharp;component/Resources/#Open Sans"
                     Style="{DynamicResource SquareButtonStyle}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -51,9 +55,9 @@
                 </i:Interaction.Triggers>
             </Button>
             <Image Margin="0,10,0,0" Height="100" Width="100" Source="{Binding Cover}" />
-            <Label HorizontalAlignment="Center" Content="{Binding Model.Year}" />
+            <Label HorizontalAlignment="Center" Content="{Binding Model.Year}" FontFamily="/MiSharp;component/Resources/#Open Sans"/>
         </StackPanel>
-        <ListView Grid.Column="1" ItemsSource="{Binding Tracks, IsAsync=True}">
+        <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Tracks, IsAsync=True}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <miSharp:TrackView Width="Auto" DataContext="{Binding}" />

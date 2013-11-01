@@ -25,10 +25,10 @@
             <ColumnDefinition Width="45" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Width="40" Height="40" Source="/MiSharp;component/Music.ico" />
+        <Image Width="40" Height="40" Source="/MiSharp;component/MusicAndCatalog.ico" />
         <StackPanel Grid.Column="1" Margin="5,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
-            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}" />
-            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}" FontFamily="/MiSharp;component/Resources/#Open Sans"/>
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" FontFamily="/MiSharp;component/Resources/#Open Sans">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} songs / {1} albums">
                         <Binding Path="SongsCount" />

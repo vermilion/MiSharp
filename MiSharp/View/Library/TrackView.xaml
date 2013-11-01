@@ -6,7 +6,7 @@
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                               xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d"
+                              mc:Ignorable="d" 
                               d:DesignHeight="30" d:DesignWidth="300">
     <Grid>
         <Grid.ContextMenu>
@@ -16,11 +16,11 @@
             </ContextMenu>
         </Grid.ContextMenu>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="15" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock VerticalAlignment="Center" Text="{Binding Model.TrackNumber}" Foreground="Gray" />
+        <TextBlock VerticalAlignment="Center" Text="{Binding Model.TrackNumber}" Foreground="Gray" FontFamily="/MiSharp;component/Resources/#Open Sans" />
         <TextBlock Grid.Column="1" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center"
-                   Text="{Binding Model.TrackTitle}" />
+                   Text="{Binding Model.TrackTitle}" FontFamily="/MiSharp;component/Resources/#Open Sans"  />
     </Grid>
 </controls:MetroContentControl>
