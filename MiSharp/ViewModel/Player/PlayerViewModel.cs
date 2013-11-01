@@ -15,6 +15,9 @@ namespace MiSharp
     {
         private readonly IEventAggregator _events;
         private readonly NowPlayingViewModel _nowPlayingViewModel;
+        private readonly ObservableAsPropertyHelper<string> _playPauseContent;
+        private readonly ObservableAsPropertyHelper<string> _playPauseTooltip;
+        private readonly ObservableAsPropertyHelper<bool> _isMuted;
         private string _currentTime = "00:00";
         private int _maximum;
 
@@ -30,10 +33,69 @@ namespace MiSharp
             _nowPlayingViewModel = nowPlayingViewModel;
             Player = new LocalAudioPlayer();
             Player.PlaybackUpdated += Player_PlaybackUpdated;
-            Player.SongFinished += (s, e) => PlayNext();
+            Player.SongFinished += (s, e) => PlayNextCommand.Execute(null);
+
             _events = events;
             _events.Subscribe(this);
+
+            PlayNextCommand = new ReactiveCommand();
+            PlayNextCommand.Subscribe(param =>
+                {
+                    IsPlaying = false;
+                    _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
+                    CurrentlyPlaying = null;
+                    RawTrack song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
+
+                    if (song != null)
+                        Play(song);
+                });
+
+            PlayPrevCommand = new ReactiveCommand();
+            PlayPrevCommand.Subscribe(param =>
+                {
+                    IsPlaying = false;
+                    _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
+                    RawTrack song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
+                    if (song != null)
+                        Play(song);
+                });
+
+            PlayPauseCommand = new ReactiveCommand();
+            PlayPauseCommand.Subscribe(param =>
+            {
+                if (IsPlaying)
+                {
+                    Player.Pause();
+                    IsPlaying = false;
+                    _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
+                }
+                else
+                {
+                    RawTrack song;
+                    if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
+                        song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
+                    else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
+                        song = _nowPlayingViewModel.NowPlayingPlaylist[0].Model;
+                    else return;
+
+                    Play(song);
+                }
+            });
+
+            _playPauseTooltip = this.WhenAnyValue(x => x.IsPlaying, x => x ? "Pause" : "Play")
+                                    .ToProperty(this, x => x.PlayPauseTooltip);
+
+            _playPauseContent = this.WhenAnyValue(x => x.IsPlaying, x => x ? ";" : "4")
+                                    .ToProperty(this, x => x.PlayPauseContent);
+
+            _isMuted = this.WhenAnyValue(x => x.Volume, x => Equals(x, 0.0f)).ToProperty(this, x => x.IsMuted);
+
+
         }
+
+        public ReactiveCommand PlayNextCommand { get; private set; }
+        public ReactiveCommand PlayPrevCommand { get; private set; }
+        public ReactiveCommand PlayPauseCommand { get; private set; }
 
         public RawTrack CurrentlyPlaying
         {
@@ -46,27 +108,22 @@ namespace MiSharp
         public bool IsPlaying
         {
             get { return _isPlaying; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _isPlaying, value);
-                this.RaisePropertyChanged("PlayPauseTooltip");
-                this.RaisePropertyChanged("PlayPauseContent");
-            }
+            set { this.RaiseAndSetIfChanged(ref _isPlaying, value); }
         }
 
         public string PlayPauseTooltip
         {
-            get { return IsPlaying ? "Pause" : "Play"; }
+            get { return _playPauseTooltip.Value; }
         }
 
         public string PlayPauseContent
         {
-            get { return IsPlaying ? ";" : "4"; }
+            get { return _playPauseContent.Value; }
         }
 
         public bool IsMuted
         {
-            get { return _isMuted; }
+            get{return _isMuted.Value;}
             set
             {
                 if (value)
@@ -75,8 +132,6 @@ namespace MiSharp
                     Volume = 0;
                 }
                 else Volume = _tempVolume;
-                this.RaiseAndSetIfChanged(ref _isMuted, value);
-                this.RaisePropertyChanged("Volume");
             }
         }
 
@@ -127,57 +182,9 @@ namespace MiSharp
             Player.CurrentTime = TimeSpan.FromSeconds(pos);
         }
 
-        public void PlayPauseClick()
-        {
-            if (IsPlaying)
-            {
-                Player.Pause();
-                IsPlaying = false;
-                _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
-            }
-            else
-            {
-                RawTrack song;
-                if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
-                    song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
-                else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
-                    song = _nowPlayingViewModel.NowPlayingPlaylist[0].Model;
-                else return;
-
-                Play(song);
-            }
-        }
-
-        public void StopClick()
-        {
-            Player.Stop();
-            IsPlaying = false;
-            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Stopped));
-        }
-
-        public void PlayNext()
-        {
-            IsPlaying = false;
-            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-            CurrentlyPlaying = null;
-            RawTrack song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
-
-            if (song != null)
-                Play(song);
-        }
-
-        public void PlayPrev()
-        {
-            _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-            RawTrack song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
-            if (song != null)
-                Play(song);
-        }
-
         #region Properties
 
         private RawTrack _currentlyPlaying;
-        private bool _isMuted;
         private bool _isPlaying;
         private bool _repeatState;
         private bool _shuffleState;
@@ -221,7 +228,6 @@ namespace MiSharp
             {
                 this.RaiseAndSetIfChanged(ref _volume, value);
                 Player.Volume = value;
-                this.RaiseAndSetIfChanged(ref _isMuted, Equals(value, 0.0f), "IsMuted");
             }
         }
 

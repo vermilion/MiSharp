@@ -37,15 +37,15 @@
             <Button Margin="0,16,120,10" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
                     ToolTip="Previous" HorizontalAlignment="Right" Width="50"
                     Style="{DynamicResource MetroCircleButtonStyle}"
-                    cal:Message.Attach="PlayPrev()" />
+                   Command="{Binding PlayPrevCommand}" />
             <Button Margin="0,16,65,10" Height="50" FontSize="14" FontWeight="Bold" FontFamily="Webdings"
                     HorizontalAlignment="Right" Width="50" Style="{DynamicResource MetroCircleButtonStyle}"
                     ToolTip="{Binding PlayPauseTooltip}" Content="{Binding PlayPauseContent}"
-                    cal:Message.Attach="[Event Click] = [Action PlayPauseClick()]" />
+                    Command="{Binding PlayPauseCommand}" />
             <Button Margin="0,16,10,10" Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
-                    ToolTip="Next"
+                    ToolTip="Next" Command="{Binding PlayNextCommand}"
                     Style="{DynamicResource MetroCircleButtonStyle}"
-                    cal:Message.Attach="PlayNext()" HorizontalAlignment="Right" Width="50" />
+                    HorizontalAlignment="Right" Width="50" />
             <!-- Seek Control -->
             <TextBlock Foreground="Gray" Margin="10,16,795,41" VerticalAlignment="Center" FontSize="14">
                 <TextBlock.Text>
