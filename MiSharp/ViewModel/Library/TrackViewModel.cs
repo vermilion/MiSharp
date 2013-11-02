@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using MiSharp.Core.Player;
@@ -19,7 +20,16 @@ namespace MiSharp
 
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
+
+            AddSongToPlaylistCommand = new ReactiveCommand();
+            AddSongToPlaylistCommand.Subscribe(param => _events.Publish(new List<RawTrack> {Model}));
+
+            EditorEditSongsCommand = new ReactiveCommand();
+            EditorEditSongsCommand.Subscribe(param => _windowManager.ShowDialog(new SongTagEditorViewModel(new List<RawTrack> {Model})));
         }
+
+        public ReactiveCommand AddSongToPlaylistCommand { get; private set; }
+        public ReactiveCommand EditorEditSongsCommand { get; private set; }
 
         #region Properties
 
@@ -32,15 +42,5 @@ namespace MiSharp
         }
 
         #endregion
-
-        public void AddSongToPlaylist()
-        {
-            _events.Publish(new List<RawTrack> {Model});
-        }
-
-        public void EditorEditSongs()
-        {
-            _windowManager.ShowDialog(new SongTagEditorViewModel(new List<RawTrack> {Model}));
-        }
     }
 }

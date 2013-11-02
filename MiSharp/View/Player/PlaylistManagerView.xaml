@@ -8,7 +8,7 @@
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500">
     <Grid>
-        <ListView Grid.Column="0"
+        <ListView Grid.Column="0" Background="#F2F2F2"
                   Margin="10,57,10,10"
                   FocusVisualStyle="{x:Null}"
                   ItemsSource="{Binding SelectedPlaylist}"
@@ -46,7 +46,8 @@
                     <GridViewColumn Width="{Binding Path=PlaylistTitleColumnWidth, Mode=TwoWay}" Header="Title">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=TrackTitle}" TextTrimming="CharacterEllipsis" FontFamily="/MiSharp;component/Resources/#Open Sans"/>
+                                <TextBlock Text="{Binding Path=TrackTitle}" TextTrimming="CharacterEllipsis"
+                                           FontFamily="/MiSharp;component/Resources/#Open Sans" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

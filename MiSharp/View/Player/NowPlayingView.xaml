@@ -7,27 +7,15 @@
                               xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500">
-    <ListView Margin="5"
+    <ListView Margin="5" Background="#F2F2F2"
               FocusVisualStyle="{x:Null}"
               ItemsSource="{Binding NowPlayingPlaylist}"
               SelectedIndex="{Binding NowPlayingPlaylist.CurrentIndex, Mode=OneWayToSource}"
               ScrollViewer.CanContentScroll="True">
         <ListView.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Play">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <cal:ActionMessage MethodName="PlaySelected" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </MenuItem>
-                <MenuItem Header="Remove">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <cal:ActionMessage MethodName="RemoveSelected" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </MenuItem>
+                <MenuItem Header="Play" Command="{Binding PlayNextCommand}" />
+                <MenuItem Header="Remove" Command="{Binding RemoveSelectedCommand}" />
             </ContextMenu>
         </ListView.ContextMenu>
         <ListView.ItemContainerStyle>

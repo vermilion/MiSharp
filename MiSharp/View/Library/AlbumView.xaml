@@ -7,8 +7,8 @@
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               xmlns:miSharp="clr-namespace:MiSharp"
-                              mc:Ignorable="d"
-                              d:DesignHeight="400" d:DesignWidth="550">
+                              mc:Ignorable="d" 
+                              d:DesignHeight="400" d:DesignWidth="400">
     <controls:MetroContentControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -33,31 +33,23 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="170" />
+            <ColumnDefinition Width="130" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Text="{Binding Model.Title}" Grid.ColumnSpan="2" FontSize="18" Margin="25,0,0,0" FontFamily="/MiSharp;component/Resources/#Open Sans" />
-        <StackPanel HorizontalAlignment="Left" Width="170" Grid.Row="1" Grid.Column="0">
-            <Button Margin="0,5,0,0" HorizontalAlignment="Center" Content="Add to now playing" FontFamily="/MiSharp;component/Resources/#Open Sans"
-                    Style="{DynamicResource SquareButtonStyle}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="AddAlbumToPlaylist" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Edit album tags" FontFamily="/MiSharp;component/Resources/#Open Sans"
-                    Style="{DynamicResource SquareButtonStyle}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="EditorEditAlbumsNew" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Text="{Binding Model.Title}" Grid.ColumnSpan="2"
+                   FontSize="18" Margin="25,0,0,0" FontFamily="/MiSharp;component/Resources/#Open Sans" />
+        <StackPanel HorizontalAlignment="Left" Width="130" Grid.Row="1" Grid.Column="0">
+            <Button Margin="0,5,0,0" HorizontalAlignment="Center" Content="Add to now playing"
+                    FontFamily="/MiSharp;component/Resources/#Open Sans"
+                    Style="{DynamicResource SquareButtonStyle}" Command="{Binding AddAlbumToPlaylistCommand}" />
+            <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Edit album tags"
+                    FontFamily="/MiSharp;component/Resources/#Open Sans"
+                    Style="{DynamicResource SquareButtonStyle}" Command="{Binding EditorEditAlbumsCommand}" />
             <Image Margin="0,10,0,0" Height="100" Width="100" Source="{Binding Cover}" />
-            <Label HorizontalAlignment="Center" Content="{Binding Model.Year}" FontFamily="/MiSharp;component/Resources/#Open Sans"/>
+            <Label HorizontalAlignment="Center" Content="{Binding Model.Year}"
+                   FontFamily="/MiSharp;component/Resources/#Open Sans" />
         </StackPanel>
-        <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Tracks, IsAsync=True}">
+        <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Tracks, IsAsync=True}" Background="#F2F2F2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <miSharp:TrackView Width="Auto" DataContext="{Binding}" />

@@ -2078,7 +2078,7 @@ Special Thanks
     <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" UseLayoutRounding="False"
             x:Key="appbar_repeat">
         <Path Width="28" Height="24" Canvas.Left="10" Canvas.Top="12" Stretch="Fill"
-              Fill="{DynamicResource BlackBrush}"
+              Fill="{DynamicResource WhiteBrush}"
               Data="F1 M 10.0001,27L 10,16L 29.25,16L 25,12L 31.5,12L 38,18L 31.5,24L 25,24L 29.25,20L 14,20L 14,23.5L 10.0001,27 Z M 38,21L 38,32L 18.75,32L 23,36L 16.5,36L 10,30L 16.5,24L 23,24L 18.75,28L 34,28L 34,24.5L 38,21 Z " />
     </Canvas>
     <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" UseLayoutRounding="False"
@@ -2322,7 +2322,7 @@ Special Thanks
     </Canvas>
     <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" UseLayoutRounding="False"
             x:Key="appbar_shuffle">
-        <Path Width="30" Height="26" Canvas.Left="9" Canvas.Top="11" Stretch="Fill" Fill="{DynamicResource BlackBrush}"
+        <Path Width="30" Height="26" Canvas.Left="9" Canvas.Top="11" Stretch="Fill" Fill="{DynamicResource WhiteBrush}"
               Data="F1 M 9.00001,29L 13,29L 24.7499,15L 30.25,15L 26,11L 32.5,11L 39,17L 32.5,23L 26,23L 30.25,19L 26,19L 14,33L 9.00001,33L 9.00001,29 Z M 9,19L 9,15L 14,15L 18.75,20.5417L 16.4985,23.1684L 13,19L 9,19 Z M 26,29L 30.25,29L 26,25L 32.5,25L 39,31L 32.5,37L 26,37L 30.25,33L 24.7499,33L 20.1736,27.5474L 22.4643,24.875L 26,29 Z " />
     </Canvas>
     <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" UseLayoutRounding="False"
@@ -2531,7 +2531,7 @@ Special Thanks
     <Canvas Width="48.0067" Height="48.0067" Clip="F1 M 0,0L 48.0067,0L 48.0067,48.0067L 0,48.0067L 0,0"
             x:Key="appbar_sound_3">
         <Path Width="25.0035" Height="17.0299" Canvas.Left="11.0015" Canvas.Top="15.9747" Stretch="Fill"
-              Fill="{DynamicResource BlackBrush}"
+              Fill="{DynamicResource WhiteBrush}"
               Data="F1 M 13.0018,21.0029L 17.0024,21.0029L 23.0032,16.0022L 23.0032,33.0046L 17.0024,27.0038L 13.0018,27.0038C 11.8971,27.0038 11.0015,26.1082 11.0015,25.0035L 11.0015,23.0032C 11.0015,21.8985 11.8971,21.0029 13.0018,21.0029 Z M 36.005,24.0034C 36.005,27.0413 34.7736,29.7917 32.7827,31.7826L 31.3683,30.3682C 32.9972,28.7393 34.0047,26.489 34.0047,24.0034C 34.0047,21.4913 32.9757,19.2196 31.3161,17.5868L 32.5252,15.9747C 34.6669,17.982 36.005,20.8364 36.005,24.0034 Z M 32.0045,24.0034C 32.0045,26.1913 31.0008,28.1449 29.4287,29.4287L 28.0041,28.0041C 29.2186,27.0918 30.0042,25.6393 30.0042,24.0034C 30.0042,22.3674 29.2186,20.9149 28.0041,20.0026L 29.4287,18.578C 31.0008,19.8618 32.0045,21.8154 32.0045,24.0034 Z M 28.0039,24.0034C 28.0039,25.3369 27.134,26.4672 25.9306,26.8578L 25.0035,25.0035C 25.5558,25.0035 26.0036,24.5557 26.0036,24.0034C 26.0036,23.451 25.5558,23.0032 25.0035,23.0032L 25.9306,21.1489C 27.134,21.5395 28.0039,22.6698 28.0039,24.0034 Z " />
     </Canvas>
     <Canvas Width="48.0067" Height="48.0067" Clip="F1 M 0,0L 48.0067,0L 48.0067,48.0067L 0,48.0067L 0,0"

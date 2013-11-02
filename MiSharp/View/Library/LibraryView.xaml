@@ -22,9 +22,12 @@
         </ResourceDictionary>
     </controls:MetroContentControl.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
         <ListView ItemsSource="{Binding Source={StaticResource GroupedBands}, IsAsync=True}"
-                  SelectedItem="{Binding SelectedBand}"
-                  HorizontalAlignment="Left" Margin="10,10,0,10" Width="239">
+                  SelectedItem="{Binding SelectedBand}" Grid.Column="0" Background="#F2F2F2">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -34,7 +37,7 @@
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" FontSize="13" Text="{Binding Path=Name}"
-                                                       Foreground="DarkGray" />
+                                                       Foreground="#FF898989" />
                                             <ItemsPresenter />
                                         </StackPanel>
                                     </ControlTemplate>
@@ -50,7 +53,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ScrollViewer Margin="254,10,10,10">
+        <ScrollViewer Grid.Column="1">
             <ItemsControl ItemsSource="{Binding ComboAlbums, IsAsync=True}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -64,7 +67,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <controls:ProgressRing IsActive="{Binding UpdatingWindowVisible}" Margin="65,55,0,0" VerticalAlignment="Top"
+        <controls:ProgressRing IsActive="{Binding UpdatingWindowVisible}" Margin="40,39,0,0" VerticalAlignment="Top"
                                HorizontalAlignment="Left" Height="120" Width="120" />
     </Grid>
 </controls:MetroContentControl>

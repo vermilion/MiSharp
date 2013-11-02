@@ -26,7 +26,16 @@ namespace MiSharp
             Tracks = new ObservableList<TrackViewModel>();
             Tracks.AddRange(album.Tracks.Select(x => new TrackViewModel(x.Model)));
             _cover = new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
+
+            AddAlbumToPlaylistCommand = new ReactiveCommand();
+            AddAlbumToPlaylistCommand.Subscribe(param => _events.Publish(Tracks.Select(x => x.Model).ToList()));
+
+            EditorEditAlbumsCommand = new ReactiveCommand();
+            EditorEditAlbumsCommand.Subscribe(param => _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model).ToList())));
         }
+
+        public ReactiveCommand AddAlbumToPlaylistCommand { get; private set; }
+        public ReactiveCommand EditorEditAlbumsCommand { get; private set; }
 
         #region Properties
 
@@ -63,15 +72,5 @@ namespace MiSharp
         public ObservableList<TrackViewModel> Tracks { get; set; }
 
         #endregion
-
-        public void AddAlbumToPlaylist()
-        {
-            _events.Publish(Tracks.Select(x => x.Model).ToList());
-        }
-
-        public void EditorEditAlbumsNew()
-        {
-            _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model).ToList()));
-        }
     }
 }

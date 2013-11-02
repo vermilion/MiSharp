@@ -8,7 +8,7 @@
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:miSharp="clr-namespace:MiSharp"
                       Width="1200" Height="700" WindowStartupLocation="CenterScreen"
-                      Icon="/MiSharp;component/MusicAndCatalog.ico">
+                      Icon="/MiSharp;component/MusicAndCatalog.ico" Background="#F2F2F2">
     <controls:MetroWindow.WindowCommands>
         <controls:WindowCommands>
             <Button Content="settings" cal:Message.Attach="OpenSettings" />
@@ -48,7 +48,7 @@
         </Grid.RowDefinitions>
         <ContentControl Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         x:Name="PlayerViewModel" Margin="0" />
-        <TabControl Padding="15, 0, 15, 0">
+        <TabControl Padding="5,15,5,0" Grid.Row="0">
             <TabItem Header="Now Playing">
                 <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                 x:Name="NowPlayingViewModel" />

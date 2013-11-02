@@ -106,7 +106,7 @@ namespace MiSharp
             set { this.RaiseAndSetIfChanged(ref _currentlyPlaying, value); }
         }
 
-        public LocalAudioPlayer Player { get; set; }
+        private LocalAudioPlayer Player { get; set; }
 
         public bool IsPlaying
         {

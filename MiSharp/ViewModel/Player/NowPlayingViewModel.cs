@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using DeadDog.Audio.Playlist;
 using MiSharp.Player;
+using ReactiveUI;
 
 namespace MiSharp
 {
@@ -18,18 +20,18 @@ namespace MiSharp
             NowPlayingPlaylist = new Playlist<TrackViewModel>();
             _events = IoC.Get<IEventAggregator>();
             _events.Subscribe(this);
+
+            RemoveSelectedCommand = new ReactiveCommand();
+            RemoveSelectedCommand.Subscribe(param => NowPlayingPlaylist.RemoveAt(NowPlayingPlaylist.CurrentIndex));
+
+            PlaySelectedCommand = new ReactiveCommand();
+            PlaySelectedCommand.Subscribe(param => _events.Publish(NowPlayingPlaylist.CurrentEntry.Model));
         }
+
+        public ReactiveCommand RemoveSelectedCommand { get; private set; }
+        public ReactiveCommand PlaySelectedCommand { get; private set; }
 
         public Playlist<TrackViewModel> NowPlayingPlaylist { get; set; }
-
-        #region Triggers
-
-        public void RemoveSelected()
-        {
-            NowPlayingPlaylist.RemoveAt(NowPlayingPlaylist.CurrentIndex);
-        }
-
-        #endregion
 
         #region IHandle
 
@@ -48,11 +50,6 @@ namespace MiSharp
         }
 
         #endregion
-
-        public void PlaySelected()
-        {
-            _events.Publish(NowPlayingPlaylist.CurrentEntry.Model);
-        }
 
         public RawTrack GetNextSong(bool repeat, bool random)
         {
