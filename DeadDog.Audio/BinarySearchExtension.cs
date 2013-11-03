@@ -57,7 +57,7 @@ namespace DeadDog.Audio
         ///     if there is no larger element, the bitwise complement of <see cref="IList{T}" />.Count.
         /// </returns>
         public static int BinarySearch<TSource>(this IList<TSource> source, int index, int count, TSource item,
-                                                Comparison<TSource> compare)
+            Comparison<TSource> compare)
         {
             if (count == 0)
                 return ~index;
@@ -84,13 +84,13 @@ namespace DeadDog.Audio
         }
 
         public static int BinarySearch<TSource, TFind>(this IList<TSource> source, TFind item, Comparison<TFind> compare,
-                                                       Converter<TSource, TFind> convert)
+            Converter<TSource, TFind> convert)
         {
             return BinarySearch(source, 0, source.Count, item, compare, convert);
         }
 
         public static int BinarySearch<TSource, TFind>(this IList<TSource> source, int index, int count, TFind item,
-                                                       Comparison<TFind> compare, Converter<TSource, TFind> convert)
+            Comparison<TFind> compare, Converter<TSource, TFind> convert)
         {
             if (count == 0)
                 return ~index;
@@ -166,7 +166,7 @@ namespace DeadDog.Audio
         ///     if there is no larger element, the bitwise complement of the length of the array.
         /// </returns>
         public static int BinarySearch<TSource>(this TSource[] source, int index, int count, TSource item,
-                                                Comparison<TSource> compare)
+            Comparison<TSource> compare)
         {
             if (count == 0)
                 return ~index;
@@ -193,13 +193,13 @@ namespace DeadDog.Audio
         }
 
         public static int BinarySearch<TSource, TFind>(this TSource[] source, TFind item, Comparison<TFind> compare,
-                                                       Converter<TSource, TFind> convert)
+            Converter<TSource, TFind> convert)
         {
             return BinarySearch(source, 0, source.Length, item, compare, convert);
         }
 
         public static int BinarySearch<TSource, TFind>(this TSource[] source, int index, int count, TFind item,
-                                                       Comparison<TFind> compare, Converter<TSource, TFind> convert)
+            Comparison<TFind> compare, Converter<TSource, TFind> convert)
         {
             if (count == 0)
                 return ~index;

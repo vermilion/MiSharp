@@ -33,67 +33,67 @@ namespace MiSharp
 
             PlayNextCommand = new ReactiveCommand();
             PlayNextCommand.Subscribe(param =>
-                {
-                    IsPlaying = false;
-                    _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-                    CurrentlyPlaying = null;
-                    RawTrack song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
+            {
+                IsPlaying = false;
+                _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
+                CurrentlyPlaying = null;
+                RawTrack song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
 
-                    if (song != null)
-                        Play(song);
-                });
+                if (song != null)
+                    Play(song);
+            });
 
             PlayPrevCommand = new ReactiveCommand();
             PlayPrevCommand.Subscribe(param =>
-                {
-                    IsPlaying = false;
-                    _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-                    RawTrack song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
-                    if (song != null)
-                        Play(song);
-                });
+            {
+                IsPlaying = false;
+                _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
+                RawTrack song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
+                if (song != null)
+                    Play(song);
+            });
 
             PlayPauseCommand = new ReactiveCommand();
             PlayPauseCommand.Subscribe(param =>
+            {
+                if (IsPlaying)
                 {
-                    if (IsPlaying)
-                    {
-                        Player.Pause();
-                        IsPlaying = false;
-                        _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
-                    }
-                    else
-                    {
-                        RawTrack song;
-                        if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
-                            song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
-                        else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
-                            song = _nowPlayingViewModel.NowPlayingPlaylist[0].Model;
-                        else return;
+                    Player.Pause();
+                    IsPlaying = false;
+                    _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
+                }
+                else
+                {
+                    RawTrack song;
+                    if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
+                        song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
+                    else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
+                        song = _nowPlayingViewModel.NowPlayingPlaylist[0].Model;
+                    else return;
 
-                        Play(song);
-                    }
-                });
+                    Play(song);
+                }
+            });
 
             _playPauseTooltip = this.WhenAnyValue(x => x.IsPlaying, x => x ? "Pause" : "Play")
-                                    .ToProperty(this, x => x.PlayPauseTooltip);
+                .ToProperty(this, x => x.PlayPauseTooltip);
 
             _playPauseContent = this.WhenAnyValue(x => x.IsPlaying, x => x ? ";" : "4")
-                                    .ToProperty(this, x => x.PlayPauseContent);
+                .ToProperty(this, x => x.PlayPauseContent);
 
             _isMuted = this.WhenAnyValue(x => x.Volume, x => Equals(x, 0.0f)).ToProperty(this, x => x.IsMuted);
 
             Player.TotalTimeChanged.Subscribe(x =>
-                {
-                    this.RaisePropertyChanged("Maximum");
-                    this.RaisePropertyChanged("TickFrequency");
-                    this.RaisePropertyChanged("TotalTime");
-                });
+            {
+                this.RaisePropertyChanged("Maximum");
+                this.RaisePropertyChanged("TickFrequency");
+                this.RaisePropertyChanged("TotalTime");
+            });
             Player.CurrentTimeChanged.Subscribe(x =>
-                {
-                    this.RaisePropertyChanged("PositionValue");
-                    this.RaisePropertyChanged("CurrentTime");
-                });
+            {
+                this.RaisePropertyChanged("PositionValue");
+                this.RaisePropertyChanged("CurrentTime");
+            });
         }
 
         public ReactiveCommand PlayNextCommand { get; private set; }
@@ -201,12 +201,18 @@ namespace MiSharp
 
         public string TotalTime
         {
-            get { return String.Format("{0:00}:{1:00}", (int) Player.TotalTime.TotalMinutes, Player.TotalTime.Seconds); }
+            get
+            {
+                return String.Format("{0:00}:{1:00}", (int) Player.TotalTime.TotalMinutes, Player.TotalTime.Seconds);
+            }
         }
 
         public string CurrentTime
         {
-            get { return String.Format("{0:00}:{1:00}", (int) Player.CurrentTime.TotalMinutes, Player.CurrentTime.Seconds); }
+            get
+            {
+                return String.Format("{0:00}:{1:00}", (int) Player.CurrentTime.TotalMinutes, Player.CurrentTime.Seconds);
+            }
         }
 
         public float Volume

@@ -46,7 +46,7 @@ namespace MiSharp
             set
             {
                 this.RaiseAndSetIfChanged(ref Settings.Instance.FileFormats,
-                                          value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
+                    value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
             }
         }
 

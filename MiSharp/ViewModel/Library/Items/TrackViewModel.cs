@@ -25,7 +25,8 @@ namespace MiSharp
             AddSongToPlaylistCommand.Subscribe(param => _events.Publish(new List<RawTrack> {Model}));
 
             EditorEditSongsCommand = new ReactiveCommand();
-            EditorEditSongsCommand.Subscribe(param => _windowManager.ShowDialog(new SongTagEditorViewModel(new List<RawTrack> {Model})));
+            EditorEditSongsCommand.Subscribe(
+                param => _windowManager.ShowDialog(new SongTagEditorViewModel(new List<RawTrack> {Model})));
         }
 
         public ReactiveCommand AddSongToPlaylistCommand { get; private set; }

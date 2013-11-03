@@ -19,7 +19,8 @@ namespace MiSharp
             _windowManager = IoC.Get<IWindowManager>();
 
             AddArtistToPlaylistCommand = new ReactiveCommand();
-            AddArtistToPlaylistCommand.Subscribe(param => _events.Publish(Albums.SelectMany(x => x.Tracks).Select(x => x.Model).ToList()));
+            AddArtistToPlaylistCommand.Subscribe(
+                param => _events.Publish(Albums.SelectMany(x => x.Tracks).Select(x => x.Model).ToList()));
 
             EditorEditArtistsCommand = new ReactiveCommand();
             EditorEditArtistsCommand.Subscribe(param => _windowManager.ShowDialog(

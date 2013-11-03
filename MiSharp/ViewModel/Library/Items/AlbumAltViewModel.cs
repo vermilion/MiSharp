@@ -12,13 +12,13 @@ using File = TagLib.File;
 
 namespace MiSharp
 {
-    public class AlbumViewModel : ReactiveObject
+    public class AlbumAltViewModel : ReactiveObject
     {
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
         private BitmapSource _cover;
 
-        public AlbumViewModel(Album album)
+        public AlbumAltViewModel(Album album)
         {
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
@@ -31,7 +31,8 @@ namespace MiSharp
             AddAlbumToPlaylistCommand.Subscribe(param => _events.Publish(Tracks.Select(x => x.Model).ToList()));
 
             EditorEditAlbumsCommand = new ReactiveCommand();
-            EditorEditAlbumsCommand.Subscribe(param => _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model).ToList())));
+            EditorEditAlbumsCommand.Subscribe(
+                param => _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model).ToList())));
         }
 
         public ReactiveCommand AddAlbumToPlaylistCommand { get; private set; }

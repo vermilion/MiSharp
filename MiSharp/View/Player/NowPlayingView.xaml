@@ -7,7 +7,7 @@
                               xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500">
-    <ListView Margin="5" Background="#F2F2F2"
+    <ListView Margin="5"
               FocusVisualStyle="{x:Null}"
               ItemsSource="{Binding NowPlayingPlaylist}"
               SelectedIndex="{Binding NowPlayingPlaylist.CurrentIndex, Mode=OneWayToSource}"

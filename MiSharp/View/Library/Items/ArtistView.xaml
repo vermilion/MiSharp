@@ -6,8 +6,8 @@
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                               xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d" MinHeight="45"
-                              d:DesignHeight="40" d:DesignWidth="300">
+                              mc:Ignorable="d"
+                              d:DesignHeight="150" d:DesignWidth="150">
     <Grid>
         <Grid.ContextMenu>
             <ContextMenu>
@@ -16,16 +16,16 @@
                 <MenuItem Header="Edit Artist Information" Command="{Binding EditorEditArtistsCommand}" />
             </ContextMenu>
         </Grid.ContextMenu>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Image Width="40" Height="40" Source="/MiSharp;component/MusicAndCatalog.ico" />
-        <StackPanel Grid.Column="1" Margin="5,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image Width="90" Height="90" Source="/MiSharp;component/MusicAndCatalog.ico" />
+        <StackPanel Grid.Row="1" Margin="5,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}"
-                       FontFamily="/MiSharp;component/Resources/#Open Sans" FontSize="14" />
+                       FontFamily="/MiSharp;component/Resources/#Open Sans" FontSize="14" HorizontalAlignment="Center" />
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#FF4F4F4F"
-                       FontFamily="/MiSharp;component/Resources/#Open Sans">
+                       FontFamily="/MiSharp;component/Resources/#Open Sans" HorizontalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} songs / {1} albums">
                         <Binding Path="SongsCount" />

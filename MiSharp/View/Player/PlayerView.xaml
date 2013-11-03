@@ -48,7 +48,8 @@
                     Style="{DynamicResource MetroCircleButtonStyle}"
                     HorizontalAlignment="Right" Width="50" Foreground="White" BorderThickness="4" />
             <!-- Seek Control -->
-            <TextBlock Foreground="Gray" Margin="15,26,0,27" VerticalAlignment="Center" FontSize="18" HorizontalAlignment="Left" Width="115" Height="32">
+            <TextBlock Foreground="Gray" Margin="15,26,0,27" VerticalAlignment="Center" FontSize="18"
+                       HorizontalAlignment="Left" Width="115" Height="32">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} / {1}">
                         <Binding Path="CurrentTime" Mode="OneWay" />
@@ -56,10 +57,12 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <Label Margin="285,20,287,5" Content="{Binding CurrentlyPlaying.TrackTitle}" VerticalContentAlignment="Center" Foreground="White" />
+            <Label Margin="285,20,287,5" Content="{Binding CurrentlyPlaying.TrackTitle}"
+                   VerticalContentAlignment="Center" Foreground="White" />
             <ToggleButton Margin="0,40,207,5" Height="40" IsChecked="{Binding RepeatState}"
                           ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
-                          Style="{DynamicResource MetroCircleToggleButtonStyle}" Foreground="White" BorderThickness="3,2,2,2">
+                          Style="{DynamicResource MetroCircleToggleButtonStyle}" Foreground="White"
+                          BorderThickness="3,2,2,2">
                 <Rectangle Width="16" Height="16">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"
@@ -69,7 +72,8 @@
             </ToggleButton>
             <ToggleButton Margin="0,40,242,5" IsChecked="{Binding ShuffleState}"
                           ToolTip="Shuffle" HorizontalAlignment="Right" Width="40"
-                          Style="{DynamicResource MetroCircleToggleButtonStyle}" Foreground="White" BorderThickness="3,2,2,2" >
+                          Style="{DynamicResource MetroCircleToggleButtonStyle}" Foreground="White"
+                          BorderThickness="3,2,2,2">
                 <Rectangle Width="16" Height="16">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"
@@ -82,9 +86,10 @@
                                               Width="100" Height="Auto"
                                               Minimum="0" Maximum="1" Value="{Binding Volume}"
                                               HorizontalAlignment="Left" />
-            <ToggleButton Margin="135,40,0,5" 
+            <ToggleButton Margin="135,40,0,5"
                           ToolTip="Shuffle" IsChecked="{Binding IsMuted}"
-                          Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Left" Width="40" Foreground="White" BorderBrush="White" BorderThickness="3,2,2,2">
+                          Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Left" Width="40"
+                          Foreground="White" BorderBrush="White" BorderThickness="3,2,2,2">
                 <Rectangle Width="16" Height="16" StrokeThickness="7">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_sound_3}" />

@@ -1,11 +1,11 @@
 ﻿namespace MiSharp
 {
     /// <summary>
-    ///     Interaction logic for LibraryNavigationView.xaml
+    ///     Interaction logic for AlbumView.xaml
     /// </summary>
-    public partial class LibraryView
+    public partial class AlbumAltView
     {
-        public LibraryView()
+        public AlbumAltView()
         {
             InitializeComponent();
         }

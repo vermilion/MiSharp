@@ -28,7 +28,11 @@ namespace MiSharp
             var batch = new CompositionBatch();
 
             batch.AddExportedValue<IWindowManager>(new WindowManager());
-            batch.AddExportedValue<IEventAggregator>(new EventAggregator());
+            var aggregator = new EventAggregator();
+            batch.AddExportedValue<IEventAggregator>(aggregator);
+
+            batch.AddExportedValue<INavigationService>(new NavigationService(aggregator));
+
             batch.AddExportedValue(_container);
 
             _container.Compose(batch);
