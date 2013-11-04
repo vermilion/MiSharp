@@ -124,8 +124,9 @@
     <Compile Include="ViewModel\Library\Items\AlbumViewModel.cs" />
     <Compile Include="ViewModel\Converters\FirstLetterConverter.cs" />
     <Compile Include="ViewModel\Library\AlbumNavigationViewModel.cs" />
+    <Compile Include="ViewModel\Library\Items\Alt\TrackAltViewModel.cs" />
     <Compile Include="ViewModel\Library\SongsNavigationViewModel.cs" />
-    <Compile Include="ViewModel\Library\Items\AlbumAltViewModel.cs" />
+    <Compile Include="ViewModel\Library\Items\Alt\AlbumAltViewModel.cs" />
     <Compile Include="ViewModel\Library\LibraryViewModel.cs" />
     <Compile Include="ViewModel\Library\TagEditor\AlbumTagEditorViewModel.cs">
       <SubType>Code</SubType>
@@ -150,10 +151,13 @@
     <Compile Include="View\Library\AlbumNavigationView.xaml.cs">
       <DependentUpon>AlbumNavigationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Library\Items\Alt\TrackAltView.xaml.cs">
+      <DependentUpon>TrackAltView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Library\SongsNavigationView.xaml.cs">
       <DependentUpon>SongsNavigationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Library\Items\AlbumAltView.xaml.cs">
+    <Compile Include="View\Library\Items\Alt\AlbumAltView.xaml.cs">
       <DependentUpon>AlbumAltView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Library\LibraryView.xaml.cs">
@@ -164,9 +168,6 @@
     </Compile>
     <Compile Include="View\Player\NowPlayingView.xaml.cs">
       <DependentUpon>NowPlayingView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Player\PlayerSidebar.xaml.cs">
-      <DependentUpon>PlayerSidebar.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Settings\SettingsAppearanceView.xaml.cs">
       <DependentUpon>SettingsAppearanceView.xaml</DependentUpon>
@@ -243,11 +244,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Library\Items\Alt\TrackAltView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Library\SongsNavigationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Library\Items\AlbumAltView.xaml">
+    <Page Include="View\Library\Items\Alt\AlbumAltView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -262,10 +267,6 @@
     <Page Include="View\Player\NowPlayingView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Player\PlayerSidebar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml">
       <SubType>Designer</SubType>

@@ -11,22 +11,13 @@
               FocusVisualStyle="{x:Null}"
               ItemsSource="{Binding NowPlayingPlaylist}"
               SelectedIndex="{Binding NowPlayingPlaylist.CurrentIndex, Mode=OneWayToSource}"
-              ScrollViewer.CanContentScroll="True">
+              ScrollViewer.CanContentScroll="True" Background="{x:Null}">
         <ListView.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Play" Command="{Binding PlayNextCommand}" />
                 <MenuItem Header="Remove" Command="{Binding RemoveSelectedCommand}" />
             </ContextMenu>
         </ListView.ContextMenu>
-        <ListView.ItemContainerStyle>
-            <Style TargetType="{x:Type ListViewItem}">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding Path=IsInactive}" Value="True">
-                        <Setter Property="Foreground" Value="Gray" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </ListView.ItemContainerStyle>
         <ListView.View>
             <GridView>
                 <GridViewColumn Width="60" Header="">

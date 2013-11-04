@@ -1,29 +1,38 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.IO;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using MiSharp.Core.Player;
 using MiSharp.Player;
 using ReactiveUI;
+using TagLib;
+using File = TagLib.File;
 
 namespace MiSharp
 {
     [Export]
     public class PlayerViewModel : ReactiveObject, IHandle<RawTrack>
     {
+        private readonly BitmapImage _defaultCover =
+            new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
+
         private readonly IEventAggregator _events;
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
         private readonly NowPlayingViewModel _nowPlayingViewModel;
         private readonly ObservableAsPropertyHelper<string> _playPauseContent;
-        private readonly ObservableAsPropertyHelper<string> _playPauseTooltip;
+        private BitmapSource _cover;
 
         private float _tempVolume;
 
         [ImportingConstructor]
         public PlayerViewModel(IEventAggregator events, NowPlayingViewModel nowPlayingViewModel)
         {
+            _cover = _defaultCover;
             _nowPlayingViewModel = nowPlayingViewModel;
             Player = new LocalAudioPlayer();
             Player.SongFinished += (s, e) => PlayNextCommand.Execute(null);
@@ -75,9 +84,6 @@ namespace MiSharp
                 }
             });
 
-            _playPauseTooltip = this.WhenAnyValue(x => x.IsPlaying, x => x ? "Pause" : "Play")
-                .ToProperty(this, x => x.PlayPauseTooltip);
-
             _playPauseContent = this.WhenAnyValue(x => x.IsPlaying, x => x ? ";" : "4")
                 .ToProperty(this, x => x.PlayPauseContent);
 
@@ -103,20 +109,45 @@ namespace MiSharp
         public RawTrack CurrentlyPlaying
         {
             get { return _currentlyPlaying; }
-            set { this.RaiseAndSetIfChanged(ref _currentlyPlaying, value); }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _currentlyPlaying, value);
+                this.RaisePropertyChanged("Cover");
+            }
         }
 
         private LocalAudioPlayer Player { get; set; }
+
+        public BitmapSource Cover
+        {
+            get
+            {
+                if (CurrentlyPlaying != null)
+                {
+                    File file = File.Create(CurrentlyPlaying.FullFilename);
+                    if (file.Tag.Pictures.Any())
+                    {
+                        IPicture pic = file.Tag.Pictures[0];
+                        var ms = new MemoryStream(pic.Data.Data);
+
+                        ms.Seek(0, SeekOrigin.Begin);
+
+                        var bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.StreamSource = ms;
+
+                        bitmap.EndInit();
+                        return _cover = bitmap;
+                    }
+                }
+                return _cover = _defaultCover;
+            }
+        }
 
         public bool IsPlaying
         {
             get { return _isPlaying; }
             set { this.RaiseAndSetIfChanged(ref _isPlaying, value); }
-        }
-
-        public string PlayPauseTooltip
-        {
-            get { return _playPauseTooltip.Value; }
         }
 
         public string PlayPauseContent

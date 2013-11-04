@@ -23,9 +23,8 @@
         <Image Width="90" Height="90" Source="/MiSharp;component/MusicAndCatalog.ico" />
         <StackPanel Grid.Row="1" Margin="5,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}"
-                       FontFamily="/MiSharp;component/Resources/#Open Sans" FontSize="14" HorizontalAlignment="Center" />
-            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#FF4F4F4F"
-                       FontFamily="/MiSharp;component/Resources/#Open Sans" HorizontalAlignment="Center">
+                       FontSize="16" HorizontalAlignment="Center" />
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} songs / {1} albums">
                         <Binding Path="SongsCount" />

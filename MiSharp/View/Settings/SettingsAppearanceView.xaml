@@ -64,6 +64,10 @@
                         Style="{StaticResource ColorPickerButtonStyle}" />
             </WrapPanel>
             <StackPanel Orientation="Horizontal" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock TextWrapping="Wrap" Text="Theme" VerticalAlignment="Center" />
+                <ComboBox Width="120" Margin="10" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </controls:MetroContentControl>

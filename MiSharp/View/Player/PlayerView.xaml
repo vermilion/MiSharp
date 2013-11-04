@@ -6,74 +6,73 @@
                               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                               xmlns:cal="http://www.caliburnproject.org" xmlns:miSharp="clr-namespace:MiSharp"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d" d:DesignWidth="870" d:DesignHeight="85">
+                              mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="700">
     <controls:MetroContentControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MiSharp;component/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </controls:MetroContentControl.Resources>
-    <Grid Background="#262626">
-        <ProgressBar x:Name="PositionSlider" Value="{Binding PositionValue, Mode=OneWay}"
-                     Style="{DynamicResource MetroProgressBar}"
-                     cal:Message.Attach="[Event MouseDown] = [Action ChangePosition($source, $eventArgs)];"
-                     Maximum="{Binding Maximum}"
-                     VerticalAlignment="Top"
-                     Height="12" Margin="0" />
-        <Grid VerticalAlignment="Bottom">
-            <Button Margin="0,16,120,10" Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
-                    ToolTip="Previous" HorizontalAlignment="Right" Width="50"
-                    Style="{DynamicResource MetroCircleButtonStyle}"
-                    Command="{Binding PlayPrevCommand}" BorderThickness="4" Foreground="White" />
-            <Button Margin="0,16,65,10" Height="50" FontSize="14" FontWeight="Bold" FontFamily="Webdings"
-                    HorizontalAlignment="Right" Width="50" Style="{DynamicResource MetroCircleButtonStyle}"
-                    ToolTip="{Binding PlayPauseTooltip}" Content="{Binding PlayPauseContent}"
-                    Command="{Binding PlayPauseCommand}" Foreground="White" BorderThickness="4" />
-            <Button Margin="0,16,10,10" Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
-                    ToolTip="Next" Command="{Binding PlayNextCommand}"
-                    Style="{DynamicResource MetroCircleButtonStyle}"
-                    HorizontalAlignment="Right" Width="50" Foreground="White" BorderThickness="4" />
-            <!-- Seek Control -->
-            <TextBlock Foreground="Gray" Margin="15,26,0,27" VerticalAlignment="Center" FontSize="18"
-                       HorizontalAlignment="Left" Width="115" Height="32">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0} / {1}">
-                        <Binding Path="CurrentTime" Mode="OneWay" />
-                        <Binding Path="TotalTime" Mode="OneWay" />
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
-            <Label Margin="285,20,287,5" Content="{Binding CurrentlyPlaying.TrackTitle}"
-                   VerticalContentAlignment="Center" Foreground="White" />
-            <ToggleButton Margin="0,40,207,5" Height="40" IsChecked="{Binding RepeatState}"
-                          ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
-                          Style="{DynamicResource MetroCircleToggleButtonStyle}" Foreground="White"
-                          BorderThickness="3,2,2,2">
-                <Rectangle Width="16" Height="16">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-                                     Visual="{StaticResource appbar_repeat}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </ToggleButton>
-            <ToggleButton Margin="0,40,242,5" IsChecked="{Binding ShuffleState}"
+    <Grid>
+        <StackPanel>
+            <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.ArtistName}" FontSize="18"
+                       HorizontalAlignment="Center" Margin="0,20,0,0" />
+            <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.AlbumTitle}" FontSize="16"
+                       HorizontalAlignment="Center" />
+            <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.TrackTitle}" FontSize="18"
+                       HorizontalAlignment="Center" Margin="0,0,0,10" />
+            <Image Margin="0,10,0,5" Height="300" Width="300" Source="{Binding Cover}" />
+            <Grid Height="41" VerticalAlignment="Top" Margin="10,5">
+                <ProgressBar x:Name="PositionSlider" Value="{Binding PositionValue, Mode=OneWay}"
+                             Style="{DynamicResource MetroProgressBar}"
+                             cal:Message.Attach="[Event MouseDown] = [Action ChangePosition($source, $eventArgs)];"
+                             Maximum="{Binding Maximum}"
+                             VerticalAlignment="Top"
+                             Height="15" />
+                <TextBlock HorizontalAlignment="Left" Margin="10,20,0,0" TextWrapping="Wrap"
+                           Text="{Binding CurrentTime}" VerticalAlignment="Top" />
+                <TextBlock HorizontalAlignment="Right" Margin="0,20,10,0" TextWrapping="Wrap"
+                           Text="{Binding TotalTime}" VerticalAlignment="Top" />
+            </Grid>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal">
+                <Button Height="60" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
+                        HorizontalAlignment="Right" Width="60"
+                        Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding PlayPrevCommand}" BorderThickness="3" />
+                <Button Height="80" FontSize="24" FontWeight="Bold" FontFamily="Webdings"
+                        HorizontalAlignment="Right" Width="80" Style="{DynamicResource MetroCircleButtonStyle}"
+                        Content="{Binding PlayPauseContent}"
+                        Command="{Binding PlayPauseCommand}" BorderThickness="3" />
+                <Button Height="60" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
+                        Command="{Binding PlayNextCommand}"
+                        Style="{DynamicResource MetroCircleButtonStyle}"
+                        HorizontalAlignment="Right" Width="60" BorderThickness="3" />
+            </StackPanel>
+            <StackPanel Height="44" Orientation="Horizontal">
+                <ToggleButton IsChecked="{Binding IsMuted}"
+                              Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Left"
+                              Width="40"
+                              BorderBrush="White" BorderThickness="3" Height="40">
+                    <Rectangle Width="16" Height="16" StrokeThickness="7">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_sound_3}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </ToggleButton>
+                <miSharp:SliderWithDraggingEvents
+                    Style="{DynamicResource MetroSlider}"
+                    Width="156" Height="20"
+                    Minimum="0" Maximum="1" Value="{Binding Volume}"
+                    HorizontalAlignment="Left" Margin="0,12" />
+            </StackPanel>
+            <ToggleButton IsChecked="{Binding ShuffleState}"
                           ToolTip="Shuffle" HorizontalAlignment="Right" Width="40"
-                          Style="{DynamicResource MetroCircleToggleButtonStyle}" Foreground="White"
-                          BorderThickness="3,2,2,2">
+                          Style="{DynamicResource MetroCircleToggleButtonStyle}"
+                          BorderThickness="3" Height="40">
                 <Rectangle Width="16" Height="16">
                     <Rectangle.Fill>
                         <VisualBrush Stretch="Fill"
@@ -81,21 +80,17 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </ToggleButton>
-            <miSharp:SliderWithDraggingEvents Margin="180,52,0,0" VerticalAlignment="Top"
-                                              Style="{DynamicResource MetroSlider}"
-                                              Width="100" Height="Auto"
-                                              Minimum="0" Maximum="1" Value="{Binding Volume}"
-                                              HorizontalAlignment="Left" />
-            <ToggleButton Margin="135,40,0,5"
-                          ToolTip="Shuffle" IsChecked="{Binding IsMuted}"
-                          Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Left" Width="40"
-                          Foreground="White" BorderBrush="White" BorderThickness="3,2,2,2">
-                <Rectangle Width="16" Height="16" StrokeThickness="7">
+            <ToggleButton Height="40" IsChecked="{Binding RepeatState}"
+                          ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
+                          Style="{DynamicResource MetroCircleToggleButtonStyle}"
+                          BorderThickness="3">
+                <Rectangle Width="16" Height="16">
                     <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_sound_3}" />
+                        <VisualBrush Stretch="Fill"
+                                     Visual="{StaticResource appbar_repeat}" />
                     </Rectangle.Fill>
                 </Rectangle>
             </ToggleButton>
-        </Grid>
+        </StackPanel>
     </Grid>
 </controls:MetroContentControl>

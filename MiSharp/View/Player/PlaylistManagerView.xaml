@@ -13,7 +13,7 @@
                   FocusVisualStyle="{x:Null}"
                   ItemsSource="{Binding SelectedPlaylist}"
                   SelectedIndex="{Binding Playlist.CurrentIndex}"
-                  ScrollViewer.CanContentScroll="True">
+                  ScrollViewer.CanContentScroll="True" Background="{x:Null}">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Play">

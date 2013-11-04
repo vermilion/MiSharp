@@ -1,4 +1,4 @@
-﻿<controls:MetroContentControl
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,18 +8,24 @@
     xmlns:miSharp="clr-namespace:MiSharp"
     x:Class="MiSharp.AlbumNavigationView" TextOptions.TextFormattingMode="Display"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MiSharp;component/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ListView ItemsSource="{Binding ComboAlbums, IsAsync=True}" SelectedItem="{Binding SelectedAlbum}"
-                  Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel ItemWidth="500" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                  Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}">
+
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <miSharp:AlbumView Width="Auto" DataContext="{Binding}"
@@ -27,7 +33,15 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Grid.Row="0" Content="Back to Artists" HorizontalAlignment="Left" Margin="10,10,0,0"
-                VerticalAlignment="Top" Width="104" Height="35" cal:Message.Attach="ToArtists()" />
+        <Button Grid.Row="0" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left"
+                VerticalAlignment="Top" Width="45" Height="45" cal:Message.Attach="ToArtists()">
+            <Rectangle Width="20" Height="16" StrokeThickness="7">
+                <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_left}" />
+                </Rectangle.Fill>
+            </Rectangle>
+        </Button>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap"
+                   Text="{Binding SelectedBand.Name}" VerticalAlignment="Center" FontSize="20" />
     </Grid>
-</controls:MetroContentControl>
+</UserControl>

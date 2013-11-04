@@ -9,6 +9,7 @@ namespace MiSharp
     public class AlbumNavigationViewModel : Screen, IViewModelParams<AlbumNavigationViewModel.DefaultNavigationArgs>
     {
         private readonly IEventAggregator _events;
+        private ArtistViewModel _selectedBand;
 
         public AlbumNavigationViewModel()
         {
@@ -16,7 +17,16 @@ namespace MiSharp
             _events.Subscribe(this);
         }
 
-        private ArtistViewModel SelectedBand { get; set; }
+        public ArtistViewModel SelectedBand
+        {
+            get { return _selectedBand; }
+            set
+            {
+                _selectedBand = value;
+                NotifyOfPropertyChange(() => SelectedBand);
+            }
+        }
+
         public AlbumViewModel SelectedAlbum { get; set; }
 
         public IEnumerable<AlbumViewModel> ComboAlbums

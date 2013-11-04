@@ -17,21 +17,12 @@ namespace MiSharp
             _events.Subscribe(this);
         }
 
-        public string Status { get; set; }
-
         public ArtistViewModel SelectedBand { get; set; }
 
         public IEnumerable<ArtistViewModel> Bands
         {
             get { return MediaRepository.Instance.GetLibrary().Artists.Select(x => new ArtistViewModel(x)); }
         }
-
-        //temp
-        public void ToArtists()
-        {
-            IoC.Get<INavigationService>().Navigate(typeof (ArtistNavigationViewModel), null);
-        }
-
 
         public void ActivateAlbum()
         {

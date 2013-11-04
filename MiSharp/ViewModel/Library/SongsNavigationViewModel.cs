@@ -9,6 +9,8 @@ namespace MiSharp
     public class SongsNavigationViewModel : Screen, IViewModelParams<SongsNavigationViewModel.DefaultNavigationArgs>
     {
         private readonly IEventAggregator _events;
+        private AlbumViewModel _selectedAlbum;
+        private ArtistViewModel _selectedBand;
 
         public SongsNavigationViewModel()
         {
@@ -16,8 +18,25 @@ namespace MiSharp
             _events.Subscribe(this);
         }
 
-        private ArtistViewModel SelectedBand { get; set; }
-        private AlbumViewModel SelectedAlbum { get; set; }
+        public ArtistViewModel SelectedBand
+        {
+            get { return _selectedBand; }
+            set
+            {
+                _selectedBand = value;
+                NotifyOfPropertyChange(() => SelectedBand);
+            }
+        }
+
+        public AlbumViewModel SelectedAlbum
+        {
+            get { return _selectedAlbum; }
+            set
+            {
+                _selectedAlbum = value;
+                NotifyOfPropertyChange(() => SelectedAlbum);
+            }
+        }
 
         public ObservableList<TrackViewModel> Tracks { get; set; }
 

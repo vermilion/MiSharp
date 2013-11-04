@@ -7,7 +7,7 @@
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               xmlns:miSharp="clr-namespace:MiSharp"
-                              mc:Ignorable="d" MinHeight="160"
+                              mc:Ignorable="d" MinHeight="130"
                               d:DesignHeight="150" d:DesignWidth="400">
     <Grid x:Name="LblName" Tag="{Binding Title}">
         <Grid.ContextMenu>
@@ -17,18 +17,15 @@
             </ContextMenu>
         </Grid.ContextMenu>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="130" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="0" Height="140" Width="140" Source="{Binding Cover}" />
+        <Image Grid.Column="0" Height="120" Width="120" Source="{Binding Cover}" />
 
-        <StackPanel HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center">
-            <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Title}" FontSize="20"
-                       FontFamily="/MiSharp;component/Resources/#Open Sans" />
-            <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Artist.Name}" FontSize="16"
-                       FontFamily="/MiSharp;component/Resources/#Open Sans" />
-            <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Year}" FontSize="16"
-                       FontFamily="/MiSharp;component/Resources/#Open Sans" />
+        <StackPanel HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center" Margin="10">
+            <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Title}" FontSize="18" />
+            <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Artist.Name}" FontSize="16" />
+            <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Year}" FontSize="16" />
         </StackPanel>
     </Grid>
 </controls:MetroContentControl>
