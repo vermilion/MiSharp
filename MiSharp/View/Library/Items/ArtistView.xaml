@@ -20,9 +20,9 @@
             <RowDefinition Height="100" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Image Width="90" Height="90" Source="/MiSharp;component/MusicAndCatalog.ico" />
+        <Image Width="90" Height="90"  Source="{Binding Cover}" />
         <StackPanel Grid.Row="1" Margin="5,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
-            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}"
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Model.Name}"
                        FontSize="16" HorizontalAlignment="Center" />
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock.Text>

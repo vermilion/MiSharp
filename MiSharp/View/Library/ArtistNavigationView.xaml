@@ -15,7 +15,7 @@
                     <miSharp:FirstLetterConverter x:Key="firstLetterConverter" />
                     <CollectionViewSource Source="{Binding Bands}" x:Key="GroupedBands">
                         <CollectionViewSource.GroupDescriptions>
-                            <PropertyGroupDescription PropertyName="Name"
+                            <PropertyGroupDescription PropertyName="Model.Name"
                                                       Converter="{StaticResource firstLetterConverter}" />
                         </CollectionViewSource.GroupDescriptions>
                     </CollectionViewSource>

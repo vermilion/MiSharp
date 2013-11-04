@@ -42,6 +42,10 @@
     <Reference Include="Db4objects.Db4o.Linq">
       <HintPath>..\packages\db4o-devel.8.1.184.15492\lib\net40\Db4objects.Db4o.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="dotLastFm, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dotLastFm.dll</HintPath>
+    </Reference>
     <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
@@ -61,9 +65,20 @@
     <Reference Include="Rareform">
       <HintPath>..\packages\Rareform.1.5.2\lib\Rareform.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=104.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Splat">
+      <HintPath>..\packages\Splat.0.3.3\lib\Net45\Splat.dll</HintPath>
+    </Reference>
+    <Reference Include="Splat.Portable">
+      <HintPath>..\packages\Splat.0.3.3\lib\Net45\Splat.Portable.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -79,6 +94,7 @@
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>

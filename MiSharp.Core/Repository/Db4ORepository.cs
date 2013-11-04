@@ -51,6 +51,11 @@ namespace MiSharp.Core.Repository
             await Task.Run(() => Container.Store(entity));
         }
 
+        public void SaveSync<T>(T entity)
+        {
+            Container.Store(entity);
+        }
+
         public async Task Delete<T>(T entity)
         {
             await Task.Run(() => Container.Delete(entity));

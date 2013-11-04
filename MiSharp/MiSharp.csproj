@@ -59,9 +59,9 @@
     <Reference Include="Caliburn.Micro.ReactiveUI">
       <HintPath>..\packages\Caliburn.Micro.ReactiveUI.1.2.2\lib\net45\Caliburn.Micro.ReactiveUI.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=0.11.2.4, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MahApps.Metro, Version=0.11.2.11, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MahApps.Metro.0.11.2.4-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.11.2.11-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -97,7 +97,7 @@
       <HintPath>..\packages\Rx-XAML.2.1.30214.0\lib\Net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.0.11.2.4-ALPHA\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.11.2.11-ALPHA\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -120,6 +120,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Navigation.cs" />
     <Compile Include="SliderEx.cs" />
+    <Compile Include="ViewModel\Library\CoverViewModelBase.cs" />
     <Compile Include="ViewModel\Library\Items\ArtistViewModel.cs" />
     <Compile Include="ViewModel\Library\Items\AlbumViewModel.cs" />
     <Compile Include="ViewModel\Converters\FirstLetterConverter.cs" />
