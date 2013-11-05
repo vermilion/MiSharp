@@ -116,7 +116,11 @@
     <Compile Include="Player\Exceptions\SongLoadException.cs" />
     <Compile Include="Player\PlaybackEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\FileSystem\AlbumFileSystemCoverRepository.cs" />
+    <Compile Include="Repository\FileSystem\ArtistFileSystemCoverRepository.cs" />
+    <Compile Include="Repository\LastfmApiWrapper.cs" />
     <Compile Include="Repository\Db4ORepository.cs" />
+    <Compile Include="Repository\FileSystem\FileSystemCoverRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MediaRepository.cs" />
     <Compile Include="Repository\RepositoryBase.cs" />

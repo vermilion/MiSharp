@@ -44,7 +44,7 @@ namespace MiSharp
 
             // Check if the viewmodel implements IViewModelParams and call accordingly
             IEnumerable<Type> interfaces = viewModel.GetType().GetInterfaces()
-                .Where(x => typeof (IViewModelParams).IsAssignableFrom(x) && x.IsGenericType);
+                                                    .Where(x => typeof (IViewModelParams).IsAssignableFrom(x) && x.IsGenericType);
 
             // Loop through interfaces and find one that matches the generic signature based on modelParams...
             foreach (Type @interface in interfaces)

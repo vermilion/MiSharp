@@ -32,7 +32,7 @@ namespace MiSharp
         {
             _color = color;
             ThemeManager.ChangeTheme(IoC.Get<ShellView>(),
-                ThemeManager.DefaultAccents.First(accent => accent.Name == color), SelectedTheme);
+                                     ThemeManager.DefaultAccents.First(accent => accent.Name == color), SelectedTheme);
         }
     }
 }

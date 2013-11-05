@@ -54,8 +54,8 @@ namespace MiSharp
         public void ToAlbums()
         {
             IoC.Get<INavigationService>()
-                .Navigate(typeof (AlbumNavigationViewModel),
-                    new AlbumNavigationViewModel.DefaultNavigationArgs(SelectedBand));
+               .Navigate(typeof (AlbumNavigationViewModel),
+                         new AlbumNavigationViewModel.DefaultNavigationArgs(SelectedBand));
         }
 
         public class DefaultNavigationArgs

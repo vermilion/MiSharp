@@ -1,11 +1,16 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using MiSharp.Core.CustomEventArgs;
 
 namespace MiSharp
 {
     [Export]
-    public class LibraryViewModel : Conductor<IScreen>.Collection.OneActive, IHandle<NavigationEventMessage>
+    public class LibraryViewModel : Conductor<IScreen>.Collection.OneActive,
+                                    IHandle<NavigationEventMessage>,
+                                    IHandle<ScanCompletedEventArgs>
     {
+        private IScreen _current;
+
         [ImportingConstructor]
         public LibraryViewModel(IEventAggregator events)
         {
@@ -15,7 +20,22 @@ namespace MiSharp
 
         public void Handle(NavigationEventMessage message)
         {
+            _current = message.ViewModel;
             ActivateItem(message.ViewModel);
+        }
+
+        public void Handle(ScanCompletedEventArgs message)
+        {
+            _current.Refresh();
+        }
+
+        public void Handle(FileStatEventArgs e)
+        {
+            //UpdatingWindowVisible = true;
+            // Status = e.CurrentFileNumber + ":" + e.TotalFiles;
+            // this.RaisePropertyChanged("Status");
+            //if (e.Completed)
+            //this.RaisePropertyChanged("Bands");
         }
     }
 }

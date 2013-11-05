@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Libraries.Collections;
-using MiSharp.Core.Repository;
+using MiSharp.Core.Repository.FileSystem;
 using ReactiveUI;
 
 namespace MiSharp
 {
-    public class ArtistViewModel : CoverViewModelBase
+    public class ArtistViewModel : ReactiveObject
     {
         private readonly IEventAggregator _events;
         private readonly IWindowManager _windowManager;
@@ -28,17 +29,28 @@ namespace MiSharp
             EditorEditArtistsCommand = new ReactiveCommand();
             EditorEditArtistsCommand.Subscribe(param => _windowManager.ShowDialog(
                 new ArtistTagEditorViewModel(Albums.SelectMany(x => x.Tracks).Select(x => x.Model).ToList())));
-
-            Func = () => CoverRepository.Instance.GetArtistCover(Model.Name);
         }
 
         public ReactiveCommand AddArtistToPlaylistCommand { get; private set; }
         public ReactiveCommand EditorEditArtistsCommand { get; private set; }
 
+        private async Task<BitmapSource> LoadArtworkAsync()
+        {
+            BitmapSource img = await ArtistFileSystemCoverRepository.Instance.GetCover(Model.Name);
+            ;
+
+            return img;
+        }
+
         #region Properties
 
         public Artist Model { get; set; }
         public AlbumCollection Albums { get; set; }
+
+        public BitmapSource Cover
+        {
+            get { return LoadArtworkAsync().Result; }
+        }
 
         public int SongsCount
         {

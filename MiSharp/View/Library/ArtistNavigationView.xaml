@@ -44,7 +44,8 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <StackPanel>
-                                            <TextBlock FontWeight="Bold" FontSize="16" Text="{Binding Path=Name}" Foreground="#FF898989" />
+                                            <TextBlock FontWeight="Bold" FontSize="16" Text="{Binding Path=Name}"
+                                                       Foreground="#FF898989" />
                                             <ItemsPresenter />
                                         </StackPanel>
                                     </ControlTemplate>

@@ -4,7 +4,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:cal="http://www.caliburnproject.org"
-    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:miSharp="clr-namespace:MiSharp"
     x:Class="MiSharp.AlbumNavigationView" TextOptions.TextFormattingMode="Display"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">

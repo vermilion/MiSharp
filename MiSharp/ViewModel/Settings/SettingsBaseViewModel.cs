@@ -8,7 +8,7 @@ namespace MiSharp
     {
         [ImportingConstructor]
         public SettingsBaseViewModel(SettingsAppearanceViewModel settingsAppearanceViewModel,
-            SettingsViewModel settingsViewModel)
+                                     SettingsViewModel settingsViewModel)
         {
             SettingsAppearanceViewModel = settingsAppearanceViewModel;
             SettingsViewModel = settingsViewModel;

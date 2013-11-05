@@ -20,7 +20,14 @@
             <ColumnDefinition Width="130" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="0" Height="120" Width="120" Source="{Binding Cover}" />
+        <Image Grid.Column="0" Height="120" Width="120">
+            <Image.Source>
+                <PriorityBinding>
+                    <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"
+                             IsAsync="True" />
+                </PriorityBinding>
+            </Image.Source>
+        </Image>
 
         <StackPanel HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center" Margin="10">
             <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Title}" FontSize="18" />

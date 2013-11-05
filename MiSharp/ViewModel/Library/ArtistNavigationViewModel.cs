@@ -27,8 +27,8 @@ namespace MiSharp
         public void ActivateAlbum()
         {
             IoC.Get<INavigationService>()
-                .Navigate(typeof (AlbumNavigationViewModel),
-                    new AlbumNavigationViewModel.DefaultNavigationArgs(SelectedBand));
+               .Navigate(typeof (AlbumNavigationViewModel),
+                         new AlbumNavigationViewModel.DefaultNavigationArgs(SelectedBand));
         }
     }
 }

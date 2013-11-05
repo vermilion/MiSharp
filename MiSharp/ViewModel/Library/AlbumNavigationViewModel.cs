@@ -43,8 +43,8 @@ namespace MiSharp
         public void ActivateAlbumSongs()
         {
             IoC.Get<INavigationService>()
-                .Navigate(typeof (SongsNavigationViewModel),
-                    new SongsNavigationViewModel.DefaultNavigationArgs(SelectedBand, SelectedAlbum));
+               .Navigate(typeof (SongsNavigationViewModel),
+                         new SongsNavigationViewModel.DefaultNavigationArgs(SelectedBand, SelectedAlbum));
         }
 
         //temp
