@@ -41,6 +41,6 @@
             </Rectangle>
         </Button>
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap"
-                   Text="{Binding SelectedBand.Name}" VerticalAlignment="Center" FontSize="20" />
+                   Text="{Binding SelectedBand.Model.Name}" VerticalAlignment="Center" FontSize="20" />
     </Grid>
 </UserControl>

@@ -1203,7 +1203,7 @@ namespace FileStorage.Handler
                 //
                 // file does not exist (the offset is 0)
                 //
-                throw new DataIdentifierNotFoundException(string.Format("DataIdentifier {0} does exist in filestorage {1}", dataIdentifier, FileStorageName));
+                throw new DataIdentifierNotFoundException(string.Format("DataIdentifier {0} does not exist in filestorage {1}", dataIdentifier, FileStorageName));
             }
 
             return result;

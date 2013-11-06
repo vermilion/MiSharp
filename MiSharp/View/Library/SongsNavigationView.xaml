@@ -44,7 +44,7 @@
                    FontSize="20">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0} - {1}">
-                    <Binding Path="SelectedBand.Name" />
+                    <Binding Path="SelectedBand.Model.Name" />
                     <Binding Path="SelectedAlbum.Model.Title" />
                 </MultiBinding>
             </TextBlock.Text>
