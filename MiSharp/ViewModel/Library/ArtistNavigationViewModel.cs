@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using MiSharp.Core.Repository;
+using MiSharp.Core.Repository.Db4o;
 
 namespace MiSharp
 {

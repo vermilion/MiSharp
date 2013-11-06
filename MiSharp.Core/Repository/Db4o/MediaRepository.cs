@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using DeadDog.Audio.Libraries;
 
-namespace MiSharp.Core.Repository
+namespace MiSharp.Core.Repository.Db4o
 {
     public class MediaRepository : RepositoryBase
     {

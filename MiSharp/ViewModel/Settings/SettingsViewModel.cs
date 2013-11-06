@@ -7,7 +7,7 @@ using Caliburn.Micro.ReactiveUI;
 using MiSharp.Core;
 using MiSharp.Core.CustomEventArgs;
 using MiSharp.Core.Player.Output;
-using MiSharp.Core.Repository;
+using MiSharp.Core.Repository.Db4o;
 using MiSharp.DialogResults;
 using ReactiveUI;
 

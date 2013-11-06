@@ -6,7 +6,7 @@ using Db4objects.Db4o.Config;
 using Db4objects.Db4o.Linq;
 using Db4objects.Db4o.TA;
 
-namespace MiSharp.Core.Repository
+namespace MiSharp.Core.Repository.Db4o
 {
     public class Db4ORepository : IRepository, IDisposable
     {

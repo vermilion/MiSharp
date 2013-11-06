@@ -1,4 +1,4 @@
-﻿namespace MiSharp.Core.Repository
+﻿namespace MiSharp.Core.Repository.Db4o
 {
     public class SettingsRepository : RepositoryBase
     {

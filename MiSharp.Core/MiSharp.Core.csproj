@@ -46,6 +46,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\dotLastFm.dll</HintPath>
     </Reference>
+    <Reference Include="DynamiteXml">
+      <HintPath>..\FileStorage\bin\Debug\DynamiteXml.dll</HintPath>
+    </Reference>
     <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
@@ -116,15 +119,15 @@
     <Compile Include="Player\Exceptions\SongLoadException.cs" />
     <Compile Include="Player\PlaybackEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\FileSystem\AlbumFileSystemCoverRepository.cs" />
-    <Compile Include="Repository\FileSystem\ArtistFileSystemCoverRepository.cs" />
+    <Compile Include="Repository\FileStorage\AlbumCoverRepository.cs" />
+    <Compile Include="Repository\FileStorage\ArtistCoverRepository.cs" />
+    <Compile Include="Repository\FileStorage\FileStorageRepository.cs" />
     <Compile Include="Repository\LastfmApiWrapper.cs" />
-    <Compile Include="Repository\Db4ORepository.cs" />
-    <Compile Include="Repository\FileSystem\FileSystemCoverRepository.cs" />
+    <Compile Include="Repository\Db4o\Db4ORepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Repository\MediaRepository.cs" />
-    <Compile Include="Repository\RepositoryBase.cs" />
-    <Compile Include="Repository\SettingsRepository.cs" />
+    <Compile Include="Repository\Db4o\MediaRepository.cs" />
+    <Compile Include="Repository\Db4o\RepositoryBase.cs" />
+    <Compile Include="Repository\Db4o\SettingsRepository.cs" />
     <Compile Include="CustomEventArgs\ScanCompletedEventArgs.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
@@ -135,6 +138,10 @@
     <ProjectReference Include="..\DeadDog.Audio\DeadDog.Audio.csproj">
       <Project>{a393fd81-a89c-4761-af87-2e5de2b95b61}</Project>
       <Name>DeadDog.Audio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileStorage\FileStorage.csproj">
+      <Project>{b440be58-e06b-4cb4-8111-baf03c015abc}</Project>
+      <Name>FileStorage</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

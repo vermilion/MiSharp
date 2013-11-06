@@ -3,10 +3,7 @@
                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
-                              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              xmlns:miSharp="clr-namespace:MiSharp"
                               mc:Ignorable="d" MinHeight="130"
                               d:DesignHeight="150" d:DesignWidth="400">
     <Grid x:Name="LblName" Tag="{Binding Title}">
@@ -22,10 +19,8 @@
         </Grid.ColumnDefinitions>
         <Image Grid.Column="0" Height="120" Width="120">
             <Image.Source>
-                <PriorityBinding>
-                    <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"
-                             IsAsync="True" />
-                </PriorityBinding>
+                <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/Music.ico"
+                         IsAsync="True" />
             </Image.Source>
         </Image>
 

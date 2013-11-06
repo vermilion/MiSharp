@@ -22,10 +22,8 @@
         </Grid.RowDefinitions>
         <Image Width="90" Height="90">
             <Image.Source>
-                <PriorityBinding>
-                    <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"
-                             IsAsync="True" />
-                </PriorityBinding>
+                <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/Music.ico"
+                         IsAsync="True" />
             </Image.Source>
         </Image>
         <StackPanel Grid.Row="1" Margin="5,0,0,0" Orientation="Vertical" VerticalAlignment="Center">

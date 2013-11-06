@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MiSharp.Core.Repository
+namespace MiSharp.Core.Repository.Db4o
 {
     public abstract class RepositoryBase : IDisposable
     {

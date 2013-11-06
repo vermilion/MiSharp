@@ -1,4 +1,5 @@
-﻿using DeadDog.Audio.Libraries.Collections;
+﻿using System;
+using DeadDog.Audio.Libraries.Collections;
 
 namespace DeadDog.Audio.Libraries
 {
@@ -7,6 +8,7 @@ namespace DeadDog.Audio.Libraries
         #region Properties
 
         private readonly bool _isunknown;
+        public Guid Identifier { get; set; }
 
         public bool IsUnknown
         {
@@ -23,6 +25,7 @@ namespace DeadDog.Audio.Libraries
         {
             _isunknown = name == null;
             Albums = new AlbumCollection();
+            Identifier = Guid.NewGuid();
 
             Name = name ?? "Unknown";
         }

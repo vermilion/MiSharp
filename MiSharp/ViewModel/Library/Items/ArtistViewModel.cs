@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Libraries.Collections;
-using MiSharp.Core.Repository.FileSystem;
+using MiSharp.Core.Repository.FileStorage;
 using ReactiveUI;
 
 namespace MiSharp
@@ -34,14 +33,6 @@ namespace MiSharp
         public ReactiveCommand AddArtistToPlaylistCommand { get; private set; }
         public ReactiveCommand EditorEditArtistsCommand { get; private set; }
 
-        private async Task<BitmapSource> LoadArtworkAsync()
-        {
-            BitmapSource img = await ArtistFileSystemCoverRepository.Instance.GetCover(Model.Name);
-            ;
-
-            return img;
-        }
-
         #region Properties
 
         public Artist Model { get; set; }
@@ -49,7 +40,7 @@ namespace MiSharp
 
         public BitmapSource Cover
         {
-            get { return LoadArtworkAsync().Result; }
+            get { return ArtistCoverRepository.Instance.GetCover(Model.Name, Model.Identifier); }
         }
 
         public int SongsCount

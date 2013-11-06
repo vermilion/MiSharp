@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
-using MiSharp.Core.Repository.FileSystem;
+using MiSharp.Core.Repository.FileStorage;
 using Rareform.Collections;
 using ReactiveUI;
 
@@ -42,14 +41,7 @@ namespace MiSharp
 
         public BitmapSource Cover
         {
-            get { return LoadArtworkAsync().Result; }
-        }
-
-        private async Task<BitmapSource> LoadArtworkAsync()
-        {
-            BitmapSource img = await AlbumFileSystemCoverRepository.Instance.GetCover(Model.Title, Model.Artist.Name);
-
-            return img;
+            get { return AlbumCoverRepository.Instance.GetCover(Model.Title, Model.Artist.Name, Model.Identifier); }
         }
 
         #endregion
