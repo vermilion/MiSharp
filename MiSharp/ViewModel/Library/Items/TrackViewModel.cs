@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Caliburn.Micro;
 using DeadDog.Audio;
+using DeadDog.Audio.Libraries;
 using MiSharp.Core.Player;
 using ReactiveUI;
 
@@ -13,7 +14,7 @@ namespace MiSharp
         private readonly IWindowManager _windowManager;
         private AudioPlayerState _playingState;
 
-        public TrackViewModel(RawTrack track)
+        public TrackViewModel(Track track)
         {
             Model = track;
             PlayingState = AudioPlayerState.None;
@@ -22,11 +23,11 @@ namespace MiSharp
             _windowManager = IoC.Get<IWindowManager>();
 
             AddSongToPlaylistCommand = new ReactiveCommand();
-            AddSongToPlaylistCommand.Subscribe(param => _events.Publish(new List<RawTrack> {Model}));
+            AddSongToPlaylistCommand.Subscribe(param => _events.Publish(new List<Track> {Model}));
 
             EditorEditSongsCommand = new ReactiveCommand();
             EditorEditSongsCommand.Subscribe(
-                param => _windowManager.ShowDialog(new SongTagEditorViewModel(new List<RawTrack> {Model})));
+                param => _windowManager.ShowDialog(new SongTagEditorViewModel(new List<RawTrack> {Model.Model})));
         }
 
         public ReactiveCommand AddSongToPlaylistCommand { get; private set; }
@@ -34,7 +35,7 @@ namespace MiSharp
 
         #region Properties
 
-        public RawTrack Model { get; set; }
+        public Track Model { get; set; }
 
         public AudioPlayerState PlayingState
         {

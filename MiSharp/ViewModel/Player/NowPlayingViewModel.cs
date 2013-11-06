@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using DeadDog.Audio;
+using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Playlist;
 using MiSharp.Player;
 using ReactiveUI;
@@ -11,7 +12,7 @@ using ReactiveUI;
 namespace MiSharp
 {
     [Export]
-    public class NowPlayingViewModel : IHandle<List<RawTrack>>, IHandle<TrackState>
+    public class NowPlayingViewModel : IHandle<List<Track>>, IHandle<TrackState>
     {
         private readonly IEventAggregator _events;
 
@@ -36,7 +37,7 @@ namespace MiSharp
         #region IHandle
 
         //event from lib to add new items to list
-        public void Handle(List<RawTrack> songs)
+        public void Handle(List<Track> songs)
         {
             NowPlayingPlaylist.AddRange(songs.Select(x => new TrackViewModel(x)));
         }
@@ -51,7 +52,7 @@ namespace MiSharp
 
         #endregion
 
-        public RawTrack GetNextSong(bool repeat, bool random)
+        public Track GetNextSong(bool repeat, bool random)
         {
             if (random) return GetRandom();
             if (!repeat)
@@ -65,7 +66,7 @@ namespace MiSharp
             return null;
         }
 
-        public RawTrack GetPreviousSong(bool repeat, bool random)
+        public Track GetPreviousSong(bool repeat, bool random)
         {
             if (random) return GetRandom();
             if (!repeat)
@@ -79,7 +80,7 @@ namespace MiSharp
             return null;
         }
 
-        private RawTrack GetRandom()
+        private Track GetRandom()
         {
             if (NowPlayingPlaylist.MoveRandom())
                 return NowPlayingPlaylist.CurrentEntry.Model;

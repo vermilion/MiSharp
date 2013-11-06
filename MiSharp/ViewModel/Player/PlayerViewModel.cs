@@ -1,22 +1,19 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
-using DeadDog.Audio;
+using DeadDog.Audio.Libraries;
 using MiSharp.Core.Player;
+using MiSharp.Core.Repository.FileStorage;
 using MiSharp.Player;
 using ReactiveUI;
-using TagLib;
-using File = TagLib.File;
 
 namespace MiSharp
 {
     [Export]
-    public class PlayerViewModel : ReactiveObject, IHandle<RawTrack>
+    public class PlayerViewModel : ReactiveObject, IHandle<Track>
     {
         private readonly BitmapImage _defaultCover =
             new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
@@ -25,14 +22,12 @@ namespace MiSharp
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
         private readonly NowPlayingViewModel _nowPlayingViewModel;
         private readonly ObservableAsPropertyHelper<string> _playPauseContent;
-        private BitmapSource _cover;
 
         private float _tempVolume;
 
         [ImportingConstructor]
         public PlayerViewModel(IEventAggregator events, NowPlayingViewModel nowPlayingViewModel)
         {
-            _cover = _defaultCover;
             _nowPlayingViewModel = nowPlayingViewModel;
             Player = new LocalAudioPlayer();
             Player.SongFinished += (s, e) => PlayNextCommand.Execute(null);
@@ -46,7 +41,7 @@ namespace MiSharp
                     IsPlaying = false;
                     _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
                     CurrentlyPlaying = null;
-                    RawTrack song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
+                    Track song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
 
                     if (song != null)
                         Play(song);
@@ -57,7 +52,7 @@ namespace MiSharp
                 {
                     IsPlaying = false;
                     _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-                    RawTrack song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
+                    Track song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
                     if (song != null)
                         Play(song);
                 });
@@ -73,7 +68,7 @@ namespace MiSharp
                     }
                     else
                     {
-                        RawTrack song;
+                        Track song;
                         if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
                             song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
                         else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
@@ -106,7 +101,7 @@ namespace MiSharp
         public ReactiveCommand PlayPrevCommand { get; private set; }
         public ReactiveCommand PlayPauseCommand { get; private set; }
 
-        public RawTrack CurrentlyPlaying
+        public Track CurrentlyPlaying
         {
             get { return _currentlyPlaying; }
             set
@@ -124,23 +119,9 @@ namespace MiSharp
             {
                 if (CurrentlyPlaying != null)
                 {
-                    File file = File.Create(CurrentlyPlaying.FullFilename);
-                    if (file.Tag.Pictures.Any())
-                    {
-                        IPicture pic = file.Tag.Pictures[0];
-                        var ms = new MemoryStream(pic.Data.Data);
-
-                        ms.Seek(0, SeekOrigin.Begin);
-
-                        var bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.StreamSource = ms;
-
-                        bitmap.EndInit();
-                        return _cover = bitmap;
-                    }
+                    return AlbumCoverRepository.Instance.GetCover(CurrentlyPlaying.Album.Title, CurrentlyPlaying.Artist.Name, CurrentlyPlaying.Album.Identifier);         
                 }
-                return _cover = _defaultCover;
+                return  _defaultCover;
             }
         }
 
@@ -182,17 +163,17 @@ namespace MiSharp
             set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
         }
 
-        public void Handle(RawTrack song)
+        public void Handle(Track song)
         {
             Play(song);
         }
 
-        public void Play(RawTrack song)
+        public void Play(Track song)
         {
             if (!Equals(CurrentlyPlaying, song))
             {
                 CurrentlyPlaying = song;
-                Player.Load(song, Volume);
+                Player.Load(song.Model, Volume);
             }
             Player.Play();
             IsPlaying = true;
@@ -209,7 +190,7 @@ namespace MiSharp
 
         #region Properties
 
-        private RawTrack _currentlyPlaying;
+        private Track _currentlyPlaying;
         private bool _isPlaying;
         private bool _repeatState;
         private bool _shuffleState;

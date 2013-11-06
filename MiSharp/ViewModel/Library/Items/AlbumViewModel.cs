@@ -20,14 +20,14 @@ namespace MiSharp
             _windowManager = IoC.Get<IWindowManager>();
             Model = album;
             Tracks = new ObservableList<TrackViewModel>();
-            Tracks.AddRange(album.Tracks.Select(x => new TrackViewModel(x.Model)));
+            Tracks.AddRange(album.Tracks.Select(x => new TrackViewModel(x)));
 
             AddAlbumToPlaylistCommand = new ReactiveCommand();
             AddAlbumToPlaylistCommand.Subscribe(param => _events.Publish(Tracks.Select(x => x.Model).ToList()));
 
             EditorEditAlbumsCommand = new ReactiveCommand();
             EditorEditAlbumsCommand.Subscribe(
-                param => _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model).ToList())));
+                param => _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model.Model).ToList())));
         }
 
         public ReactiveCommand AddAlbumToPlaylistCommand { get; private set; }

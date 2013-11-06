@@ -23,7 +23,7 @@ namespace MiSharp
 
             AddArtistToPlaylistCommand = new ReactiveCommand();
             AddArtistToPlaylistCommand.Subscribe(
-                param => _events.Publish(Albums.SelectMany(x => x.Tracks).Select(x => x.Model).ToList()));
+                param => _events.Publish(Albums.SelectMany(x => x.Tracks).Select(x => x).ToList()));
 
             EditorEditArtistsCommand = new ReactiveCommand();
             EditorEditArtistsCommand.Subscribe(param => _windowManager.ShowDialog(

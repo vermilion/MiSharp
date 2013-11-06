@@ -20,16 +20,16 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
-        <TextBlock VerticalAlignment="Center" Text="{Binding Model.TrackNumber}" Foreground="#999999"
+        <TextBlock VerticalAlignment="Center" Text="{Binding Model.Model.TrackNumber}" Foreground="#999999"
                    FontFamily="/MiSharp;component/Resources/#Open Sans" Grid.RowSpan="2" />
         <TextBlock Grid.Column="1" Margin="10,7,0,6" TextWrapping="Wrap" VerticalAlignment="Center"
-                   Text="{Binding Model.TrackTitle}" FontFamily="/MiSharp;component/Resources/#Open Sans" />
+                   Text="{Binding Model.Model.TrackTitle}" FontFamily="/MiSharp;component/Resources/#Open Sans" />
         <TextBlock Grid.Column="2" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center"
                    FontFamily="/MiSharp;component/Resources/#Open Sans" Grid.Row="1">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}Bitrate: {0} | Duration {1}">
-                    <Binding Path="Model.Bitrate" />
-                    <Binding Path="Model.Duration" />
+                    <Binding Path="Model.Model.Bitrate" />
+                    <Binding Path="Model.Model.Duration" />
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
