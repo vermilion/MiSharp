@@ -6,7 +6,7 @@
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               mc:Ignorable="d" MinHeight="130"
                               d:DesignHeight="150" d:DesignWidth="400">
-    <Grid x:Name="LblName" Tag="{Binding Title}">
+    <Grid Background="Transparent">
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Add to Now Playing" Command="{Binding AddAlbumToPlaylistCommand}" />
