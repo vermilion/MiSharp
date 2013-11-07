@@ -34,6 +34,10 @@
                              IsOpen="{Binding IsSettingsFlyoutOpen}">
                 <controls:MetroContentControl cal:View.Model="{Binding SettingsBaseViewModel}" Width="575" />
             </controls:Flyout>
+            <controls:Flyout Header="Scanning..." Background="#9f000000" Position="Bottom"
+                             IsOpen="{Binding IsRescanFlyoutOpen}">
+                <controls:MetroContentControl cal:View.Model="{Binding RescanProgressViewModel}" Height="50" />
+            </controls:Flyout>            
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
 

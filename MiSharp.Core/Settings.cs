@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MiSharp.Core.Player.Output;
 using MiSharp.Core.Repository.Db4o;
@@ -15,6 +16,7 @@ namespace MiSharp.Core
         public IOutputDevicePlugin SelectedOutputDriver;
         public string WatchFolder;
         public int WatchFolderScanInterval;
+        public TimeSpan TimeToNextRescan;
 
         private Settings()
         {

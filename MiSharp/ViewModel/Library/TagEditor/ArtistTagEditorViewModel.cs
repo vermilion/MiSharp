@@ -3,14 +3,13 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
-using Caliburn.Micro.ReactiveUI;
 using DeadDog.Audio;
 using MiSharp.DialogResults;
 
 namespace MiSharp
 {
     [Export(typeof (ArtistTagEditorViewModel))]
-    internal class ArtistTagEditorViewModel : ReactiveScreen
+    internal class ArtistTagEditorViewModel : Screen
     {
         protected List<RawTrack> MediaList;
         private string _songAlbumArtist;
