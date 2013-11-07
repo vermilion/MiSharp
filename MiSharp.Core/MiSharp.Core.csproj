@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomEventArgs\FileStatEventargs.cs" />
+    <Compile Include="ImageHelper.cs" />
     <Compile Include="MediaScanner.cs" />
     <Compile Include="Player\AudioPlayer.cs" />
     <Compile Include="Player\AudioPlayerState.cs" />

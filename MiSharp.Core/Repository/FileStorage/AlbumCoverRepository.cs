@@ -34,7 +34,7 @@ namespace MiSharp.Core.Repository.FileStorage
                 string url = Api.LoadAlbumCover(key, artist);
                 if (url != null)
                 {
-                    StoreFileByUrl(url, guid);
+                    StoreAndResizeImageByUrl(url, 300, guid);
                     item = Get(guid);
                 }
             }
