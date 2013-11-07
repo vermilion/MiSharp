@@ -1,15 +1,14 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using Caliburn.Micro.ReactiveUI;
-using ReactiveUI;
+using DeadDog.Audio.Scan;
 
 namespace MiSharp
 {
     [Export(typeof (ShellViewModel))]
-    public class ShellViewModel : ReactiveScreen, IShellViewModel
+    public class ShellViewModel : Screen, IHandle<ScanFileEventArgs>
     {
-        private readonly IWindowManager _windowManager;
         private bool _isSettingsFlyoutOpen;
+        private bool _isRescanFlyoutOpen;
 
         [ImportingConstructor]
         public ShellViewModel(IEventAggregator events)
@@ -21,8 +20,9 @@ namespace MiSharp
             PlaylistManagerViewModel = IoC.Get<PlaylistManagerViewModel>();
             SettingsBaseViewModel = IoC.Get<SettingsBaseViewModel>();
             NowPlayingViewModel = IoC.Get<NowPlayingViewModel>();
+            RescanProgressViewModel = IoC.Get<RescanProgressViewModel>();
+
             events.Subscribe(this);
-            _windowManager = IoC.Get<IWindowManager>();
         }
 
         public SettingsBaseViewModel SettingsBaseViewModel { get; set; }
@@ -30,21 +30,36 @@ namespace MiSharp
         public PlayerViewModel PlayerViewModel { get; set; }
         public PlaylistManagerViewModel PlaylistManagerViewModel { get; set; }
         public NowPlayingViewModel NowPlayingViewModel { get; set; }
+        public RescanProgressViewModel RescanProgressViewModel { get; set; }
 
         public bool IsSettingsFlyoutOpen
         {
             get { return _isSettingsFlyoutOpen; }
-            set { this.RaiseAndSetIfChanged(ref _isSettingsFlyoutOpen, value); }
+            set
+            {
+                _isSettingsFlyoutOpen = value;
+                NotifyOfPropertyChange(() => IsSettingsFlyoutOpen);
+            }
+        }
+
+        public bool IsRescanFlyoutOpen
+        {
+            get { return _isRescanFlyoutOpen; }
+            set
+            {
+                _isRescanFlyoutOpen = value;
+                NotifyOfPropertyChange(() => IsRescanFlyoutOpen);
+            }
         }
 
         public void OpenSettings()
         {
             IsSettingsFlyoutOpen = true;
         }
-    }
 
-    [InheritedExport]
-    public interface IShellViewModel
-    {
+        public void Handle(ScanFileEventArgs message)
+        {
+            IsRescanFlyoutOpen = message.TotalFilesCount != message.CurrentFileNumber;
+        }
     }
 }

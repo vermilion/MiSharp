@@ -28,14 +28,5 @@ namespace MiSharp
         {
             _current.Refresh();
         }
-
-        public void Handle(FileStatEventArgs e)
-        {
-            //UpdatingWindowVisible = true;
-            // Status = e.CurrentFileNumber + ":" + e.TotalFiles;
-            // this.RaisePropertyChanged("Status");
-            //if (e.Completed)
-            //this.RaisePropertyChanged("Bands");
-        }
     }
 }

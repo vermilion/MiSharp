@@ -56,9 +56,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Caliburn.Micro.ReactiveUI">
-      <HintPath>..\packages\Caliburn.Micro.ReactiveUI.1.2.2\lib\net45\Caliburn.Micro.ReactiveUI.dll</HintPath>
-    </Reference>
     <Reference Include="MahApps.Metro, Version=0.11.2.13, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.0.11.2.13-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
@@ -141,6 +138,7 @@
     <Compile Include="ViewModel\Player\NowPlayingViewModel.cs" />
     <Compile Include="ViewModel\Player\TrackState.cs" />
     <Compile Include="ViewModel\Converters\ShareModeConverter.cs" />
+    <Compile Include="ViewModel\Settings\RescanProgressViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="View\Library\Items\AlbumView.xaml.cs">
       <DependentUpon>AlbumView.xaml</DependentUpon>
@@ -168,6 +166,9 @@
     </Compile>
     <Compile Include="View\Player\NowPlayingView.xaml.cs">
       <DependentUpon>NowPlayingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Settings\RescanProgressView.xaml.cs">
+      <DependentUpon>RescanProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Settings\SettingsAppearanceView.xaml.cs">
       <DependentUpon>SettingsAppearanceView.xaml</DependentUpon>
@@ -301,6 +302,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Library\ArtistNavigationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Settings\RescanProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

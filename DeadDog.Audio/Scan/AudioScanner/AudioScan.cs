@@ -139,11 +139,14 @@ namespace DeadDog.Audio.Scan.AudioScanner
         private event ScanFileEventHandler Parsed;
         private event ScanCompletedEventHandler Done;
 
+        private long _totalFiles;
+        private long _currentFile;
         private void Run()
         {
             _state = ScannerState.Scanning;
 
             Dictionary<FileInfo, Action> actions = BuildActionDictionary(ScanForFiles(), _existingFiles.Keys);
+            _totalFiles = actions.Count;
             foreach (FileInfo file in _ignoredFiles)
                 actions[file] = Action.Skip;
 
@@ -151,14 +154,18 @@ namespace DeadDog.Audio.Scan.AudioScanner
 
             _state = ScannerState.Parsing;
 
-            foreach (var file in actions)
+            for (int i = 0; i < actions.Count; i++)
+            {
+                var file = actions.ElementAt(i);
+                _currentFile = i + 1;
                 ParseFile(file.Key, file.Value);
+            }
 
             _state = ScannerState.Completed;
             if (Done != null)
                 Done(this, new ScanCompletedEventArgs());
         }
-
+        
         private IEnumerable<FileInfo> ScanForFiles()
         {
             //Get all files in directory
@@ -302,7 +309,7 @@ namespace DeadDog.Audio.Scan.AudioScanner
             }
 
             if (Parsed != null)
-                Parsed(this, new ScanFileEventArgs(filepath.FullName, track, state));
+                Parsed(this, new ScanFileEventArgs(_currentFile, _totalFiles, filepath.FullName, track, state));
         }
 
         private bool IsFileLocked(FileInfo file)

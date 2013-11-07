@@ -8,7 +8,7 @@ using Caliburn.Micro;
 
 namespace MiSharp
 {
-    public class Bootstrapper : Bootstrapper<IShellViewModel>
+    public class Bootstrapper : Bootstrapper<ShellViewModel>
     {
         private CompositionContainer _container;
 
