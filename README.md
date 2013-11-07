@@ -11,4 +11,4 @@ Used stuff:
 - Db4o
 
 Current look: 
-<img src="http://i058.radikal.ru/1311/fa/40d89a1ab896.png" >
+<img src="http://i036.radikal.ru/1311/bd/d96ed88b53d9.png" >
