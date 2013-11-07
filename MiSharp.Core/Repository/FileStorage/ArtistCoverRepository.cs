@@ -24,7 +24,7 @@ namespace MiSharp.Core.Repository.FileStorage
 
         public BitmapImage GetCover(string key, Guid guid)
         {
-            byte[] item;
+            var item = new byte[] {};
             try
             {
                 item = Get(guid);
@@ -34,8 +34,10 @@ namespace MiSharp.Core.Repository.FileStorage
                 //try download
                 string url = Api.LoadArtistCover(key);
                 if (url != null)
+                {
                     StoreFileByUrl(url, guid);
-                item = Get(guid);
+                    item = Get(guid);
+                }
             }
 
             if (item.Length == 0) return null;
