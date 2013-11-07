@@ -14,7 +14,7 @@
               ScrollViewer.CanContentScroll="True" Background="{x:Null}">
         <ListView.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Play" Command="{Binding PlayNextCommand}" />
+                <MenuItem Header="Play" Command="{Binding PlaySelectedCommand}" />
                 <MenuItem Header="Remove" Command="{Binding RemoveSelectedCommand}" />
             </ContextMenu>
         </ListView.ContextMenu>
