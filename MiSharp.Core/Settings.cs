@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using MiSharp.Core.Player.Output;
-using MiSharp.Core.Repository;
+using MiSharp.Core.Repository.Db4o;
 
 namespace MiSharp.Core
 {

@@ -300,7 +300,6 @@ namespace MiSharp.Core.Player
             {
                 Stop();
                 OnSongFinished(EventArgs.Empty);
-                return;
             }
         }
     }

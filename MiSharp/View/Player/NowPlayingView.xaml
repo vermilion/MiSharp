@@ -7,26 +7,17 @@
                               xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500">
-    <ListView Margin="5" Background="#F2F2F2"
+    <ListView Margin="5"
               FocusVisualStyle="{x:Null}"
               ItemsSource="{Binding NowPlayingPlaylist}"
               SelectedIndex="{Binding NowPlayingPlaylist.CurrentIndex, Mode=OneWayToSource}"
-              ScrollViewer.CanContentScroll="True">
+              ScrollViewer.CanContentScroll="True" Background="{x:Null}">
         <ListView.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Play" Command="{Binding PlayNextCommand}" />
                 <MenuItem Header="Remove" Command="{Binding RemoveSelectedCommand}" />
             </ContextMenu>
         </ListView.ContextMenu>
-        <ListView.ItemContainerStyle>
-            <Style TargetType="{x:Type ListViewItem}">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding Path=IsInactive}" Value="True">
-                        <Setter Property="Foreground" Value="Gray" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </ListView.ItemContainerStyle>
         <ListView.View>
             <GridView>
                 <GridViewColumn Width="60" Header="">
@@ -39,14 +30,14 @@
                 <GridViewColumn Width="{Binding Path=PlaylistTitleColumnWidth, Mode=TwoWay}" Header="Title">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.TrackTitle}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Path=Model.Model.TrackTitle}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn Width="{Binding Path=PlaylistDurationColumnWidth, Mode=TwoWay}" Header="Duration">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Duration, StringFormat=mm\\:ss}"
+                            <TextBlock Text="{Binding Path=Model.Model.Duration, StringFormat=mm\\:ss}"
                                        TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
@@ -54,21 +45,21 @@
                 <GridViewColumn Width="{Binding Path=PlaylistArtistColumnWidth, Mode=TwoWay}" Header="Artist">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.ArtistName}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Path=Model.Model.ArtistName}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn Width="{Binding Path=PlaylistAlbumColumnWidth, Mode=TwoWay}" Header="Album">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.AlbumTitle}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Path=Model.Model.AlbumTitle}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn Width="{Binding Path=PlaylistGenreColumnWidth, Mode=TwoWay}" Header="Genre">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Genre}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Path=Model.Model.Genre}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>

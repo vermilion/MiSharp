@@ -2,22 +2,26 @@
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Caliburn.Micro;
-using DeadDog.Audio;
+using DeadDog.Audio.Libraries;
 using MiSharp.Core.Player;
+using MiSharp.Core.Repository.FileStorage;
 using MiSharp.Player;
 using ReactiveUI;
 
 namespace MiSharp
 {
     [Export]
-    public class PlayerViewModel : ReactiveObject, IHandle<RawTrack>
+    public class PlayerViewModel : ReactiveObject, IHandle<Track>
     {
+        private readonly BitmapImage _defaultCover =
+            new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
+
         private readonly IEventAggregator _events;
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
         private readonly NowPlayingViewModel _nowPlayingViewModel;
         private readonly ObservableAsPropertyHelper<string> _playPauseContent;
-        private readonly ObservableAsPropertyHelper<string> _playPauseTooltip;
 
         private float _tempVolume;
 
@@ -37,7 +41,7 @@ namespace MiSharp
                     IsPlaying = false;
                     _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
                     CurrentlyPlaying = null;
-                    RawTrack song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
+                    Track song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
 
                     if (song != null)
                         Play(song);
@@ -48,7 +52,7 @@ namespace MiSharp
                 {
                     IsPlaying = false;
                     _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-                    RawTrack song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
+                    Track song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
                     if (song != null)
                         Play(song);
                 });
@@ -64,7 +68,7 @@ namespace MiSharp
                     }
                     else
                     {
-                        RawTrack song;
+                        Track song;
                         if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
                             song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
                         else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
@@ -74,9 +78,6 @@ namespace MiSharp
                         Play(song);
                     }
                 });
-
-            _playPauseTooltip = this.WhenAnyValue(x => x.IsPlaying, x => x ? "Pause" : "Play")
-                                    .ToProperty(this, x => x.PlayPauseTooltip);
 
             _playPauseContent = this.WhenAnyValue(x => x.IsPlaying, x => x ? ";" : "4")
                                     .ToProperty(this, x => x.PlayPauseContent);
@@ -100,23 +101,34 @@ namespace MiSharp
         public ReactiveCommand PlayPrevCommand { get; private set; }
         public ReactiveCommand PlayPauseCommand { get; private set; }
 
-        public RawTrack CurrentlyPlaying
+        public Track CurrentlyPlaying
         {
             get { return _currentlyPlaying; }
-            set { this.RaiseAndSetIfChanged(ref _currentlyPlaying, value); }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _currentlyPlaying, value);
+                this.RaisePropertyChanged("Cover");
+            }
         }
 
         private LocalAudioPlayer Player { get; set; }
+
+        public BitmapSource Cover
+        {
+            get
+            {
+                if (CurrentlyPlaying != null)
+                {
+                    return AlbumCoverRepository.Instance.GetCover(CurrentlyPlaying.Album.Title, CurrentlyPlaying.Artist.Name, CurrentlyPlaying.Album.Identifier);         
+                }
+                return  _defaultCover;
+            }
+        }
 
         public bool IsPlaying
         {
             get { return _isPlaying; }
             set { this.RaiseAndSetIfChanged(ref _isPlaying, value); }
-        }
-
-        public string PlayPauseTooltip
-        {
-            get { return _playPauseTooltip.Value; }
         }
 
         public string PlayPauseContent
@@ -151,17 +163,17 @@ namespace MiSharp
             set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
         }
 
-        public void Handle(RawTrack song)
+        public void Handle(Track song)
         {
             Play(song);
         }
 
-        public void Play(RawTrack song)
+        public void Play(Track song)
         {
             if (!Equals(CurrentlyPlaying, song))
             {
                 CurrentlyPlaying = song;
-                Player.Load(song, Volume);
+                Player.Load(song.Model, Volume);
             }
             Player.Play();
             IsPlaying = true;
@@ -178,7 +190,7 @@ namespace MiSharp
 
         #region Properties
 
-        private RawTrack _currentlyPlaying;
+        private Track _currentlyPlaying;
         private bool _isPlaying;
         private bool _repeatState;
         private bool _shuffleState;

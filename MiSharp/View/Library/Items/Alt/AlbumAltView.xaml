@@ -1,0 +1,60 @@
+﻿<controls:MetroContentControl x:Class="MiSharp.AlbumAltView"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+                              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                              xmlns:miSharp="clr-namespace:MiSharp"
+                              mc:Ignorable="d"
+                              d:DesignHeight="400" d:DesignWidth="400">
+    <controls:MetroContentControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </controls:MetroContentControl.Resources>
+    <Grid x:Name="LblName" Tag="{Binding Title}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Text="{Binding Model.Title}" Grid.ColumnSpan="2"
+                   FontSize="18" Margin="25,0,0,0" FontFamily="/MiSharp;component/Resources/#Open Sans" />
+        <StackPanel HorizontalAlignment="Left" Width="130" Grid.Row="1" Grid.Column="0">
+            <Button Margin="0,5,0,0" HorizontalAlignment="Center" Content="Add to now playing"
+                    FontFamily="/MiSharp;component/Resources/#Open Sans"
+                    Style="{DynamicResource SquareButtonStyle}" Command="{Binding AddAlbumToPlaylistCommand}" />
+            <Button Margin="0,10,0,0" HorizontalAlignment="Center" Content="Edit album tags"
+                    FontFamily="/MiSharp;component/Resources/#Open Sans"
+                    Style="{DynamicResource SquareButtonStyle}" Command="{Binding EditorEditAlbumsCommand}" />
+            <Image Margin="0,10,0,0" Height="100" Width="100" Source="{Binding Cover}" />
+            <Label HorizontalAlignment="Center" Content="{Binding Model.Year}"
+                   FontFamily="/MiSharp;component/Resources/#Open Sans" />
+        </StackPanel>
+        <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Tracks, IsAsync=True}" Background="#F2F2F2">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <miSharp:TrackView Width="Auto" DataContext="{Binding}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</controls:MetroContentControl>

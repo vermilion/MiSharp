@@ -1,17 +1,17 @@
-﻿using DeadDog.Audio;
+﻿using DeadDog.Audio.Libraries;
 using MiSharp.Core.Player;
 
 namespace MiSharp.Player
 {
     public class TrackState
     {
-        public TrackState(RawTrack track, AudioPlayerState state)
+        public TrackState(Track track, AudioPlayerState state)
         {
             Track = track;
             State = state;
         }
 
-        public RawTrack Track { get; private set; }
+        public Track Track { get; private set; }
         public AudioPlayerState State { get; private set; }
     }
 }

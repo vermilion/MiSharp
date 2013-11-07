@@ -1,0 +1,40 @@
+﻿<controls:MetroContentControl x:Class="MiSharp.ArtistView"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                              mc:Ignorable="d"
+                              d:DesignHeight="150" d:DesignWidth="150">
+    <Grid Background="Transparent">
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Add to Now Playing" Visibility="Visible"
+                          Command="{Binding AddArtistToPlaylistCommand}" />
+                <MenuItem Header="Edit Artist Information" Command="{Binding EditorEditArtistsCommand}" />
+            </ContextMenu>
+        </Grid.ContextMenu>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image Width="90" Height="90">
+            <Image.Source>
+                <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/Music.ico"
+                         IsAsync="True" />
+            </Image.Source>
+        </Image>
+        <StackPanel Grid.Row="1" Margin="5,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Model.Name}"
+                       FontSize="16" HorizontalAlignment="Center" />
+            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} songs / {1} albums">
+                        <Binding Path="SongsCount" />
+                        <Binding Path="AlbumsCount" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</controls:MetroContentControl>

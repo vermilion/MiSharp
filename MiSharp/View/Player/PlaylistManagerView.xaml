@@ -8,12 +8,12 @@
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500">
     <Grid>
-        <ListView Grid.Column="0" Background="#F2F2F2"
+        <ListView Grid.Column="0"
                   Margin="10,57,10,10"
                   FocusVisualStyle="{x:Null}"
                   ItemsSource="{Binding SelectedPlaylist}"
                   SelectedIndex="{Binding Playlist.CurrentIndex}"
-                  ScrollViewer.CanContentScroll="True">
+                  ScrollViewer.CanContentScroll="True" Background="{x:Null}">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Play">

@@ -8,6 +8,8 @@ namespace DeadDog.Audio.Libraries
     {
         #region Properties
 
+        public Guid Identifier { get; set; }
+
         public bool IsUnknown { get; set; }
 
         public string Title { get; set; }
@@ -30,6 +32,7 @@ namespace DeadDog.Audio.Libraries
             IsUnknown = album == null;
             Year = albumYear;
             Tracks = new TrackCollection(TrackAdded, TrackRemoved);
+            Identifier = Guid.NewGuid();
 
             Title = album ?? "Unknown";
         }

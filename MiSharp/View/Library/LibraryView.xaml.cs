@@ -1,7 +1,7 @@
 ﻿namespace MiSharp
 {
     /// <summary>
-    ///     Interaction logic for LibraryView.xaml
+    ///     Interaction logic for LibraryNavigationView.xaml
     /// </summary>
     public partial class LibraryView
     {

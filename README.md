@@ -10,5 +10,6 @@ Used stuff:
 - Taglib-sharp
 - Db4o
 
-Current look: 
-<img src="http://i036.radikal.ru/1311/bd/d96ed88b53d9.png" >
+Screenshot
+=======
+<img src="http://s017.radikal.ru/i407/1311/ba/083aff97f3c8.png" >
