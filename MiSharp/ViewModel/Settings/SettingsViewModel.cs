@@ -5,7 +5,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using MiSharp.Core;
-using MiSharp.Core.CustomEventArgs;
 using MiSharp.Core.Player.Output;
 using MiSharp.Core.Repository.Db4o;
 using MiSharp.DialogResults;
@@ -47,7 +46,11 @@ namespace MiSharp
         public int RescanTimeout
         {
             get { return Settings.Instance.WatchFolderScanInterval; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolderScanInterval, value); }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolderScanInterval, value);
+                TimeToNextRescan = TimeSpan.FromMinutes(value);
+            }
         }
 
         private TimeSpan TimeToNextRescan
@@ -122,8 +125,8 @@ namespace MiSharp
         public void RescanLibrary()
         {
             MediaRepository.Instance.Recreate();
-            MediaScanner.Instance.ScanCompleted += () => _events.Publish(new ScanCompletedEventArgs());
-            MediaScanner.Instance.FileFound += s => _events.Publish(s);
+            MediaScanner.Instance.ScanCompleted += e => _events.Publish(e);
+            MediaScanner.Instance.FileFound += e => _events.Publish(e);
             Task.Run(() => MediaScanner.Instance.Rescan());
         }
     }

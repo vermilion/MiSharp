@@ -122,7 +122,6 @@
     <Compile Include="Repository\Db4o\MediaRepository.cs" />
     <Compile Include="Repository\Db4o\RepositoryBase.cs" />
     <Compile Include="Repository\Db4o\SettingsRepository.cs" />
-    <Compile Include="CustomEventArgs\ScanCompletedEventArgs.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>

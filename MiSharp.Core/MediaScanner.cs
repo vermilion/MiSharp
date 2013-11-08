@@ -13,7 +13,7 @@ namespace MiSharp.Core
     {
         public delegate void FileFoundEventHandler(ScanFileEventArgs e);
 
-        public delegate void ScanCompletedEventHandler();
+        public delegate void ScanCompletedEventHandler(ScanCompletedEventArgs e);
 
         private static MediaScanner _instance;
 
@@ -51,7 +51,8 @@ namespace MiSharp.Core
         {
             _lib = _scanner.MediaLibrary;
             await MediaRepository.Instance.Save(_lib);
-            ScanCompleted();
+            if (ScanCompleted != null)
+                ScanCompleted(e);
         }
     }
 }

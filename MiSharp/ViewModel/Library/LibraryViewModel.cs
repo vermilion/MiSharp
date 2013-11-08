@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using MiSharp.Core.CustomEventArgs;
+using DeadDog.Audio.Scan;
 
 namespace MiSharp
 {
