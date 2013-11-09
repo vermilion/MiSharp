@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DeadDog.Audio.Libraries.Collections;
 
 namespace DeadDog.Audio.Libraries
@@ -82,7 +83,7 @@ namespace DeadDog.Audio.Libraries
             if (album != old.Album)
             {
                 old.Album.Tracks.Remove(old);
-                if (old.Album.Tracks.Count == 0 && !old.Album.IsUnknown)
+                if (old.Album.Tracks.Count == 0)
                     _albums.Remove(old.Album);
 
                 old.Album = album;
@@ -115,7 +116,7 @@ namespace DeadDog.Audio.Libraries
             if (album != null)
             {
                 album.Tracks.Remove(track);
-                if (album.Tracks.Count == 0 && !album.IsUnknown)
+                if (album.Tracks.Count == 0)
                     _albums.Remove(album);
             }
 

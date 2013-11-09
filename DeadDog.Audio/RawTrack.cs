@@ -29,11 +29,11 @@ namespace DeadDog.Audio
             File = null;
 
             TrackTitle = null;
-            AlbumTitle = "Unknown";
+            AlbumTitle = "Unknown Album";
             TrackNumber = TrackNumberIfUnknown;
             Year = YearIfUnknown;
 
-            ArtistName = "Unknown";
+            ArtistName = "Unknown Artist";
         }
 
         /// <summary>

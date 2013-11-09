@@ -7,13 +7,7 @@ namespace DeadDog.Audio.Libraries
     {
         #region Properties
 
-        private readonly bool _isunknown;
         public Guid Identifier { get; set; }
-
-        public bool IsUnknown
-        {
-            get { return _isunknown; }
-        }
 
         public string Name { get; set; }
 
@@ -23,11 +17,10 @@ namespace DeadDog.Audio.Libraries
 
         public Artist(string name)
         {
-            _isunknown = name == null;
             Albums = new AlbumCollection();
             Identifier = Guid.NewGuid();
 
-            Name = name ?? "Unknown";
+            Name = name;
         }
 
         public override string ToString()

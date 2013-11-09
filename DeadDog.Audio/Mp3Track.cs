@@ -25,9 +25,9 @@ namespace DeadDog.Audio
             _filepath = filepath;
 
             TrackTitle = string.IsNullOrEmpty(tag.Tag.Title) ? File.Name : tag.Tag.Title.Trim();
-            AlbumTitle = string.IsNullOrEmpty(tag.Tag.Album) ? null : tag.Tag.Album.Trim();
+            AlbumTitle = string.IsNullOrEmpty(tag.Tag.Album) ? "Unknown Album" : tag.Tag.Album.Trim();
             TrackNumber = (int) tag.Tag.Track;
-            ArtistName = !tag.Tag.Performers.Any() ? null : string.Join(" & ", tag.Tag.Performers);
+            ArtistName = !tag.Tag.Performers.Any() ? "Unknown Artist" : string.Join(" & ", tag.Tag.Performers);
             Year = (int) tag.Tag.Year;
             Genre = tag.Tag.JoinedGenres;
             Bitrate = tag.Properties.AudioBitrate;
@@ -41,8 +41,13 @@ namespace DeadDog.Audio
             if (file == null)
                 return;
 
+            //checking for readonly
+            var fileInfo = new FileInfo(_filepath);
+            if (fileInfo.IsReadOnly)
+                fileInfo.IsReadOnly = false;
+
             // artist tag editor
-            file.Tag.AlbumArtists = new[] {ArtistName};
+            file.Tag.Performers = ArtistName.Split('&');
 
             // album tag editor
             file.Tag.Album = AlbumTitle;
