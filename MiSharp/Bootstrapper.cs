@@ -5,6 +5,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using Caliburn.Micro;
+using MiSharp.ViewModel.Player;
 
 namespace MiSharp
 {
@@ -30,8 +31,8 @@ namespace MiSharp
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             var aggregator = new EventAggregator();
             batch.AddExportedValue<IEventAggregator>(aggregator);
-
             batch.AddExportedValue<INavigationService>(new NavigationService(aggregator));
+            batch.AddExportedValue(new PlaybackController(aggregator));
 
             batch.AddExportedValue(_container);
 

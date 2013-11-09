@@ -5,7 +5,6 @@ using DeadDog.Audio.Parsing.Parsers;
 using DeadDog.Audio.Scan;
 using DeadDog.Audio.Scan.AudioScanner;
 using MiSharp.Core.Repository.Db4o;
-using ScanCompletedEventArgs = DeadDog.Audio.Scan.ScanCompletedEventArgs;
 
 namespace MiSharp.Core
 {

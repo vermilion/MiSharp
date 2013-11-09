@@ -9,8 +9,9 @@
                               mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500">
     <ListView Margin="5"
               FocusVisualStyle="{x:Null}"
-              ItemsSource="{Binding NowPlayingPlaylist}"
-              SelectedIndex="{Binding NowPlayingPlaylist.CurrentIndex, Mode=OneWayToSource}"
+              ItemsSource="{Binding Playlist}"
+              SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}"
+              SelectedIndex="{Binding SelectedIndex}"
               ScrollViewer.CanContentScroll="True" Background="{x:Null}">
         <ListView.ContextMenu>
             <ContextMenu>
@@ -23,21 +24,21 @@
                 <GridViewColumn Width="60" Header="">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=PlayingState}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Path=State}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn Width="{Binding Path=PlaylistTitleColumnWidth, Mode=TwoWay}" Header="Title">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.TrackTitle}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Path=Track.Model.TrackTitle}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn Width="{Binding Path=PlaylistDurationColumnWidth, Mode=TwoWay}" Header="Duration">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.Duration, StringFormat=mm\\:ss}"
+                            <TextBlock Text="{Binding Path=Track.Model.Duration, StringFormat=mm\\:ss}"
                                        TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
@@ -45,21 +46,21 @@
                 <GridViewColumn Width="{Binding Path=PlaylistArtistColumnWidth, Mode=TwoWay}" Header="Artist">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.ArtistName}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Path=Track.Model.ArtistName}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn Width="{Binding Path=PlaylistAlbumColumnWidth, Mode=TwoWay}" Header="Album">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.AlbumTitle}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Path=Track.Model.AlbumTitle}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
                 <GridViewColumn Width="{Binding Path=PlaylistGenreColumnWidth, Mode=TwoWay}" Header="Genre">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.Genre}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Path=Track.Model.Genre}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>

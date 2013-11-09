@@ -41,7 +41,7 @@ namespace DeadDog.Audio.Playlist
                 return false;
 
             CurrentIndex--;
-            if (CurrentIndex == -1)
+            if (CurrentIndex <= -1)
             {
                 CurrentIndex = -2;
                 return false;
@@ -128,7 +128,7 @@ namespace DeadDog.Audio.Playlist
         {
             if (MovePrevious()) return true;
             if (CurrentIndex == -2)
-                CurrentIndex = 0;
+                CurrentIndex = Count - 1;
             return true;
         }
     }

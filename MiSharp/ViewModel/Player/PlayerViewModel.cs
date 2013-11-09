@@ -5,113 +5,82 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
-using MiSharp.Core.Player;
 using MiSharp.Core.Repository.FileStorage;
-using MiSharp.Player;
+using MiSharp.ViewModel.Player;
 using ReactiveUI;
 
 namespace MiSharp
 {
     [Export]
-    public class PlayerViewModel : ReactiveObject, IHandle<Track>
+    public class PlayerViewModel : ReactiveObject
     {
         private readonly BitmapImage _defaultCover =
             new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
 
-        private readonly IEventAggregator _events;
-        private readonly ObservableAsPropertyHelper<bool> _isMuted;
-        private readonly NowPlayingViewModel _nowPlayingViewModel;
         private readonly ObservableAsPropertyHelper<string> _playPauseContent;
 
-        private float _tempVolume;
-
         [ImportingConstructor]
-        public PlayerViewModel(IEventAggregator events, NowPlayingViewModel nowPlayingViewModel)
+        public PlayerViewModel(IEventAggregator events)
         {
-            _nowPlayingViewModel = nowPlayingViewModel;
-            Player = new LocalAudioPlayer();
-            Player.SongFinished += (s, e) => PlayNextCommand.Execute(null);
+            PlaybackController = IoC.Get<PlaybackController>();
 
-            _events = events;
-            _events.Subscribe(this);
 
             PlayNextCommand = new ReactiveCommand();
-            PlayNextCommand.Subscribe(param =>
-                {
-                    IsPlaying = false;
-                    _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-                    CurrentlyPlaying = null;
-                    Track song = _nowPlayingViewModel.GetNextSong(RepeatState, ShuffleState);
-
-                    if (song != null)
-                        Play(song);
-                });
+            PlayNextCommand.Subscribe(param => PlaybackController.PlayNext());
 
             PlayPrevCommand = new ReactiveCommand();
-            PlayPrevCommand.Subscribe(param =>
-                {
-                    IsPlaying = false;
-                    _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.None));
-                    Track song = _nowPlayingViewModel.GetPreviousSong(RepeatState, ShuffleState);
-                    if (song != null)
-                        Play(song);
-                });
+            PlayPrevCommand.Subscribe(param => PlaybackController.PlayPrev());
 
             PlayPauseCommand = new ReactiveCommand();
-            PlayPauseCommand.Subscribe(param =>
-                {
-                    if (IsPlaying)
-                    {
-                        Player.Pause();
-                        IsPlaying = false;
-                        _events.Publish(new TrackState(CurrentlyPlaying, AudioPlayerState.Paused));
-                    }
-                    else
-                    {
-                        Track song;
-                        if (_nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry != null)
-                            song = _nowPlayingViewModel.NowPlayingPlaylist.CurrentEntry.Model;
-                        else if (_nowPlayingViewModel.NowPlayingPlaylist.Count > 0)
-                            song = _nowPlayingViewModel.NowPlayingPlaylist[0].Model;
-                        else return;
+            PlayPauseCommand.Subscribe(param => PlaybackController.PlayPause());
 
-                        Play(song);
-                    }
-                });
+            _playPauseContent = PlaybackController.WhenAnyValue(x => x.IsPlaying, x => x ? ";" : "4")
+                .ToProperty(this, x => x.PlayPauseContent);
 
-            _playPauseContent = this.WhenAnyValue(x => x.IsPlaying, x => x ? ";" : "4")
-                                    .ToProperty(this, x => x.PlayPauseContent);
+            PlaybackController.AudioPlayer.TotalTimeChanged.Subscribe(x =>
+            {
+                this.RaisePropertyChanged("Maximum");
+                this.RaisePropertyChanged("TickFrequency");
+                this.RaisePropertyChanged("TotalTime");
+            });
+            PlaybackController.AudioPlayer.CurrentTimeChanged.Subscribe(x =>
+            {
+                this.RaisePropertyChanged("PositionValue");
+                this.RaisePropertyChanged("CurrentTime");
+            });
 
-            _isMuted = this.WhenAnyValue(x => x.Volume, x => Equals(x, 0.0f)).ToProperty(this, x => x.IsMuted);
+            PlaybackController.CurrentTrackChanged.Subscribe(x =>
+            {
+                this.RaisePropertyChanged("CurrentlyPlaying");
+                this.RaisePropertyChanged("Cover");
+            });
 
-            Player.TotalTimeChanged.Subscribe(x =>
-                {
-                    this.RaisePropertyChanged("Maximum");
-                    this.RaisePropertyChanged("TickFrequency");
-                    this.RaisePropertyChanged("TotalTime");
-                });
-            Player.CurrentTimeChanged.Subscribe(x =>
-                {
-                    this.RaisePropertyChanged("PositionValue");
-                    this.RaisePropertyChanged("CurrentTime");
-                });
+            PlaybackController.IsMutedChanged.Subscribe(x => this.RaisePropertyChanged("IsMuted"));
+            PlaybackController.VolumeChanged.Subscribe(x => this.RaisePropertyChanged("Volume"));
         }
+
+        public PlaybackController PlaybackController { get; set; }
+
 
         public ReactiveCommand PlayNextCommand { get; private set; }
         public ReactiveCommand PlayPrevCommand { get; private set; }
         public ReactiveCommand PlayPauseCommand { get; private set; }
 
-        public Track CurrentlyPlaying
+
+        public void ChangePosition(object sender, MouseEventArgs e)
         {
-            get { return _currentlyPlaying; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _currentlyPlaying, value);
-                this.RaisePropertyChanged("Cover");
-            }
+            double x = e.GetPosition((ProgressBar) sender).X;
+            double ratio = x/((ProgressBar) sender).ActualWidth;
+            double pos = ratio*((ProgressBar) sender).Maximum;
+            PlaybackController.AudioPlayer.CurrentTime = TimeSpan.FromSeconds(pos);
         }
 
-        private LocalAudioPlayer Player { get; set; }
+        #region Properties
+
+        public Track CurrentlyPlaying
+        {
+            get { return PlaybackController.CurrentTrack != null ? PlaybackController.CurrentTrack.Track : null; }
+        }
 
         public BitmapSource Cover
         {
@@ -119,16 +88,11 @@ namespace MiSharp
             {
                 if (CurrentlyPlaying != null)
                 {
-                    return AlbumCoverRepository.Instance.GetCover(CurrentlyPlaying.Album.Title, CurrentlyPlaying.Artist.Name, CurrentlyPlaying.Album.Identifier);         
+                    return AlbumCoverRepository.Instance.GetCover(CurrentlyPlaying.Album.Title,
+                        CurrentlyPlaying.Artist.Name, CurrentlyPlaying.Album.Identifier);
                 }
-                return  _defaultCover;
+                return _defaultCover;
             }
-        }
-
-        public bool IsPlaying
-        {
-            get { return _isPlaying; }
-            set { this.RaiseAndSetIfChanged(ref _isPlaying, value); }
         }
 
         public string PlayPauseContent
@@ -138,96 +102,58 @@ namespace MiSharp
 
         public bool IsMuted
         {
-            get { return _isMuted.Value; }
-            set
-            {
-                if (value)
-                {
-                    _tempVolume = Volume;
-                    Volume = 0;
-                }
-                else Volume = _tempVolume;
-            }
-        }
-
-
-        public bool RepeatState
-        {
-            get { return _repeatState; }
-            set { this.RaiseAndSetIfChanged(ref _repeatState, value); }
-        }
-
-        public bool ShuffleState
-        {
-            get { return _shuffleState; }
-            set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
-        }
-
-        public void Handle(Track song)
-        {
-            Play(song);
-        }
-
-        public void Play(Track song)
-        {
-            if (!Equals(CurrentlyPlaying, song))
-            {
-                CurrentlyPlaying = song;
-                Player.Load(song.Model, Volume);
-            }
-            Player.Play();
-            IsPlaying = true;
-            _events.Publish(new TrackState(song, AudioPlayerState.Playing));
-        }
-
-        public void ChangePosition(object sender, MouseEventArgs e)
-        {
-            double x = e.GetPosition((ProgressBar) sender).X;
-            double ratio = x/((ProgressBar) sender).ActualWidth;
-            double pos = ratio*((ProgressBar) sender).Maximum;
-            Player.CurrentTime = TimeSpan.FromSeconds(pos);
-        }
-
-        #region Properties
-
-        private Track _currentlyPlaying;
-        private bool _isPlaying;
-        private bool _repeatState;
-        private bool _shuffleState;
-        private float _volume = 1.0f;
-
-        public int Maximum
-        {
-            get { return (int) Player.TotalTime.TotalSeconds; }
-        }
-
-        public double PositionValue
-        {
-            get { return (int) Player.CurrentTime.TotalSeconds; }
-        }
-
-        public int TickFrequency
-        {
-            get { return (int) Player.TotalTime.TotalSeconds/30; }
-        }
-
-        public string TotalTime
-        {
-            get { return String.Format("{0:00}:{1:00}", (int) Player.TotalTime.TotalMinutes, Player.TotalTime.Seconds); }
-        }
-
-        public string CurrentTime
-        {
-            get { return String.Format("{0:00}:{1:00}", (int) Player.CurrentTime.TotalMinutes, Player.CurrentTime.Seconds); }
+            get { return PlaybackController.IsMuted; }
+            set { PlaybackController.IsMuted = value; }
         }
 
         public float Volume
         {
-            get { return _volume; }
-            set
+            get { return PlaybackController.Volume; }
+            set { PlaybackController.Volume = value; }
+        }
+
+        public bool RepeatState
+        {
+            get { return PlaybackController.RepeatState; }
+            set { PlaybackController.RepeatState = value; }
+        }
+
+        public bool ShuffleState
+        {
+            get { return PlaybackController.ShuffleState; }
+            set { PlaybackController.ShuffleState = value; }
+        }
+
+        public int Maximum
+        {
+            get { return (int) PlaybackController.AudioPlayer.TotalTime.TotalSeconds; }
+        }
+
+        public double PositionValue
+        {
+            get { return (int) PlaybackController.AudioPlayer.CurrentTime.TotalSeconds; }
+        }
+
+        public int TickFrequency
+        {
+            get { return (int) PlaybackController.AudioPlayer.TotalTime.TotalSeconds/30; }
+        }
+
+        public string TotalTime
+        {
+            get
             {
-                this.RaiseAndSetIfChanged(ref _volume, value);
-                Player.Volume = value;
+                return String.Format("{0:00}:{1:00}", (int) PlaybackController.AudioPlayer.TotalTime.TotalMinutes,
+                    PlaybackController.AudioPlayer.TotalTime.Seconds);
+            }
+        }
+
+        public string CurrentTime
+        {
+            get
+            {
+                return String.Format("{0:00}:{1:00}", (int) PlaybackController.AudioPlayer.CurrentTime.TotalMinutes,
+                    PlaybackController.AudioPlayer.CurrentTime.Seconds);
             }
         }
 
