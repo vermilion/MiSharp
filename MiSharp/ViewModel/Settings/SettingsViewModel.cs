@@ -12,7 +12,7 @@ using ReactiveUI;
 
 namespace MiSharp
 {
-    [Export(typeof (SettingsViewModel))]
+    [Export]
     public class SettingsViewModel : ReactiveObject
     {
         private readonly IEventAggregator _events;

@@ -17,12 +17,16 @@ namespace MiSharp.Core
         public string WatchFolder;
         public int WatchFolderScanInterval;
         public TimeSpan TimeToNextRescan;
+        public string SelectedTheme;
+        public string AccentColor;
 
         private Settings()
         {
             WatchFolderScanInterval = 60;
             WatchFolder = @"F:\_MUSIC";
             FileFormats = new[] {"*.mp3"};
+            SelectedTheme = "Dark";
+            AccentColor = "Blue";
         }
 
         public static Settings Instance
