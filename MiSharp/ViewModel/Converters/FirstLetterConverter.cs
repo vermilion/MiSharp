@@ -10,7 +10,7 @@ namespace MiSharp
         {
             var s = value as string;
             if (!string.IsNullOrEmpty(s))
-                return s.Substring(0, 1);
+                return s.Substring(0, 1).ToUpper();
             return string.Empty;
         }
 
