@@ -107,7 +107,7 @@ namespace DeadDog.Audio
 
         public int Year { get; set; }
 
-        public uint Bitrate { get; set; }
+        public int Bitrate { get; set; }
 
         public TimeSpan Duration { get; set; }
 

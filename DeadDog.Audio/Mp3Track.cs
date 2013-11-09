@@ -30,7 +30,7 @@ namespace DeadDog.Audio
             ArtistName = !tag.Tag.Performers.Any() ? null : string.Join(" & ", tag.Tag.Performers);
             Year = (int) tag.Tag.Year;
             Genre = tag.Tag.JoinedGenres;
-            Bitrate = tag.Tag.BeatsPerMinute;
+            Bitrate = tag.Properties.AudioBitrate;
             Duration = tag.Properties.Duration;
         }
 
