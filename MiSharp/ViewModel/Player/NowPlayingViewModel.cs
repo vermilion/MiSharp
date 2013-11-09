@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
+using System.Reactive.Linq;
 using Caliburn.Micro;
 using MiSharp.ViewModel.Player;
 using ReactiveUI;
@@ -15,14 +19,25 @@ namespace MiSharp
         {
             _playbackController = IoC.Get<PlaybackController>();
 
+            SelectionChangedCommand = new ReactiveCommand();
+            SelectionChangedCommand.Where(x => x != null)
+                .Select(x => ((IEnumerable) x).Cast<TrackState>())
+                .Subscribe(x => SelectedItems = x);
+
             RemoveSelectedCommand = new ReactiveCommand();
-            RemoveSelectedCommand.Subscribe(param => { if (SelectedItem != null) Playlist.RemoveAt(SelectedIndex); });
+            RemoveSelectedCommand.Subscribe(param =>
+                new List<TrackState>(SelectedItems)
+                    .ForEach(x => Playlist.Remove(x)));
+
+            RemoveAllCommand = new ReactiveCommand();
+            RemoveAllCommand.Subscribe(param => Playlist.Clear());
 
             PlaySelectedCommand = new ReactiveCommand();
-            PlaySelectedCommand.Subscribe(param => _playbackController.Play(SelectedItem));
+            PlaySelectedCommand.Subscribe(param => _playbackController.Play(SelectedItems.First()));
         }
 
         public ReactiveCommand RemoveSelectedCommand { get; private set; }
+        public ReactiveCommand RemoveAllCommand { get; private set; }
         public ReactiveCommand PlaySelectedCommand { get; private set; }
 
         public TrackPlaylist Playlist
@@ -31,7 +46,8 @@ namespace MiSharp
         }
 
 
-        public TrackState SelectedItem { get; set; }
-        public int SelectedIndex { get; set; }
+        public IEnumerable<TrackState> SelectedItems { get; set; }
+
+        public ReactiveCommand SelectionChangedCommand { get; set; }
     }
 }

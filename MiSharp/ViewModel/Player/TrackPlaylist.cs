@@ -17,7 +17,7 @@ namespace MiSharp.ViewModel.Player
 
         public void AddRange(IEnumerable<Track> track)
         {
-            AddRange(track.Select(x => new TrackState(x, AudioPlayerState.None)));
+            track.ForEach(x => Add(new TrackState(x, AudioPlayerState.None)));
         }
 
         public bool Contains(Track item)

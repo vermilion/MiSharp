@@ -11,14 +11,21 @@
               FocusVisualStyle="{x:Null}"
               ItemsSource="{Binding Playlist}"
               SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}"
-              SelectedIndex="{Binding SelectedIndex}"
-              ScrollViewer.CanContentScroll="True" Background="{x:Null}">
+              ScrollViewer.CanContentScroll="True" Background="{x:Null}"
+              x:Name="NowPlaying">
         <ListView.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Play" Command="{Binding PlaySelectedCommand}" />
+                <Separator/>
                 <MenuItem Header="Remove" Command="{Binding RemoveSelectedCommand}" />
+                <MenuItem Header="Remove All" Command="{Binding RemoveAllCommand}" />
             </ContextMenu>
         </ListView.ContextMenu>
+        <i:Interaction.Triggers>            
+            <i:EventTrigger EventName="SelectionChanged">
+                <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" CommandParameter="{Binding ElementName=NowPlaying, Path=SelectedItems}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <ListView.View>
             <GridView>
                 <GridViewColumn Width="60" Header="">

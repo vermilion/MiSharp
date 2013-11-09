@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using DeadDog.Audio.Playlist.Interfaces;
-using Rareform.Collections;
 
 namespace DeadDog.Audio.Playlist
 {
-    public class Playlist<T> : ObservableList<T>, IPlaylist<T>, INamedPlaylist
+    public class Playlist<T> : ObservableCollection<T>, IPlaylist<T>, INamedPlaylist
     {
         public Playlist()
         {
