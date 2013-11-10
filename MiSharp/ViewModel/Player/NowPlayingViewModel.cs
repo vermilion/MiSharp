@@ -39,6 +39,7 @@ namespace MiSharp
         public ReactiveCommand RemoveSelectedCommand { get; private set; }
         public ReactiveCommand RemoveAllCommand { get; private set; }
         public ReactiveCommand PlaySelectedCommand { get; private set; }
+        public ReactiveCommand SelectionChangedCommand { get; set; }
 
         public TrackPlaylist Playlist
         {
@@ -46,8 +47,6 @@ namespace MiSharp
         }
 
 
-        public IEnumerable<TrackState> SelectedItems { get; set; }
-
-        public ReactiveCommand SelectionChangedCommand { get; set; }
+        public IEnumerable<TrackState> SelectedItems { get; set; }        
     }
 }
