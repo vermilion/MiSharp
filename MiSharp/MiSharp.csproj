@@ -116,7 +116,6 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Navigation.cs" />
-    <Compile Include="SliderEx.cs" />
     <Compile Include="ViewModel\Library\Items\ArtistViewModel.cs" />
     <Compile Include="ViewModel\Library\Items\AlbumViewModel.cs" />
     <Compile Include="ViewModel\Converters\FirstLetterConverter.cs" />

@@ -63,8 +63,9 @@
                         </Rectangle.Fill>
                     </Rectangle>
                 </ToggleButton>
-                <miSharp:SliderWithDraggingEvents
+                <Slider
                     Style="{DynamicResource MetroSlider}"
+                    IsMoveToPointEnabled="True"
                     Width="156" Height="20"
                     Minimum="0" Maximum="1" Value="{Binding Volume}"
                     HorizontalAlignment="Left" Margin="0,12" />
