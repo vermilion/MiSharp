@@ -100,7 +100,6 @@ namespace MiSharp.Core.Player
                     if (_setVolumeDelegate != null)
                     {
                         _setVolumeDelegate(value);
-                        NotifyOfPropertyChange(() => Volume);
                     }
                 }
             }
@@ -143,13 +142,13 @@ namespace MiSharp.Core.Player
                     Throw.ArgumentNullException(() => song);
 
                 Song = song;
-                Volume = volume;
 
                 CreateWavePlayer();
 
                 try
                 {
                     ISampleProvider sampleProvider = CreateInputStream(Song.FullFilename);
+                    Volume = volume;
                     _wavePlayer.Init(new SampleToWaveProvider(sampleProvider));
                 }
                 catch (Exception ex)

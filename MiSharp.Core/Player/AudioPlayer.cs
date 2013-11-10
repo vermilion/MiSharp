@@ -1,12 +1,11 @@
 ﻿using System;
-using Caliburn.Micro;
 using DeadDog.Audio;
 using MiSharp.Core.Player.Exceptions;
 using Rareform.Extensions;
 
 namespace MiSharp.Core.Player
 {
-    public abstract class AudioPlayer : PropertyChangedBase, IDisposable
+    public abstract class AudioPlayer : IDisposable
     {
         /// <summary>
         ///     Gets or sets the current time.
