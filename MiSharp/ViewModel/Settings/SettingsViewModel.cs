@@ -124,7 +124,6 @@ namespace MiSharp
 
         public void RescanLibrary()
         {
-            MediaRepository.Instance.Recreate();
             MediaScanner.Instance.ScanCompleted += e => _events.Publish(e);
             MediaScanner.Instance.FileFound += e => _events.Publish(e);
             Task.Run(() => MediaScanner.Instance.Rescan());
