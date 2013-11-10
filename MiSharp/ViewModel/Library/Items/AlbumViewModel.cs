@@ -41,7 +41,7 @@ namespace MiSharp
 
         public BitmapSource Cover
         {
-            get { return AlbumCoverRepository.Instance.GetCover(Model.Title, Model.Artist.Name, Model.Identifier); }
+            get { return IoC.Get<AlbumCoverRepository>().GetCover(Model.Title, Model.Artist.Name, Model.Identifier); }
         }
 
         #endregion

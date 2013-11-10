@@ -49,12 +49,13 @@ namespace DeadDog.Audio.Libraries
                 Artist = e.Track.Artist;
                 Artist.Albums.Add(this);
             }
-            else if (e.Track.Artist != null && e.Track.Artist != Artist)
-            {
-                if (Artist != null)
-                    Artist.Albums.Remove(this);
-                Artist = null;
-            }
+            //TODO: investigate maybe needed for some reason
+            //else if (e.Track.Artist != null && e.Track.Artist != Artist)
+            //{
+            //    if (Artist != null)
+            //        Artist.Albums.Remove(this);
+            //    Artist = null;
+            //}
         }
 
         private void TrackRemoved(TrackCollection collection, TrackEventArgs e)

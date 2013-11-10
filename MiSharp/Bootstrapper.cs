@@ -5,6 +5,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using Caliburn.Micro;
+using MiSharp.Core.Repository.FileStorage;
 using MiSharp.ViewModel.Player;
 
 namespace MiSharp
@@ -33,6 +34,8 @@ namespace MiSharp
             batch.AddExportedValue<IEventAggregator>(aggregator);
             batch.AddExportedValue<INavigationService>(new NavigationService(aggregator));
             batch.AddExportedValue(new PlaybackController(aggregator));
+            batch.AddExportedValue(new ArtistCoverRepository());
+            batch.AddExportedValue(new AlbumCoverRepository());
 
             batch.AddExportedValue(_container);
 

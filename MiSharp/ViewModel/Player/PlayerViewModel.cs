@@ -88,7 +88,7 @@ namespace MiSharp
             {
                 if (CurrentlyPlaying != null)
                 {
-                    return AlbumCoverRepository.Instance.GetCover(CurrentlyPlaying.Album.Title,
+                    return IoC.Get<AlbumCoverRepository>().GetCover(CurrentlyPlaying.Album.Title,
                         CurrentlyPlaying.Artist.Name, CurrentlyPlaying.Album.Identifier);
                 }
                 return _defaultCover;
