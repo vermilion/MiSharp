@@ -80,7 +80,7 @@ namespace MiSharp
 
         public IOutputDevicePlugin SelectedOutputDriver
         {
-            get { return Settings.Instance.SelectedOutputDriver ?? OutputDevicePlugins.ToList().FirstOrDefault(x => x.Name == "WaveOut"); }
+            get { return Settings.Instance.SelectedOutputDriver ?? (Settings.Instance.SelectedOutputDriver = OutputDevicePlugins.ToList().FirstOrDefault(x => x.Name == "WaveOut")); }
             set
             {
                 OutSettingsViewModel = value;
