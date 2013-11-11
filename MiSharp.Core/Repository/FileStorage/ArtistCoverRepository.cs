@@ -10,11 +10,11 @@ namespace MiSharp.Core.Repository.FileStorage
     {
         private const string Name = "ArtistCovers";
 
-        private static readonly SemaphoreSlim Locker;
+        private static readonly SemaphoreSlim Gate;
 
         static ArtistCoverRepository()
         {
-            Locker = new SemaphoreSlim(1,1);
+            Gate = new SemaphoreSlim(1);
         }
 
         public ArtistCoverRepository()
@@ -25,7 +25,7 @@ namespace MiSharp.Core.Repository.FileStorage
         public BitmapImage GetCover(string key, Guid guid)
         {
             var item = new byte[] {};
-            Locker.Wait();
+            Gate.Wait();
 
             try
             {
@@ -36,13 +36,15 @@ namespace MiSharp.Core.Repository.FileStorage
                 //try download
                 string url = Api.LoadArtistCover(key);
                 if (url != null)
-                {                    
-                    StoreAndResizeImageByUrl(url, 150, guid);                    
-                    item = Get(guid);                    
+                {
+                    StoreAndResizeImageByUrl(url, 150, guid);
+                    item = Get(guid);
                 }
             }
-
-            Locker.Release();
+            finally
+            {
+                Gate.Release();
+            }
 
             if (item.Length == 0) return null;
 
