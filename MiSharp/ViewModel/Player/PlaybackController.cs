@@ -5,13 +5,13 @@ using DeadDog.Audio.Libraries;
 using MiSharp.Core.Player;
 using ReactiveUI;
 
-namespace MiSharp.ViewModel.Player
+namespace MiSharp
 {
     public class PlaybackController : ReactiveObject, IHandle<List<Track>>
     {
         public readonly LocalAudioPlayer AudioPlayer;
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
-        private TrackState _currentTrack;
+        private TrackStateViewModel _currentTrack;
         private bool _isPlaying;
         private bool _repeatState;
         private bool _shuffleState;
@@ -39,7 +39,7 @@ namespace MiSharp.ViewModel.Player
         public IObservable<float> VolumeChanged { get; set; }
         public IObservable<bool> IsMutedChanged { get; set; }
 
-        public TrackState CurrentTrack
+        public TrackStateViewModel CurrentTrack
         {
             get { return _currentTrack; }
             set { this.RaiseAndSetIfChanged(ref _currentTrack, value); }
@@ -90,7 +90,7 @@ namespace MiSharp.ViewModel.Player
             set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
         }
 
-        public void Play(TrackState song)
+        public void Play(TrackStateViewModel song)
         {
             if (CurrentTrack == null || !Equals(CurrentTrack, song))
             {
@@ -111,7 +111,7 @@ namespace MiSharp.ViewModel.Player
             AudioPlayer.Stop();
             CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
             CurrentTrack = null;
-            TrackState song = GetNextSong(RepeatState, ShuffleState);
+            TrackStateViewModel song = GetNextSong(RepeatState, ShuffleState);
 
             if (song != null)
                 Play(song);
@@ -123,7 +123,7 @@ namespace MiSharp.ViewModel.Player
             AudioPlayer.Stop();
             CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
             CurrentTrack = null;
-            TrackState song = GetPreviousSong(RepeatState, ShuffleState);
+            TrackStateViewModel song = GetPreviousSong(RepeatState, ShuffleState);
             if (song != null)
                 Play(song);
         }
@@ -138,7 +138,7 @@ namespace MiSharp.ViewModel.Player
             }
             else
             {
-                TrackState song;
+                TrackStateViewModel song;
                 if (CurrentPlaylist.CurrentEntry != null)
                     song = CurrentPlaylist.CurrentEntry;
                 else if (CurrentPlaylist.Count > 0)
@@ -150,7 +150,7 @@ namespace MiSharp.ViewModel.Player
         }
 
 
-        public TrackState GetNextSong(bool repeat, bool random)
+        public TrackStateViewModel GetNextSong(bool repeat, bool random)
         {
             if (random) return GetRandom();
             if (!repeat)
@@ -164,7 +164,7 @@ namespace MiSharp.ViewModel.Player
             return null;
         }
 
-        public TrackState GetPreviousSong(bool repeat, bool random)
+        public TrackStateViewModel GetPreviousSong(bool repeat, bool random)
         {
             if (random) return GetRandom();
             if (!repeat)
@@ -178,7 +178,7 @@ namespace MiSharp.ViewModel.Player
             return null;
         }
 
-        private TrackState GetRandom()
+        private TrackStateViewModel GetRandom()
         {
             if (CurrentPlaylist.MoveRandom())
                 return CurrentPlaylist.CurrentEntry;

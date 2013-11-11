@@ -1,14 +1,16 @@
-﻿using DeadDog.Audio.Libraries;
+﻿using System.ComponentModel.Composition;
+using DeadDog.Audio.Libraries;
 using MiSharp.Core.Player;
 using ReactiveUI;
 
-namespace MiSharp.ViewModel.Player
+namespace MiSharp
 {
-    public class TrackState : ReactiveObject
+    [Export]
+    public class TrackStateViewModel : ReactiveObject
     {
         private AudioPlayerState _state;
 
-        public TrackState(Track track, AudioPlayerState state)
+        public TrackStateViewModel(Track track, AudioPlayerState state)
         {
             Track = track;
             State = state;

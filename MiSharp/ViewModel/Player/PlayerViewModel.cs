@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Repository.FileStorage;
-using MiSharp.ViewModel.Player;
+using MiSharp;
 using ReactiveUI;
 
 namespace MiSharp

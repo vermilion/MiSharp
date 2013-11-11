@@ -17,7 +17,7 @@
                    Text="{Binding Model.Model.TrackTitle}"/>
         <TextBlock Grid.Column="2" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}Bitrate: {0} | Duration {1}">
+                <MultiBinding StringFormat="{}Bitrate: {0} | Duration: {1:hh\:mm\:ss}">
                     <Binding Path="Model.Model.Bitrate" />
                     <Binding Path="Model.Model.Duration" />
                 </MultiBinding>

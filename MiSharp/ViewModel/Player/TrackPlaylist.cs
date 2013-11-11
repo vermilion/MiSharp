@@ -5,18 +5,18 @@ using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Playlist;
 using MiSharp.Core.Player;
 
-namespace MiSharp.ViewModel.Player
+namespace MiSharp
 {
-    public class TrackPlaylist : Playlist<TrackState>
+    public class TrackPlaylist : Playlist<TrackStateViewModel>
     {
         public void Add(Track track)
         {
-            Add(new TrackState(track, AudioPlayerState.None));
+            Add(new TrackStateViewModel(track, AudioPlayerState.None));
         }
 
         public void AddRange(IEnumerable<Track> track)
         {
-            track.ToList().ForEach(x => Add(new TrackState(x, AudioPlayerState.None)));
+            track.ToList().ForEach(x => Add(new TrackStateViewModel(x, AudioPlayerState.None)));
         }
 
         public bool Contains(Track item)
@@ -26,15 +26,15 @@ namespace MiSharp.ViewModel.Player
 
         public void SetState(Track track, AudioPlayerState state)
         {
-            TrackState item = this.First(x => x.Track.Equals(track));
+            TrackStateViewModel item = this.First(x => x.Track.Equals(track));
             this.ToList().ForEach(x => x.State = AudioPlayerState.None);
             item.State = state;
         }
 
-        public void SetState(TrackState track, AudioPlayerState state)
+        public void SetState(TrackStateViewModel track, AudioPlayerState state)
         {
             if (track == null) return;
-            TrackState item = this.First(x => x.Equals(track));
+            TrackStateViewModel item = this.First(x => x.Equals(track));
             this.ToList().ForEach(x => x.State = AudioPlayerState.None);
             item.State = state;
         }

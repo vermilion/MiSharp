@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive.Linq;
 using Caliburn.Micro;
-using MiSharp.ViewModel.Player;
 using ReactiveUI;
 
 namespace MiSharp
@@ -21,12 +20,12 @@ namespace MiSharp
 
             SelectionChangedCommand = new ReactiveCommand();
             SelectionChangedCommand.Where(x => x != null)
-                .Select(x => ((IEnumerable) x).Cast<TrackState>())
+                .Select(x => ((IEnumerable) x).Cast<TrackStateViewModel>())
                 .Subscribe(x => SelectedItems = x);
 
             RemoveSelectedCommand = new ReactiveCommand();
             RemoveSelectedCommand.Subscribe(param =>
-                new List<TrackState>(SelectedItems)
+                new List<TrackStateViewModel>(SelectedItems)
                     .ForEach(x => Playlist.Remove(x)));
 
             RemoveAllCommand = new ReactiveCommand();
@@ -47,6 +46,6 @@ namespace MiSharp
         }
 
 
-        public IEnumerable<TrackState> SelectedItems { get; set; }        
+        public IEnumerable<TrackStateViewModel> SelectedItems { get; set; }        
     }
 }

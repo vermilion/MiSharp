@@ -134,7 +134,7 @@
     <Compile Include="ViewModel\Player\NowPlayingViewModel.cs" />
     <Compile Include="ViewModel\Player\PlaybackController.cs" />
     <Compile Include="ViewModel\Player\TrackPlaylist.cs" />
-    <Compile Include="ViewModel\Player\TrackState.cs" />
+    <Compile Include="ViewModel\Player\TrackStateViewModel.cs" />
     <Compile Include="ViewModel\Converters\ShareModeConverter.cs" />
     <Compile Include="ViewModel\Settings\RescanProgressViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsAppearanceViewModel.cs" />
@@ -164,6 +164,9 @@
     </Compile>
     <Compile Include="View\Player\NowPlayingView.xaml.cs">
       <DependentUpon>NowPlayingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Player\TrackStateView.xaml.cs">
+      <DependentUpon>TrackStateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Settings\RescanProgressView.xaml.cs">
       <DependentUpon>RescanProgressView.xaml</DependentUpon>
@@ -262,6 +265,10 @@
     <Page Include="View\Player\NowPlayingView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Player\TrackStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml">
       <SubType>Designer</SubType>
