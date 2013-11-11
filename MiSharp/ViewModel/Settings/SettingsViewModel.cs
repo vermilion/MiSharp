@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using MiSharp.Core;
 using MiSharp.Core.Player.Output;
-using MiSharp.Core.Repository.Db4o;
 using MiSharp.DialogResults;
 using ReactiveUI;
 
@@ -80,25 +80,11 @@ namespace MiSharp
 
         public IOutputDevicePlugin SelectedOutputDriver
         {
-            get { return Settings.Instance.SelectedOutputDriver; }
+            get { return Settings.Instance.SelectedOutputDriver ?? OutputDevicePlugins.ToList().FirstOrDefault(x => x.Name == "WaveOut"); }
             set
             {
-                //TODO: refactor switch
-                switch (value.Name)
-                {
-                    case "AsioOut":
-                        OutSettingsViewModel = new AsioOutSettingsViewModel();
-                        break;
-                    case "WaveOut":
-                        OutSettingsViewModel = new WaveOutSettingsViewModel();
-                        break;
-                    case "WasapiOut":
-                        OutSettingsViewModel = new WasapiOutSettingsViewModel();
-                        break;
-                    case "DirectSound":
-                        OutSettingsViewModel = new DirectSoundOutSettingsViewModel();
-                        break;
-                }
+                OutSettingsViewModel = value;
+
                 //TODO:save concrete driver settings
                 this.RaiseAndSetIfChanged(ref Settings.Instance.SelectedOutputDriver, value);
             }

@@ -12,7 +12,7 @@ namespace MiSharp.Core
 
         public string[] FileFormats;
 
-        public int RequestedLatency;
+        public int RequestedLatency = 300;
         public IOutputDevicePlugin SelectedOutputDriver;
         public string WatchFolder;
         public int WatchFolderScanInterval;
