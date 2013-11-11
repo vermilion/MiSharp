@@ -44,21 +44,22 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
-        <ContentControl Grid.Column="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+        <Grid.RowDefinitions>            
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="120"/>
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         x:Name="PlayerViewModel" Margin="0" />
-        <TabControl Padding="0,15,0,0" Grid.Column="0" Margin="10,0,10,5">
-            <TabItem Header="Now Playing">
-                <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+       <ContentControl Grid.Column="0" Grid.Row="0" Margin="5,10,5,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                x:Name="LibraryViewModel" />
+        <TabControl Grid.Column="1" Grid.Row="0">
+            <TabItem Header="Now Playing" >
+                <ContentControl Margin="5,10,5,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                 x:Name="NowPlayingViewModel" />
             </TabItem>
-            <TabItem Header="Library">
-                <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                                x:Name="LibraryViewModel" />
-            </TabItem>
+            <TabItem Header="Playlists"></TabItem>
         </TabControl>
-
-
     </Grid>
 </controls:MetroWindow>
