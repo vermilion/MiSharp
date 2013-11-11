@@ -4,7 +4,6 @@
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              xmlns:valueConverters="clr-namespace:Rareform.ValueConverters;assembly=Rareform"
                               xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                               mc:Ignorable="d"
                               d:DesignHeight="600" d:DesignWidth="800">

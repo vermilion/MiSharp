@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive.Linq;
 using Caliburn.Micro;
-using Rareform.Collections;
 using ReactiveUI;
 
 namespace MiSharp
@@ -66,14 +65,14 @@ namespace MiSharp
             }
         }
 
-        public ObservableList<TrackViewModel> Tracks { get; set; }
+        public ReactiveList<TrackViewModel> Tracks { get; set; }
 
         public void ProcessParameters(DefaultNavigationArgs modelParams)
         {
             SelectedBand = modelParams.Artist;
             SelectedAlbum = modelParams.Album;
 
-            Tracks = new ObservableList<TrackViewModel>();
+            Tracks = new ReactiveList<TrackViewModel>();
             Tracks.AddRange(SelectedAlbum.Tracks.Select(x => new TrackViewModel(x.Model)));
 
             NotifyOfPropertyChange(() => Tracks);

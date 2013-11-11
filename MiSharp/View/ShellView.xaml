@@ -57,10 +57,6 @@
                 <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                 x:Name="LibraryViewModel" />
             </TabItem>
-            <TabItem Header="Playlists">
-                <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                                x:Name="PlaylistManagerViewModel" />
-            </TabItem>
         </TabControl>
 
 

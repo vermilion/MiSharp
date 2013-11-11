@@ -4,7 +4,6 @@ using System.Linq;
 using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Playlist;
 using MiSharp.Core.Player;
-using Rareform.Extensions;
 
 namespace MiSharp.ViewModel.Player
 {
@@ -17,7 +16,7 @@ namespace MiSharp.ViewModel.Player
 
         public void AddRange(IEnumerable<Track> track)
         {
-            track.ForEach(x => Add(new TrackState(x, AudioPlayerState.None)));
+            track.ToList().ForEach(x => Add(new TrackState(x, AudioPlayerState.None)));
         }
 
         public bool Contains(Track item)
@@ -28,7 +27,7 @@ namespace MiSharp.ViewModel.Player
         public void SetState(Track track, AudioPlayerState state)
         {
             TrackState item = this.First(x => x.Track.Equals(track));
-            this.ForEach(x => x.State = AudioPlayerState.None);
+            this.ToList().ForEach(x => x.State = AudioPlayerState.None);
             item.State = state;
         }
 
@@ -36,7 +35,7 @@ namespace MiSharp.ViewModel.Player
         {
             if (track == null) return;
             TrackState item = this.First(x => x.Equals(track));
-            this.ForEach(x => x.State = AudioPlayerState.None);
+            this.ToList().ForEach(x => x.State = AudioPlayerState.None);
             item.State = state;
         }
 

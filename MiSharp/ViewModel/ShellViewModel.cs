@@ -17,7 +17,6 @@ namespace MiSharp
 
             LibraryViewModel = IoC.Get<LibraryViewModel>();
             PlayerViewModel = IoC.Get<PlayerViewModel>();
-            PlaylistManagerViewModel = IoC.Get<PlaylistManagerViewModel>();
             SettingsBaseViewModel = IoC.Get<SettingsBaseViewModel>();
             NowPlayingViewModel = IoC.Get<NowPlayingViewModel>();
             RescanProgressViewModel = IoC.Get<RescanProgressViewModel>();
@@ -28,7 +27,6 @@ namespace MiSharp
         public SettingsBaseViewModel SettingsBaseViewModel { get; set; }
         public LibraryViewModel LibraryViewModel { get; private set; }
         public PlayerViewModel PlayerViewModel { get; set; }
-        public PlaylistManagerViewModel PlaylistManagerViewModel { get; set; }
         public NowPlayingViewModel NowPlayingViewModel { get; set; }
         public RescanProgressViewModel RescanProgressViewModel { get; set; }
 

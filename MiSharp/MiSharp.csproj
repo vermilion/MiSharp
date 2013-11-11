@@ -64,9 +64,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
     </Reference>
-    <Reference Include="Rareform">
-      <HintPath>..\packages\Rareform.1.5.2\lib\Rareform.dll</HintPath>
-    </Reference>
     <Reference Include="ReactiveUI">
       <HintPath>..\packages\reactiveui-core.5.2.0\lib\Portable-Net45+WinRT45+WP8\ReactiveUI.dll</HintPath>
     </Reference>
@@ -176,7 +173,6 @@
     </Compile>
     <Compile Include="ViewModel\Settings\SettingsBaseViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
-    <Compile Include="ViewModel\Player\PlaylistManagerViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\AsioOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\DirectSoundOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Settings\OutputDevices\WasapiOutSettingsViewModel.cs" />
@@ -200,9 +196,6 @@
     </Compile>
     <Compile Include="View\Player\PlayerView.xaml.cs">
       <DependentUpon>PlayerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Player\PlaylistManagerView.xaml.cs">
-      <DependentUpon>PlaylistManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Library\TagEditor\ArtistTagEditorView.xaml.cs">
       <DependentUpon>ArtistTagEditorView.xaml</DependentUpon>
@@ -287,10 +280,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Player\PlayerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Player\PlaylistManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

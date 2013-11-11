@@ -4,7 +4,6 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Repository.FileStorage;
-using Rareform.Collections;
 using ReactiveUI;
 
 namespace MiSharp
@@ -19,7 +18,7 @@ namespace MiSharp
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
             Model = album;
-            Tracks = new ObservableList<TrackViewModel>();
+            Tracks = new ReactiveList<TrackViewModel>();
             Tracks.AddRange(album.Tracks.Select(x => new TrackViewModel(x)));
 
             AddAlbumToPlaylistCommand = new ReactiveCommand();
@@ -37,7 +36,7 @@ namespace MiSharp
 
         public Album Model { get; set; }
 
-        public ObservableList<TrackViewModel> Tracks { get; set; }
+        public ReactiveList<TrackViewModel> Tracks { get; set; }
 
         public BitmapSource Cover
         {
