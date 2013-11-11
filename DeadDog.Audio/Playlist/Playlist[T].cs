@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using DeadDog.Audio.Playlist.Interfaces;
-using Rareform.Collections;
 
 namespace DeadDog.Audio.Playlist
 {
-    public class Playlist<T> : ObservableList<T>, IPlaylist<T>, INamedPlaylist
+    public class Playlist<T> : ObservableCollection<T>, IPlaylist<T>, INamedPlaylist
     {
         public Playlist()
         {
@@ -41,7 +41,7 @@ namespace DeadDog.Audio.Playlist
                 return false;
 
             CurrentIndex--;
-            if (CurrentIndex == -1)
+            if (CurrentIndex <= -1)
             {
                 CurrentIndex = -2;
                 return false;
@@ -128,7 +128,7 @@ namespace DeadDog.Audio.Playlist
         {
             if (MovePrevious()) return true;
             if (CurrentIndex == -2)
-                CurrentIndex = 0;
+                CurrentIndex = Count - 1;
             return true;
         }
     }

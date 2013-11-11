@@ -5,10 +5,12 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using Caliburn.Micro;
+using MiSharp.Core.Repository.FileStorage;
+using MiSharp;
 
 namespace MiSharp
 {
-    public class Bootstrapper : Bootstrapper<IShellViewModel>
+    public class Bootstrapper : Bootstrapper<ShellViewModel>
     {
         private CompositionContainer _container;
 
@@ -30,8 +32,10 @@ namespace MiSharp
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             var aggregator = new EventAggregator();
             batch.AddExportedValue<IEventAggregator>(aggregator);
-
             batch.AddExportedValue<INavigationService>(new NavigationService(aggregator));
+            batch.AddExportedValue(new PlaybackController(aggregator));
+            batch.AddExportedValue(new ArtistCoverRepository());
+            batch.AddExportedValue(new AlbumCoverRepository());
 
             batch.AddExportedValue(_container);
 

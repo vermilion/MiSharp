@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Caliburn.Micro.ReactiveUI;
 using MiSharp.Core;
-using MiSharp.Core.CustomEventArgs;
 using MiSharp.Core.Player.Output;
-using MiSharp.Core.Repository.Db4o;
 using MiSharp.DialogResults;
 using ReactiveUI;
 
 namespace MiSharp
 {
-    [Export(typeof (SettingsViewModel))]
-    public class SettingsViewModel : ReactiveScreen
+    [Export]
+    public class SettingsViewModel : ReactiveObject
     {
         private readonly IEventAggregator _events;
         private IOutputDevicePlugin _outSettingsViewModel;
@@ -23,9 +22,19 @@ namespace MiSharp
         [ImportingConstructor]
         public SettingsViewModel(IEventAggregator events)
         {
-            DisplayName = "Mi# Settings";
             _events = events;
             RequestedLatency.AddRange(new[] {25, 50, 100, 150, 200, 300, 400, 500});
+
+            Observable.Interval(TimeSpan.FromMinutes(1))
+                      .Subscribe(x =>
+                          {
+                              TimeToNextRescan = TimeToNextRescan.Add(new TimeSpan(0, -1, 0));
+                              if (TimeToNextRescan.TotalMinutes <= 0)
+                              {
+                                  RescanLibrary();
+                                  TimeToNextRescan = TimeSpan.FromMinutes(RescanTimeout);
+                              }
+                          });
         }
 
         public string MediaPath
@@ -37,7 +46,17 @@ namespace MiSharp
         public int RescanTimeout
         {
             get { return Settings.Instance.WatchFolderScanInterval; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolderScanInterval, value); }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolderScanInterval, value);
+                TimeToNextRescan = TimeSpan.FromMinutes(value);
+            }
+        }
+
+        private TimeSpan TimeToNextRescan
+        {
+            get { return Settings.Instance.TimeToNextRescan; }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.TimeToNextRescan, value); }
         }
 
         public string FileFormats
@@ -61,25 +80,11 @@ namespace MiSharp
 
         public IOutputDevicePlugin SelectedOutputDriver
         {
-            get { return Settings.Instance.SelectedOutputDriver; }
+            get { return Settings.Instance.SelectedOutputDriver ?? (Settings.Instance.SelectedOutputDriver = OutputDevicePlugins.ToList().FirstOrDefault(x => x.Name == "WaveOut")); }
             set
             {
-                //TODO: refactor switch
-                switch (value.Name)
-                {
-                    case "AsioOut":
-                        OutSettingsViewModel = new AsioOutSettingsViewModel();
-                        break;
-                    case "WaveOut":
-                        OutSettingsViewModel = new WaveOutSettingsViewModel();
-                        break;
-                    case "WasapiOut":
-                        OutSettingsViewModel = new WasapiOutSettingsViewModel();
-                        break;
-                    case "DirectSound":
-                        OutSettingsViewModel = new DirectSoundOutSettingsViewModel();
-                        break;
-                }
+                OutSettingsViewModel = value;
+
                 //TODO:save concrete driver settings
                 this.RaiseAndSetIfChanged(ref Settings.Instance.SelectedOutputDriver, value);
             }
@@ -105,9 +110,8 @@ namespace MiSharp
 
         public void RescanLibrary()
         {
-            MediaRepository.Instance.Recreate();
-            MediaScanner.Instance.ScanCompleted += () => _events.Publish(new ScanCompletedEventArgs());
-            MediaScanner.Instance.FileFound += s => _events.Publish(s);
+            MediaScanner.Instance.ScanCompleted += e => _events.Publish(e);
+            MediaScanner.Instance.FileFound += e => _events.Publish(e);
             Task.Run(() => MediaScanner.Instance.Rescan());
         }
     }

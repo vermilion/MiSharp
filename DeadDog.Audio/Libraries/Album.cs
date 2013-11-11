@@ -10,8 +10,6 @@ namespace DeadDog.Audio.Libraries
 
         public Guid Identifier { get; set; }
 
-        public bool IsUnknown { get; set; }
-
         public string Title { get; set; }
 
         public TrackCollection Tracks { get; set; }
@@ -29,12 +27,11 @@ namespace DeadDog.Audio.Libraries
 
         public Album(string album, int albumYear)
         {
-            IsUnknown = album == null;
             Year = albumYear;
             Tracks = new TrackCollection(TrackAdded, TrackRemoved);
             Identifier = Guid.NewGuid();
 
-            Title = album ?? "Unknown";
+            Title = album;
         }
 
         public override string ToString()
@@ -52,12 +49,13 @@ namespace DeadDog.Audio.Libraries
                 Artist = e.Track.Artist;
                 Artist.Albums.Add(this);
             }
-            else if (e.Track.Artist != null && e.Track.Artist != Artist)
-            {
-                if (Artist != null)
-                    Artist.Albums.Remove(this);
-                Artist = null;
-            }
+            //TODO: investigate maybe needed for some reason
+            //else if (e.Track.Artist != null && e.Track.Artist != Artist)
+            //{
+            //    if (Artist != null)
+            //        Artist.Albums.Remove(this);
+            //    Artist = null;
+            //}
         }
 
         private void TrackRemoved(TrackCollection collection, TrackEventArgs e)

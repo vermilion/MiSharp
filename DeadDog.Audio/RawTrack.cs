@@ -29,11 +29,11 @@ namespace DeadDog.Audio
             File = null;
 
             TrackTitle = null;
-            AlbumTitle = "Unknown";
+            AlbumTitle = "Unknown Album";
             TrackNumber = TrackNumberIfUnknown;
             Year = YearIfUnknown;
 
-            ArtistName = "Unknown";
+            ArtistName = "Unknown Artist";
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace DeadDog.Audio
 
         public int Year { get; set; }
 
-        public uint Bitrate { get; set; }
+        public int Bitrate { get; set; }
 
         public TimeSpan Duration { get; set; }
 

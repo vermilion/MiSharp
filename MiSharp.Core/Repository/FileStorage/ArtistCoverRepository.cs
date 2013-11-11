@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Media.Imaging;
 using FileStorage.Exceptions;
 
@@ -9,22 +10,23 @@ namespace MiSharp.Core.Repository.FileStorage
     {
         private const string Name = "ArtistCovers";
 
-        private static ArtistCoverRepository _instance;
+        private static readonly SemaphoreSlim Gate;
+
+        static ArtistCoverRepository()
+        {
+            Gate = new SemaphoreSlim(1);
+        }
 
         public ArtistCoverRepository()
             : base(Name)
         {
         }
 
-        public static ArtistCoverRepository Instance
-        {
-            get { return _instance ?? (_instance = new ArtistCoverRepository()); }
-        }
-
-
         public BitmapImage GetCover(string key, Guid guid)
         {
             var item = new byte[] {};
+            Gate.Wait();
+
             try
             {
                 item = Get(guid);
@@ -35,9 +37,13 @@ namespace MiSharp.Core.Repository.FileStorage
                 string url = Api.LoadArtistCover(key);
                 if (url != null)
                 {
-                    StoreFileByUrl(url, guid);
+                    StoreAndResizeImageByUrl(url, 150, guid);
                     item = Get(guid);
                 }
+            }
+            finally
+            {
+                Gate.Release();
             }
 
             if (item.Length == 0) return null;

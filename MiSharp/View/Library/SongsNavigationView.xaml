@@ -4,7 +4,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:cal="http://www.caliburnproject.org"
-    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:miSharp="clr-namespace:MiSharp"
     x:Class="MiSharp.SongsNavigationView" TextOptions.TextFormattingMode="Display"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
@@ -23,9 +23,19 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ListView ItemsSource="{Binding Tracks, IsAsync=True}"
+        <ListView ItemsSource="{Binding Tracks, IsAsync=True}" Name="ListView"
                   Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}">
-
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" CommandParameter="{Binding ElementName=ListView, Path=SelectedItems}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add to Now Playing" Command="{Binding AddSongsToPlaylistCommand}" />
+                    <MenuItem Header="Edit Songs Information" Command="{Binding EditorEditSongsCommand}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <miSharp:TrackView Width="Auto" DataContext="{Binding}" />

@@ -9,14 +9,6 @@ namespace MiSharp
     [Export]
     public class ArtistNavigationViewModel : Screen
     {
-        private readonly IEventAggregator _events;
-
-        public ArtistNavigationViewModel()
-        {
-            _events = IoC.Get<IEventAggregator>();
-            _events.Subscribe(this);
-        }
-
         public ArtistViewModel SelectedBand { get; set; }
 
         public IEnumerable<ArtistViewModel> Bands

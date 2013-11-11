@@ -5,7 +5,6 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio;
 using DeadDog.Audio.Libraries;
-using Rareform.Collections;
 using ReactiveUI;
 using TagLib;
 using File = TagLib.File;
@@ -23,7 +22,7 @@ namespace MiSharp
             _events = IoC.Get<IEventAggregator>();
             _windowManager = IoC.Get<IWindowManager>();
             Model = album;
-            Tracks = new ObservableList<TrackViewModel>();
+            Tracks = new ReactiveList<TrackViewModel>();
             Tracks.AddRange(album.Tracks.Select(x => new TrackViewModel(x)));
             _cover = new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
 
@@ -70,7 +69,7 @@ namespace MiSharp
 
         public Album Model { get; set; }
 
-        public ObservableList<TrackViewModel> Tracks { get; set; }
+        public ReactiveList<TrackViewModel> Tracks { get; set; }
 
         #endregion
     }

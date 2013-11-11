@@ -40,7 +40,7 @@ namespace MiSharp
 
         public BitmapSource Cover
         {
-            get { return ArtistCoverRepository.Instance.GetCover(Model.Name, Model.Identifier); }
+            get { return IoC.Get<ArtistCoverRepository>().GetCover(Model.Name, Model.Identifier); }
         }
 
         public int SongsCount

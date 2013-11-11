@@ -11,6 +11,8 @@ namespace DeadDog.Audio.Scan
         private readonly string _filepath;
         private readonly FileState _filestate;
         private readonly RawTrack _track;
+        private readonly long _currentFileNumber;
+        private readonly long _totalFilesCount;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ScanFileEventArgs" /> class.
@@ -18,8 +20,10 @@ namespace DeadDog.Audio.Scan
         /// <param name="filepath">The file path affected by the event.</param>
         /// <param name="track">The track (if one exists) parsed from the file affected by the event.</param>
         /// <param name="filestate">The file state affected by the event.</param>
-        public ScanFileEventArgs(string filepath, RawTrack track, FileState filestate)
+        public ScanFileEventArgs(long currentFileNumber, long totalFilesCount, string filepath, RawTrack track, FileState filestate)
         {
+            _currentFileNumber = currentFileNumber;
+            _totalFilesCount = totalFilesCount;
             _filepath = filepath;
             _track = track;
             _filestate = filestate;
@@ -47,6 +51,16 @@ namespace DeadDog.Audio.Scan
         public FileState State
         {
             get { return _filestate; }
+        }
+
+        public long CurrentFileNumber
+        {
+            get { return _currentFileNumber; }
+        }
+
+        public long TotalFilesCount
+        {
+            get { return _totalFilesCount; }
         }
     }
 }

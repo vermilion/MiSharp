@@ -4,66 +4,31 @@
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-                              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500">
-    <ListView Margin="5"
-              FocusVisualStyle="{x:Null}"
-              ItemsSource="{Binding NowPlayingPlaylist}"
-              SelectedIndex="{Binding NowPlayingPlaylist.CurrentIndex, Mode=OneWayToSource}"
-              ScrollViewer.CanContentScroll="True" Background="{x:Null}">
+                              xmlns:miSharp="clr-namespace:MiSharp"
+                              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="500">
+    <ListView FocusVisualStyle="{x:Null}"
+              ItemsSource="{Binding Playlist}"
+              SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}"
+              ScrollViewer.CanContentScroll="True" Background="{x:Null}"
+              x:Name="ListView">
         <ListView.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Play" Command="{Binding PlayNextCommand}" />
+                <MenuItem Header="Play" Command="{Binding PlaySelectedCommand}" />
+                <Separator/>
                 <MenuItem Header="Remove" Command="{Binding RemoveSelectedCommand}" />
+                <MenuItem Header="Remove All" Command="{Binding RemoveAllCommand}" />
             </ContextMenu>
         </ListView.ContextMenu>
-        <ListView.View>
-            <GridView>
-                <GridViewColumn Width="60" Header="">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=PlayingState}" TextTrimming="CharacterEllipsis" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridViewColumn Width="{Binding Path=PlaylistTitleColumnWidth, Mode=TwoWay}" Header="Title">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.TrackTitle}" TextTrimming="CharacterEllipsis" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridViewColumn Width="{Binding Path=PlaylistDurationColumnWidth, Mode=TwoWay}" Header="Duration">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.Duration, StringFormat=mm\\:ss}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridViewColumn Width="{Binding Path=PlaylistArtistColumnWidth, Mode=TwoWay}" Header="Artist">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.ArtistName}" TextTrimming="CharacterEllipsis" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridViewColumn Width="{Binding Path=PlaylistAlbumColumnWidth, Mode=TwoWay}" Header="Album">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.AlbumTitle}" TextTrimming="CharacterEllipsis" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridViewColumn Width="{Binding Path=PlaylistGenreColumnWidth, Mode=TwoWay}" Header="Genre">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Path=Model.Model.Genre}" TextTrimming="CharacterEllipsis" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-            </GridView>
-        </ListView.View>
+        <i:Interaction.Triggers>            
+            <i:EventTrigger EventName="SelectionChanged">
+                <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" CommandParameter="{Binding ElementName=ListView, Path=SelectedItems}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <miSharp:TrackStateView Width="Auto" DataContext="{Binding}"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>
     </ListView>
 </controls:MetroContentControl>

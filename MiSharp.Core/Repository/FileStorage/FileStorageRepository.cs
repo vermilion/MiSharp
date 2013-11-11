@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Net;
+using System.Windows.Media.Imaging;
 using FileStorage;
 using FileStorage.Enums.Behaviours;
+using FileStorage.Helper;
 
 namespace MiSharp.Core.Repository.FileStorage
 {
@@ -23,8 +28,22 @@ namespace MiSharp.Core.Repository.FileStorage
         }
 
         public void StoreFileByUrl(string url, Guid uniqueIdentifier)
-        {
+        {            
             FileStorageFacade.StoreHttpRequest(FileStorageName, uniqueIdentifier, url, null, AddFileBehaviour.OverrideWhenAlreadyExists, "NFileStorage");
+        }
+
+        public void StoreAndResizeImageByUrl(string url, int largestSide, Guid uniqueIdentifier)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            // execute the web request
+            var response = (HttpWebResponse)request.GetResponse();
+
+            using (Stream webStream = response.GetResponseStream())
+            {
+                var thumbnail = ImageHelper.CreateThumbnail(webStream.ReadAllBytes(), largestSide);
+                FileStorageFacade.StoreBytes(FileStorageName, uniqueIdentifier, thumbnail, null, AddFileBehaviour.OverrideWhenAlreadyExists);
+            }
         }
 
         public void DeleteAllFilesFromContainer()

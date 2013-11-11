@@ -6,12 +6,6 @@
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               mc:Ignorable="d" d:DesignHeight="30" d:DesignWidth="600">
     <Grid Background="Transparent">
-        <Grid.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="Add to Now Playing" Command="{Binding AddSongToPlaylistCommand}" />
-                <MenuItem Header="Edit Song Information" Command="{Binding EditorEditSongsCommand}" />
-            </ContextMenu>
-        </Grid.ContextMenu>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15" />
             <ColumnDefinition Width="*" />
@@ -20,11 +14,10 @@
         <TextBlock VerticalAlignment="Center" Text="{Binding Model.Model.TrackNumber}" Foreground="#999999"
                    FontFamily="/MiSharp;component/Resources/#Open Sans" Grid.RowSpan="2" />
         <TextBlock Grid.Column="1" Margin="10,7,0,6" TextWrapping="Wrap" VerticalAlignment="Center"
-                   Text="{Binding Model.Model.TrackTitle}" FontFamily="/MiSharp;component/Resources/#Open Sans" />
-        <TextBlock Grid.Column="2" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center"
-                   FontFamily="/MiSharp;component/Resources/#Open Sans" Grid.Row="1">
+                   Text="{Binding Model.Model.TrackTitle}"/>
+        <TextBlock Grid.Column="2" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}Bitrate: {0} | Duration {1}">
+                <MultiBinding StringFormat="{}Bitrate: {0} | Duration: {1:hh\:mm\:ss}">
                     <Binding Path="Model.Model.Bitrate" />
                     <Binding Path="Model.Model.Duration" />
                 </MultiBinding>
