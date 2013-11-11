@@ -48,7 +48,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>            
             <RowDefinition Height="*"/>
-            <RowDefinition Height="120"/>
+            <RowDefinition Height="90"/>
         </Grid.RowDefinitions>
         <ContentControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         x:Name="PlayerViewModel" Margin="0" />
@@ -56,7 +56,7 @@
                                 x:Name="LibraryViewModel" />
         <TabControl Grid.Column="1" Grid.Row="0">
             <TabItem Header="Now Playing" >
-                <ContentControl Margin="5,10,5,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                <ContentControl Margin="5,15,5,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                 x:Name="NowPlayingViewModel" />
             </TabItem>
             <TabItem Header="Playlists"></TabItem>

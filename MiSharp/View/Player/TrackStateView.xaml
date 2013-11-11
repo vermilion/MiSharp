@@ -11,10 +11,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding State}" VerticalAlignment="Center" />
-        <TextBlock Grid.Column="1" Margin="10,3,10,0" TextWrapping="Wrap" Text="{Binding Track.Title}" VerticalAlignment="Top"/>
-        <TextBlock Grid.Column="1" Margin="10,0,10,3" TextWrapping="Wrap" VerticalAlignment="Bottom">
+        <TextBlock Grid.Column="1" Margin="10,2,10,0" TextWrapping="Wrap" Text="{Binding Track.Title}" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock Grid.Column="1" Margin="10,0,10,2" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="#FFCBCBCB">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0} | {1} | {2} kbps | {3:hh\:mm\:ss}">
+                <MultiBinding StringFormat="{}{0} | {1} | {2} kbps | {3:mm\:ss}">
                     <Binding Path="Track.Model.ArtistName" />
                     <Binding Path="Track.Model.AlbumTitle" />
                     <Binding Path="Track.Model.Bitrate" />

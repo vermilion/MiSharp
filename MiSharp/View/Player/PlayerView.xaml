@@ -3,10 +3,8 @@
                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                              xmlns:cal="http://www.caliburnproject.org" xmlns:miSharp="clr-namespace:MiSharp"
-                              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="120">
+                              xmlns:cal="http://www.caliburnproject.org" 
+                              mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="90">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,18 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="#FF4F4F4F">
-        <Grid Height="101" VerticalAlignment="Top" HorizontalAlignment="Right" Width="330">
-            <Image Height="80" Width="80" HorizontalAlignment="Left" Source="{Binding Cover}"  />
-            <StackPanel Margin="85,0,0,0" VerticalAlignment="Center" >
-                <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.Artist.Name}" FontSize="16"
-            		HorizontalAlignment="Center" Margin="0,3,0,0" />
-                <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.Album.Title}" FontSize="14"
-            		HorizontalAlignment="Center" />
-                <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.Title}" FontSize="16"
-            		HorizontalAlignment="Center" Margin="0,0,0,10" />
-            </StackPanel>
-        </Grid>
-        <StackPanel Orientation="Horizontal" Margin="0,0,649,117">
+        <StackPanel Orientation="Horizontal" Margin="10,16,0,2" HorizontalAlignment="Left" Width="250">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="73" VerticalAlignment="Top" Margin="0,0,0,-70">
                 <Button Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
         			HorizontalAlignment="Right" Width="50"
@@ -44,60 +31,75 @@
         			Style="{DynamicResource MetroCircleButtonStyle}"
         			HorizontalAlignment="Right" Width="50" BorderThickness="3" />
             </StackPanel>
-        </StackPanel>
-        <Grid Height="41" VerticalAlignment="Bottom">
-            <ProgressBar x:Name="PositionSlider" Value="{Binding PositionValue, Mode=OneWay}"
-        		Style="{DynamicResource MetroProgressBar}"
-        		cal:Message.Attach="[Event MouseDown] = [Action ChangePosition($source, $eventArgs)];"
-        		Maximum="{Binding Maximum}"
-        		VerticalAlignment="Bottom"
-        		Height="15" />
-            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap"
-        		Text="{Binding CurrentTime}" Height="16" VerticalAlignment="Top" />
-            <TextBlock HorizontalAlignment="Right" Margin="0,0,10,0" TextWrapping="Wrap"
-        		Text="{Binding TotalTime}" VerticalAlignment="Top" />
-        </Grid>
-        <StackPanel HorizontalAlignment="Left" Height="75" Margin="173,0,0,0" VerticalAlignment="Top" Width="274" Orientation="Horizontal">
-            <ToggleButton Height="40" IsChecked="{Binding RepeatState}"
-        		ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
-        		Style="{DynamicResource MetroCircleToggleButtonStyle}"
-        		BorderThickness="3" >
-                <Rectangle Width="16" Height="16">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-        					Visual="{StaticResource appbar_repeat}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </ToggleButton>
-            <ToggleButton IsChecked="{Binding ShuffleState}"
-            	ToolTip="Shuffle" HorizontalAlignment="Left" Width="40"
-            	Style="{DynamicResource MetroCircleToggleButtonStyle}"
-            	BorderThickness="3" Height="40" Margin="0,7">
-                <Rectangle Width="16" Height="16">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-            				Visual="{StaticResource appbar_shuffle}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </ToggleButton>
-            <StackPanel Height="44" Orientation="Horizontal" Width="196">
-                <ToggleButton IsChecked="{Binding IsMuted}"
-            		Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Left"
-            		Width="40"
-            		BorderBrush="White" BorderThickness="3" Height="40" Margin="0,2">
-                    <Rectangle Width="16" Height="16" StrokeThickness="7">
+            <StackPanel HorizontalAlignment="Left" Height="75" Margin="0,0,0,-2" VerticalAlignment="Top" Width="78" Orientation="Horizontal">
+                <ToggleButton Height="40" IsChecked="{Binding RepeatState}"
+            		ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
+            		Style="{DynamicResource MetroCircleToggleButtonStyle}"
+            		BorderThickness="3" >
+                    <Rectangle Width="16" Height="16">
                         <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_sound_3}" />
+                            <VisualBrush Stretch="Fill"
+            					Visual="{StaticResource appbar_repeat}" />
                         </Rectangle.Fill>
                     </Rectangle>
                 </ToggleButton>
-                <Slider
+                <ToggleButton IsChecked="{Binding ShuffleState}"
+            		ToolTip="Shuffle" HorizontalAlignment="Left" Width="40"
+            		Style="{DynamicResource MetroCircleToggleButtonStyle}"
+            		BorderThickness="3" Height="40" Margin="0,7">
+                    <Rectangle Width="16" Height="16">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill"
+            					Visual="{StaticResource appbar_shuffle}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </ToggleButton>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="339,16,211,2">
+            <Image Height="70" Width="70" HorizontalAlignment="Left" Source="{Binding Cover}"  />
+            <StackPanel Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.Title}" FontSize="16"
+            			HorizontalAlignment="Left" Margin="0,3,0,0" />
+                <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.Album.Title}" FontSize="14"
+            			HorizontalAlignment="Left" />
+                <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.Artist.Name}" FontSize="14"
+            			HorizontalAlignment="Left" Margin="0,0,0,10" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Width="196" Margin="0,0,10,2" HorizontalAlignment="Right" Height="42" VerticalAlignment="Bottom">
+            <ToggleButton IsChecked="{Binding IsMuted}"
+            		Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Left"
+            		Width="40"
+            		BorderBrush="White" BorderThickness="3" Height="40" Margin="0,2">
+                <Rectangle Width="16" Height="16" StrokeThickness="7">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_sound_3}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </ToggleButton>
+            <Slider
             		Style="{DynamicResource MetroSlider}"
             		IsMoveToPointEnabled="True"
             		Width="156" Height="20"
             		Minimum="0" Maximum="1" Value="{Binding Volume}"
             		HorizontalAlignment="Left" Margin="0,12" />
-            </StackPanel>
         </StackPanel>
+        <Grid Height="41" VerticalAlignment="Top">
+            <ProgressBar x:Name="PositionSlider" Value="{Binding PositionValue, Mode=OneWay}"
+        		Style="{DynamicResource MetroProgressBar}"
+        		cal:Message.Attach="[Event MouseDown] = [Action ChangePosition($source, $eventArgs)];"
+        		Maximum="{Binding Maximum}"
+        		VerticalAlignment="Top"
+        		Height="15" />
+            <TextBlock HorizontalAlignment="Right" Margin="0,20,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" >
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0:mm\:ss} / {1:mm\:ss}">
+                        <Binding Path="CurrentTime" />
+                        <Binding Path="TotalTime" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Grid>
     </Grid>
 </UserControl>

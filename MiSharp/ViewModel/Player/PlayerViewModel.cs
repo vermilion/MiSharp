@@ -139,22 +139,14 @@ namespace MiSharp
             get { return (int) PlaybackController.AudioPlayer.TotalTime.TotalSeconds/30; }
         }
 
-        public string TotalTime
+        public TimeSpan TotalTime
         {
-            get
-            {
-                return String.Format("{0:00}:{1:00}", (int) PlaybackController.AudioPlayer.TotalTime.TotalMinutes,
-                    PlaybackController.AudioPlayer.TotalTime.Seconds);
-            }
+            get { return PlaybackController.AudioPlayer.TotalTime; }
         }
 
-        public string CurrentTime
+        public TimeSpan CurrentTime
         {
-            get
-            {
-                return String.Format("{0:00}:{1:00}", (int) PlaybackController.AudioPlayer.CurrentTime.TotalMinutes,
-                    PlaybackController.AudioPlayer.CurrentTime.Seconds);
-            }
+            get { return PlaybackController.AudioPlayer.CurrentTime; }
         }
 
         #endregion
