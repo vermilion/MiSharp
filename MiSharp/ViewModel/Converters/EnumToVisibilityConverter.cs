@@ -26,7 +26,7 @@ namespace MiSharp
                 }
                 else
                 {
-                    var equals = Equals(value, parameter);
+                    bool equals = Equals(value, parameter);
                     return equals ? TrueValue : FalseValue;
                 }
             }

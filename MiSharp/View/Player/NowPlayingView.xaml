@@ -18,16 +18,17 @@
               x:Name="ListView">
         <ListView.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Play" Command="{Binding PlaySelectedCommand}" />
-                <Separator/>
                 <MenuItem Header="Remove" Command="{Binding RemoveSelectedCommand}" />
                 <MenuItem Header="Remove All" Command="{Binding RemoveAllCommand}" />
             </ContextMenu>
         </ListView.ContextMenu>
         <i:Interaction.Triggers>            
             <i:EventTrigger EventName="SelectionChanged">
-                <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" CommandParameter="{Binding ElementName=ListView, Path=SelectedItems}" />
+                <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=ListView, Path=SelectedItems}" />
             </i:EventTrigger>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding PlaySelectedCommand}"/>
+                </i:EventTrigger>
         </i:Interaction.Triggers>
         <ListView.ItemTemplate>
             <DataTemplate>
