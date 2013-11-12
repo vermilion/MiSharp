@@ -289,7 +289,7 @@ namespace MiSharp.Core.Player
         {
             while (PlaybackState != state)
             {
-                Thread.Sleep(200);
+                Thread.Sleep(50);
             }
         }
 
