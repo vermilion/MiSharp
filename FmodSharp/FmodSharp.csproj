@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E0810E1A-EA20-4F0D-8D0F-5B72C3E64F6D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Linsft.FmodSharp</RootNamespace>
+    <AssemblyName>Linsft.FmodSharp</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\FmodSharp\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Release\FmodSharp\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Enums\Mode.cs" />
+    <Compile Include="Enums\SpeakerMapType.cs" />
+    <Compile Include="Enums\TimeUnit.cs" />
+    <Compile Include="Sound\Type.cs" />
+    <Compile Include="Sound\Format.cs" />
+    <Compile Include="Callbacks.cs" />
+    <Compile Include="Handle.cs" />
+    <Compile Include="Vector3.cs" />
+    <Compile Include="Sound\Sound.cs" />
+    <Compile Include="Error\Errors.cs" />
+    <Compile Include="Error\Code.cs" />
+    <Compile Include="Sound\Info.cs" />
+    <Compile Include="Channel\Index.cs" />
+    <Compile Include="Channel\Channel.cs" />
+    <Compile Include="Debug.cs" />
+    <Compile Include="Channel\ChannelGroup.cs" />
+    <Compile Include="Sound\SoundGroup.cs" />
+    <Compile Include="Dsp\Dsp.cs" />
+    <Compile Include="Dsp\Connection.cs" />
+    <Compile Include="Geometry.cs" />
+    <Compile Include="Channel\Callback.cs" />
+    <Compile Include="Sound\Callback.cs" />
+    <Compile Include="Reverb\Reverb.cs" />
+    <Compile Include="Reverb\Properties.cs" />
+    <Compile Include="Reverb\Flags.cs" />
+    <Compile Include="Memory\Memory.cs" />
+    <Compile Include="Memory\Type.cs" />
+    <Compile Include="Plugin\Type.cs" />
+    <Compile Include="Reverb\Presets.cs" />
+    <Compile Include="Reverb\ChannelProperties.cs" />
+    <Compile Include="Dsp\Resampler.cs" />
+    <Compile Include="Memory\UsageDetails.cs" />
+    <Compile Include="Dsp\Type.cs" />
+    <Compile Include="Enums\Speaker.cs" />
+    <Compile Include="Enums\Capabilities.cs" />
+    <Compile Include="Enums\SpeakerMode.cs" />
+    <Compile Include="Dsp\Description.cs" />
+    <Compile Include="Dsp\Callbacks.cs" />
+    <Compile Include="Dsp\State.cs" />
+    <Compile Include="Dsp\ParameterDescription.cs" />
+    <Compile Include="Dsp\FFTWindow.cs" />
+    <Compile Include="Reverb\ChannelFlags.cs" />
+    <Compile Include="SoundSystem\Callback.cs" />
+    <Compile Include="SoundSystem\InitFlags.cs" />
+    <Compile Include="SoundSystem\SoundSystem.cs" />
+    <Compile Include="SoundSystem\OutputType.cs" />
+    <Compile Include="iSpectrumWave.cs" />
+    <Compile Include="SoundSystem\SoundSystem.Dsp.cs" />
+    <Compile Include="SoundSystem\SoundSystem.Reverb.cs" />
+    <Compile Include="SoundSystem\SoundSystem.OutputDriver.cs" />
+    <Compile Include="SoundSystem\OutputDriver.cs" />
+    <Compile Include="SoundSystem\RecordDriver.cs" />
+    <Compile Include="SoundSystem\SoundSystem.RecordDriver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fmodex.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
