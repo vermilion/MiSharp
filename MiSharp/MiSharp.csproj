@@ -116,6 +116,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Navigation.cs" />
+    <Compile Include="ViewModel\Converters\EnumToVisibilityConverter.cs" />
     <Compile Include="ViewModel\Library\Items\ArtistViewModel.cs" />
     <Compile Include="ViewModel\Library\Items\AlbumViewModel.cs" />
     <Compile Include="ViewModel\Converters\FirstLetterConverter.cs" />

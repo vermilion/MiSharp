@@ -11,14 +11,15 @@ namespace MiSharp
         public TrackViewModel(Track track)
         {
             Model = track;
-            PlayingState = AudioPlayerState.None;
+            State = AudioPlayerState.None;
         }
 
         #region Properties
 
         public Track Model { get; set; }
 
-        public AudioPlayerState PlayingState
+        //TODO: why here? or merge with TrackStateViewModel
+        public AudioPlayerState State
         {
             get { return _playingState; }
             set { this.RaiseAndSetIfChanged(ref _playingState, value); }
