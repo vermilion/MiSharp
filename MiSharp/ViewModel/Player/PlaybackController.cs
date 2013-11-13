@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
+using MiSharp.Core;
 using MiSharp.Core.Player;
 using ReactiveUI;
 
@@ -14,8 +15,6 @@ namespace MiSharp
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
         private TrackStateViewModel _currentTrack;
         private bool _isPlaying;
-        private bool _repeatState;
-        private bool _shuffleState;
         private float _tempVolume;
         private float _volume = 1.0f;
 
@@ -83,14 +82,22 @@ namespace MiSharp
 
         public bool RepeatState
         {
-            get { return _repeatState; }
-            set { this.RaiseAndSetIfChanged(ref _repeatState, value); }
+            get { return Settings.Instance.RepeatState; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref Settings.Instance.RepeatState, value);
+                Settings.Instance.SaveSettings();
+            }
         }
 
         public bool ShuffleState
         {
-            get { return _shuffleState; }
-            set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
+            get { return Settings.Instance.ShuffleState; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref Settings.Instance.ShuffleState, value);
+                Settings.Instance.SaveSettings();
+            }
         }
 
         #endregion

@@ -17,6 +17,8 @@ namespace MiSharp.Core
         public TimeSpan TimeToNextRescan;
         public string SelectedTheme;
         public string AccentColor;
+        public bool RepeatState;
+        public bool ShuffleState;
 
         private Settings()
         {
