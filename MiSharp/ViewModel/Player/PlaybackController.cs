@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Player;
@@ -9,7 +10,7 @@ namespace MiSharp
 {
     public class PlaybackController : ReactiveObject, IHandle<List<Track>>
     {
-        public readonly LocalAudioPlayer AudioPlayer;
+        public readonly AudioPlayerEngine AudioPlayerEngine;
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
         private TrackStateViewModel _currentTrack;
         private bool _isPlaying;
@@ -20,8 +21,8 @@ namespace MiSharp
 
         public PlaybackController(IEventAggregator events)
         {
-            AudioPlayer = new LocalAudioPlayer();
-            AudioPlayer.SongFinished += (s, e) => PlayNext();
+            AudioPlayerEngine = new AudioPlayerEngine();
+            AudioPlayerEngine.SongFinished += (s, e) => PlayNext();
 
             CurrentPlaylist = new TrackPlaylist();
 
@@ -38,6 +39,8 @@ namespace MiSharp
         public IObservable<Track> CurrentTrackChanged { get; set; }
         public IObservable<float> VolumeChanged { get; set; }
         public IObservable<bool> IsMutedChanged { get; set; }
+
+        #region Properties
 
         public TrackStateViewModel CurrentTrack
         {
@@ -74,7 +77,7 @@ namespace MiSharp
             set
             {
                 this.RaiseAndSetIfChanged(ref _volume, value);
-                AudioPlayer.Volume = value;
+                AudioPlayerEngine.Volume = value;
             }
         }
 
@@ -90,52 +93,58 @@ namespace MiSharp
             set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
         }
 
-        public void Play(TrackStateViewModel song)
+        #endregion
+
+        public async Task Play(TrackStateViewModel song)
         {
             if (CurrentTrack == null || !Equals(CurrentTrack, song))
             {
                 if (CurrentPlaylist.MoveToEntry(song))
                 {
                     CurrentTrack = CurrentPlaylist.CurrentEntry;
-                    AudioPlayer.Load(CurrentPlaylist.CurrentEntry.Track.Model, Volume);
-                    AudioPlayer.Play();
+                    await Task.Run(() =>
+                        {
+                            AudioPlayerEngine.Stop();
+                            AudioPlayerEngine.Load(CurrentPlaylist.CurrentEntry.Track.Model, Volume);
+                            AudioPlayerEngine.Play();
+                        });
                 }
             }
-            else AudioPlayer.Resume();
+            else AudioPlayerEngine.Resume();
             IsPlaying = true;
-            CurrentPlaylist.SetState(song, AudioPlayerState.Playing);
+            await CurrentPlaylist.SetState(song, AudioPlayerState.Playing);
         }
 
-        public void PlayNext()
+        public async Task PlayNext()
         {
             IsPlaying = false;
-            AudioPlayer.Stop();
-            CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
+            AudioPlayerEngine.Stop();
+            await CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
             CurrentTrack = null;
-            TrackStateViewModel song = GetNextSong(RepeatState, ShuffleState);
+            TrackStateViewModel song = await Task.Run(() => GetNextSong(RepeatState, ShuffleState));
 
             if (song != null)
-                Play(song);
+                await Play(song);
         }
 
-        public void PlayPrev()
+        public async Task PlayPrev()
         {
             IsPlaying = false;
-            AudioPlayer.Stop();
-            CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
+            AudioPlayerEngine.Stop();
+            await CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
             CurrentTrack = null;
-            TrackStateViewModel song = GetPreviousSong(RepeatState, ShuffleState);
+            TrackStateViewModel song = await Task.Run(() => GetPreviousSong(RepeatState, ShuffleState));
             if (song != null)
-                Play(song);
+                await Play(song);
         }
 
-        public void PlayPause()
+        public async Task PlayPause()
         {
             if (IsPlaying)
             {
-                AudioPlayer.Pause();
+                await Task.Run(() => AudioPlayerEngine.Pause());
                 IsPlaying = false;
-               // CurrentPlaylist.SetState(CurrentTrack.Track, AudioPlayerState.Paused);
+                await CurrentPlaylist.SetState(CurrentTrack.Track, AudioPlayerState.Paused);
             }
             else
             {
@@ -146,10 +155,9 @@ namespace MiSharp
                     song = CurrentPlaylist[0];
                 else return;
 
-                Play(song);
+                await Play(song);
             }
         }
-
 
         public TrackStateViewModel GetNextSong(bool repeat, bool random)
         {

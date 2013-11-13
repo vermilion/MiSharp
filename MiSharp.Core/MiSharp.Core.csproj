@@ -76,9 +76,8 @@
   <ItemGroup>
     <Compile Include="ImageHelper.cs" />
     <Compile Include="MediaScanner.cs" />
-    <Compile Include="Player\AudioPlayer.cs" />
     <Compile Include="Player\AudioPlayerState.cs" />
-    <Compile Include="Player\LocalAudioPlayer.cs" />
+    <Compile Include="Player\AudioPlayerEngine.cs" />
     <Compile Include="Player\Exceptions\PlaybackException.cs" />
     <Compile Include="Player\Exceptions\SongLoadException.cs" />
     <Compile Include="Player\PlaybackEventArgs.cs" />

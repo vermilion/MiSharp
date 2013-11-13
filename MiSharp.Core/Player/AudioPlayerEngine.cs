@@ -7,10 +7,11 @@ using Linsft.FmodSharp.Channel;
 using Linsft.FmodSharp.Reverb;
 using Linsft.FmodSharp.Sound;
 using Linsft.FmodSharp.SoundSystem;
+using Rareform.Extensions;
 
 namespace MiSharp.Core.Player
 {
-    public class LocalAudioPlayer : AudioPlayer
+    public class AudioPlayerEngine
     {
         public delegate void PlaybackEventHandler(PlaybackEventArgs args);
 
@@ -22,14 +23,14 @@ namespace MiSharp.Core.Player
         private Sound _soundFile;
         private float _volume;
 
-        public LocalAudioPlayer()
+        public AudioPlayerEngine()
         {
             _soundSystem = new SoundSystem();
 
             _soundSystem.Init();
             _soundSystem.ReverbProperties = Presets.Room;
 
-            CurrentTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(300))
+            CurrentTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(1000))
                                            .Select(x => CurrentTime)
                                            .DistinctUntilChanged(x => x.TotalSeconds);
 
@@ -37,7 +38,7 @@ namespace MiSharp.Core.Player
                                              .Select(x => PlaybackState)
                                              .DistinctUntilChanged(x => x);
 
-            TotalTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(300))
+            TotalTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(1000))
                                          .Select(x => TotalTime)
                                          .DistinctUntilChanged(x => x.TotalSeconds);
         }
@@ -47,18 +48,18 @@ namespace MiSharp.Core.Player
         public IObservable<AudioPlayerState> PlaybackStateChanged { get; private set; }
 
 
-        public override TimeSpan CurrentTime
+        public TimeSpan CurrentTime
         {
             get { return _channel == null ? TimeSpan.Zero : TimeSpan.FromMilliseconds(_channel.CurrentPositionMs); }
             set { if (_channel != null) _channel.CurrentPositionMs = Convert.ToUInt32(value.TotalMilliseconds); }
         }
 
-        public override TimeSpan TotalTime
+        public TimeSpan TotalTime
         {
             get { return _isLoaded ? TimeSpan.FromMilliseconds(_soundFile.LengthMs) : TimeSpan.Zero; }
         }
 
-        public override AudioPlayerState PlaybackState
+        public AudioPlayerState PlaybackState
         {
             get
             {
@@ -75,11 +76,11 @@ namespace MiSharp.Core.Player
                     }
                 }
 
-                return AudioPlayerState.None;
+                return AudioPlayerState.Stopped;
             }
         }
 
-        public override float Volume
+        public float Volume
         {
             get { return _volume; }
             set
@@ -96,7 +97,7 @@ namespace MiSharp.Core.Player
             }
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             Stop();
 
@@ -115,7 +116,7 @@ namespace MiSharp.Core.Player
             }
         }
 
-        public override void Load(RawTrack song, float volume)
+        public void Load(RawTrack song, float volume)
         {
             lock (_playerLock)
             {
@@ -126,7 +127,7 @@ namespace MiSharp.Core.Player
         }
 
 
-        public override void Pause()
+        public void Pause()
         {
             lock (_playerLock)
             {
@@ -148,7 +149,7 @@ namespace MiSharp.Core.Player
             }
         }
 
-        public override void Play()
+        public void Play()
         {
             lock (_playerLock)
             {
@@ -167,13 +168,14 @@ namespace MiSharp.Core.Player
             }
         }
 
-        public override void Stop()
+        public void Stop()
         {
             lock (_playerLock)
             {
                 if (_channel != null)
                 {
                     _channel.Stop();
+                    _channel = null;
                     EnsureState(AudioPlayerState.Stopped);
                     _isLoaded = false;
                 }
@@ -196,5 +198,13 @@ namespace MiSharp.Core.Player
                 OnSongFinished(EventArgs.Empty);
             }
         }
+
+        public event EventHandler SongFinished;
+
+        protected void OnSongFinished(EventArgs e)
+        {
+            SongFinished.RaiseSafe(this, e);
+        }
+
     }
 }

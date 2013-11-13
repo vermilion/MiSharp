@@ -37,13 +37,13 @@ namespace MiSharp
             _playPauseContent = PlaybackController.WhenAnyValue(x => x.IsPlaying, x => x ? ";" : "4")
                 .ToProperty(this, x => x.PlayPauseContent);
 
-            PlaybackController.AudioPlayer.TotalTimeChanged.Subscribe(x =>
+            PlaybackController.AudioPlayerEngine.TotalTimeChanged.Subscribe(x =>
             {
                 this.RaisePropertyChanged("Maximum");
                 this.RaisePropertyChanged("TickFrequency");
                 this.RaisePropertyChanged("TotalTime");
             });
-            PlaybackController.AudioPlayer.CurrentTimeChanged.Subscribe(x =>
+            PlaybackController.AudioPlayerEngine.CurrentTimeChanged.Subscribe(x =>
             {
                 this.RaisePropertyChanged("PositionValue");
                 this.RaisePropertyChanged("CurrentTime");
@@ -72,7 +72,7 @@ namespace MiSharp
             double x = e.GetPosition((ProgressBar) sender).X;
             double ratio = x/((ProgressBar) sender).ActualWidth;
             double pos = ratio*((ProgressBar) sender).Maximum;
-            PlaybackController.AudioPlayer.CurrentTime = TimeSpan.FromSeconds(pos);
+            PlaybackController.AudioPlayerEngine.CurrentTime = TimeSpan.FromSeconds(pos);
         }
 
         #region Properties
@@ -126,27 +126,27 @@ namespace MiSharp
 
         public int Maximum
         {
-            get { return (int) PlaybackController.AudioPlayer.TotalTime.TotalSeconds; }
+            get { return (int) PlaybackController.AudioPlayerEngine.TotalTime.TotalSeconds; }
         }
 
         public double PositionValue
         {
-            get { return (int) PlaybackController.AudioPlayer.CurrentTime.TotalSeconds; }
+            get { return (int) PlaybackController.AudioPlayerEngine.CurrentTime.TotalSeconds; }
         }
 
         public int TickFrequency
         {
-            get { return (int) PlaybackController.AudioPlayer.TotalTime.TotalSeconds/30; }
+            get { return (int) PlaybackController.AudioPlayerEngine.TotalTime.TotalSeconds/30; }
         }
 
         public TimeSpan TotalTime
         {
-            get { return PlaybackController.AudioPlayer.TotalTime; }
+            get { return PlaybackController.AudioPlayerEngine.TotalTime; }
         }
 
         public TimeSpan CurrentTime
         {
-            get { return PlaybackController.AudioPlayer.CurrentTime; }
+            get { return PlaybackController.AudioPlayerEngine.CurrentTime; }
         }
 
         #endregion

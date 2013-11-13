@@ -46,6 +46,7 @@ namespace Linsft.FmodSharp.Sound
             if (IsInvalid)
                 return true;
 
+            //TODO: this sometimes throws exceptions when handle changes
             Release(handle);
             SetHandleAsInvalid();
 
@@ -76,7 +77,7 @@ namespace Linsft.FmodSharp.Sound
 
         #endregion
 
-        //TODO Implement extern funcitons
+        //TODO Implement extern functions
 
         /*
 		
