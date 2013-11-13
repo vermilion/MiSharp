@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Player;
@@ -99,9 +98,10 @@ namespace MiSharp
                 {
                     CurrentTrack = CurrentPlaylist.CurrentEntry;
                     AudioPlayer.Load(CurrentPlaylist.CurrentEntry.Track.Model, Volume);
+                    AudioPlayer.Play();
                 }
             }
-            AudioPlayer.Play();
+            else AudioPlayer.Resume();
             IsPlaying = true;
             CurrentPlaylist.SetState(song, AudioPlayerState.Playing);
         }

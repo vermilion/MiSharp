@@ -21,33 +21,26 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //THE SOFTWARE.
 
-using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Memory
 {
-	public class Memory
-	{
-		public Memory ()
-		{
-		}
+    public class Memory
+    {
+        public static void GetStats(ref int currentalloced, ref int maxalloced)
+        {
+            GetStats(ref currentalloced, ref maxalloced, true);
+        }
 
-		public static void GetStats (ref int currentalloced, ref int maxalloced)
-		{
-			Error.Code ReturnCode = GetStats_External (ref currentalloced, ref maxalloced, true);
-			Error.Errors.ThrowError (ReturnCode);
-		}
+        public static void GetStats(ref int currentalloced, ref int maxalloced, bool blocking)
+        {
+            Code returnCode = GetStats_External(ref currentalloced, ref maxalloced, blocking);
+            Errors.ThrowError(returnCode);
+        }
 
-		public static void GetStats (ref int currentalloced, ref int maxalloced, bool blocking)
-		{
-			Error.Code ReturnCode = GetStats_External (ref currentalloced, ref maxalloced, blocking);
-			Error.Errors.ThrowError (ReturnCode);
-		}
-
-		[DllImport("fmodex", EntryPoint = "FMOD_Memory_GetStats"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetStats_External (ref int currentalloced, ref int maxalloced, bool blocking);
-		
-	}
+        [DllImport("fmodex", EntryPoint = "FMOD_Memory_GetStats"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetStats_External(ref int currentalloced, ref int maxalloced, bool blocking);
+    }
 }
-

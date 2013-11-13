@@ -117,9 +117,12 @@ namespace MiSharp.Core.Player
 
         public override void Load(RawTrack song, float volume)
         {
-            _soundFile = _soundSystem.CreateSound(song.FullFilename);
-            //is that really enough?
-            _isLoaded = true;
+            lock (_playerLock)
+            {
+                _soundFile = _soundSystem.CreateSound(song.FullFilename);
+                //is that really enough?
+                _isLoaded = true;
+            }
         }
 
 
@@ -131,6 +134,17 @@ namespace MiSharp.Core.Player
                     _channel.Paused = true;
 
                 EnsureState(AudioPlayerState.Paused);
+            }
+        }
+
+        public void Resume()
+        {
+            lock (_playerLock)
+            {
+                if (_channel != null)
+                    _channel.Paused = false;
+
+                EnsureState(AudioPlayerState.Playing);
             }
         }
 
@@ -146,7 +160,7 @@ namespace MiSharp.Core.Player
                         while (_channel.IsPlaying)
                         {
                             UpdateSongState();
-                            Thread.Sleep(10);
+                            Thread.Sleep(50);
                         }
                         EnsureState(AudioPlayerState.Playing);
                     });

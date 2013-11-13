@@ -102,10 +102,5 @@
     <Compile Include="SoundSystem\RecordDriver.cs" />
     <Compile Include="SoundSystem\SoundSystem.RecordDriver.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="fmodex.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

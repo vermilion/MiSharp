@@ -28,39 +28,36 @@ using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Sound
 {
-	public class Sound : Handle
-	{
-		
-		#region Create/Release
-		
-		private Sound()
-		{
-		}
-		internal Sound (IntPtr hnd) : base()
-		{
-			this.SetHandle (hnd);
-		}
+    public class Sound : Handle
+    {
+        #region Create/Release
 
-		protected override bool ReleaseHandle ()
-		{
-			if (this.IsInvalid)
-				return true;
-			
-			Release (this.handle);
-			this.SetHandleAsInvalid ();
-			
-			return true;
-		}
+        private Sound()
+        {
+        }
 
-		[DllImport("fmodex", EntryPoint = "FMOD_Sound_Release"), SuppressUnmanagedCodeSecurity]
-		private static extern Code Release (IntPtr sound);
-		
-		#endregion
+        internal Sound(IntPtr hnd)
+        {
+            SetHandle(hnd);
+        }
+
+        protected override bool ReleaseHandle()
+        {
+            if (IsInvalid)
+                return true;
+
+            Release(handle);
+            SetHandleAsInvalid();
+
+            return true;
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Sound_Release"), SuppressUnmanagedCodeSecurity]
+        private static extern Code Release(IntPtr sound);
+
+        #endregion
 
         #region Length
-
-        [DllImport("fmodex", EntryPoint = "FMOD_Sound_GetLength"), SuppressUnmanagedCodeSecurity]
-        private static extern Code FMOD_Sound_GetLength(IntPtr sound, ref uint length, TimeUnit lengthtype);
 
         public uint LengthMs
         {
@@ -74,11 +71,14 @@ namespace Linsft.FmodSharp.Sound
             }
         }
 
+        [DllImport("fmodex", EntryPoint = "FMOD_Sound_GetLength"), SuppressUnmanagedCodeSecurity]
+        private static extern Code FMOD_Sound_GetLength(IntPtr sound, ref uint length, TimeUnit lengthtype);
+
         #endregion
 
         //TODO Implement extern funcitons
-		
-		/*
+
+        /*
 		
 		[DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code FMOD_Sound_GetSystemObject (IntPtr sound, ref IntPtr system);
@@ -216,8 +216,5 @@ namespace Linsft.FmodSharp.Sound
 		private static extern Error.Code FMOD_Sound_GetMemoryInfo (IntPtr sound, uint memorybits, uint event_memorybits, ref uint memoryused, ref MEMORY_USAGE_DETAILS memoryused_details);
 		
 		*/
-
-	
-	}
+    }
 }
-

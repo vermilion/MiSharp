@@ -22,104 +22,112 @@
 // THE SOFTWARE.
 
 using System;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
+using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.SoundSystem
 {
-	public partial class SoundSystem
-	{
-		public OutputDriver OutputDriver {
-			get {
-				int driver;
-				Error.Code ReturnCode = GetDriver (this.DangerousGetHandle (), out driver);
-				Error.Errors.ThrowError (ReturnCode);
-				
-				return this.GetOutputDriver(driver);
-			}
-			set {
-				Error.Code ReturnCode = SetDriver (this.DangerousGetHandle (), value.Id);
-				Error.Errors.ThrowError (ReturnCode);
-			}
-		}
-		
-		public IEnumerable<OutputDriver> OutputDrivers {
-			get {
-				int Numb = this.NumberOutputDrivers;
-				for (int i = 0; i < Numb; i++) {
-					yield return this.GetOutputDriver(i);
-				}
-			}
-		}
-		
-		private int NumberOutputDrivers {
-			get {
-				int numdrivers;
-				Error.Code ReturnCode = GetNumDrivers (this.DangerousGetHandle (), out numdrivers);
-				Error.Errors.ThrowError (ReturnCode);
-				
-				return numdrivers;
-			}
-		}
-		
-		private void GetOutputDriverInfo(int Id, out string Name, out Guid DriverGuid)
-		{
-			System.Text.StringBuilder str = new System.Text.StringBuilder(255);
-			
-			Error.Code ReturnCode = GetDriverInfo (this.DangerousGetHandle (), Id, str, str.Capacity, out DriverGuid);
-			Error.Errors.ThrowError (ReturnCode);
-			
-			Name = str.ToString();
-		}
-		
-		private void GetOutputDriverCapabilities (int Id, out Capabilities caps, out int minfrequency, out int maxfrequency, out SpeakerMode controlpanelspeakermode)
-		{
-			Error.Code ReturnCode = GetDriverCaps (this.DangerousGetHandle (), Id, out caps, out minfrequency, out maxfrequency, out controlpanelspeakermode);
-			Error.Errors.ThrowError (ReturnCode);
-		}
-		
-		private OutputDriver GetOutputDriver (int Id)
-		{
-			Guid DriverGuid;
-			string DriverName;
-			this.GetOutputDriverInfo(Id, out DriverName, out DriverGuid);
-			
-			Capabilities caps;
-			int minfrequency, maxfrequency;
-			SpeakerMode controlpanelspeakermode;
-			this.GetOutputDriverCapabilities(Id, out caps, out minfrequency, out maxfrequency, out controlpanelspeakermode);
-			
-			return new OutputDriver {
-				Id = Id,
-				Name = DriverName,
-				Guid = DriverGuid,
-				
-				Capabilities = caps,
-				MinimumFrequency = minfrequency,
-				MaximumFrequency = maxfrequency,
-				SpeakerMode = controlpanelspeakermode
-			};
-		}
-		
-		[DllImport("fmodex", EntryPoint = "FMOD_System_GetNumDrivers"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetNumDrivers (IntPtr system, out int Numdrivers);
-		
-		[DllImport("fmodex", EntryPoint = "FMOD_System_GetDriverInfo"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetDriverInfo (IntPtr system, int id, System.Text.StringBuilder name, int namelen, out Guid guid);
-		
-		[DllImport("fmodex", EntryPoint = "FMOD_System_GetDriverInfoW"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetDriverInfoW (IntPtr system, int id, [MarshalAs(UnmanagedType.LPWStr)] System.Text.StringBuilder name, int namelen, out Guid guid);
-		
-		[DllImport("fmodex", EntryPoint = "FMOD_System_GetDriverCaps"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetDriverCaps (IntPtr system, int id, out Capabilities caps, out int minfrequency, out int maxfrequency, out SpeakerMode controlpanelspeakermode);
-		
-		[DllImport("fmodex", EntryPoint = "FMOD_System_SetDriver"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code SetDriver (IntPtr system, int driver);
+    public partial class SoundSystem
+    {
+        public OutputDriver OutputDriver
+        {
+            get
+            {
+                int driver;
+                Code ReturnCode = GetDriver(DangerousGetHandle(), out driver);
+                Errors.ThrowError(ReturnCode);
 
-		[DllImport("fmodex", EntryPoint = "FMOD_System_GetDriver"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetDriver (IntPtr system, out int driver);
-		
-	}
+                return GetOutputDriver(driver);
+            }
+            set
+            {
+                Code ReturnCode = SetDriver(DangerousGetHandle(), value.Id);
+                Errors.ThrowError(ReturnCode);
+            }
+        }
+
+        public IEnumerable<OutputDriver> OutputDrivers
+        {
+            get
+            {
+                int Numb = NumberOutputDrivers;
+                for (int i = 0; i < Numb; i++)
+                {
+                    yield return GetOutputDriver(i);
+                }
+            }
+        }
+
+        private int NumberOutputDrivers
+        {
+            get
+            {
+                int numdrivers;
+                Code ReturnCode = GetNumDrivers(DangerousGetHandle(), out numdrivers);
+                Errors.ThrowError(ReturnCode);
+
+                return numdrivers;
+            }
+        }
+
+        private void GetOutputDriverInfo(int Id, out string Name, out Guid DriverGuid)
+        {
+            var str = new StringBuilder(255);
+
+            Code ReturnCode = GetDriverInfo(DangerousGetHandle(), Id, str, str.Capacity, out DriverGuid);
+            Errors.ThrowError(ReturnCode);
+
+            Name = str.ToString();
+        }
+
+        private void GetOutputDriverCapabilities(int Id, out Capabilities caps, out int minfrequency, out int maxfrequency, out SpeakerMode controlpanelspeakermode)
+        {
+            Code ReturnCode = GetDriverCaps(DangerousGetHandle(), Id, out caps, out minfrequency, out maxfrequency, out controlpanelspeakermode);
+            Errors.ThrowError(ReturnCode);
+        }
+
+        private OutputDriver GetOutputDriver(int Id)
+        {
+            Guid DriverGuid;
+            string DriverName;
+            GetOutputDriverInfo(Id, out DriverName, out DriverGuid);
+
+            Capabilities caps;
+            int minfrequency, maxfrequency;
+            SpeakerMode controlpanelspeakermode;
+            GetOutputDriverCapabilities(Id, out caps, out minfrequency, out maxfrequency, out controlpanelspeakermode);
+
+            return new OutputDriver
+                {
+                    Id = Id,
+                    Name = DriverName,
+                    Guid = DriverGuid,
+                    Capabilities = caps,
+                    MinimumFrequency = minfrequency,
+                    MaximumFrequency = maxfrequency,
+                    SpeakerMode = controlpanelspeakermode
+                };
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_GetNumDrivers"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetNumDrivers(IntPtr system, out int Numdrivers);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_GetDriverInfo"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetDriverInfo(IntPtr system, int id, StringBuilder name, int namelen, out Guid guid);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_GetDriverInfoW"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetDriverInfoW(IntPtr system, int id, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder name, int namelen, out Guid guid);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_GetDriverCaps"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetDriverCaps(IntPtr system, int id, out Capabilities caps, out int minfrequency, out int maxfrequency, out SpeakerMode controlpanelspeakermode);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_SetDriver"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetDriver(IntPtr system, int driver);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_GetDriver"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetDriver(IntPtr system, out int driver);
+    }
 }
-

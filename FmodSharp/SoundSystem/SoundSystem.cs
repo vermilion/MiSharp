@@ -297,22 +297,22 @@ namespace Linsft.FmodSharp.SoundSystem
 
         public Sound.Sound CreateSound(string path, Mode mode)
         {
-            IntPtr SoundHandle = IntPtr.Zero;
+            IntPtr soundHandle = IntPtr.Zero;
 
-            Code ReturnCode = CreateSound(DangerousGetHandle(), path, mode, 0, ref SoundHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = CreateSound(DangerousGetHandle(), path, mode, 0, ref soundHandle);
+            Errors.ThrowError(returnCode);
 
-            return new Sound.Sound(SoundHandle);
+            return new Sound.Sound(soundHandle);
         }
 
         public Sound.Sound CreateSound(string path, Mode mode, Info exinfo)
         {
-            IntPtr SoundHandle = IntPtr.Zero;
+            IntPtr soundHandle = IntPtr.Zero;
 
-            Code ReturnCode = CreateSound(DangerousGetHandle(), path, mode, ref exinfo, ref SoundHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = CreateSound(DangerousGetHandle(), path, mode, ref exinfo, ref soundHandle);
+            Errors.ThrowError(returnCode);
 
-            return new Sound.Sound(SoundHandle);
+            return new Sound.Sound(soundHandle);
         }
 
         public Sound.Sound CreateSound(byte[] data)
@@ -322,22 +322,22 @@ namespace Linsft.FmodSharp.SoundSystem
 
         public Sound.Sound CreateSound(byte[] data, Mode mode)
         {
-            IntPtr SoundHandle = IntPtr.Zero;
+            IntPtr soundHandle = IntPtr.Zero;
 
-            Code ReturnCode = CreateSound(DangerousGetHandle(), data, mode, 0, ref SoundHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = CreateSound(DangerousGetHandle(), data, mode, 0, ref soundHandle);
+            Errors.ThrowError(returnCode);
 
-            return new Sound.Sound(SoundHandle);
+            return new Sound.Sound(soundHandle);
         }
 
         public Sound.Sound CreateSound(byte[] data, Mode mode, Info exinfo)
         {
-            IntPtr SoundHandle = IntPtr.Zero;
+            IntPtr soundHandle = IntPtr.Zero;
 
-            Code ReturnCode = CreateSound(DangerousGetHandle(), data, mode, ref exinfo, ref SoundHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = CreateSound(DangerousGetHandle(), data, mode, ref exinfo, ref soundHandle);
+            Errors.ThrowError(returnCode);
 
-            return new Sound.Sound(SoundHandle);
+            return new Sound.Sound(soundHandle);
         }
 
         public Channel.Channel PlaySound(Sound.Sound snd)
@@ -347,12 +347,12 @@ namespace Linsft.FmodSharp.SoundSystem
 
         public Channel.Channel PlaySound(Sound.Sound snd, bool paused)
         {
-            IntPtr ChannelHandle = IntPtr.Zero;
+            IntPtr channelHandle = IntPtr.Zero;
 
-            Code ReturnCode = PlaySound(DangerousGetHandle(), Index.Free, snd.DangerousGetHandle(), paused, ref ChannelHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = PlaySound(DangerousGetHandle(), Index.Free, snd.DangerousGetHandle(), paused, ref channelHandle);
+            Errors.ThrowError(returnCode);
 
-            return new Channel.Channel(ChannelHandle);
+            return new Channel.Channel(channelHandle);
         }
 
         private void PlaySound(Sound.Sound snd, bool paused, Channel.Channel chn)
@@ -362,8 +362,8 @@ namespace Linsft.FmodSharp.SoundSystem
 
             IntPtr channel = chn.DangerousGetHandle();
 
-            Code ReturnCode = PlaySound(DangerousGetHandle(), Index.Reuse, snd.DangerousGetHandle(), paused, ref channel);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = PlaySound(DangerousGetHandle(), Index.Reuse, snd.DangerousGetHandle(), paused, ref channel);
+            Errors.ThrowError(returnCode);
 
             //This can't really happend.
             //Check just in case...
@@ -392,42 +392,42 @@ namespace Linsft.FmodSharp.SoundSystem
 
         public Sound.Sound CreateStream(string path, Mode mode)
         {
-            IntPtr SoundHandle = IntPtr.Zero;
+            IntPtr soundHandle = IntPtr.Zero;
 
-            Code ReturnCode = CreateStream(DangerousGetHandle(), path, mode, 0, ref SoundHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = CreateStream(DangerousGetHandle(), path, mode, 0, ref soundHandle);
+            Errors.ThrowError(returnCode);
 
-            return new Sound.Sound(SoundHandle);
+            return new Sound.Sound(soundHandle);
         }
 
         public Sound.Sound CreateStream(string path, Mode mode, Info exinfo)
         {
-            IntPtr SoundHandle = IntPtr.Zero;
+            IntPtr soundHandle = IntPtr.Zero;
 
-            Code ReturnCode = CreateStream(DangerousGetHandle(), path, mode, ref exinfo, ref SoundHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = CreateStream(DangerousGetHandle(), path, mode, ref exinfo, ref soundHandle);
+            Errors.ThrowError(returnCode);
 
-            return new Sound.Sound(SoundHandle);
+            return new Sound.Sound(soundHandle);
         }
 
         public Sound.Sound CreateStream(byte[] data, Mode mode)
         {
-            IntPtr SoundHandle = IntPtr.Zero;
+            IntPtr soundHandle = IntPtr.Zero;
 
-            Code ReturnCode = CreateStream(DangerousGetHandle(), data, mode, 0, ref SoundHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = CreateStream(DangerousGetHandle(), data, mode, 0, ref soundHandle);
+            Errors.ThrowError(returnCode);
 
-            return new Sound.Sound(SoundHandle);
+            return new Sound.Sound(soundHandle);
         }
 
         public Sound.Sound CreateStream(byte[] data, Mode mode, Info exinfo)
         {
-            IntPtr SoundHandle = IntPtr.Zero;
+            IntPtr soundHandle = IntPtr.Zero;
 
-            Code ReturnCode = CreateStream(DangerousGetHandle(), data, mode, ref exinfo, ref SoundHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = CreateStream(DangerousGetHandle(), data, mode, ref exinfo, ref soundHandle);
+            Errors.ThrowError(returnCode);
 
-            return new Sound.Sound(SoundHandle);
+            return new Sound.Sound(soundHandle);
         }
 
         [DllImport("fmodex", CharSet = CharSet.Ansi, EntryPoint = "FMOD_System_CreateStream"), SuppressUnmanagedCodeSecurity]
@@ -466,9 +466,9 @@ namespace Linsft.FmodSharp.SoundSystem
 
         public float[] GetSpectrum(int numvalues, int channeloffset, FFTWindow windowtype)
         {
-            var SpectrumArray = new float[numvalues];
-            GetSpectrum(SpectrumArray, numvalues, channeloffset, windowtype);
-            return SpectrumArray;
+            var spectrumArray = new float[numvalues];
+            GetSpectrum(spectrumArray, numvalues, channeloffset, windowtype);
+            return spectrumArray;
         }
 
         public void GetSpectrum(float[] spectrumarray, int numvalues, int channeloffset, FFTWindow windowtype)
@@ -478,9 +478,9 @@ namespace Linsft.FmodSharp.SoundSystem
 
         public float[] GetWaveData(int numvalues, int channeloffset)
         {
-            var WaveArray = new float[numvalues];
-            GetWaveData(WaveArray, numvalues, channeloffset);
-            return WaveArray;
+            var waveArray = new float[numvalues];
+            GetWaveData(waveArray, numvalues, channeloffset);
+            return waveArray;
         }
 
         public void GetWaveData(float[] wavearray, int numvalues, int channeloffset)
