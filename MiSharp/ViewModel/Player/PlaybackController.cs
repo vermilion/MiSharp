@@ -13,6 +13,7 @@ namespace MiSharp
         public readonly LocalAudioPlayer AudioPlayer;
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
         private TrackStateViewModel _currentTrack;
+        private object _trackSyncObject = new object();
         private bool _isPlaying;
         private bool _repeatState;
         private bool _shuffleState;
@@ -97,8 +98,7 @@ namespace MiSharp
             {
                 if (CurrentPlaylist.MoveToEntry(song))
                 {
-                    if (CurrentTrack != null)
-                        lock (CurrentTrack) { Task.Factory.StartNew(() => { CurrentTrack = CurrentPlaylist.CurrentEntry; }); }
+                    Task.Factory.StartNew(() => {lock (_trackSyncObject) { CurrentTrack = CurrentPlaylist.CurrentEntry; } }); 
                     AudioPlayer.Load(CurrentPlaylist.CurrentEntry.Track.Model, Volume);
                 }
             }
