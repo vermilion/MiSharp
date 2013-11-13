@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
@@ -112,7 +113,7 @@ namespace MiSharp
                     await Task.Run(() =>
                         {
                             AudioPlayerEngine.Stop();
-                            AudioPlayerEngine.Load(CurrentPlaylist.CurrentEntry.Track.Model, Volume);
+                            AudioPlayerEngine.Load(CurrentPlaylist.CurrentEntry.Track.Model);
                             AudioPlayerEngine.Play();
                         });
                 }

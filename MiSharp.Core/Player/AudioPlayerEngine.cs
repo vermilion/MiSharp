@@ -2,18 +2,15 @@
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using DeadDog.Audio;
-using Linsft.FmodSharp;
 using Linsft.FmodSharp.Channel;
-using Linsft.FmodSharp.Reverb;
 using Linsft.FmodSharp.Sound;
 using Linsft.FmodSharp.SoundSystem;
 using Rareform.Extensions;
 
 namespace MiSharp.Core.Player
 {
-    public class AudioPlayerEngine
+    public class AudioPlayerEngine : IDisposable
     {
         public delegate void PlaybackEventHandler(PlaybackEventArgs args);
 
@@ -22,14 +19,13 @@ namespace MiSharp.Core.Player
         private Channel _channel;
         private bool _isLoaded;
         private Sound _soundFile;
-        private float _volume;
+        private float _volume = 1.0f;
 
         public AudioPlayerEngine()
         {
             _soundSystem = new SoundSystem();
 
             _soundSystem.Init();
-            _soundSystem.ReverbProperties = Presets.Room;
 
             CurrentTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(1000))
                                            .Select(x => CurrentTime)
@@ -114,7 +110,7 @@ namespace MiSharp.Core.Player
             }
         }
 
-        public void Load(RawTrack song, float volume)
+        public void Load(RawTrack song)
         {
             lock (_playerLock)
             {
@@ -150,6 +146,7 @@ namespace MiSharp.Core.Player
                 Task.Factory.StartNew(() =>
                     {
                         _channel = _soundSystem.PlaySound(_soundFile);
+                        _channel.Volume = Volume;
 
                         while (_channel != null && _channel.IsPlaying)
                         {

@@ -234,7 +234,7 @@ namespace Linsft.FmodSharp
 		/// and playing at the correct offset according to time,
 		/// this flag makes the sound play from the start.
 		/// </summary>
-		Virtual_PlayFromStart = 0x80000000
+		VirtualPlayFromStart = 0x80000000
 		
 	}
 	//TODO complete SellAlso

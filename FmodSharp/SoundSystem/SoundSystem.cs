@@ -37,20 +37,20 @@ namespace Linsft.FmodSharp.SoundSystem
         /// <summary>
         ///     Used to check against <see cref="FmodSharp.System.Version" /> FMOD::System::getVersion.
         /// </summary>
-        public const uint Fmod_Version = 0x43202;
+        public const uint FmodVersion = 0x43202;
 
         #region Create/Release
 
         public SoundSystem()
         {
-            IntPtr SoundSystemHandle = IntPtr.Zero;
+            IntPtr soundSystemHandle = IntPtr.Zero;
 
-            Code ReturnCode = Create(ref SoundSystemHandle);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = Create(ref soundSystemHandle);
+            Errors.ThrowError(returnCode);
 
-            SetHandle(SoundSystemHandle);
+            SetHandle(soundSystemHandle);
 
-            if (Version < Fmod_Version)
+            if (Version < FmodVersion)
             {
                 Release(handle);
                 SetHandleAsInvalid();
@@ -75,15 +75,15 @@ namespace Linsft.FmodSharp.SoundSystem
             Init(32, InitFlags.Normal | InitFlags.RightHanded3D);
         }
 
-        public void Init(int Maxchannels, InitFlags Flags)
+        public void Init(int maxchannels, InitFlags flags)
         {
-            Init(Maxchannels, Flags, IntPtr.Zero);
+            Init(maxchannels, flags, IntPtr.Zero);
         }
 
-        public void Init(int Maxchannels, InitFlags Flags, IntPtr Extradriverdata)
+        public void Init(int maxchannels, InitFlags flags, IntPtr extradriverdata)
         {
-            Code ReturnCode = Init(handle, Maxchannels, Flags, Extradriverdata);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = Init(handle, maxchannels, flags, extradriverdata);
+            Errors.ThrowError(returnCode);
         }
 
         public void CloseSystem()
@@ -98,7 +98,7 @@ namespace Linsft.FmodSharp.SoundSystem
         private static extern Code Release(IntPtr system);
 
         [DllImport("fmodex", EntryPoint = "FMOD_System_Init"), SuppressUnmanagedCodeSecurity]
-        private static extern Code Init(IntPtr system, int Maxchannels, InitFlags Flags, IntPtr Extradriverdata);
+        private static extern Code Init(IntPtr system, int maxchannels, InitFlags flags, IntPtr extradriverdata);
 
         [DllImport("fmodex", EntryPoint = "FMOD_System_Close"), SuppressUnmanagedCodeSecurity]
         private static extern Code CloseSystem(IntPtr system);
@@ -109,7 +109,7 @@ namespace Linsft.FmodSharp.SoundSystem
 
         //TODO Implement SoundSystem Events.
 
-        public delegate void SystemDelegate(SoundSystem Sys);
+        public delegate void SystemDelegate(SoundSystem sys);
 
         /// <summary>
         ///     Called when the enumerated list of devices has changed.
@@ -163,15 +163,15 @@ namespace Linsft.FmodSharp.SoundSystem
             {
                 var str = new StringBuilder(255);
 
-                Code ReturnCode = GetNetworkProxy(DangerousGetHandle(), str, str.Capacity);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = GetNetworkProxy(DangerousGetHandle(), str, str.Capacity);
+                Errors.ThrowError(returnCode);
 
                 return str.ToString();
             }
             set
             {
-                Code ReturnCode = SetNetworkProxy(DangerousGetHandle(), value);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = SetNetworkProxy(DangerousGetHandle(), value);
+                Errors.ThrowError(returnCode);
             }
         }
 
@@ -181,15 +181,15 @@ namespace Linsft.FmodSharp.SoundSystem
             {
                 int time = 0;
 
-                Code ReturnCode = GetNetworkTimeout(DangerousGetHandle(), ref time);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = GetNetworkTimeout(DangerousGetHandle(), ref time);
+                Errors.ThrowError(returnCode);
 
                 return time;
             }
             set
             {
-                Code ReturnCode = SetNetworkTimeout(DangerousGetHandle(), value);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = SetNetworkTimeout(DangerousGetHandle(), value);
+                Errors.ThrowError(returnCode);
             }
         }
 
@@ -213,12 +213,12 @@ namespace Linsft.FmodSharp.SoundSystem
         {
             get
             {
-                uint Ver = 0;
+                uint ver = 0;
 
-                Code ReturnCode = GetVersion(DangerousGetHandle(), ref Ver);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = GetVersion(DangerousGetHandle(), ref ver);
+                Errors.ThrowError(returnCode);
 
-                return Ver;
+                return ver;
             }
         }
 
@@ -235,15 +235,15 @@ namespace Linsft.FmodSharp.SoundSystem
             {
                 var output = OutputType.Unknown;
 
-                Code ReturnCode = GetOutput(DangerousGetHandle(), ref output);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = GetOutput(DangerousGetHandle(), ref output);
+                Errors.ThrowError(returnCode);
 
                 return output;
             }
             set
             {
-                Code ReturnCode = SetOutput(DangerousGetHandle(), value);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = SetOutput(DangerousGetHandle(), value);
+                Errors.ThrowError(returnCode);
             }
         }
 
@@ -261,8 +261,8 @@ namespace Linsft.FmodSharp.SoundSystem
             {
                 int playing = 0;
 
-                Code ReturnCode = GetChannelsPlaying(DangerousGetHandle(), ref playing);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = GetChannelsPlaying(DangerousGetHandle(), ref playing);
+                Errors.ThrowError(returnCode);
 
                 return playing;
             }
@@ -292,7 +292,7 @@ namespace Linsft.FmodSharp.SoundSystem
 
         public Sound.Sound CreateSound(string path)
         {
-            return CreateSound(path, Mode.Default);
+            return CreateSound(path, Mode.Default | Mode.CreateStream);
         }
 
         public Sound.Sound CreateSound(string path, Mode mode)
