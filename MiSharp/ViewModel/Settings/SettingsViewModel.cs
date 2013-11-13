@@ -15,13 +15,11 @@ namespace MiSharp
     public class SettingsViewModel : ReactiveObject
     {
         private readonly IEventAggregator _events;
-        private List<int> _requestedLatency = new List<int>();
 
         [ImportingConstructor]
         public SettingsViewModel(IEventAggregator events)
         {
             _events = events;
-            RequestedLatency.AddRange(new[] {25, 50, 100, 150, 200, 300, 400, 500});
 
             Observable.Interval(TimeSpan.FromMinutes(1))
                       .Subscribe(x =>
@@ -67,17 +65,10 @@ namespace MiSharp
             }
         }
 
-    
-        public List<int> RequestedLatency
+        public bool IsCoverDownload
         {
-            get { return _requestedLatency; }
-            set { this.RaiseAndSetIfChanged(ref _requestedLatency, value); }
-        }
-
-        public int SelectedLatency
-        {
-            get { return Settings.Instance.RequestedLatency; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.RequestedLatency, value); }
+            get { return Settings.Instance.IsCoverDownload; }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.IsCoverDownload, value); }
         }
 
         public IEnumerable<IResult> SaveClick()

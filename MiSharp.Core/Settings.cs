@@ -11,7 +11,6 @@ namespace MiSharp.Core
 
         public string[] FileFormats;
 
-        public int RequestedLatency = 300;
         public string WatchFolder;
         public int WatchFolderScanInterval;
         public TimeSpan TimeToNextRescan;
@@ -19,6 +18,7 @@ namespace MiSharp.Core
         public string AccentColor;
         public bool RepeatState;
         public bool ShuffleState;
+        public bool IsCoverDownload;
 
         private Settings()
         {
@@ -27,6 +27,7 @@ namespace MiSharp.Core
             FileFormats = new[] {"*.mp3"};
             SelectedTheme = "Dark";
             AccentColor = "Blue";
+            IsCoverDownload = true;
         }
 
         public static Settings Instance

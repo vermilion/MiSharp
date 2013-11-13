@@ -10,6 +10,9 @@ namespace MiSharp.Core.Repository.FileStorage
     {
         private const string Name = "AlbumCovers";
 
+        private readonly BitmapImage _defaultCover =
+            new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
+
         private static readonly SemaphoreSlim Gate;
 
         static AlbumCoverRepository()
@@ -33,12 +36,15 @@ namespace MiSharp.Core.Repository.FileStorage
             }
             catch (DataIdentifierNotFoundException)
             {
-                //try download
-                string url = Api.LoadAlbumCover(key, artist);
-                if (url != null)
+                if (Settings.Instance.IsCoverDownload)
                 {
-                    StoreAndResizeImageByUrl(url, 300, guid);
-                    item = Get(guid);
+                    //try download
+                    string url = Api.LoadAlbumCover(key, artist);
+                    if (url != null)
+                    {
+                        StoreAndResizeImageByUrl(url, 300, guid);
+                        item = Get(guid);
+                    }
                 }
             }
             finally
@@ -46,7 +52,7 @@ namespace MiSharp.Core.Repository.FileStorage
                 Gate.Release();
             }
 
-            if (item.Length == 0) return null;
+            if (item.Length == 0) return _defaultCover;
 
             var source = new BitmapImage();
             using (Stream stream = new MemoryStream(item))
