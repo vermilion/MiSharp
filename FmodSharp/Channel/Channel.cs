@@ -237,9 +237,9 @@ namespace Linsft.FmodSharp.Channel
 
         public float[] GetSpectrum(int numvalues, int channeloffset, FFTWindow windowtype)
         {
-            var SpectrumArray = new float[numvalues];
-            GetSpectrum(SpectrumArray, numvalues, channeloffset, windowtype);
-            return SpectrumArray;
+            var spectrumArray = new float[numvalues];
+            GetSpectrum(spectrumArray, numvalues, channeloffset, windowtype);
+            return spectrumArray;
         }
 
         public void GetSpectrum(float[] spectrumarray, int numvalues, int channeloffset, FFTWindow windowtype)
@@ -249,9 +249,9 @@ namespace Linsft.FmodSharp.Channel
 
         public float[] GetWaveData(int numvalues, int channeloffset)
         {
-            var WaveArray = new float[numvalues];
-            GetWaveData(WaveArray, numvalues, channeloffset);
-            return WaveArray;
+            var waveArray = new float[numvalues];
+            GetWaveData(waveArray, numvalues, channeloffset);
+            return waveArray;
         }
 
         public void GetWaveData(float[] wavearray, int numvalues, int channeloffset)

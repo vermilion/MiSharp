@@ -22,6 +22,7 @@
 //THE SOFTWARE.
 
 using System;
+using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Channel
 {
@@ -58,7 +59,7 @@ namespace Linsft.FmodSharp.Channel
 		Max
 	}
 
-	public delegate Error.Code ChannelDelegate (IntPtr channelraw, CallbackType type, IntPtr commanddata1, IntPtr commanddata2);
+	public delegate Code ChannelDelegate (IntPtr channelraw, CallbackType type, IntPtr commanddata1, IntPtr commanddata2);
 	
 	//TODO end submmary
 	

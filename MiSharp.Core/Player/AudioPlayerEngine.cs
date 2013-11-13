@@ -2,7 +2,9 @@
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using DeadDog.Audio;
+using Linsft.FmodSharp;
 using Linsft.FmodSharp.Channel;
 using Linsft.FmodSharp.Reverb;
 using Linsft.FmodSharp.Sound;
@@ -19,7 +21,6 @@ namespace MiSharp.Core.Player
         private readonly SoundSystem _soundSystem;
         private Channel _channel;
         private bool _isLoaded;
-        private Action<float> _setVolumeDelegate;
         private Sound _soundFile;
         private float _volume;
 
@@ -89,10 +90,7 @@ namespace MiSharp.Core.Player
 
                 if (_channel != null)
                 {
-                    if (_setVolumeDelegate != null)
-                    {
-                        _setVolumeDelegate(value);
-                    }
+                    _channel.Volume = value;
                 }
             }
         }
@@ -133,8 +131,6 @@ namespace MiSharp.Core.Player
             {
                 if (_channel != null)
                     _channel.Paused = true;
-
-                EnsureState(AudioPlayerState.Paused);
             }
         }
 
@@ -144,8 +140,6 @@ namespace MiSharp.Core.Player
             {
                 if (_channel != null)
                     _channel.Paused = false;
-
-                EnsureState(AudioPlayerState.Playing);
             }
         }
 
@@ -156,14 +150,12 @@ namespace MiSharp.Core.Player
                 Task.Factory.StartNew(() =>
                     {
                         _channel = _soundSystem.PlaySound(_soundFile);
-                        _setVolumeDelegate = vol => _channel.Volume = vol;
 
-                        while (_channel.IsPlaying)
+                        while (_channel != null && _channel.IsPlaying)
                         {
                             UpdateSongState();
-                            Thread.Sleep(50);
+                            Thread.Sleep(10);
                         }
-                        EnsureState(AudioPlayerState.Playing);
                     });
             }
         }
@@ -176,27 +168,20 @@ namespace MiSharp.Core.Player
                 {
                     _channel.Stop();
                     _channel = null;
-                    EnsureState(AudioPlayerState.Stopped);
                     _isLoaded = false;
                 }
             }
         }
 
-        private void EnsureState(AudioPlayerState state)
-        {
-            while (PlaybackState != state)
-            {
-                Thread.Sleep(50);
-            }
-        }
 
         private void UpdateSongState()
         {
-            if (CurrentTime >= TotalTime)
-            {
-                Stop();
-                OnSongFinished(EventArgs.Empty);
-            }
+            //TODO: temp OnNext fix. Get rid of End callback or find another way
+            if (CurrentTime < TotalTime.Add(new TimeSpan(0,0,0,0,-50)))
+                return;
+            
+            Stop();
+            OnSongFinished(EventArgs.Empty);
         }
 
         public event EventHandler SongFinished;
