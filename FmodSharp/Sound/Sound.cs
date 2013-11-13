@@ -24,6 +24,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Sound
 {
@@ -52,13 +53,30 @@ namespace Linsft.FmodSharp.Sound
 		}
 
 		[DllImport("fmodex", EntryPoint = "FMOD_Sound_Release"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code Release (IntPtr sound);
+		private static extern Code Release (IntPtr sound);
 		
 		#endregion
-		
-		
-		
-		//TODO Implement extern funcitons
+
+        #region Length
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Sound_GetLength"), SuppressUnmanagedCodeSecurity]
+        private static extern Code FMOD_Sound_GetLength(IntPtr sound, ref uint length, TimeUnit lengthtype);
+
+        public uint LengthMs
+        {
+            get
+            {
+                uint val = 0;
+                Code returnCode = FMOD_Sound_GetLength(DangerousGetHandle(), ref val, TimeUnit.Milliseconds);
+                Errors.ThrowError(returnCode);
+
+                return val;
+            }
+        }
+
+        #endregion
+
+        //TODO Implement extern funcitons
 		
 		/*
 		
@@ -112,9 +130,6 @@ namespace Linsft.FmodSharp.Sound
 
 		[DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code FMOD_Sound_GetName (IntPtr sound, StringBuilder name, int namelen);
-
-		[DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code FMOD_Sound_GetLength (IntPtr sound, ref uint length, TimeUnit lengthtype);
 
 		[DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code FMOD_Sound_GetFormat (IntPtr sound, ref FmodSharp.Sound.Type type, ref FmodSharp.Sound.Format format, ref int channels, ref int bits);

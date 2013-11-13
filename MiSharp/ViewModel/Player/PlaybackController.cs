@@ -97,8 +97,7 @@ namespace MiSharp
             {
                 if (CurrentPlaylist.MoveToEntry(song))
                 {
-                    if (CurrentTrack != null)
-                        lock (CurrentTrack) { Task.Factory.StartNew(() => { CurrentTrack = CurrentPlaylist.CurrentEntry; }); }
+                    CurrentTrack = CurrentPlaylist.CurrentEntry;
                     AudioPlayer.Load(CurrentPlaylist.CurrentEntry.Track.Model, Volume);
                 }
             }
@@ -136,7 +135,7 @@ namespace MiSharp
             {
                 AudioPlayer.Pause();
                 IsPlaying = false;
-                CurrentPlaylist.SetState(CurrentTrack.Track, AudioPlayerState.Paused);
+               // CurrentPlaylist.SetState(CurrentTrack.Track, AudioPlayerState.Paused);
             }
             else
             {

@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using MiSharp.Core;
-using MiSharp.Core.Player.Output;
 using MiSharp.DialogResults;
 using ReactiveUI;
 
@@ -16,7 +15,6 @@ namespace MiSharp
     public class SettingsViewModel : ReactiveObject
     {
         private readonly IEventAggregator _events;
-        private IOutputDevicePlugin _outSettingsViewModel;
         private List<int> _requestedLatency = new List<int>();
 
         [ImportingConstructor]
@@ -69,27 +67,7 @@ namespace MiSharp
             }
         }
 
-        [ImportMany(typeof (IOutputDevicePlugin))]
-        public IEnumerable<IOutputDevicePlugin> OutputDevicePlugins { get; set; }
-
-        public IOutputDevicePlugin OutSettingsViewModel
-        {
-            get { return _outSettingsViewModel; }
-            set { this.RaiseAndSetIfChanged(ref _outSettingsViewModel, value); }
-        }
-
-        public IOutputDevicePlugin SelectedOutputDriver
-        {
-            get { return Settings.Instance.SelectedOutputDriver ?? (Settings.Instance.SelectedOutputDriver = OutputDevicePlugins.ToList().FirstOrDefault(x => x.Name == "WaveOut")); }
-            set
-            {
-                OutSettingsViewModel = value;
-
-                //TODO:save concrete driver settings
-                this.RaiseAndSetIfChanged(ref Settings.Instance.SelectedOutputDriver, value);
-            }
-        }
-
+    
         public List<int> RequestedLatency
         {
             get { return _requestedLatency; }

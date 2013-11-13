@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using DeadDog.Audio;
-using MiSharp.Core.Player.Exceptions;
-using MiSharp.Core.Player.Input;
-using NAudio;
-using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
-using Rareform.Validation;
-using Sharpen.Lang;
+using Linsft.FmodSharp.Channel;
+using Linsft.FmodSharp.Reverb;
+using Linsft.FmodSharp.Sound;
+using Linsft.FmodSharp.SoundSystem;
 
 namespace MiSharp.Core.Player
 {
@@ -20,21 +15,19 @@ namespace MiSharp.Core.Player
         public delegate void PlaybackEventHandler(PlaybackEventArgs args);
 
         private readonly object _playerLock = new object();
-        public List<IInputFileFormatPlugin> InputFileFormats;
-        private WaveStream _inputStream;
+        private readonly SoundSystem _soundSystem;
+        private Channel _channel;
         private bool _isLoaded;
         private Action<float> _setVolumeDelegate;
+        private Sound _soundFile;
         private float _volume;
-        private IWavePlayer _wavePlayer;
 
         public LocalAudioPlayer()
         {
-            InputFileFormats = new List<IInputFileFormatPlugin>
-                {
-                    new AiffInputFilePlugin(),
-                    new Mp3InputFilePlugin(),
-                    new WaveInputFilePlugin()
-                };
+            _soundSystem = new SoundSystem();
+
+            _soundSystem.Init();
+            _soundSystem.ReverbProperties = Presets.Room;
 
             CurrentTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(300))
                                            .Select(x => CurrentTime)
@@ -56,36 +49,34 @@ namespace MiSharp.Core.Player
 
         public override TimeSpan CurrentTime
         {
-            get { return _inputStream == null ? TimeSpan.Zero : _inputStream.CurrentTime; }
-            set { if (_inputStream != null) _inputStream.CurrentTime = value; }
+            get { return _channel == null ? TimeSpan.Zero : TimeSpan.FromMilliseconds(_channel.CurrentPositionMs); }
+            set { if (_channel != null) _channel.CurrentPositionMs = Convert.ToUInt32(value.TotalMilliseconds); }
+        }
+
+        public override TimeSpan TotalTime
+        {
+            get { return _isLoaded ? TimeSpan.FromMilliseconds(_soundFile.LengthMs) : TimeSpan.Zero; }
         }
 
         public override AudioPlayerState PlaybackState
         {
             get
             {
-                if (_wavePlayer != null)
+                if (_channel != null)
                 {
-                    // We map the NAudio playbackstate to our own playback state,
-                    // so that the NAudio API is not exposed outside of this class.
-                    switch (_wavePlayer.PlaybackState)
+                    switch (_channel.PlaybackState)
                     {
-                        case NAudio.Wave.PlaybackState.Stopped:
+                        case Channel.State.Stopped:
                             return AudioPlayerState.Stopped;
-                        case NAudio.Wave.PlaybackState.Playing:
+                        case Channel.State.Playing:
                             return AudioPlayerState.Playing;
-                        case NAudio.Wave.PlaybackState.Paused:
+                        case Channel.State.Paused:
                             return AudioPlayerState.Paused;
                     }
                 }
 
                 return AudioPlayerState.None;
             }
-        }
-
-        public override TimeSpan TotalTime
-        {
-            get { return _isLoaded ? _inputStream.TotalTime : TimeSpan.Zero; }
         }
 
         public override float Volume
@@ -95,7 +86,7 @@ namespace MiSharp.Core.Player
             {
                 _volume = value;
 
-                if (_inputStream != null)
+                if (_channel != null)
                 {
                     if (_setVolumeDelegate != null)
                     {
@@ -111,99 +102,33 @@ namespace MiSharp.Core.Player
 
             lock (_playerLock)
             {
-                if (_wavePlayer != null)
+                if (_channel != null)
                 {
-                    _wavePlayer.Dispose();
-                    _wavePlayer = null;
+                    _soundFile.Dispose();
+                    _channel.Dispose();
                 }
 
-                if (_inputStream != null)
+                if (_soundSystem != null)
                 {
-                    try
-                    {
-                        _inputStream.Dispose();
-                    }
-
-                        // TODO: NAudio sometimes thows an exception here for unknown reasons
-                    catch (MmException)
-                    {
-                    }
-
-                    _inputStream = null;
+                    _soundSystem.Dispose();
                 }
             }
         }
 
         public override void Load(RawTrack song, float volume)
         {
-            lock (_playerLock)
-            {
-                if (song == null)
-                    Throw.ArgumentNullException(() => song);
-
-                Song = song;
-
-                CreateWavePlayer();
-
-                try
-                {
-                    ISampleProvider sampleProvider = CreateInputStream(Song.FullFilename);
-                    Volume = volume;
-                    _wavePlayer.Init(new SampleToWaveProvider(sampleProvider));
-                }
-                catch (Exception ex)
-                {
-                    throw new SongLoadException("Song could not be loaded.", ex);
-                }
-
-                _isLoaded = true;
-            }
+            _soundFile = _soundSystem.CreateSound(song.FullFilename);
+            //is that really enough?
+            _isLoaded = true;
         }
 
-
-        private void CreateWavePlayer()
-        {
-            CloseWavePlayer();
-            int latency = Settings.Instance.RequestedLatency;
-            try
-            {
-                _wavePlayer = Settings.Instance.SelectedOutputDriver.CreateDevice(latency);
-            }
-            catch (Exception driverCreateException)
-            {
-                MessageBox.Show(String.Format("{0}", driverCreateException.Message));
-            }
-        }
-
-        private void CloseWavePlayer()
-        {
-            if (_wavePlayer != null)
-            {
-                _wavePlayer.Stop();
-            }
-            if (_inputStream != null)
-            {
-                // this one really closes the file and ACM conversion
-                _inputStream.Dispose();
-                _setVolumeDelegate = null;
-            }
-            if (_wavePlayer != null)
-            {
-                _wavePlayer.Dispose();
-                _wavePlayer = null;
-            }
-        }
 
         public override void Pause()
         {
             lock (_playerLock)
             {
-                if (_wavePlayer == null || _inputStream == null ||
-                    _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Paused
-                    || _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Stopped)
-                    return;
-
-                _wavePlayer.Pause();
+                if (_channel != null)
+                    _channel.Paused = true;
 
                 EnsureState(AudioPlayerState.Paused);
             }
@@ -213,37 +138,18 @@ namespace MiSharp.Core.Player
         {
             lock (_playerLock)
             {
-                if (_wavePlayer == null || _inputStream == null ||
-                    _wavePlayer.PlaybackState == NAudio.Wave.PlaybackState.Playing)
-                    return;
-
-                // Create a new thread, so that we can spawn the song state check on the same thread as the play method
-                // With this, we can avoid cross-threading issues with the NAudio library
                 Task.Factory.StartNew(() =>
                     {
-                        bool wasPaused = PlaybackState == AudioPlayerState.Paused;
+                        _channel = _soundSystem.PlaySound(_soundFile);
+                        _setVolumeDelegate = vol => _channel.Volume = vol;
 
-                        try
+                        while (_channel.IsPlaying)
                         {
-                            _wavePlayer.Play();
+                            UpdateSongState();
+                            Thread.Sleep(10);
                         }
-
-                        catch (MmException ex)
-                        {
-                            throw new PlaybackException("The playback couldn't be started.", ex);
-                        }
-
-                        if (!wasPaused)
-                        {
-                            while (PlaybackState != AudioPlayerState.Stopped && PlaybackState != AudioPlayerState.None)
-                            {
-                                UpdateSongState();
-                                Thread.Sleep(250);
-                            }
-                        }
+                        EnsureState(AudioPlayerState.Playing);
                     });
-
-                EnsureState(AudioPlayerState.Playing);
             }
         }
 
@@ -251,39 +157,14 @@ namespace MiSharp.Core.Player
         {
             lock (_playerLock)
             {
-                if (_wavePlayer != null && _wavePlayer.PlaybackState != NAudio.Wave.PlaybackState.Stopped)
+                if (_channel != null)
                 {
-                    _wavePlayer.Stop();
+                    _channel.Stop();
                     EnsureState(AudioPlayerState.Stopped);
-
                     _isLoaded = false;
                 }
             }
         }
-
-        private ISampleProvider CreateInputStream(string fileName)
-        {
-            IInputFileFormatPlugin plugin = GetPluginForFile(fileName);
-            if (plugin == null)
-            {
-                throw new InvalidOperationException("Unsupported file extension");
-            }
-            _inputStream = plugin.CreateWaveStream(fileName);
-            var waveChannel = new SampleChannel(_inputStream, true);
-            _setVolumeDelegate = vol => waveChannel.Volume = vol;
-
-            var postVolumeMeter = new MeteringSampleProvider(waveChannel);
-
-            return postVolumeMeter;
-        }
-
-        private IInputFileFormatPlugin GetPluginForFile(string fileName)
-        {
-            return (InputFileFormats
-                .Where(f => fileName.EndsWith(f.Extension, StringComparison.OrdinalIgnoreCase)))
-                .FirstOrDefault();
-        }
-
 
         private void EnsureState(AudioPlayerState state)
         {

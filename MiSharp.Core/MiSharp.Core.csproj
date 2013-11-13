@@ -45,20 +45,6 @@
     <Reference Include="DynamiteXml">
       <HintPath>..\Libs\DynamiteXml.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio.WindowsMediaFormat">
-      <HintPath>..\packages\NAudio.Wma.1.0\lib\net20\NAudio.WindowsMediaFormat.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis, Version=0.7.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NVorbis.0.7.2\lib\NVorbis.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis.NAudioSupport">
-      <HintPath>..\packages\NVorbis.NAudioSupport.0.5.6\lib\NVorbis.NAudioSupport.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Rareform">
@@ -92,11 +78,6 @@
     <Compile Include="MediaScanner.cs" />
     <Compile Include="Player\AudioPlayer.cs" />
     <Compile Include="Player\AudioPlayerState.cs" />
-    <Compile Include="Player\Input\AiffInputFilePlugin.cs" />
-    <Compile Include="Player\Input\IInputFileFormatPlugin.cs" />
-    <Compile Include="Player\Input\Mp3InputFilePlugin.cs" />
-    <Compile Include="Player\Input\WaveInputFilePlugin.cs" />
-    <Compile Include="Player\Output\IOutputDevicePlugin.cs" />
     <Compile Include="Player\LocalAudioPlayer.cs" />
     <Compile Include="Player\Exceptions\PlaybackException.cs" />
     <Compile Include="Player\Exceptions\SongLoadException.cs" />
@@ -124,6 +105,10 @@
     <ProjectReference Include="..\FileStorage\FileStorage.csproj">
       <Project>{b440be58-e06b-4cb4-8111-baf03c015abc}</Project>
       <Name>FileStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FmodSharp\FmodSharp.csproj">
+      <Project>{e0810e1a-ea20-4f0d-8d0f-5b72c3e64f6d}</Project>
+      <Name>FmodSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

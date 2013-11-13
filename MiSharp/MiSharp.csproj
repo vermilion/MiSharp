@@ -63,10 +63,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.0.11.2.20-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
-    </Reference>
     <Reference Include="ReactiveUI">
       <HintPath>..\packages\reactiveui-core.5.2.0\lib\Portable-Net45+WinRT45+WP8\ReactiveUI.dll</HintPath>
     </Reference>
@@ -139,7 +135,6 @@
     <Compile Include="ViewModel\Player\PlaybackController.cs" />
     <Compile Include="ViewModel\Player\TrackPlaylist.cs" />
     <Compile Include="ViewModel\Player\TrackStateViewModel.cs" />
-    <Compile Include="ViewModel\Converters\ShareModeConverter.cs" />
     <Compile Include="ViewModel\Settings\RescanProgressViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="View\Library\Items\AlbumView.xaml.cs">
@@ -180,27 +175,11 @@
     </Compile>
     <Compile Include="ViewModel\Settings\SettingsBaseViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
-    <Compile Include="ViewModel\Settings\OutputDevices\AsioOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Settings\OutputDevices\DirectSoundOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Settings\OutputDevices\WasapiOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Settings\OutputDevices\WaveOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Player\PlayerViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
     <Compile Include="ViewModel\DialogResults\DummyResult.cs" />
     <Compile Include="ViewModel\DialogResults\CloseResult.cs" />
     <Compile Include="ViewModel\DialogResults\Result.cs" />
-    <Compile Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml.cs">
-      <DependentUpon>AsioOutSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Settings\OutputDevices\DirectSoundOutSettingsView.xaml.cs">
-      <DependentUpon>DirectSoundOutSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Settings\OutputDevices\WasapiOutSettingsView.xaml.cs">
-      <DependentUpon>WasapiOutSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Settings\OutputDevices\WaveOutSettingsView.xaml.cs">
-      <DependentUpon>WaveOutSettingsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Player\PlayerView.xaml.cs">
       <DependentUpon>PlayerView.xaml</DependentUpon>
     </Compile>
@@ -273,22 +252,6 @@
     <Page Include="View\Player\TrackStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Settings\OutputDevices\DirectSoundOutSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Settings\OutputDevices\WasapiOutSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Settings\OutputDevices\WaveOutSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Player\PlayerView.xaml">
       <SubType>Designer</SubType>
@@ -392,6 +355,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MusicAndCatalog.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fmodex.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
