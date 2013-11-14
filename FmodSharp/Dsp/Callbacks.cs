@@ -22,20 +22,20 @@
 //THE SOFTWARE.
 
 using System;
+using System.Text;
+using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Dsp
 {
-	
-	public delegate Error.Code DspDelegate (ref State dsp_state);
-	
-	public delegate Error.Code ReadDelegate (ref State dsp_state, IntPtr inbuffer, IntPtr outbuffer, uint length, int inchannels, int outchannels);
-    
-	public delegate Error.Code SetPositionDelegate (ref State dsp_state, uint seeklen);
-    
-	public delegate Error.Code SetParamDelegate (ref State dsp_state, int index, float val);
-    
-	public delegate Error.Code GetParamDelegate (ref State dsp_state, int index, ref float val, System.Text.StringBuilder valuestr);
-    
-	public delegate Error.Code DialogDelegate (ref State dsp_state, IntPtr hwnd, bool show);
+    public delegate Code DspDelegate(ref State dspState);
 
+    public delegate Code ReadDelegate(ref State dspState, IntPtr inbuffer, IntPtr outbuffer, uint length, int inchannels, int outchannels);
+
+    public delegate Code SetPositionDelegate(ref State dspState, uint seeklen);
+
+    public delegate Code SetParamDelegate(ref State dspState, int index, float val);
+
+    public delegate Code GetParamDelegate(ref State dspState, int index, ref float val, StringBuilder valuestr);
+
+    public delegate Code DialogDelegate(ref State dspState, IntPtr hwnd, bool show);
 }

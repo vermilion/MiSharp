@@ -37,15 +37,15 @@ namespace Linsft.FmodSharp.SoundSystem
             get
             {
                 int driver;
-                Code ReturnCode = GetDriver(DangerousGetHandle(), out driver);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = GetDriver(DangerousGetHandle(), out driver);
+                Errors.ThrowError(returnCode);
 
                 return GetOutputDriver(driver);
             }
             set
             {
-                Code ReturnCode = SetDriver(DangerousGetHandle(), value.Id);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = SetDriver(DangerousGetHandle(), value.Id);
+                Errors.ThrowError(returnCode);
             }
         }
 
@@ -53,8 +53,8 @@ namespace Linsft.FmodSharp.SoundSystem
         {
             get
             {
-                int Numb = NumberOutputDrivers;
-                for (int i = 0; i < Numb; i++)
+                int numb = NumberOutputDrivers;
+                for (int i = 0; i < numb; i++)
                 {
                     yield return GetOutputDriver(i);
                 }
@@ -66,45 +66,45 @@ namespace Linsft.FmodSharp.SoundSystem
             get
             {
                 int numdrivers;
-                Code ReturnCode = GetNumDrivers(DangerousGetHandle(), out numdrivers);
-                Errors.ThrowError(ReturnCode);
+                Code returnCode = GetNumDrivers(DangerousGetHandle(), out numdrivers);
+                Errors.ThrowError(returnCode);
 
                 return numdrivers;
             }
         }
 
-        private void GetOutputDriverInfo(int Id, out string Name, out Guid DriverGuid)
+        private void GetOutputDriverInfo(int id, out string name, out Guid driverGuid)
         {
             var str = new StringBuilder(255);
 
-            Code ReturnCode = GetDriverInfo(DangerousGetHandle(), Id, str, str.Capacity, out DriverGuid);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = GetDriverInfo(DangerousGetHandle(), id, str, str.Capacity, out driverGuid);
+            Errors.ThrowError(returnCode);
 
-            Name = str.ToString();
+            name = str.ToString();
         }
 
-        private void GetOutputDriverCapabilities(int Id, out Capabilities caps, out int minfrequency, out int maxfrequency, out SpeakerMode controlpanelspeakermode)
+        private void GetOutputDriverCapabilities(int id, out Capabilities caps, out int minfrequency, out int maxfrequency, out SpeakerMode controlpanelspeakermode)
         {
-            Code ReturnCode = GetDriverCaps(DangerousGetHandle(), Id, out caps, out minfrequency, out maxfrequency, out controlpanelspeakermode);
-            Errors.ThrowError(ReturnCode);
+            Code returnCode = GetDriverCaps(DangerousGetHandle(), id, out caps, out minfrequency, out maxfrequency, out controlpanelspeakermode);
+            Errors.ThrowError(returnCode);
         }
 
-        private OutputDriver GetOutputDriver(int Id)
+        private OutputDriver GetOutputDriver(int id)
         {
-            Guid DriverGuid;
-            string DriverName;
-            GetOutputDriverInfo(Id, out DriverName, out DriverGuid);
+            Guid driverGuid;
+            string driverName;
+            GetOutputDriverInfo(id, out driverName, out driverGuid);
 
             Capabilities caps;
             int minfrequency, maxfrequency;
             SpeakerMode controlpanelspeakermode;
-            GetOutputDriverCapabilities(Id, out caps, out minfrequency, out maxfrequency, out controlpanelspeakermode);
+            GetOutputDriverCapabilities(id, out caps, out minfrequency, out maxfrequency, out controlpanelspeakermode);
 
             return new OutputDriver
                 {
-                    Id = Id,
-                    Name = DriverName,
-                    Guid = DriverGuid,
+                    Id = id,
+                    Name = driverName,
+                    Guid = driverGuid,
                     Capabilities = caps,
                     MinimumFrequency = minfrequency,
                     MaximumFrequency = maxfrequency,
@@ -113,7 +113,7 @@ namespace Linsft.FmodSharp.SoundSystem
         }
 
         [DllImport("fmodex", EntryPoint = "FMOD_System_GetNumDrivers"), SuppressUnmanagedCodeSecurity]
-        private static extern Code GetNumDrivers(IntPtr system, out int Numdrivers);
+        private static extern Code GetNumDrivers(IntPtr system, out int numdrivers);
 
         [DllImport("fmodex", EntryPoint = "FMOD_System_GetDriverInfo"), SuppressUnmanagedCodeSecurity]
         private static extern Code GetDriverInfo(IntPtr system, int id, StringBuilder name, int namelen, out Guid guid);

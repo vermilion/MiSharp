@@ -23,54 +23,56 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Security;
+using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Dsp
 {
-	public class Dsp : Handle
-	{
-		internal Dsp (IntPtr hnd) : base()
-		{
-			this.SetHandle (hnd);
-		}
+    public class Dsp : Handle
+    {
+        internal Dsp(IntPtr hnd)
+        {
+            SetHandle(hnd);
+        }
 
-		protected override bool ReleaseHandle ()
-		{
-			if (this.IsInvalid)
-				return true;
-			
-			this.Remove ();
-			Release (this.handle);
-			this.SetHandleAsInvalid ();
-			
-			return true;
-		}
-		
-		[System.Security.SuppressUnmanagedCodeSecurity]
-		[DllImport ("fmodex", EntryPoint = "FMOD_DSP_Release")]
-		private static extern Error.Code Release (IntPtr dsp);
-		
-		public void Remove()
-		{
-			Error.Code ReturnCode = Remove_External(this.DangerousGetHandle());
-			Error.Errors.ThrowError (ReturnCode);
-		}
-		
-		public void Reset()
-		{
-			Error.Code ReturnCode = Reset_External(this.DangerousGetHandle());
-			Error.Errors.ThrowError (ReturnCode);
-		}
-		
-		[System.Security.SuppressUnmanagedCodeSecurity]
-		[DllImport ("fmodex", EntryPoint = "FMOD_DSP_Remove")]
-        private static extern Error.Code Remove_External (IntPtr dsp);
-		
-		[System.Security.SuppressUnmanagedCodeSecurity]
-		[DllImport ("fmodex", EntryPoint = "FMOD_DSP_Reset")]
-        private static extern Error.Code Reset_External (IntPtr dsp);
-		
-		//TODO Implement extern funcitons
-		/*
+        protected override bool ReleaseHandle()
+        {
+            if (IsInvalid)
+                return true;
+
+            Remove();
+            Release(handle);
+            SetHandleAsInvalid();
+
+            return true;
+        }
+
+        [SuppressUnmanagedCodeSecurity]
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_Release")]
+        private static extern Code Release(IntPtr dsp);
+
+        public void Remove()
+        {
+            Code returnCode = Remove_External(DangerousGetHandle());
+            Errors.ThrowError(returnCode);
+        }
+
+        public void Reset()
+        {
+            Code returnCode = Reset_External(DangerousGetHandle());
+            Errors.ThrowError(returnCode);
+        }
+
+        [SuppressUnmanagedCodeSecurity]
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_Remove")]
+        private static extern Code Remove_External(IntPtr dsp);
+
+        [SuppressUnmanagedCodeSecurity]
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_Reset")]
+        private static extern Code Reset_External(IntPtr dsp);
+
+        //TODO Implement extern funcitons
+        /*
 
 		[System.Security.SuppressUnmanagedCodeSecurity]
 		[DllImport (VERSION.dll)]
@@ -175,5 +177,5 @@ namespace Linsft.FmodSharp.Dsp
 		[DllImport(VERSION.dll), SuppressUnmanagedCodeSecurity]
         private static extern RESULT FMOD_DSP_GetMemoryInfo             (IntPtr dsp, uint memorybits, uint event_memorybits, ref uint memoryused, ref MEMORY_USAGE_DETAILS memoryused_details);
 		*/
-	}
+    }
 }
