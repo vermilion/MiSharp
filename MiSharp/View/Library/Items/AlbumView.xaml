@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
         <Image Grid.Column="0" Height="120" Width="120">
             <Image.Source>
-                <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/Music.ico"
+                <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/Disc.ico"
                          IsAsync="True" />
             </Image.Source>
         </Image>

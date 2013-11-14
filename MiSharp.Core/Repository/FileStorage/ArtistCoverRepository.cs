@@ -11,7 +11,7 @@ namespace MiSharp.Core.Repository.FileStorage
         private const string Name = "ArtistCovers";
 
         private readonly BitmapImage _defaultCover =
-            new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
+            new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/Disc.ico"));
 
         private static readonly SemaphoreSlim Gate;
 

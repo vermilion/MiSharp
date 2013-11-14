@@ -3,8 +3,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:cal="http://www.caliburnproject.org"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      Width="1000" Height="750" WindowStartupLocation="CenterScreen"
-                      Icon="/MiSharp;component/Music.ico" Background="#FF292929">
+                      Width="1000" Height="750" WindowStartupLocation="CenterScreen" Background="#FF292929">
     <controls:MetroWindow.WindowCommands>
         <controls:WindowCommands>
             <Button Content="settings" cal:Message.Attach="OpenSettings" />
