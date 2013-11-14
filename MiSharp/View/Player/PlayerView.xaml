@@ -57,7 +57,7 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="339,16,211,2">
-            <Image Height="70" Width="70" HorizontalAlignment="Left" Source="{Binding Cover}"  />
+            <Image Height="70" Width="70" HorizontalAlignment="Left" Source="{Binding Cover, IsAsync=True}"  />
             <StackPanel Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" >
                 <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.Title}" FontSize="16"
             			HorizontalAlignment="Left" Margin="0,3,0,0" />

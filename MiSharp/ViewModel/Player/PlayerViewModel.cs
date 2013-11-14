@@ -87,10 +87,13 @@ namespace MiSharp
             {
                 if (CurrentlyPlaying != null)
                 {
-                    return IoC.Get<AlbumCoverRepository>().GetCover(CurrentlyPlaying.Album.Title,
-                        CurrentlyPlaying.Artist.Name, CurrentlyPlaying.Album.Identifier);
+                    var cover = IoC.Get<AlbumCoverRepository>()
+                                   .GetCover(CurrentlyPlaying.Album.Title,
+                                             CurrentlyPlaying.Artist.Name,
+                                             CurrentlyPlaying.Album.Identifier);
+                    return cover ?? _defaultCover;
                 }
-                return null; //_defaultCover;
+                return null;
             }
         }
 
