@@ -21,11 +21,8 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //THE SOFTWARE.
 
-using System;
-
 namespace Linsft.FmodSharp.Sound
-{
-	
+{	
 	/// <summary>
 	/// These definitions describe the native format of the hardware or software buffer that will be used.
 	/// </summary>

@@ -431,7 +431,7 @@ namespace Linsft.FmodSharp.SoundSystem
         }
 
         [DllImport("fmodex", CharSet = CharSet.Ansi, EntryPoint = "FMOD_System_CreateStream"), SuppressUnmanagedCodeSecurity]
-        private static extern Code CreateStream(IntPtr system, string name, Mode mode, ref Info exinfo, ref IntPtr Sound);
+        private static extern Code CreateStream(IntPtr system, string name, Mode mode, ref Info exinfo, ref IntPtr sound);
 
         [DllImport("fmodex", CharSet = CharSet.Ansi, EntryPoint = "FMOD_System_CreateStream"), SuppressUnmanagedCodeSecurity]
         private static extern Code CreateStream(IntPtr system, string name, Mode mode, int exinfo, ref IntPtr sound);
@@ -516,6 +516,78 @@ namespace Linsft.FmodSharp.SoundSystem
 
         #endregion
 
+        #region Speaker mode
+
+        public SpeakerMode SpeakerMode
+        {
+            get
+            {
+                var speakerMode = SpeakerMode.Max;
+
+                Code returnCode = GetSpeakerMode(DangerousGetHandle(), ref speakerMode);
+                Errors.ThrowError(returnCode);
+
+                return speakerMode;
+            }
+            set
+            {
+                Code returnCode = SetSpeakerMode(DangerousGetHandle(), value);
+                Errors.ThrowError(returnCode);
+            }
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_SetSpeakerMode"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetSpeakerMode(IntPtr system, SpeakerMode speakermode);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_GetSpeakerMode"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetSpeakerMode(IntPtr system, ref SpeakerMode speakermode);
+
+        #endregion
+
+        #region Buffer
+
+        public int FileBufferSize
+        {
+            get
+            {
+                var sizebytes = 0;
+                Code returnCode = GetFileBufferSize(DangerousGetHandle(), ref sizebytes);
+                Errors.ThrowError(returnCode);
+
+                return sizebytes;
+            }
+            set
+            {
+                Code returnCode = SetFileBufferSize(DangerousGetHandle(), value);
+                Errors.ThrowError(returnCode);
+            }
+        }
+
+        public void SetStreamBufferSize(uint filebuffersize, TimeUnit filebuffersizetype)
+        {
+            Code returnCode = SetStreamBufferSize(DangerousGetHandle(), filebuffersize, filebuffersizetype);
+            Errors.ThrowError(returnCode);
+        }
+
+        public void GetStreamBufferSize(ref uint filebuffersize, ref TimeUnit filebuffersizetype)
+        {
+            Code returnCode = GetStreamBufferSize(DangerousGetHandle(), ref filebuffersize, ref filebuffersizetype);
+            Errors.ThrowError(returnCode);
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_SetFileBufferSize"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetFileBufferSize(IntPtr system, int sizebytes);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_GetFileBufferSize"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetFileBufferSize(IntPtr system, ref int sizebytes);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_SetStreamBufferSize"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetStreamBufferSize(IntPtr system, uint filebuffersize, TimeUnit filebuffersizetype);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_GetStreamBufferSize"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetStreamBufferSize(IntPtr system, ref uint filebuffersize, ref TimeUnit filebuffersizetype);
+
+        #endregion
         //TODO Implement extern funcitons
 
         /*
@@ -589,12 +661,6 @@ namespace Linsft.FmodSharp.SoundSystem
 		[DllImport("fmodex", EntryPoint = "FMOD_System_GetAdvancedSettings"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code GetAdvancedSettings (IntPtr system, ref ADVANCEDSETTINGS settings);
 
-		[DllImport("fmodex", EntryPoint = "FMOD_System_SetSpeakerMode"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code SetSpeakerMode (IntPtr system, SpeakerMode speakermode);
-
-		[DllImport("fmodex", EntryPoint = "FMOD_System_GetSpeakerMode"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetSpeakerMode (IntPtr system, ref SpeakerMode speakermode);
-
 		[DllImport("fmodex", EntryPoint = "FMOD_System_Set3DRolloffCallback"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code Set3DRolloffCallback (IntPtr system, CB_3D_RollOffDelegate callback);
 
@@ -621,18 +687,6 @@ namespace Linsft.FmodSharp.SoundSystem
 
 		[DllImport("fmodex", EntryPoint = "FMOD_System_Get3DListenerAttributes"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code Get3DListenerAttributes (IntPtr system, int listener, ref Vector3 pos, ref Vector3 vel, ref Vector3 forward, ref Vector3 up);
-
-		[DllImport("fmodex", EntryPoint = "FMOD_System_SetFileBufferSize"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code SetFileBufferSize (IntPtr system, int sizebytes);
-
-		[DllImport("fmodex", EntryPoint = "FMOD_System_GetFileBufferSize"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetFileBufferSize (IntPtr system, ref int sizebytes);
-
-		[DllImport("fmodex", EntryPoint = "FMOD_System_SetStreamBufferSize"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code SetStreamBufferSize (IntPtr system, uint filebuffersize, TimeUnit filebuffersizetype);
-
-		[DllImport("fmodex", EntryPoint = "FMOD_System_GetStreamBufferSize"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetStreamBufferSize (IntPtr system, ref uint filebuffersize, ref TimeUnit filebuffersizetype);
 
 		[DllImport("fmodex", EntryPoint = "FMOD_System_GetOutputHandle"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code GetOutputHandle (IntPtr system, ref IntPtr handle);

@@ -43,7 +43,7 @@ namespace Linsft.FmodSharp.Sound
                 return true;
 
             //TODO: this sometimes throws exceptions when handle changes
-            Release(handle);
+            //Release(handle);
             SetHandleAsInvalid();
 
             return true;
@@ -134,7 +134,7 @@ namespace Linsft.FmodSharp.Sound
             get
             {
                 var numchannels = 0;
-                Code returnCode = FMOD_Sound_GetMusicNumChannels(DangerousGetHandle(), ref numchannels);
+                Code returnCode = GetMusicNumChannels(DangerousGetHandle(), ref numchannels);
                 Errors.ThrowError(returnCode);
 
                 return numchannels;
@@ -143,27 +143,40 @@ namespace Linsft.FmodSharp.Sound
 
         public void SetMusicChannelVolume(int channel, float volume)
         {
-            Code returnCode = FMOD_Sound_SetMusicChannelVolume(DangerousGetHandle(), channel, volume);
+            Code returnCode = SetMusicChannelVolume(DangerousGetHandle(), channel, volume);
             Errors.ThrowError(returnCode);
         }
 
         public float GetMusicChannelVolume(int channel)
         {
             float volume = 1.0f;
-            Code returnCode = FMOD_Sound_GetMusicChannelVolume(DangerousGetHandle(), channel, ref volume);
+            Code returnCode = GetMusicChannelVolume(DangerousGetHandle(), channel, ref volume);
             Errors.ThrowError(returnCode);
 
             return volume;
         }
 
-        [DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
-        private static extern Code FMOD_Sound_GetMusicNumChannels(IntPtr sound, ref int numchannels);
+        [DllImport("fmodex", EntryPoint = "FMOD_Sound_GetMusicNumChannels"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetMusicNumChannels(IntPtr sound, ref int numchannels);
 
-        [DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
-        private static extern Code FMOD_Sound_SetMusicChannelVolume(IntPtr sound, int channel, float volume);
+        [DllImport("fmodex", EntryPoint = "FMOD_Sound_SetMusicChannelVolume"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetMusicChannelVolume(IntPtr sound, int channel, float volume);
 
-        [DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
-        private static extern Code FMOD_Sound_GetMusicChannelVolume(IntPtr sound, int channel, ref float volume);
+        [DllImport("fmodex", EntryPoint = "FMOD_Sound_GetMusicChannelVolume"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetMusicChannelVolume(IntPtr sound, int channel, ref float volume);
+
+        #endregion
+
+        #region Open State
+
+        public void GetOpenState(ref OpenState openstate, ref uint percentbuffered, ref int starving)
+        {
+            Code returnCode = GetOpenState(DangerousGetHandle(), ref openstate, ref percentbuffered, ref starving);
+            Errors.ThrowError(returnCode);
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Sound_GetOpenState"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetOpenState(IntPtr sound, ref OpenState openstate, ref uint percentbuffered, ref int starving);
 
         #endregion
 
@@ -233,9 +246,6 @@ namespace Linsft.FmodSharp.Sound
 
 		[DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code FMOD_Sound_GetTag (IntPtr sound, string name, int index, ref TAG tag);
-
-		[DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code FMOD_Sound_GetOpenState (IntPtr sound, ref OPENSTATE openstate, ref uint percentbuffered, ref int starving);
 
 		[DllImport("fmodex"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code FMOD_Sound_ReadData (IntPtr sound, IntPtr buffer, uint lenbytes, ref uint read);

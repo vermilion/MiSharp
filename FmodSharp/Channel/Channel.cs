@@ -33,10 +33,6 @@ namespace Linsft.FmodSharp.Channel
     {
         #region Create/Release
 
-        private Channel()
-        {
-        }
-
         internal Channel(IntPtr hnd)
         {
             SetHandle(hnd);
@@ -294,7 +290,69 @@ namespace Linsft.FmodSharp.Channel
 
         #endregion
 
+        #region Speaker Mix
 
+        public void SetSpeakerMix(float frontleft, float frontright, float center, float lfe, float backleft,
+            float backright, float sideleft, float sideright)
+        {
+            Code returnCode = SetSpeakerMix(DangerousGetHandle(), frontleft, frontright, center, lfe, backleft,
+                backright, sideleft, sideright);
+            Errors.ThrowError(returnCode);
+        }
+
+        public void GetSpeakerMix(ref float frontleft, ref float frontright, ref float center, ref float lfe,
+            ref float backleft, ref float backright, ref float sideleft, ref float sideright)
+        {
+            Code returnCode = GetSpeakerMix(DangerousGetHandle(), ref frontleft, ref frontright, ref center, ref lfe,
+                ref backleft, ref backright, ref sideleft, ref sideright);
+            Errors.ThrowError(returnCode);
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetSpeakerMix"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetSpeakerMix(IntPtr channel, float frontleft, float frontright, float center, float lfe, float backleft, float backright, float sideleft, float sideright);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetSpeakerMix"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetSpeakerMix(IntPtr channel, ref float frontleft, ref float frontright, ref float center, ref float lfe, ref float backleft, ref float backright, ref float sideleft, ref float sideright);
+
+        public void SetSpeakerLevels(Speaker speaker, float[] levels, int numlevels)
+        {
+            Code returnCode = SetSpeakerLevels(DangerousGetHandle(), speaker, levels, numlevels);
+            Errors.ThrowError(returnCode);
+        }
+
+        public void GetSpeakerLevels(Speaker speaker, float[] levels, int numlevels)
+        {
+            //TODO: check it!
+            Code returnCode = GetSpeakerLevels(DangerousGetHandle(), speaker, levels, numlevels);
+            Errors.ThrowError(returnCode);
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetSpeakerLevels"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetSpeakerLevels(IntPtr channel, Speaker speaker, float[] levels, int numlevels);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetSpeakerLevels"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetSpeakerLevels(IntPtr channel, Speaker speaker, [MarshalAs(UnmanagedType.LPArray)] float[] levels, int numlevels);
+		
+        #endregion
+
+        #region Current Sound
+
+        public IntPtr CurrentSound
+        {
+            get
+            {
+                var sound = IntPtr.Zero;
+                Code returnCode = GetCurrentSound(DangerousGetHandle(), ref sound);
+                Errors.ThrowError(returnCode);
+
+                return sound;
+            }
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetCurrentSound"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetCurrentSound(IntPtr channel, ref IntPtr sound);
+
+        #endregion
         //TODO Implement extern funcitons
 
         /*
@@ -307,12 +365,6 @@ namespace Linsft.FmodSharp.Channel
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetDelay"), SuppressUnmanagedCodeSecurity]
         private static extern Error.Code GetDelay (IntPtr channel, DELAYTYPE delaytype, ref uint delayhi, ref uint delaylo);
-		
-        [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetSpeakerMix"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code SetSpeakerMix (IntPtr channel, float frontleft, float frontright, float center, float lfe, float backleft, float backright, float sideleft, float sideright);
-		
-        [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetSpeakerMix"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code GetSpeakerMix (IntPtr channel, ref float frontleft, ref float frontright, ref float center, ref float lfe, ref float backleft, ref float backright, ref float sideleft, ref float sideright);
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetSpeakerLevels"), SuppressUnmanagedCodeSecurity]
         private static extern Error.Code SetSpeakerLevels (IntPtr channel, SPEAKER speaker, float[] levels, int numlevels);
@@ -414,10 +466,7 @@ namespace Linsft.FmodSharp.Channel
         private static extern Error.Code IsVirtual (IntPtr channel, ref int isvirtual);
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetAudibility"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code GetAudibility (IntPtr channel, ref float audibility);
-		
-        [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetCurrentSound"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code GetCurrentSound (IntPtr channel, ref IntPtr sound);
+        private static extern Error.Code GetAudibility (IntPtr channel, ref float audibility);		
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetIndex"), SuppressUnmanagedCodeSecurity]
         private static extern Error.Code GetIndex (IntPtr channel, ref int index);
