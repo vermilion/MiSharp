@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core;
 using MiSharp.Core.Player;
 using ReactiveUI;
+using WPFSoundVisualizationLib;
 
 namespace MiSharp
 {
-    public class PlaybackController : ReactiveObject, IHandle<List<Track>>
+    public class PlaybackController : ReactiveObject, IHandle<List<Track>>, ISpectrumPlayer
     {
         public readonly AudioPlayerEngine AudioPlayerEngine;
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
@@ -207,6 +207,24 @@ namespace MiSharp
         public void Handle(List<Track> message)
         {
             CurrentPlaylist.AddRange(message);
+        }
+
+        #endregion
+
+        #region ISpectrumPlayer implementation
+
+        public bool GetFFTData(float[] fftDataBuffer)
+        {
+            AudioPlayerEngine.GetSpectrum(fftDataBuffer);
+            return true;
+        }
+
+        public int GetFFTFrequencyIndex(int frequency)
+        {
+            //TODO: stupid hack for array[2048] and freq [20,x]. Find better solution           
+            if (frequency == 20)
+                return 0;
+            else return 2047;
         }
 
         #endregion

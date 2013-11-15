@@ -588,6 +588,32 @@ namespace Linsft.FmodSharp.SoundSystem
         private static extern Code GetStreamBufferSize(IntPtr system, ref uint filebuffersize, ref TimeUnit filebuffersizetype);
 
         #endregion
+
+        #region Software Format
+
+        public void GetSoftwareFormat(ref int samplerate, ref Format format, ref int numoutputchannels,
+            ref int maxinputchannels, ref Resampler resamplemethod, ref int bits)
+        {
+            Code returnCode = GetSoftwareFormat(DangerousGetHandle(), ref samplerate, ref format, ref numoutputchannels,
+                ref maxinputchannels, ref resamplemethod, ref bits);
+            Errors.ThrowError(returnCode);
+        }
+
+        public void SetSoftwareFormat(int samplerate, Format format, int numoutputchannels, int maxinputchannels,
+            Resampler resamplemethod)
+        {
+            Code returnCode = SetSoftwareFormat(DangerousGetHandle(), samplerate, format, numoutputchannels,
+                maxinputchannels, resamplemethod);
+            Errors.ThrowError(returnCode);
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_SetSoftwareFormat"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetSoftwareFormat(IntPtr system, int samplerate, Format format, int numoutputchannels, int maxinputchannels, Resampler resamplemethod);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_System_GetSoftwareFormat"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetSoftwareFormat(IntPtr system, ref int samplerate, ref Format format, ref int numoutputchannels, ref int maxinputchannels, ref Resampler resamplemethod, ref int bits);
+
+        #endregion
         //TODO Implement extern funcitons
 
         /*
@@ -606,12 +632,6 @@ namespace Linsft.FmodSharp.SoundSystem
 
 		[DllImport("fmodex", EntryPoint = "FMOD_System_GetSoftwareChannels"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code GetSoftwareChannels (IntPtr system, ref int numsoftwarechannels);
-
-		[DllImport("fmodex", EntryPoint = "FMOD_System_SetSoftwareFormat"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code SetSoftwareFormat (IntPtr system, int samplerate, Sound.Format format, int numoutputchannels, int maxinputchannels, Dsp.Resampler resamplemethod);
-
-		[DllImport("fmodex", EntryPoint = "FMOD_System_GetSoftwareFormat"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetSoftwareFormat (IntPtr system, ref int samplerate, ref Sound.Format format, ref int numoutputchannels, ref int maxinputchannels, ref Dsp.Resampler resamplemethod, ref int bits);
 
 		[DllImport("fmodex", EntryPoint = "FMOD_System_SetDSPBufferSize"), SuppressUnmanagedCodeSecurity]
 		private static extern Error.Code SetDSPBufferSize (IntPtr system, uint bufferlength, int numbuffers);

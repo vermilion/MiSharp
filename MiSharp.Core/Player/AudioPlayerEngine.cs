@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DeadDog.Audio;
 using Linsft.FmodSharp.Channel;
+using Linsft.FmodSharp.Dsp;
 using Linsft.FmodSharp.Sound;
 using Linsft.FmodSharp.SoundSystem;
 using Rareform.Extensions;
@@ -25,7 +26,7 @@ namespace MiSharp.Core.Player
         {
             _soundSystem = new SoundSystem();
 
-            _soundSystem.Init();
+            _soundSystem.Init(32, InitFlags.Normal, (IntPtr)null);
 
             CurrentTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(1000))
                                            .Select(x => CurrentTime)
@@ -188,5 +189,24 @@ namespace MiSharp.Core.Player
             SongFinished.RaiseSafe(this, e);
         }
 
+        public void GetSpectrum(float[] spectrum)
+        {
+            int spectrumSize = spectrum.Length;
+          
+            int numChannels = 0;
+            int dummy = 0;
+            var dummyFormat = Format.None;
+            var dummyResampler = Resampler.Linear;
+
+            //TODO: investigate if we need following
+            //we can get spectrum for all of our channels
+            _soundSystem.GetSoftwareFormat(ref dummy, ref dummyFormat, ref numChannels, ref dummy, ref dummyResampler,
+                ref dummy);
+
+            for (int count = 0; count < numChannels; count++)
+            {
+                _soundSystem.GetSpectrum(spectrum, spectrumSize, count, FFTWindow.Triangle);
+            }
+        }
     }
 }
