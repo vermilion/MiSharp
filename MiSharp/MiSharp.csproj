@@ -349,6 +349,10 @@
       <Project>{b15b28fc-ff24-4871-b539-c4eb78788612}</Project>
       <Name>MiSharp.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WPFSoundVisualizationLibrary\WPFSoundVisualizationLib.csproj">
+      <Project>{90F96222-1C39-4A19-ABE8-1B00FB330985}</Project>
+      <Name>WPFSoundVisualizationLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Disc.ico" />
