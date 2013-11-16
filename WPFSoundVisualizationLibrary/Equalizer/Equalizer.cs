@@ -215,11 +215,15 @@ namespace WPFSoundVisualizationLib
                 equalizerGrid.ColumnDefinitions.Add(channelColumn);
                 var slider = new Slider
                 {
-                    Style = (Style) FindResource("EqualizerSlider"),
+                    //Style = (Style) FindResource("EqualizerSlider"), //TODO: DynamicResource as Metro in styles
                     Maximum = 1.0,
                     Minimum = -1.0,
                     SmallChange = 0.01,
                     LargeChange = 0.1,
+                    Orientation = Orientation.Vertical,
+                    SnapsToDevicePixels = true,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    IsMoveToPointEnabled = true
                 };
 
                 Grid.SetColumn(slider, i);

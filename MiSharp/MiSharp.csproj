@@ -131,6 +131,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\Library\Items\TrackViewModel.cs" />
+    <Compile Include="ViewModel\Player\EqualizerViewModel.cs" />
     <Compile Include="ViewModel\Player\NowPlayingViewModel.cs" />
     <Compile Include="ViewModel\Player\PlaybackController.cs" />
     <Compile Include="ViewModel\Player\TrackPlaylist.cs" />
@@ -160,6 +161,9 @@
     </Compile>
     <Compile Include="View\Library\Items\TrackView.xaml.cs">
       <DependentUpon>TrackView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Player\EqualizerView.xaml.cs">
+      <DependentUpon>EqualizerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Player\NowPlayingView.xaml.cs">
       <DependentUpon>NowPlayingView.xaml</DependentUpon>
@@ -244,6 +248,10 @@
     <Page Include="View\Library\Items\TrackView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Player\EqualizerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Player\NowPlayingView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -17,12 +17,16 @@ namespace MiSharp
             new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/Disc.ico"));
 
         private readonly ObservableAsPropertyHelper<string> _playPauseContent;
+        private readonly IWindowManager _windowManager;
 
         [ImportingConstructor]
         public PlayerViewModel(IEventAggregator events)
         {
             PlaybackController = IoC.Get<PlaybackController>();
+            _windowManager = IoC.Get<IWindowManager>();
 
+            EqualizerCommand = new ReactiveCommand();
+            EqualizerCommand.Subscribe(param => _windowManager.ShowDialog(new EqualizerViewModel()));
 
             PlayNextCommand = new ReactiveCommand();
             PlayNextCommand.Subscribe(param => PlaybackController.PlayNext());
@@ -58,13 +62,14 @@ namespace MiSharp
             PlaybackController.VolumeChanged.Subscribe(x => this.RaisePropertyChanged("Volume"));
         }
 
+
         public PlaybackController PlaybackController { get; set; }
 
 
         public ReactiveCommand PlayNextCommand { get; private set; }
         public ReactiveCommand PlayPrevCommand { get; private set; }
         public ReactiveCommand PlayPauseCommand { get; private set; }
-
+        public ReactiveCommand EqualizerCommand { get; set; }
 
         public void ChangePosition(object sender, MouseEventArgs e)
         {
