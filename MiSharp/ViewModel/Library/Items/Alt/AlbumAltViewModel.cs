@@ -27,11 +27,11 @@ namespace MiSharp
             _cover = new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
 
             AddAlbumToPlaylistCommand = new ReactiveCommand();
-            AddAlbumToPlaylistCommand.Subscribe(param => _events.Publish(Tracks.Select(x => x.Model).ToList()));
+            AddAlbumToPlaylistCommand.Subscribe(param => _events.Publish(Tracks.Select(x => x.Track).ToList()));
 
             EditorEditAlbumsCommand = new ReactiveCommand();
             EditorEditAlbumsCommand.Subscribe(
-                param => _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model.Model).ToList())));
+                param => _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Track.Model).ToList())));
         }
 
         public ReactiveCommand AddAlbumToPlaylistCommand { get; private set; }
@@ -43,7 +43,7 @@ namespace MiSharp
         {
             get
             {
-                RawTrack item = Tracks.Select(x => x.Model.Model).FirstOrDefault();
+                RawTrack item = Tracks.Select(x => x.Track.Model).FirstOrDefault();
                 if (item != null)
                 {
                     File file = File.Create(item.FullFilename);

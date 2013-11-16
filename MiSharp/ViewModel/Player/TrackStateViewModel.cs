@@ -6,17 +6,14 @@ using ReactiveUI;
 namespace MiSharp
 {
     [Export]
-    public class TrackStateViewModel : ReactiveObject
+    public class TrackStateViewModel : TrackViewModel
     {
         private AudioPlayerState _state;
 
-        public TrackStateViewModel(Track track, AudioPlayerState state)
+        public TrackStateViewModel(Track track, AudioPlayerState state) : base(track)
         {
-            Track = track;
             State = state;
         }
-
-        public Track Track { get; private set; }
 
         public AudioPlayerState State
         {
