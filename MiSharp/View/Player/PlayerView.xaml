@@ -17,7 +17,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="#FF4F4F4F">
-        <StackPanel Orientation="Horizontal" Margin="10,16,0,2" HorizontalAlignment="Left" Width="250">
+        <wpfSoundVisualizationLib:SpectrumAnalyzer x:Name="SpectrumAnalyzer" Margin="0,16,0,0" BarCount="100"/>
+        <StackPanel Orientation="Horizontal" Margin="10,16,0,2" HorizontalAlignment="Left" Width="291">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="73" VerticalAlignment="Top" Margin="0,0,0,-70">
                 <Button Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
 					HorizontalAlignment="Right" Width="50"
@@ -32,7 +33,7 @@
 					Style="{DynamicResource MetroCircleButtonStyle}"
 					HorizontalAlignment="Right" Width="50" BorderThickness="3" />
             </StackPanel>
-            <StackPanel HorizontalAlignment="Left" Height="75" Margin="0,0,0,-2" VerticalAlignment="Top" Width="78" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Left" Height="75" Margin="0,0,0,-3" VerticalAlignment="Top" Width="123" Orientation="Horizontal">
                 <ToggleButton Height="40" IsChecked="{Binding RepeatState}"
 					ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
 					Style="{DynamicResource MetroCircleToggleButtonStyle}"
@@ -55,10 +56,21 @@
                         </Rectangle.Fill>
                     </Rectangle>
                 </ToggleButton>
+                <Button ToolTip="Equalizer" HorizontalAlignment="Left" Width="40"
+                	Style="{DynamicResource MetroCircleButtonStyle}"
+                    Command="{Binding EqualizerCommand}"
+                	BorderThickness="3" Height="40" Margin="0,17.5">
+                    <Rectangle Width="16" Height="16">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill"
+                				Visual="{StaticResource appbar_equalizer}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Button>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,16,211,2" HorizontalAlignment="Right" Width="213">
-            <Image Height="70" Width="70" HorizontalAlignment="Left" Source="{Binding Cover, IsAsync=True}"  />
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="319,16,211,2">
+            <Image Height="70" Width="70" HorizontalAlignment="Left" Source="{Binding Cover, IsAsync=True}" Opacity="0.7"  />
             <StackPanel Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" >
                 <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.Title}" FontSize="16"
 					HorizontalAlignment="Left" Margin="0,3,0,0" />
@@ -102,6 +114,5 @@
                 </TextBlock.Text>
             </TextBlock>
         </Grid>
-        <wpfSoundVisualizationLib:SpectrumAnalyzer x:Name="SpectrumAnalyzer" Margin="265,16,429,0"/>
     </Grid>
 </UserControl>
