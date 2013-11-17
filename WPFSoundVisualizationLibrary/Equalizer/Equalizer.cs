@@ -17,8 +17,8 @@ namespace WPFSoundVisualizationLib
     {
         #region Fields
 
-        private readonly List<Slider> sliders = new List<Slider>();
-        private Grid equalizerGrid;
+        private readonly List<Slider> _sliders = new List<Slider>();
+        private Grid _equalizerGrid;
 
         #endregion
 
@@ -177,10 +177,10 @@ namespace WPFSoundVisualizationLib
         {
             base.OnApplyTemplate();
 
-            if (equalizerGrid != null)
-                equalizerGrid.Children.Clear();
+            if (_equalizerGrid != null)
+                _equalizerGrid.Children.Clear();
 
-            equalizerGrid = GetTemplateChild("PART_EqualizerGrid") as Grid;
+            _equalizerGrid = GetTemplateChild("PART_EqualizerGrid") as Grid;
 
             CreateSliders();
         }
@@ -201,18 +201,18 @@ namespace WPFSoundVisualizationLib
 
         private void CreateSliders()
         {
-            if (equalizerGrid == null)
+            if (_equalizerGrid == null)
                 return;
 
             ClearSliders();
-            equalizerGrid.ColumnDefinitions.Clear();
+            _equalizerGrid.ColumnDefinitions.Clear();
             for (int i = 0; i < NumberOfBands; i++)
             {
                 var channelColumn = new ColumnDefinition
                 {
                     Width = new GridLength(10.0d, GridUnitType.Star)
                 };
-                equalizerGrid.ColumnDefinitions.Add(channelColumn);
+                _equalizerGrid.ColumnDefinitions.Add(channelColumn);
                 var slider = new Slider
                 {
                     //Style = (Style) FindResource("EqualizerSlider"), //TODO: DynamicResource as Metro in styles
@@ -227,8 +227,8 @@ namespace WPFSoundVisualizationLib
                 };
 
                 Grid.SetColumn(slider, i);
-                sliders.Add(slider);
-                equalizerGrid.Children.Add(slider);
+                _sliders.Add(slider);
+                _equalizerGrid.Children.Add(slider);
                 slider.ValueChanged += slider_ValueChanged;
             }
         }
@@ -240,26 +240,26 @@ namespace WPFSoundVisualizationLib
 
         private void ClearSliders()
         {
-            foreach (Slider slider in sliders)
+            foreach (Slider slider in _sliders)
             {
                 slider.ValueChanged -= slider_ValueChanged;
-                equalizerGrid.Children.Remove(slider);
+                _equalizerGrid.Children.Remove(slider);
             }
-            sliders.Clear();
+            _sliders.Clear();
         }
 
         private float[] GetEqualizerValues()
         {
             var sliderValues = new float[NumberOfBands];
             for (int i = 0; i < NumberOfBands; i++)
-                sliderValues[i] = (float) sliders[i].Value;
+                sliderValues[i] = (float) _sliders[i].Value;
             return sliderValues;
         }
 
         private void SetEqualizerValues(float[] values)
         {
             for (int i = 0; i < NumberOfBands; i++)
-                sliders[i].Value = values[i];
+                _sliders[i].Value = values[i];
         }
 
         #endregion

@@ -12,22 +12,23 @@ namespace MiSharp.Core
         public string[] FileFormats;
 
         public string WatchFolder;
-        public int WatchFolderScanInterval;
+        public int WatchFolderScanInterval = 60;
         public TimeSpan TimeToNextRescan;
         public string SelectedTheme;
         public string AccentColor;
         public bool RepeatState;
         public bool ShuffleState;
-        public bool IsCoverDownload;
+        public bool IsCoverDownload = true;
+
+        public bool EqualizerEnabled = false;
+        public float[] EqualizerValues;
 
         private Settings()
         {
-            WatchFolderScanInterval = 60;
             WatchFolder = @"F:\_MUSIC";
             FileFormats = new[] {"*.mp3"};
             SelectedTheme = "Dark";
             AccentColor = "Blue";
-            IsCoverDownload = true;
         }
 
         public static Settings Instance

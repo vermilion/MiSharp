@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:wpfSoundVisualizationLib="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
              x:Class="MiSharp.EqualizerView" 
              mc:Ignorable="d" Width="300" Height="300"
              d:DesignHeight="300" d:DesignWidth="300"
@@ -17,8 +19,16 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </controls:MetroWindow.Resources>    
+    </controls:MetroWindow.Resources>
     <Grid>
-        <wpfSoundVisualizationLib:Equalizer Margin="10" />
+        <wpfSoundVisualizationLib:Equalizer Margin="10,35,10,52" EqualizerValues="{Binding EqualizerValues}" />
+        <Button Content="Save" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <cal:ActionMessage MethodName="SaveChanges" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <controls:ToggleSwitch HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" IsChecked="{Binding EqualizerEnabled}"/>
     </Grid>
 </controls:MetroWindow>
