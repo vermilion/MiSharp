@@ -768,10 +768,10 @@ namespace Linsft.FmodSharp.SoundSystem
 		public static extern Error.Code GetSoftwareChannels (IntPtr system, ref int Numsoftwarechannels);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_SetSoftwareFormat"), SuppressUnmanagedCodeSecurity]
-		public static extern Error.Code SetSoftwareFormat (IntPtr system, int Samplerate, Sound.Format format, int Numoutputchannels, int Maxinputchannels, Dsp.Resampler Resamplemethod);
+		public static extern Error.Code SetSoftwareFormat (IntPtr system, int Samplerate, Sound.Format format, int Numoutputchannels, int Maxinputchannels, DSP.Resampler Resamplemethod);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_GetSoftwareFormat"), SuppressUnmanagedCodeSecurity]
-		public static extern Error.Code GetSoftwareFormat (IntPtr system, ref int Samplerate, ref Sound.Format format, ref int Numoutputchannels, ref int Maxinputchannels, ref Dsp.Resampler Resamplemethod, ref int Bits);
+		public static extern Error.Code GetSoftwareFormat (IntPtr system, ref int Samplerate, ref Sound.Format format, ref int Numoutputchannels, ref int Maxinputchannels, ref DSP.Resampler Resamplemethod, ref int Bits);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_SetDSPBufferSize"), SuppressUnmanagedCodeSecurity]
 		public static extern Error.Code SetDSPBufferSize (IntPtr system, int Bufferlength, int Numbuffers);
@@ -822,7 +822,7 @@ namespace Linsft.FmodSharp.SoundSystem
 		public static extern Error.Code GetOutputByPlugin (IntPtr system, ref int Handle);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_CreateDSPByPlugin"), SuppressUnmanagedCodeSecurity]
-		public static extern Error.Code CreateDSPByPlugin (IntPtr system, int Handle, ref int Dsp);
+		public static extern Error.Code CreateDSPByPlugin (IntPtr system, int Handle, ref int DSP);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_CreateCodec"), SuppressUnmanagedCodeSecurity]
 		public static extern Error.Code CreateCodec (IntPtr system, int CodecDescription);
@@ -870,7 +870,7 @@ namespace Linsft.FmodSharp.SoundSystem
 		public static extern Error.Code GetHardwareChannels (IntPtr system, ref int Num2d, ref int Num3d, ref int total);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_GetCPUUsage"), SuppressUnmanagedCodeSecurity]
-		public static extern Error.Code GetCPUUsage (IntPtr system, ref float Dsp, ref float Stream, ref float Geometry, ref float Update, ref float total);
+		public static extern Error.Code GetCPUUsage (IntPtr system, ref float DSP, ref float Stream, ref float Geometry, ref float Update, ref float total);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_GetSoundRAM"), SuppressUnmanagedCodeSecurity]
 		public static extern Error.Code GetSoundRAM (IntPtr system, ref int currentalloced, ref int maxalloced, ref int total);
@@ -882,16 +882,16 @@ namespace Linsft.FmodSharp.SoundSystem
 		public static extern Error.Code GetCDROMDriveName (IntPtr system, int Drive, ref byte Drivename, int Drivenamelen, ref byte Scsiname, int Scsinamelen, ref byte Devicename, int Devicenamelen);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_CreateDSP"), SuppressUnmanagedCodeSecurity]
-		public static extern Error.Code CreateDSP (IntPtr system, ref FMOD_DSP_DESCRIPTION description, ref int Dsp);
+		public static extern Error.Code CreateDSP (IntPtr system, ref FMOD_DSP_DESCRIPTION description, ref int DSP);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_CreateDSPByType"), SuppressUnmanagedCodeSecurity]
-		public static extern Error.Code CreateDSPByType (IntPtr system, Dsp.Type dsptype, ref int Dsp);
+		public static extern Error.Code CreateDSPByType (IntPtr system, DSP.Type dsptype, ref int DSP);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_CreateDSPByIndex"), SuppressUnmanagedCodeSecurity]
-		public static extern Error.Code CreateDSPByIndex (IntPtr system, int Index, ref int Dsp);
+		public static extern Error.Code CreateDSPByIndex (IntPtr system, int Index, ref int DSP);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_PlayDSP"), SuppressUnmanagedCodeSecurity]
-		public static extern Error.Code PlayDSP (IntPtr system, Channel.Index channelid, int Dsp, int paused, ref int channel);
+		public static extern Error.Code PlayDSP (IntPtr system, Channel.Index channelid, int DSP, int paused, ref int channel);
 
 		[DllImport("fmodex", CharSet = CharSet.Ansi, SetLastError = true, EntryPoint = "FMOD_System_GetChannel"), SuppressUnmanagedCodeSecurity]
 		public static extern Error.Code GetChannel (IntPtr system, int channelid, ref int channel);

@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Dsp\ParamEq.cs" />
     <Compile Include="Enums\Mode.cs" />
     <Compile Include="Enums\SpeakerMapType.cs" />
     <Compile Include="Enums\TimeUnit.cs" />

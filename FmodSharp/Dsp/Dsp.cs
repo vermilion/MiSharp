@@ -28,9 +28,9 @@ using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Dsp
 {
-    public class Dsp : Handle
+    public class DSP : Handle
     {
-        internal Dsp(IntPtr hnd)
+        internal DSP(IntPtr hnd)
         {
             SetHandle(hnd);
         }
@@ -47,8 +47,7 @@ namespace Linsft.FmodSharp.Dsp
             return true;
         }
 
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport("fmodex", EntryPoint = "FMOD_DSP_Release")]
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_Release"), SuppressUnmanagedCodeSecurity]
         private static extern Code Release(IntPtr dsp);
 
         public void Remove()
@@ -63,13 +62,20 @@ namespace Linsft.FmodSharp.Dsp
             Errors.ThrowError(returnCode);
         }
 
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport("fmodex", EntryPoint = "FMOD_DSP_Remove")]
+        public void SetParameter(int index, float value)
+        {
+            Code returnCode = FMOD_DSP_SetParameter(DangerousGetHandle(), index, value);
+            Errors.ThrowError(returnCode);
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_Remove"), SuppressUnmanagedCodeSecurity]
         private static extern Code Remove_External(IntPtr dsp);
 
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport("fmodex", EntryPoint = "FMOD_DSP_Reset")]
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_Reset"), SuppressUnmanagedCodeSecurity]
         private static extern Code Reset_External(IntPtr dsp);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_SetParameter"), SuppressUnmanagedCodeSecurity]
+        private static extern Code FMOD_DSP_SetParameter(IntPtr dsp, int index, float value);
 
         //TODO Implement extern funcitons
         /*
@@ -129,10 +135,6 @@ namespace Linsft.FmodSharp.Dsp
 		[System.Security.SuppressUnmanagedCodeSecurity]
 		[DllImport (VERSION.dll)]
         private static extern RESULT FMOD_DSP_GetSpeakerActive          (IntPtr dsp, SPEAKER speaker, ref int active);
-        
-		[System.Security.SuppressUnmanagedCodeSecurity]
-		[DllImport (VERSION.dll)]
-        private static extern RESULT FMOD_DSP_SetParameter              (IntPtr dsp, int index, float value);
         
 		[System.Security.SuppressUnmanagedCodeSecurity]
 		[DllImport (VERSION.dll)]

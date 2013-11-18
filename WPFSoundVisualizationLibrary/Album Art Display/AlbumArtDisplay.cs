@@ -43,27 +43,27 @@ namespace WPFSoundVisualizationLib
     {
         #region Fields
 
-        private readonly RenderTargetBitmap albumArtBuffer = new RenderTargetBitmap(433, 379, 96, 96,
+        private readonly RenderTargetBitmap _albumArtBuffer = new RenderTargetBitmap(433, 379, 96, 96,
             PixelFormats.Pbgra32);
 
-        private readonly DrawingVisual drawingVisual = new DrawingVisual();
+        private readonly DrawingVisual _drawingVisual = new DrawingVisual();
 
-        private readonly BitmapImage noArtImage =
+        private readonly BitmapImage _noArtImage =
             new BitmapImage(
                 new Uri("pack://application:,,,/WPFSoundVisualizationLib;component/Album Art Display/NoArtwork.png",
                     UriKind.Absolute));
 
-        private readonly BitmapImage overlayImage =
+        private readonly BitmapImage _overlayImage =
             new BitmapImage(
                 new Uri("pack://application:,,,/WPFSoundVisualizationLib;component/Album Art Display/Overlay.png",
                     UriKind.Absolute));
 
-        private readonly BitmapImage underlayImage =
+        private readonly BitmapImage _underlayImage =
             new BitmapImage(
                 new Uri("pack://application:,,,/WPFSoundVisualizationLib;component/Album Art Display/Underlay.png",
                     UriKind.Absolute));
 
-        private Image albumArtImage;
+        private Image _albumArtImage;
 
         #endregion
 
@@ -92,17 +92,17 @@ namespace WPFSoundVisualizationLib
 
         private static object OnCoerceAlbumArtImage(DependencyObject o, object value)
         {
-            var AlbumArtDisplay = o as AlbumArtDisplay;
-            if (AlbumArtDisplay != null)
-                return AlbumArtDisplay.OnCoerceAlbumArtImage((ImageSource) value);
+            var albumArtDisplay = o as AlbumArtDisplay;
+            if (albumArtDisplay != null)
+                return albumArtDisplay.OnCoerceAlbumArtImage((ImageSource) value);
             return value;
         }
 
         private static void OnAlbumArtImageChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            var AlbumArtDisplay = o as AlbumArtDisplay;
-            if (AlbumArtDisplay != null)
-                AlbumArtDisplay.OnAlbumArtImageChanged((ImageSource) e.OldValue, (ImageSource) e.NewValue);
+            var albumArtDisplay = o as AlbumArtDisplay;
+            if (albumArtDisplay != null)
+                albumArtDisplay.OnAlbumArtImageChanged((ImageSource) e.OldValue, (ImageSource) e.NewValue);
         }
 
         /// <summary>
@@ -139,8 +139,8 @@ namespace WPFSoundVisualizationLib
         {
             base.OnApplyTemplate();
 
-            albumArtImage = GetTemplateChild("PART_AlbumArt") as Image;
-            albumArtImage.Source = albumArtBuffer;
+            _albumArtImage = GetTemplateChild("PART_AlbumArt") as Image;
+            _albumArtImage.Source = _albumArtBuffer;
             DrawAlbumArt();
         }
 
@@ -161,24 +161,24 @@ namespace WPFSoundVisualizationLib
         private void DrawAlbumArt()
         {
             // Clear Canvas
-            albumArtBuffer.Clear();
+            _albumArtBuffer.Clear();
 
-            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+            using (DrawingContext drawingContext = _drawingVisual.RenderOpen())
             {
                 if (AlbumArtImage == null)
                 {
-                    drawingContext.DrawImage(noArtImage, new Rect(0, 0, albumArtBuffer.Width, albumArtBuffer.Height));
+                    drawingContext.DrawImage(_noArtImage, new Rect(0, 0, _albumArtBuffer.Width, _albumArtBuffer.Height));
                 }
                 else
                 {
-                    drawingContext.DrawImage(underlayImage, new Rect(0, 0, albumArtBuffer.Width, albumArtBuffer.Height));
+                    drawingContext.DrawImage(_underlayImage, new Rect(0, 0, _albumArtBuffer.Width, _albumArtBuffer.Height));
                     drawingContext.DrawImage(AlbumArtImage,
-                        new Rect(54, 5, albumArtBuffer.Width - 62, albumArtBuffer.Height - 10));
-                    drawingContext.DrawImage(overlayImage, new Rect(0, 0, albumArtBuffer.Width, albumArtBuffer.Height));
+                        new Rect(54, 5, _albumArtBuffer.Width - 62, _albumArtBuffer.Height - 10));
+                    drawingContext.DrawImage(_overlayImage, new Rect(0, 0, _albumArtBuffer.Width, _albumArtBuffer.Height));
                 }
             }
 
-            albumArtBuffer.Render(drawingVisual);
+            _albumArtBuffer.Render(_drawingVisual);
         }
 
         #endregion

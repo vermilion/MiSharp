@@ -44,46 +44,46 @@ namespace Linsft.FmodSharp.SoundSystem
             }
         }
 
-        public Dsp.Dsp CreateDSP(ref Description description)
+        public DSP CreateDSP(ref Description description)
         {
             IntPtr dspHandle = IntPtr.Zero;
 
             Code returnCode = CreateDSP(DangerousGetHandle(), ref description, ref dspHandle);
             Errors.ThrowError(returnCode);
 
-            return new Dsp.Dsp(dspHandle);
+            return new DSP(dspHandle);
         }
 
-        public Dsp.Dsp CreateDspByType(Type type)
+        public DSP CreateDspByType(Type type)
         {
             IntPtr dspHandle = IntPtr.Zero;
 
             Code returnCode = CreateDspByType(DangerousGetHandle(), type, ref dspHandle);
             Errors.ThrowError(returnCode);
 
-            return new Dsp.Dsp(dspHandle);
+            return new DSP(dspHandle);
         }
 
-        public Channel.Channel PlayDsp(Dsp.Dsp dsp)
+        public Channel.Channel PlayDSP(DSP dsp)
         {
-            return PlayDsp(dsp, false);
+            return PlayDSP(dsp, false);
         }
 
-        public Channel.Channel PlayDsp(Dsp.Dsp dsp, bool paused)
+        public Channel.Channel PlayDSP(DSP dsp, bool paused)
         {
             IntPtr channelHandle = IntPtr.Zero;
 
-            Code returnCode = PlayDsp(DangerousGetHandle(), Index.Free, dsp.DangerousGetHandle(), paused, ref channelHandle);
+            Code returnCode = PlayDSP(DangerousGetHandle(), Index.Free, dsp.DangerousGetHandle(), paused, ref channelHandle);
             Errors.ThrowError(returnCode);
 
             return new Channel.Channel(channelHandle);
         }
 
-        public void PlayDsp(Dsp.Dsp dsp, bool paused, Channel.Channel chn)
+        public void PlayDSP(DSP dsp, bool paused, Channel.Channel chn)
         {
             IntPtr channel = chn.DangerousGetHandle();
 
-            Code returnCode = PlayDsp(DangerousGetHandle(), Index.Reuse, dsp.DangerousGetHandle(), paused, ref channel);
+            Code returnCode = PlayDSP(DangerousGetHandle(), Index.Reuse, dsp.DangerousGetHandle(), paused, ref channel);
             Errors.ThrowError(returnCode);
 
             //This can't really happend.
@@ -92,7 +92,7 @@ namespace Linsft.FmodSharp.SoundSystem
                 throw new Exception("Channel handle got changed by Fmod.");
         }
 
-        public Connection AddDsp(Dsp.Dsp dsp)
+        public Connection AddDSP(DSP dsp)
         {
             IntPtr connectionHandle = IntPtr.Zero;
 
@@ -123,7 +123,7 @@ namespace Linsft.FmodSharp.SoundSystem
         private static extern Code CreateDspByType(IntPtr system, Type type, ref IntPtr dsp);
 
         [DllImport("fmodex", EntryPoint = "FMOD_System_PlayDSP"), SuppressUnmanagedCodeSecurity]
-        private static extern Code PlayDsp(IntPtr system, Index channelid, IntPtr dsp, bool paused, ref IntPtr channel);
+        private static extern Code PlayDSP(IntPtr system, Index channelid, IntPtr dsp, bool paused, ref IntPtr channel);
 
         [DllImport("fmodex", EntryPoint = "FMOD_System_AddDSP"), SuppressUnmanagedCodeSecurity]
         private static extern Code AddDSP(IntPtr system, IntPtr dsp, ref IntPtr connection);

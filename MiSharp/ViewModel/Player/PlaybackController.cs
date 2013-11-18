@@ -228,5 +228,18 @@ namespace MiSharp
         }
 
         #endregion
+
+        #region Equalizer
+
+        public void RegisterEqSettings()
+        {
+            
+        }
+        public void ChangeEqSettings(float[] values)
+        {
+
+        }
+
+        #endregion
     }
 }

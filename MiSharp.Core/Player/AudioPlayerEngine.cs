@@ -8,6 +8,7 @@ using Linsft.FmodSharp.Dsp;
 using Linsft.FmodSharp.Sound;
 using Linsft.FmodSharp.SoundSystem;
 using Rareform.Extensions;
+using Type = Linsft.FmodSharp.Dsp.Type;
 
 namespace MiSharp.Core.Player
 {
@@ -207,6 +208,26 @@ namespace MiSharp.Core.Player
             {
                 _soundSystem.GetSpectrum(spectrum, spectrumSize, count, FFTWindow.Triangle);
             }
+        }
+
+        public void SetEqualizer(float[] values)
+        {
+            _soundSystem.LockDSP();
+
+            foreach (float value in values)
+            {
+                var dsp =_soundSystem.CreateDspByType(Type.ParameQ);
+                var connection=_soundSystem.AddDSP(dsp);
+               
+                //dspParamEq.setParameter((int)DSP_PARAMEQ.CENTER, centerValue);
+                //result = dspParamEq.setParameter((int)DSP_PARAMEQ.BANDWIDTH, bandwithValue);
+                //result = dspParamEq.setParameter((int)DSP_PARAMEQ.GAIN, gainValue);
+                //result = dspParamEq.setActive(true);
+
+               // dsp.SetParameter((int)DSPParameq.Center,);
+            }
+
+            _soundSystem.UnlockDSP();
         }
     }
 }

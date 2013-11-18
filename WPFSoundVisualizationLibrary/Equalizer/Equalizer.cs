@@ -74,8 +74,8 @@ namespace WPFSoundVisualizationLib
         /// <returns>The adjusted value of <see cref="EqualizerValues" /></returns>
         protected virtual float[] OnCoerceEqualizerValues(float[] value)
         {
-            if (value == null || value.Length != EqualizerCaptions.Length)
-                return new float[EqualizerCaptions.Length];
+            if (value == null || value.Length != EqualizerCaptions.Count)
+                return new float[EqualizerCaptions.Count];
             return value;
         }
 
@@ -86,8 +86,8 @@ namespace WPFSoundVisualizationLib
         /// <param name="newValue">The new value of <see cref="EqualizerValues" /></param>
         protected virtual void OnEqualizerValuesChanged(float[] oldValue, float[] newValue)
         {
-            if (newValue == null || newValue.Length != EqualizerCaptions.Length)
-                SetEqualizerValues(new float[EqualizerCaptions.Length]);
+            if (newValue == null || newValue.Length != EqualizerCaptions.Count)
+                SetEqualizerValues(new float[EqualizerCaptions.Count]);
             else
                 SetEqualizerValues(newValue);
         }
@@ -100,8 +100,8 @@ namespace WPFSoundVisualizationLib
         ///     Identifies the <see cref="EqualizerValues" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty EqualizerCaptionsProperty =
-            DependencyProperty.Register("EqualizerCaptions", typeof (float[]), typeof (Equalizer),
-                                        new UIPropertyMetadata(new[] {0f, 0f, 0f, 0f, 0f, 0f, 0f},
+            DependencyProperty.Register("EqualizerCaptions", typeof (List<float[]>), typeof (Equalizer),
+                                        new UIPropertyMetadata(new List<float[]>(),
                                                                OnEqualizerCaptionsChanged,
                                                                OnCoerceEqualizerCaptions));
 
@@ -113,10 +113,10 @@ namespace WPFSoundVisualizationLib
         ///     will be set to zero.
         /// </remarks>
         [Category("Common")]
-        public float[] EqualizerCaptions
+        public List<float[]> EqualizerCaptions
         {
             // IMPORTANT: To maintain parity between setting a property in XAML and procedural code, do not touch the getter and setter inside this dependency property!
-            get { return (float[])GetValue(EqualizerCaptionsProperty); }
+            get { return (List<float[]>)GetValue(EqualizerCaptionsProperty); }
             set { SetValue(EqualizerCaptionsProperty, value); }
         }
 
@@ -124,7 +124,7 @@ namespace WPFSoundVisualizationLib
         {
             var equalizer = o as Equalizer;
             if (equalizer != null)
-                return equalizer.OnCoerceEqualizerCaptions((float[])value);
+                return equalizer.OnCoerceEqualizerCaptions((List<float[]>)value);
             return value;
         }
 
@@ -132,7 +132,7 @@ namespace WPFSoundVisualizationLib
         {
             var equalizer = o as Equalizer;
             if (equalizer != null)
-                equalizer.OnEqualizerCaptionsChanged((float[])e.OldValue, (float[])e.NewValue);
+                equalizer.OnEqualizerCaptionsChanged((List<float[]>)e.OldValue, (List<float[]>)e.NewValue);
         }
 
         /// <summary>
@@ -140,10 +140,10 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         /// <param name="value">The value that was set on <see cref="EqualizerValues" /></param>
         /// <returns>The adjusted value of <see cref="EqualizerValues" /></returns>
-        protected virtual float[] OnCoerceEqualizerCaptions(float[] value)
+        protected virtual List<float[]> OnCoerceEqualizerCaptions(List<float[]> value)
         {
             if (value == null)
-                return new float[EqualizerCaptions.Length];
+                return new List<float[]>(EqualizerCaptions.Count);
             return value;
         }
 
@@ -152,11 +152,11 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         /// <param name="oldValue">The previous value of <see cref="EqualizerValues" /></param>
         /// <param name="newValue">The new value of <see cref="EqualizerValues" /></param>
-        protected virtual void OnEqualizerCaptionsChanged(float[] oldValue, float[] newValue)
+        protected virtual void OnEqualizerCaptionsChanged(List<float[]> oldValue, List<float[]> newValue)
         {
             CreateSliders();
-            if (newValue == null || newValue.Length != EqualizerCaptions.Length)
-                SetEqualizerCaptions(new float[EqualizerCaptions.Length]);
+            if (newValue == null || newValue.Count != EqualizerCaptions.Count)
+                SetEqualizerCaptions(new List<float[]>(EqualizerCaptions.Count));
             else
                 SetEqualizerCaptions(newValue);
         }
@@ -234,7 +234,7 @@ namespace WPFSoundVisualizationLib
             };
             _equalizerGrid.RowDefinitions.Add(channelRow0);
             _equalizerGrid.RowDefinitions.Add(channelRow);
-            for (int i = 0; i < EqualizerCaptions.Length; i++)
+            for (int i = 0; i < EqualizerCaptions.Count; i++)
             {
                 var channelColumn = new ColumnDefinition
                 {
@@ -259,9 +259,9 @@ namespace WPFSoundVisualizationLib
                 var caption = new TextBlock
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
-                        Text = EqualizerCaptions[i] < 1000
-                                   ? EqualizerCaptions[i].ToString(CultureInfo.InvariantCulture)
-                                   : string.Format("{0}K", (EqualizerCaptions[i]/1000))
+                        Text = EqualizerCaptions[i][0] < 1000
+                                   ? EqualizerCaptions[i][0].ToString(CultureInfo.InvariantCulture)
+                                   : string.Format("{0}K", (EqualizerCaptions[i][0]/1000))
                     };
 
                 Grid.SetColumn(slider, i);
@@ -299,24 +299,24 @@ namespace WPFSoundVisualizationLib
 
         private float[] GetEqualizerValues()
         {
-            var sliderValues = new float[EqualizerCaptions.Length];
-            for (int i = 0; i < EqualizerCaptions.Length; i++)
+            var sliderValues = new float[EqualizerCaptions.Count];
+            for (int i = 0; i < EqualizerCaptions.Count; i++)
                 sliderValues[i] = (float) _sliders[i].Value;
             return sliderValues;
         }
 
         private void SetEqualizerValues(float[] values)
         {
-            for (int i = 0; i < EqualizerCaptions.Length; i++)
+            for (int i = 0; i < EqualizerCaptions.Count; i++)
                 _sliders[i].Value = values[i];
         }
 
-        private void SetEqualizerCaptions(float[] values)
+        private void SetEqualizerCaptions(List<float[]> values)
         {
-            for (int i = 0; i < values.Length; i++)
-                _captions[i].Text = values[i] < 1000
-                                        ? values[i].ToString(CultureInfo.InvariantCulture)
-                                        : string.Format("{0}K", (values[i]/1000));
+            for (int i = 0; i < values.Count; i++)
+                _captions[i].Text = values[i][0] < 1000
+                                        ? values[i][0].ToString(CultureInfo.InvariantCulture)
+                                        : string.Format("{0}K", (values[i][0]/1000));
         }
 
         #endregion
