@@ -9,9 +9,23 @@ namespace MiSharp
     [Export]
     public class EqualizerViewModel : Screen
     {
+        private float[] _equalizerCaptions;
+
         public EqualizerViewModel()
         {
             DisplayName = "Equalizer";
+
+            EqualizerCaptions = new[] {32f, 64f, 125f, 250f, 500f, 1000f, 2000f, 4000f, 8000f, 16000f};
+        }
+
+        public float[] EqualizerCaptions
+        {
+            get { return _equalizerCaptions; }
+            set
+            {
+                _equalizerCaptions = value;
+                NotifyOfPropertyChange(() => EqualizerCaptions);
+            }
         }
 
         public float[] EqualizerValues
