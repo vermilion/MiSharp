@@ -8,7 +8,6 @@ using Linsft.FmodSharp.Dsp;
 using Linsft.FmodSharp.Sound;
 using Linsft.FmodSharp.SoundSystem;
 using Rareform.Extensions;
-using Type = Linsft.FmodSharp.Dsp.Type;
 
 namespace MiSharp.Core.Player
 {
@@ -22,12 +21,14 @@ namespace MiSharp.Core.Player
         private bool _isLoaded;
         private Sound _soundFile;
         private float _volume = 1.0f;
+        public EqualizerEngine EqualizerEngine { get; set; }
 
         public AudioPlayerEngine()
         {
             _soundSystem = new SoundSystem();
+            _soundSystem.Init(32, InitFlags.Normal, (IntPtr) null);
 
-            _soundSystem.Init(32, InitFlags.Normal, (IntPtr)null);
+            EqualizerEngine = new EqualizerEngine(_soundSystem);
 
             CurrentTimeChanged = Observable.Interval(TimeSpan.FromMilliseconds(1000))
                                            .Select(x => CurrentTime)
@@ -176,9 +177,9 @@ namespace MiSharp.Core.Player
         private void UpdateSongState()
         {
             //TODO: temp OnNext fix. Get rid of End callback or find another way
-            if (CurrentTime < TotalTime.Add(new TimeSpan(0,0,0,0,-50)))
+            if (CurrentTime < TotalTime.Add(new TimeSpan(0, 0, 0, 0, -50)))
                 return;
-            
+
             Stop();
             OnSongFinished(EventArgs.Empty);
         }
@@ -193,7 +194,7 @@ namespace MiSharp.Core.Player
         public void GetSpectrum(float[] spectrum)
         {
             int spectrumSize = spectrum.Length;
-          
+
             int numChannels = 0;
             int dummy = 0;
             var dummyFormat = Format.None;
@@ -202,32 +203,12 @@ namespace MiSharp.Core.Player
             //TODO: investigate if we need following
             //we can get spectrum for all of our channels
             _soundSystem.GetSoftwareFormat(ref dummy, ref dummyFormat, ref numChannels, ref dummy, ref dummyResampler,
-                ref dummy);
+                                           ref dummy);
 
             for (int count = 0; count < numChannels; count++)
             {
                 _soundSystem.GetSpectrum(spectrum, spectrumSize, count, FFTWindow.Triangle);
             }
-        }
-
-        public void SetEqualizer(float[] values)
-        {
-            _soundSystem.LockDSP();
-
-            foreach (float value in values)
-            {
-                var dsp =_soundSystem.CreateDspByType(Type.ParameQ);
-                var connection=_soundSystem.AddDSP(dsp);
-               
-                //dspParamEq.setParameter((int)DSP_PARAMEQ.CENTER, centerValue);
-                //result = dspParamEq.setParameter((int)DSP_PARAMEQ.BANDWIDTH, bandwithValue);
-                //result = dspParamEq.setParameter((int)DSP_PARAMEQ.GAIN, gainValue);
-                //result = dspParamEq.setActive(true);
-
-               // dsp.SetParameter((int)DSPParameq.Center,);
-            }
-
-            _soundSystem.UnlockDSP();
         }
     }
 }

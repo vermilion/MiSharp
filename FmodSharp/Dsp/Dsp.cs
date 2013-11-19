@@ -24,6 +24,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
 using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Dsp
@@ -40,8 +41,8 @@ namespace Linsft.FmodSharp.Dsp
             if (IsInvalid)
                 return true;
 
-            Remove();
-            Release(handle);
+            //Remove(); //TODO: why crashes?
+            //Release(handle);
             SetHandleAsInvalid();
 
             return true;
@@ -68,6 +69,12 @@ namespace Linsft.FmodSharp.Dsp
             Errors.ThrowError(returnCode);
         }
 
+        public void GetParameter(int index, ref float value, StringBuilder valuestr)
+        {
+            Code returnCode = FMOD_DSP_GetParameter(DangerousGetHandle(), index, ref value, valuestr, valuestr.Length);
+            Errors.ThrowError(returnCode);
+        }
+
         [DllImport("fmodex", EntryPoint = "FMOD_DSP_Remove"), SuppressUnmanagedCodeSecurity]
         private static extern Code Remove_External(IntPtr dsp);
 
@@ -76,6 +83,32 @@ namespace Linsft.FmodSharp.Dsp
 
         [DllImport("fmodex", EntryPoint = "FMOD_DSP_SetParameter"), SuppressUnmanagedCodeSecurity]
         private static extern Code FMOD_DSP_SetParameter(IntPtr dsp, int index, float value);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_GetParameter"), SuppressUnmanagedCodeSecurity]
+        private static extern Code FMOD_DSP_GetParameter(IntPtr dsp, int index, ref float value, StringBuilder valuestr, int valuestrlen);
+        
+        public bool Active
+        {
+            get
+            {
+                int active = 0;
+                Code returnCode = FMOD_DSP_GetActive(DangerousGetHandle(), ref active);
+                Errors.ThrowError(returnCode);
+                return active == 1;
+            }
+            set
+            {
+                Code returnCode = FMOD_DSP_SetActive(DangerousGetHandle(), (value ? 1 : 0));
+                Errors.ThrowError(returnCode);
+            }
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_SetActive"), SuppressUnmanagedCodeSecurity]
+        private static extern Code FMOD_DSP_SetActive(IntPtr dsp, int active);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_DSP_GetActive"), SuppressUnmanagedCodeSecurity]
+        private static extern Code FMOD_DSP_GetActive(IntPtr dsp, ref int active);
+
 
         //TODO Implement extern funcitons
         /*
@@ -110,15 +143,7 @@ namespace Linsft.FmodSharp.Dsp
         
 		[System.Security.SuppressUnmanagedCodeSecurity]
 		[DllImport (VERSION.dll)]
-        private static extern RESULT FMOD_DSP_GetOutput                 (IntPtr dsp, int index, ref IntPtr output, ref IntPtr outputconnection);
-        
-		[System.Security.SuppressUnmanagedCodeSecurity]
-		[DllImport (VERSION.dll)]
-        private static extern RESULT FMOD_DSP_SetActive                 (IntPtr dsp, int active);
-        
-		[System.Security.SuppressUnmanagedCodeSecurity]
-		[DllImport (VERSION.dll)]
-        private static extern RESULT FMOD_DSP_GetActive                 (IntPtr dsp, ref int active);    
+        private static extern RESULT FMOD_DSP_GetOutput                 (IntPtr dsp, int index, ref IntPtr output, ref IntPtr outputconnection);        
         
 		[System.Security.SuppressUnmanagedCodeSecurity]
 		[DllImport (VERSION.dll)]
@@ -135,10 +160,6 @@ namespace Linsft.FmodSharp.Dsp
 		[System.Security.SuppressUnmanagedCodeSecurity]
 		[DllImport (VERSION.dll)]
         private static extern RESULT FMOD_DSP_GetSpeakerActive          (IntPtr dsp, SPEAKER speaker, ref int active);
-        
-		[System.Security.SuppressUnmanagedCodeSecurity]
-		[DllImport (VERSION.dll)]
-        private static extern RESULT FMOD_DSP_GetParameter              (IntPtr dsp, int index, ref float value, StringBuilder valuestr, int valuestrlen);
         
 		[System.Security.SuppressUnmanagedCodeSecurity]
 		[DllImport (VERSION.dll)]

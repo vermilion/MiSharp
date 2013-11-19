@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
@@ -231,14 +232,7 @@ namespace MiSharp
 
         #region Equalizer
 
-        public void RegisterEqSettings()
-        {
-            
-        }
-        public void ChangeEqSettings(float[] values)
-        {
-
-        }
+        public EqualizerEngine EqualizerEngine { get { return AudioPlayerEngine.EqualizerEngine; } }
 
         #endregion
     }

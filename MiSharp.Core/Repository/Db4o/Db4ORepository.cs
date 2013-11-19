@@ -17,6 +17,7 @@ namespace MiSharp.Core.Repository.Db4o
             IEmbeddedConfiguration configuration = Db4oEmbedded.NewConfiguration();
             configuration.Common.Add(new TransparentActivationSupport());
             configuration.Common.Add(new TransparentPersistenceSupport());
+            configuration.Common.UpdateDepth = int.MaxValue;
             Container = Db4oEmbedded.OpenFile(configuration, storagePath);
         }
 

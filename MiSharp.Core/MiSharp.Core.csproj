@@ -78,6 +78,7 @@
     <Compile Include="MediaScanner.cs" />
     <Compile Include="Player\AudioPlayerState.cs" />
     <Compile Include="Player\AudioPlayerEngine.cs" />
+    <Compile Include="Player\EqualizerEngine.cs" />
     <Compile Include="Player\Exceptions\PlaybackException.cs" />
     <Compile Include="Player\Exceptions\SongLoadException.cs" />
     <Compile Include="Player\PlaybackEventArgs.cs" />
@@ -108,6 +109,10 @@
     <ProjectReference Include="..\FmodSharp\FmodSharp.csproj">
       <Project>{e0810e1a-ea20-4f0d-8d0f-5b72c3e64f6d}</Project>
       <Name>FmodSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPFSoundVisualizationLibrary\WPFSoundVisualizationLib.csproj">
+      <Project>{90f96222-1c39-4a19-abe8-1b00fb330985}</Project>
+      <Name>WPFSoundVisualizationLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
