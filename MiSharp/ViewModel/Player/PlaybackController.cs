@@ -102,6 +102,8 @@ namespace MiSharp
             }
         }
 
+        public EqualizerEngine EqualizerEngine { get { return AudioPlayerEngine.EqualizerEngine; } }
+
         #endregion
 
         public async Task Play(TrackStateViewModel song)
@@ -227,12 +229,6 @@ namespace MiSharp
                 return 0;
             else return 2047;
         }
-
-        #endregion
-
-        #region Equalizer
-
-        public EqualizerEngine EqualizerEngine { get { return AudioPlayerEngine.EqualizerEngine; } }
 
         #endregion
     }

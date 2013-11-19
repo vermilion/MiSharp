@@ -20,7 +20,7 @@ namespace MiSharp.Core
         public string AccentColor = "Blue";
         public bool RepeatState;
         public bool ShuffleState;
-        public bool IsCoverDownload = true;
+        public bool CoverDownloadEnabled = true;
 
         public bool EqualizerEnabled = false;
 

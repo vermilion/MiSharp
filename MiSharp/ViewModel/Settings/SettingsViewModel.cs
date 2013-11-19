@@ -65,10 +65,10 @@ namespace MiSharp
             }
         }
 
-        public bool IsCoverDownload
+        public bool CoverDownloadEnabled
         {
-            get { return Settings.Instance.IsCoverDownload; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.IsCoverDownload, value); }
+            get { return Settings.Instance.CoverDownloadEnabled; }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.CoverDownloadEnabled, value); }
         }
 
         public IEnumerable<IResult> SaveClick()

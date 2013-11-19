@@ -5,7 +5,7 @@ namespace MiSharp.Core.Repository.Db4o
 {
     public class MediaRepository : RepositoryBase
     {
-        private const string LibPath = "library.lib";
+        private const string LibPath = "library.msh";
         private static MediaRepository _instance;
 
         public MediaRepository() : base(LibPath)

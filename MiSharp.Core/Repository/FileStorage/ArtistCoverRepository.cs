@@ -36,7 +36,7 @@ namespace MiSharp.Core.Repository.FileStorage
             }
             catch (DataIdentifierNotFoundException)
             {
-                if (Settings.Instance.IsCoverDownload)
+                if (Settings.Instance.CoverDownloadEnabled)
                 {
                     //try download
                     string url = Api.LoadArtistCover(key);

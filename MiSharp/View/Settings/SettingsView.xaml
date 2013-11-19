@@ -37,7 +37,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-        <controls:ToggleSwitch HorizontalAlignment="Right" Margin="0,94,10,0" VerticalAlignment="Top" IsChecked="{Binding IsCoverDownload}"/>
+        <controls:ToggleSwitch HorizontalAlignment="Right" Margin="0,94,10,0" VerticalAlignment="Top" IsChecked="{Binding CoverDownloadEnabled}"/>
         <Label Content="Use internet connection to download covers" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" />
 
     </Grid>
