@@ -41,31 +41,28 @@ namespace WPFSoundVisualizationLib
     {
         #region Fields
 
-        private readonly DispatcherTimer animationTimer;
-        private readonly List<Shape> barShapes = new List<Shape>();
-        private readonly List<Shape> peakShapes = new List<Shape>();
-        private double bandWidth = 1.0;
-        private double[] barHeights;
-        private int[] barIndexMax;
-        private int[] barLogScaleIndexMax;
-        private double barWidth = 1;
-        private float[] channelData = new float[2048];
-        private float[] channelPeakData;
-        private int maximumFrequencyIndex = 2047;
-        private int minimumFrequencyIndex;
-        private double[] peakHeights;
-        private ISpectrumPlayer soundPlayer;
-        private Canvas spectrumCanvas;
+        private readonly DispatcherTimer _animationTimer;
+        private readonly List<Shape> _barShapes = new List<Shape>();
+        private readonly List<Shape> _peakShapes = new List<Shape>();
+        private int[] _barIndexMax;
+        private int[] _barLogScaleIndexMax;
+        private double _barWidth = 1;
+        private float[] _channelData = new float[2048];
+        private float[] _channelPeakData;
+        private int _maximumFrequencyIndex = 2047;
+        private int _minimumFrequencyIndex;
+        private ISpectrumPlayer _soundPlayer;
+        private Canvas _spectrumCanvas;
 
         #endregion
 
         #region Constants
 
-        private const int scaleFactorLinear = 9;
-        private const int scaleFactorSqr = 2;
-        private const double minDBValue = -90;
-        private const double maxDBValue = 0;
-        private const double dbScale = (maxDBValue - minDBValue);
+        private const int ScaleFactorLinear = 9;
+        private const int ScaleFactorSqr = 2;
+        private const double MinDbValue = -90;
+        private const double MaxDbValue = 0;
+        private const double DbScale = (MaxDbValue - MinDbValue);
 
         #endregion
 
@@ -78,7 +75,7 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public static readonly DependencyProperty MaximumFrequencyProperty =
             DependencyProperty.Register("MaximumFrequency", typeof (int), typeof (SpectrumAnalyzer),
-                new UIPropertyMetadata(20000, OnMaximumFrequencyChanged, OnCoerceMaximumFrequency));
+                                        new UIPropertyMetadata(20000, OnMaximumFrequencyChanged, OnCoerceMaximumFrequency));
 
         /// <summary>
         ///     Gets or sets the maximum display frequency (right side) for the spectrum analyzer.
@@ -113,8 +110,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="MaximumFrequency" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="MaximumFrequency" /></param>
-        /// <returns>The adjusted value of <see cref="MaximumFrequency" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="MaximumFrequency" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="MaximumFrequency" />
+        /// </returns>
         protected virtual int OnCoerceMaximumFrequency(int value)
         {
             if (value < MinimumFrequency)
@@ -125,8 +126,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="MaximumFrequency" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="MaximumFrequency" /></param>
-        /// <param name="newValue">The new value of <see cref="MaximumFrequency" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="MaximumFrequency" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="MaximumFrequency" />
+        /// </param>
         protected virtual void OnMaximumFrequencyChanged(int oldValue, int newValue)
         {
             UpdateBarLayout();
@@ -141,7 +146,7 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public static readonly DependencyProperty MinimumFrequencyProperty =
             DependencyProperty.Register("MinimumFrequency", typeof (int), typeof (SpectrumAnalyzer),
-                new UIPropertyMetadata(20, OnMinimumFrequencyChanged, OnCoerceMinimumFrequency));
+                                        new UIPropertyMetadata(20, OnMinimumFrequencyChanged, OnCoerceMinimumFrequency));
 
         /// <summary>
         ///     Gets or sets the minimum display frequency (left side) for the spectrum analyzer.
@@ -172,12 +177,16 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="MinimumFrequency" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="MinimumFrequency" /></param>
-        /// <returns>The adjusted value of <see cref="MinimumFrequency" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="MinimumFrequency" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="MinimumFrequency" />
+        /// </returns>
         protected virtual int OnCoerceMinimumFrequency(int value)
         {
             if (value < 0)
-                return value = 0;
+                return 0;
             CoerceValue(MaximumFrequencyProperty);
             return value;
         }
@@ -185,8 +194,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="MinimumFrequency" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="MinimumFrequency" /></param>
-        /// <param name="newValue">The new value of <see cref="MinimumFrequency" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="MinimumFrequency" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="MinimumFrequency" />
+        /// </param>
         protected virtual void OnMinimumFrequencyChanged(int oldValue, int newValue)
         {
             UpdateBarLayout();
@@ -200,7 +213,7 @@ namespace WPFSoundVisualizationLib
         ///     Identifies the <see cref="BarCount" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty BarCountProperty = DependencyProperty.Register("BarCount",
-            typeof (int), typeof (SpectrumAnalyzer), new UIPropertyMetadata(32, OnBarCountChanged, OnCoerceBarCount));
+                                                                                                 typeof (int), typeof (SpectrumAnalyzer), new UIPropertyMetadata(32, OnBarCountChanged, OnCoerceBarCount));
 
         /// <summary>
         ///     Gets or sets the number of bars to show on the sprectrum analyzer.
@@ -235,8 +248,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="BarCount" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="BarCount" /></param>
-        /// <returns>The adjusted value of <see cref="BarCount" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="BarCount" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="BarCount" />
+        /// </returns>
         protected virtual int OnCoerceBarCount(int value)
         {
             value = Math.Max(value, 1);
@@ -246,8 +263,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="BarCount" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="BarCount" /></param>
-        /// <param name="newValue">The new value of <see cref="BarCount" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="BarCount" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="BarCount" />
+        /// </param>
         protected virtual void OnBarCountChanged(int oldValue, int newValue)
         {
             UpdateBarLayout();
@@ -261,8 +282,8 @@ namespace WPFSoundVisualizationLib
         ///     Identifies the <see cref="BarSpacing" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty BarSpacingProperty = DependencyProperty.Register("BarSpacing",
-            typeof (double), typeof (SpectrumAnalyzer),
-            new UIPropertyMetadata(5.0d, OnBarSpacingChanged, OnCoerceBarSpacing));
+                                                                                                   typeof (double), typeof (SpectrumAnalyzer),
+                                                                                                   new UIPropertyMetadata(5.0d, OnBarSpacingChanged, OnCoerceBarSpacing));
 
         /// <summary>
         ///     Gets or sets the spacing between the bars.
@@ -293,8 +314,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="BarSpacing" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="BarSpacing" /></param>
-        /// <returns>The adjusted value of <see cref="BarSpacing" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="BarSpacing" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="BarSpacing" />
+        /// </returns>
         protected virtual double OnCoerceBarSpacing(double value)
         {
             value = Math.Max(value, 0);
@@ -304,8 +329,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="BarSpacing" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="BarSpacing" /></param>
-        /// <param name="newValue">The new value of <see cref="BarSpacing" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="BarSpacing" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="BarSpacing" />
+        /// </param>
         protected virtual void OnBarSpacingChanged(double oldValue, double newValue)
         {
             UpdateBarLayout();
@@ -319,8 +348,8 @@ namespace WPFSoundVisualizationLib
         ///     Identifies the <see cref="PeakFallDelay" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty PeakFallDelayProperty = DependencyProperty.Register("PeakFallDelay",
-            typeof (int), typeof (SpectrumAnalyzer),
-            new UIPropertyMetadata(10, OnPeakFallDelayChanged, OnCoercePeakFallDelay));
+                                                                                                      typeof (int), typeof (SpectrumAnalyzer),
+                                                                                                      new UIPropertyMetadata(10, OnPeakFallDelayChanged, OnCoercePeakFallDelay));
 
         /// <summary>
         ///     Gets or sets the delay factor for the peaks falling.
@@ -354,8 +383,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="PeakFallDelay" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="PeakFallDelay" /></param>
-        /// <returns>The adjusted value of <see cref="PeakFallDelay" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="PeakFallDelay" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="PeakFallDelay" />
+        /// </returns>
         protected virtual int OnCoercePeakFallDelay(int value)
         {
             value = Math.Max(value, 0);
@@ -365,8 +398,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="PeakFallDelay" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="PeakFallDelay" /></param>
-        /// <param name="newValue">The new value of <see cref="PeakFallDelay" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="PeakFallDelay" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="PeakFallDelay" />
+        /// </param>
         protected virtual void OnPeakFallDelayChanged(int oldValue, int newValue)
         {
         }
@@ -380,7 +417,7 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public static readonly DependencyProperty IsFrequencyScaleLinearProperty =
             DependencyProperty.Register("IsFrequencyScaleLinear", typeof (bool), typeof (SpectrumAnalyzer),
-                new UIPropertyMetadata(false, OnIsFrequencyScaleLinearChanged, OnCoerceIsFrequencyScaleLinear));
+                                        new UIPropertyMetadata(false, OnIsFrequencyScaleLinearChanged, OnCoerceIsFrequencyScaleLinear));
 
         /// <summary>
         ///     Gets or sets a value indicating whether the bars are layed out on a linear scale horizontally.
@@ -416,8 +453,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="IsFrequencyScaleLinear" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="IsFrequencyScaleLinear" /></param>
-        /// <returns>The adjusted value of <see cref="IsFrequencyScaleLinear" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="IsFrequencyScaleLinear" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="IsFrequencyScaleLinear" />
+        /// </returns>
         protected virtual bool OnCoerceIsFrequencyScaleLinear(bool value)
         {
             return value;
@@ -426,8 +467,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="IsFrequencyScaleLinear" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="IsFrequencyScaleLinear" /></param>
-        /// <param name="newValue">The new value of <see cref="IsFrequencyScaleLinear" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="IsFrequencyScaleLinear" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="IsFrequencyScaleLinear" />
+        /// </param>
         protected virtual void OnIsFrequencyScaleLinearChanged(bool oldValue, bool newValue)
         {
             UpdateBarLayout();
@@ -442,8 +487,8 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public static readonly DependencyProperty BarHeightScalingProperty =
             DependencyProperty.Register("BarHeightScaling", typeof (BarHeightScalingStyles), typeof (SpectrumAnalyzer),
-                new UIPropertyMetadata(BarHeightScalingStyles.Decibel, OnBarHeightScalingChanged,
-                    OnCoerceBarHeightScaling));
+                                        new UIPropertyMetadata(BarHeightScalingStyles.Decibel, OnBarHeightScalingChanged,
+                                                               OnCoerceBarHeightScaling));
 
         /// <summary>
         ///     Gets or sets a value indicating to what scale the bar heights are drawn.
@@ -469,14 +514,18 @@ namespace WPFSoundVisualizationLib
             var spectrumAnalyzer = o as SpectrumAnalyzer;
             if (spectrumAnalyzer != null)
                 spectrumAnalyzer.OnBarHeightScalingChanged((BarHeightScalingStyles) e.OldValue,
-                    (BarHeightScalingStyles) e.NewValue);
+                                                           (BarHeightScalingStyles) e.NewValue);
         }
 
         /// <summary>
         ///     Coerces the value of <see cref="BarHeightScaling" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="BarHeightScaling" /></param>
-        /// <returns>The adjusted value of <see cref="BarHeightScaling" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="BarHeightScaling" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="BarHeightScaling" />
+        /// </returns>
         protected virtual BarHeightScalingStyles OnCoerceBarHeightScaling(BarHeightScalingStyles value)
         {
             return value;
@@ -485,10 +534,14 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="BarHeightScaling" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="BarHeightScaling" /></param>
-        /// <param name="newValue">The new value of <see cref="BarHeightScaling" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="BarHeightScaling" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="BarHeightScaling" />
+        /// </param>
         protected virtual void OnBarHeightScalingChanged(BarHeightScalingStyles oldValue,
-            BarHeightScalingStyles newValue)
+                                                         BarHeightScalingStyles newValue)
         {
         }
 
@@ -500,8 +553,8 @@ namespace WPFSoundVisualizationLib
         ///     Identifies the <see cref="AveragePeaks" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty AveragePeaksProperty = DependencyProperty.Register("AveragePeaks",
-            typeof (bool), typeof (SpectrumAnalyzer),
-            new UIPropertyMetadata(false, OnAveragePeaksChanged, OnCoerceAveragePeaks));
+                                                                                                     typeof (bool), typeof (SpectrumAnalyzer),
+                                                                                                     new UIPropertyMetadata(false, OnAveragePeaksChanged, OnCoerceAveragePeaks));
 
         /// <summary>
         ///     Gets or sets a value indicating whether each bar's peak
@@ -534,8 +587,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="AveragePeaks" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="AveragePeaks" /></param>
-        /// <returns>The adjusted value of <see cref="AveragePeaks" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="AveragePeaks" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="AveragePeaks" />
+        /// </returns>
         protected virtual bool OnCoerceAveragePeaks(bool value)
         {
             return value;
@@ -544,8 +601,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="AveragePeaks" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="AveragePeaks" /></param>
-        /// <param name="newValue">The new value of <see cref="AveragePeaks" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="AveragePeaks" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="AveragePeaks" />
+        /// </param>
         protected virtual void OnAveragePeaksChanged(bool oldValue, bool newValue)
         {
         }
@@ -558,7 +619,7 @@ namespace WPFSoundVisualizationLib
         ///     Identifies the <see cref="BarStyle" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty BarStyleProperty = DependencyProperty.Register("BarStyle",
-            typeof (Style), typeof (SpectrumAnalyzer), new UIPropertyMetadata(null, OnBarStyleChanged, OnCoerceBarStyle));
+                                                                                                 typeof (Style), typeof (SpectrumAnalyzer), new UIPropertyMetadata(null, OnBarStyleChanged, OnCoerceBarStyle));
 
         /// <summary>
         ///     Gets or sets a style with which to draw the bars on the spectrum analyzer.
@@ -588,8 +649,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="BarStyle" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="BarStyle" /></param>
-        /// <returns>The adjusted value of <see cref="BarStyle" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="BarStyle" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="BarStyle" />
+        /// </returns>
         protected virtual Style OnCoerceBarStyle(Style value)
         {
             return value;
@@ -598,8 +663,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="BarStyle" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="BarStyle" /></param>
-        /// <param name="newValue">The new value of <see cref="BarStyle" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="BarStyle" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="BarStyle" />
+        /// </param>
         protected virtual void OnBarStyleChanged(Style oldValue, Style newValue)
         {
             UpdateBarLayout();
@@ -613,8 +682,8 @@ namespace WPFSoundVisualizationLib
         ///     Identifies the <see cref="PeakStyle" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty PeakStyleProperty = DependencyProperty.Register("PeakStyle",
-            typeof (Style), typeof (SpectrumAnalyzer),
-            new UIPropertyMetadata(null, OnPeakStyleChanged, OnCoercePeakStyle));
+                                                                                                  typeof (Style), typeof (SpectrumAnalyzer),
+                                                                                                  new UIPropertyMetadata(null, OnPeakStyleChanged, OnCoercePeakStyle));
 
         /// <summary>
         ///     Gets or sets a style with which to draw the falling peaks on the spectrum analyzer.
@@ -645,8 +714,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="PeakStyle" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="PeakStyle" /></param>
-        /// <returns>The adjusted value of <see cref="PeakStyle" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="PeakStyle" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="PeakStyle" />
+        /// </returns>
         protected virtual Style OnCoercePeakStyle(Style value)
         {
             return value;
@@ -655,8 +728,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="PeakStyle" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="PeakStyle" /></param>
-        /// <param name="newValue">The new value of <see cref="PeakStyle" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="PeakStyle" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="PeakStyle" />
+        /// </param>
         protected virtual void OnPeakStyleChanged(Style oldValue, Style newValue)
         {
             UpdateBarLayout();
@@ -701,8 +778,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="ActualBarWidth" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="ActualBarWidth" /></param>
-        /// <returns>The adjusted value of <see cref="ActualBarWidth" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="ActualBarWidth" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="ActualBarWidth" />
+        /// </returns>
         protected virtual double OnCoerceActualBarWidth(double value)
         {
             return value;
@@ -711,8 +792,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="ActualBarWidth" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="ActualBarWidth" /></param>
-        /// <param name="newValue">The new value of <see cref="ActualBarWidth" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="ActualBarWidth" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="ActualBarWidth" />
+        /// </param>
         protected virtual void OnActualBarWidthChanged(double oldValue, double newValue)
         {
         }
@@ -726,7 +811,7 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public static readonly DependencyProperty RefreshIntervalProperty =
             DependencyProperty.Register("RefreshInterval", typeof (int), typeof (SpectrumAnalyzer),
-                new UIPropertyMetadata(25, OnRefreshIntervalChanged, OnCoerceRefreshInterval));
+                                        new UIPropertyMetadata(25, OnRefreshIntervalChanged, OnCoerceRefreshInterval));
 
         /// <summary>
         ///     Gets or sets the refresh interval, in milliseconds, of the Spectrum Analyzer.
@@ -760,8 +845,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="RefreshInterval" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="RefreshInterval" /></param>
-        /// <returns>The adjusted value of <see cref="RefreshInterval" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="RefreshInterval" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="RefreshInterval" />
+        /// </returns>
         protected virtual int OnCoerceRefreshInterval(int value)
         {
             value = Math.Min(1000, Math.Max(10, value));
@@ -771,11 +860,15 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="RefreshInterval" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="RefreshInterval" /></param>
-        /// <param name="newValue">The new value of <see cref="RefreshInterval" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="RefreshInterval" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="RefreshInterval" />
+        /// </param>
         protected virtual void OnRefreshIntervalChanged(int oldValue, int newValue)
         {
-            animationTimer.Interval = TimeSpan.FromMilliseconds(newValue);
+            _animationTimer.Interval = TimeSpan.FromMilliseconds(newValue);
         }
 
         #endregion
@@ -786,8 +879,8 @@ namespace WPFSoundVisualizationLib
         ///     Identifies the <see cref="FFTComplexity" /> dependency property.
         /// </summary>
         public static readonly DependencyProperty FFTComplexityProperty = DependencyProperty.Register("FFTComplexity",
-            typeof (FFTDataSize), typeof (SpectrumAnalyzer),
-            new UIPropertyMetadata(FFTDataSize.FFT2048, OnFFTComplexityChanged, OnCoerceFFTComplexity));
+                                                                                                      typeof (FFTDataSize), typeof (SpectrumAnalyzer),
+                                                                                                      new UIPropertyMetadata(FFTDataSize.FFT2048, OnFFTComplexityChanged, OnCoerceFFTComplexity));
 
         /// <summary>
         ///     Gets or sets the complexity of FFT results the Spectrum Analyzer expects. Larger values
@@ -819,8 +912,12 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Coerces the value of <see cref="FFTComplexity" /> when a new value is applied.
         /// </summary>
-        /// <param name="value">The value that was set on <see cref="FFTComplexity" /></param>
-        /// <returns>The adjusted value of <see cref="FFTComplexity" /></returns>
+        /// <param name="value">
+        ///     The value that was set on <see cref="FFTComplexity" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="FFTComplexity" />
+        /// </returns>
         protected virtual FFTDataSize OnCoerceFFTComplexity(FFTDataSize value)
         {
             return value;
@@ -829,11 +926,15 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Called after the <see cref="FFTComplexity" /> value has changed.
         /// </summary>
-        /// <param name="oldValue">The previous value of <see cref="FFTComplexity" /></param>
-        /// <param name="newValue">The new value of <see cref="FFTComplexity" /></param>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="FFTComplexity" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="FFTComplexity" />
+        /// </param>
         protected virtual void OnFFTComplexityChanged(FFTDataSize oldValue, FFTDataSize newValue)
         {
-            channelData = new float[((int) newValue/2)];
+            _channelData = new float[((int) newValue/2)];
         }
 
         #endregion
@@ -848,8 +949,8 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public override void OnApplyTemplate()
         {
-            spectrumCanvas = GetTemplateChild("PART_SpectrumCanvas") as Canvas;
-            spectrumCanvas.SizeChanged += spectrumCanvas_SizeChanged;
+            _spectrumCanvas = GetTemplateChild("PART_SpectrumCanvas") as Canvas;
+            _spectrumCanvas.SizeChanged += spectrumCanvas_SizeChanged;
             UpdateBarLayout();
         }
 
@@ -861,8 +962,8 @@ namespace WPFSoundVisualizationLib
         protected override void OnTemplateChanged(ControlTemplate oldTemplate, ControlTemplate newTemplate)
         {
             base.OnTemplateChanged(oldTemplate, newTemplate);
-            if (spectrumCanvas != null)
-                spectrumCanvas.SizeChanged -= spectrumCanvas_SizeChanged;
+            if (_spectrumCanvas != null)
+                _spectrumCanvas.SizeChanged -= spectrumCanvas_SizeChanged;
         }
 
         #endregion
@@ -872,7 +973,7 @@ namespace WPFSoundVisualizationLib
         static SpectrumAnalyzer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof (SpectrumAnalyzer),
-                new FrameworkPropertyMetadata(typeof (SpectrumAnalyzer)));
+                                                     new FrameworkPropertyMetadata(typeof (SpectrumAnalyzer)));
         }
 
         /// <summary>
@@ -880,11 +981,11 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public SpectrumAnalyzer()
         {
-            animationTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
-            {
-                Interval = TimeSpan.FromMilliseconds(25),
-            };
-            animationTimer.Tick += animationTimer_Tick;
+            _animationTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
+                {
+                    Interval = TimeSpan.FromMilliseconds(25),
+                };
+            _animationTimer.Tick += animationTimer_Tick;
         }
 
         #endregion
@@ -898,10 +999,10 @@ namespace WPFSoundVisualizationLib
         /// <param name="soundPlayer">A sound player that provides spectrum data through the ISpectrumPlayer interface methods.</param>
         public void RegisterSoundPlayer(ISpectrumPlayer soundPlayer)
         {
-            this.soundPlayer = soundPlayer;
+            _soundPlayer = soundPlayer;
             soundPlayer.PropertyChanged += soundPlayer_PropertyChanged;
             UpdateBarLayout();
-            animationTimer.Start();
+            _animationTimer.Start();
         }
 
         #endregion
@@ -938,11 +1039,11 @@ namespace WPFSoundVisualizationLib
 
         private void UpdateSpectrum()
         {
-            if (soundPlayer == null || spectrumCanvas == null || spectrumCanvas.RenderSize.Width < 1 ||
-                spectrumCanvas.RenderSize.Height < 1)
+            if (_soundPlayer == null || _spectrumCanvas == null || _spectrumCanvas.RenderSize.Width < 1 ||
+                _spectrumCanvas.RenderSize.Height < 1)
                 return;
 
-            if (soundPlayer.IsPlaying && !soundPlayer.GetFFTData(channelData))
+            if (_soundPlayer.IsPlaying && !_soundPlayer.GetFFTData(_channelData))
                 return;
 
             UpdateSpectrumShapes();
@@ -955,16 +1056,15 @@ namespace WPFSoundVisualizationLib
             double fftBucketHeight = 0f;
             double barHeight = 0f;
             double lastPeakHeight = 0f;
-            double peakYPos = 0f;
-            double height = spectrumCanvas.RenderSize.Height;
+            double height = _spectrumCanvas.RenderSize.Height;
             int barIndex = 0;
-            double peakDotHeight = Math.Max(barWidth/2.0f, 1);
+            double peakDotHeight = Math.Max(_barWidth/2.0f, 1);
             double barHeightScale = (height - peakDotHeight);
 
-            for (int i = minimumFrequencyIndex; i <= maximumFrequencyIndex; i++)
+            for (int i = _minimumFrequencyIndex; i <= _maximumFrequencyIndex; i++)
             {
                 // If we're paused, keep drawing, but set the current height to 0 so the peaks fall.
-                if (!soundPlayer.IsPlaying)
+                if (!_soundPlayer.IsPlaying)
                 {
                     barHeight = 0f;
                 }
@@ -973,14 +1073,14 @@ namespace WPFSoundVisualizationLib
                     switch (BarHeightScaling)
                     {
                         case BarHeightScalingStyles.Decibel:
-                            double dbValue = 20*Math.Log10(channelData[i]);
-                            fftBucketHeight = ((dbValue - minDBValue)/dbScale)*barHeightScale;
+                            double dbValue = 20*Math.Log10(_channelData[i]);
+                            fftBucketHeight = ((dbValue - MinDbValue)/DbScale)*barHeightScale;
                             break;
                         case BarHeightScalingStyles.Linear:
-                            fftBucketHeight = (channelData[i]*scaleFactorLinear)*barHeightScale;
+                            fftBucketHeight = (_channelData[i]*ScaleFactorLinear)*barHeightScale;
                             break;
                         case BarHeightScalingStyles.Sqrt:
-                            fftBucketHeight = (((Math.Sqrt(channelData[i]))*scaleFactorSqr)*barHeightScale);
+                            fftBucketHeight = (((Math.Sqrt(_channelData[i]))*ScaleFactorSqr)*barHeightScale);
                             break;
                     }
 
@@ -991,7 +1091,7 @@ namespace WPFSoundVisualizationLib
                 }
 
                 // If this is the last FFT bucket in the bar's group, draw the bar.
-                int currentIndexMax = IsFrequencyScaleLinear ? barIndexMax[barIndex] : barLogScaleIndexMax[barIndex];
+                int currentIndexMax = IsFrequencyScaleLinear ? _barIndexMax[barIndex] : _barLogScaleIndexMax[barIndex];
                 if (i == currentIndexMax)
                 {
                     // Peaks can't surpass the height of the control.
@@ -1001,23 +1101,27 @@ namespace WPFSoundVisualizationLib
                     if (AveragePeaks && barIndex > 0)
                         barHeight = (lastPeakHeight + barHeight)/2;
 
-                    peakYPos = barHeight;
+                    double peakYPos = barHeight;
 
-                    if (channelPeakData[barIndex] < peakYPos)
-                        channelPeakData[barIndex] = (float) peakYPos;
+                    if (_channelPeakData[barIndex] < peakYPos)
+                        _channelPeakData[barIndex] = (float) peakYPos;
                     else
-                        channelPeakData[barIndex] = (float) (peakYPos + (PeakFallDelay*channelPeakData[barIndex]))/
+                        _channelPeakData[barIndex] = (float) (peakYPos + (PeakFallDelay*_channelPeakData[barIndex]))/
                                                     (PeakFallDelay + 1);
 
-                    double xCoord = BarSpacing + (barWidth*barIndex) + (BarSpacing*barIndex) + 1;
+                    double xCoord = BarSpacing + (_barWidth*barIndex) + (BarSpacing*barIndex) + 1;
 
-                    barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
-                    barShapes[barIndex].Height = barHeight;
-                    peakShapes[barIndex].Margin = new Thickness(xCoord,
-                        (height - 1) - channelPeakData[barIndex] - peakDotHeight, 0, 0);
-                    peakShapes[barIndex].Height = peakDotHeight;
+                    _barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
+                    _barShapes[barIndex].Height = barHeight;
 
-                    if (channelPeakData[barIndex] > 0.05)
+                    var topMargin = _soundPlayer.IsPlaying
+                                        ? (height - 1) - _channelPeakData[barIndex] - peakDotHeight
+                                        : (height + peakDotHeight) - _channelPeakData[barIndex] - peakDotHeight;
+
+                    _peakShapes[barIndex].Margin = new Thickness(xCoord, topMargin, 0, 0);
+                    _peakShapes[barIndex].Height = peakDotHeight;
+
+                    if (_channelPeakData[barIndex] > 0.05)
                         allZero = false;
 
                     lastPeakHeight = barHeight;
@@ -1026,81 +1130,77 @@ namespace WPFSoundVisualizationLib
                 }
             }
 
-            if (allZero && !soundPlayer.IsPlaying)
-                animationTimer.Stop();
+            if (allZero && !_soundPlayer.IsPlaying)
+                _animationTimer.Stop();
         }
 
         private void UpdateBarLayout()
         {
-            if (soundPlayer == null || spectrumCanvas == null)
+            if (_soundPlayer == null || _spectrumCanvas == null)
                 return;
 
-            barWidth = Math.Max(((spectrumCanvas.RenderSize.Width - (BarSpacing*(BarCount + 1)))/BarCount), 1);
-            maximumFrequencyIndex = Math.Min(soundPlayer.GetFFTFrequencyIndex(MaximumFrequency) + 1, 2047);
-            minimumFrequencyIndex = Math.Min(soundPlayer.GetFFTFrequencyIndex(MinimumFrequency), 2047);
-            bandWidth = Math.Max((maximumFrequencyIndex - minimumFrequencyIndex)/spectrumCanvas.RenderSize.Width, 1.0);
+            _barWidth = Math.Max(((_spectrumCanvas.RenderSize.Width - (BarSpacing*(BarCount + 1)))/BarCount), 1);
+            _maximumFrequencyIndex = Math.Min(_soundPlayer.GetFFTFrequencyIndex(MaximumFrequency) + 1, 2047);
+            _minimumFrequencyIndex = Math.Min(_soundPlayer.GetFFTFrequencyIndex(MinimumFrequency), 2047);
 
             int actualBarCount;
-            if (barWidth >= 1.0d)
+            if (_barWidth >= 1.0d)
                 actualBarCount = BarCount;
             else
                 actualBarCount = Math.Max(
-                    (int) ((spectrumCanvas.RenderSize.Width - BarSpacing)/(barWidth + BarSpacing)), 1);
-            channelPeakData = new float[actualBarCount];
+                    (int) ((_spectrumCanvas.RenderSize.Width - BarSpacing)/(_barWidth + BarSpacing)), 1);
+            _channelPeakData = new float[actualBarCount];
 
-            int indexCount = maximumFrequencyIndex - minimumFrequencyIndex;
+            int indexCount = _maximumFrequencyIndex - _minimumFrequencyIndex;
             var linearIndexBucketSize = (int) Math.Round(indexCount/(double) actualBarCount, 0);
             var maxIndexList = new List<int>();
             var maxLogScaleIndexList = new List<int>();
             double maxLog = Math.Log(actualBarCount, actualBarCount);
             for (int i = 1; i < actualBarCount; i++)
             {
-                maxIndexList.Add(minimumFrequencyIndex + (i*linearIndexBucketSize));
+                maxIndexList.Add(_minimumFrequencyIndex + (i*linearIndexBucketSize));
                 int logIndex = (int) ((maxLog - Math.Log((actualBarCount + 1) - i, (actualBarCount + 1)))*indexCount) +
-                               minimumFrequencyIndex;
+                               _minimumFrequencyIndex;
                 maxLogScaleIndexList.Add(logIndex);
             }
-            maxIndexList.Add(maximumFrequencyIndex);
-            maxLogScaleIndexList.Add(maximumFrequencyIndex);
-            barIndexMax = maxIndexList.ToArray();
-            barLogScaleIndexMax = maxLogScaleIndexList.ToArray();
+            maxIndexList.Add(_maximumFrequencyIndex);
+            maxLogScaleIndexList.Add(_maximumFrequencyIndex);
+            _barIndexMax = maxIndexList.ToArray();
+            _barLogScaleIndexMax = maxLogScaleIndexList.ToArray();
 
-            barHeights = new double[actualBarCount];
-            peakHeights = new double[actualBarCount];
+            _spectrumCanvas.Children.Clear();
+            _barShapes.Clear();
+            _peakShapes.Clear();
 
-            spectrumCanvas.Children.Clear();
-            barShapes.Clear();
-            peakShapes.Clear();
-
-            double height = spectrumCanvas.RenderSize.Height;
-            double peakDotHeight = Math.Max(barWidth/2.0f, 1);
+            double height = _spectrumCanvas.RenderSize.Height;
+            double peakDotHeight = Math.Max(_barWidth/2.0f, 1);
             for (int i = 0; i < actualBarCount; i++)
             {
-                double xCoord = BarSpacing + (barWidth*i) + (BarSpacing*i) + 1;
+                double xCoord = BarSpacing + (_barWidth*i) + (BarSpacing*i) + 1;
                 var barRectangle = new Rectangle
-                {
-                    Margin = new Thickness(xCoord, height, 0, 0),
-                    Width = barWidth,
-                    Height = 0,
-                    Style = BarStyle
-                };
-                barShapes.Add(barRectangle);
+                    {
+                        Margin = new Thickness(xCoord, height, 0, 0),
+                        Width = _barWidth,
+                        Height = 0,
+                        Style = BarStyle
+                    };
+                _barShapes.Add(barRectangle);
                 var peakRectangle = new Rectangle
-                {
-                    Margin = new Thickness(xCoord, height - peakDotHeight, 0, 0),
-                    Width = barWidth,
-                    Height = peakDotHeight,
-                    Style = PeakStyle
-                };
-                peakShapes.Add(peakRectangle);
+                    {
+                        Margin = new Thickness(xCoord, height, 0, 0),
+                        Width = _barWidth,
+                        Height = peakDotHeight,
+                        Style = PeakStyle
+                    };
+                _peakShapes.Add(peakRectangle);
             }
 
-            foreach (Shape shape in barShapes)
-                spectrumCanvas.Children.Add(shape);
-            foreach (Shape shape in peakShapes)
-                spectrumCanvas.Children.Add(shape);
+            foreach (Shape shape in _barShapes)
+                _spectrumCanvas.Children.Add(shape);
+            foreach (Shape shape in _peakShapes)
+                _spectrumCanvas.Children.Add(shape);
 
-            ActualBarWidth = barWidth;
+            ActualBarWidth = _barWidth;
         }
 
         #endregion
@@ -1112,8 +1212,8 @@ namespace WPFSoundVisualizationLib
             switch (e.PropertyName)
             {
                 case "IsPlaying":
-                    if (soundPlayer.IsPlaying && !animationTimer.IsEnabled)
-                        animationTimer.Start();
+                    if (_soundPlayer.IsPlaying && !_animationTimer.IsEnabled)
+                        _animationTimer.Start();
                     break;
             }
         }
