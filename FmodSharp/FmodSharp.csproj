@@ -102,7 +102,7 @@
     <Compile Include="SoundSystem\InitFlags.cs" />
     <Compile Include="SoundSystem\SoundSystem.cs" />
     <Compile Include="SoundSystem\OutputType.cs" />
-    <Compile Include="iSpectrumWave.cs" />
+    <Compile Include="ISpectrumWave.cs" />
     <Compile Include="SoundSystem\SoundSystem.Dsp.cs" />
     <Compile Include="SoundSystem\SoundSystem.Reverb.cs" />
     <Compile Include="SoundSystem\SoundSystem.OutputDriver.cs" />

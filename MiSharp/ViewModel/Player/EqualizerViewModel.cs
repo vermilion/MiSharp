@@ -16,7 +16,6 @@ namespace MiSharp
         {
             DisplayName = "Equalizer";
             _playerViewModel = IoC.Get<PlayerViewModel>();
-            _playerViewModel.PlaybackController.EqualizerEngine.InitEqualizer(EqualizerData);
         }
 
         public List<EqualizerParam> EqualizerData
@@ -50,7 +49,6 @@ namespace MiSharp
 
         public IEnumerable<IResult> SaveChanges()
         {
-            Settings.Instance.SaveSettings();
             yield return new CloseResult();
         }
     }

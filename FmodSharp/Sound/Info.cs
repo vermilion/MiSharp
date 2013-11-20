@@ -23,6 +23,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using Linsft.FmodSharp.Enums;
 
 namespace Linsft.FmodSharp.Sound
 {

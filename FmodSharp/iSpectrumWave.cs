@@ -21,13 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
+using Linsft.FmodSharp.Dsp;
+
 namespace Linsft.FmodSharp
 {
-	public interface iSpectrumWave
+	public interface IISpectrumWave
 	{
-		float[] GetSpectrum (int numvalues, int channeloffset, Dsp.FFTWindow windowtype);
-		void GetSpectrum (float[] spectrumarray, int numvalues, int channeloffset, Dsp.FFTWindow windowtype);
+		float[] GetSpectrum (int numvalues, int channeloffset, FFTWindow windowtype);
+		void GetSpectrum (float[] spectrumarray, int numvalues, int channeloffset, FFTWindow windowtype);
 
 		float[] GetWaveData (int numvalues, int channeloffset);
 		void GetWaveData (float[] wavearray, int numvalues, int channeloffset);

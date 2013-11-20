@@ -240,8 +240,8 @@ namespace Linsft.FmodSharp.Error
 			switch (errcode) {
 				//TODO Translate error to Exception
 			default:
-				throw new Exception(string.Format("FMod retuned an unexpected Code: [{0}] {1}: {2}",
-				                                  (int)errcode, errcode, Errors.ErrorString(errcode)));
+			        throw new Exception(string.Format("FMod retuned an unexpected Code: [{0}] {1}: {2}",
+			                                          (int) errcode, errcode, ErrorString(errcode)));
 			}
 		}
 		

@@ -21,14 +21,6 @@
         <TextBox Text="{Binding FileFormats}" controls:TextboxHelper.ClearTextButton="True" Height="23"
                  Margin="115,66,10,0" TextWrapping="Wrap"
                  VerticalAlignment="Top" />
-        <Button Content="Save" Margin="0,0,10,10" HorizontalAlignment="Right" Width="90" Height="26"
-                VerticalAlignment="Bottom">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <cal:ActionMessage MethodName="SaveClick" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Button>
         <Button Content="Rescan now" Margin="0,38,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="121"
                 Height="23">
             <i:Interaction.Triggers>

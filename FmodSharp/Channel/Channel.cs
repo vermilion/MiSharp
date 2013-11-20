@@ -25,11 +25,12 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using Linsft.FmodSharp.Dsp;
+using Linsft.FmodSharp.Enums;
 using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Channel
 {
-    public class Channel : Handle, iSpectrumWave
+    public class Channel : Handle, IISpectrumWave
     {
         #region Create/Release
 
@@ -353,6 +354,61 @@ namespace Linsft.FmodSharp.Channel
         private static extern Code GetCurrentSound(IntPtr channel, ref IntPtr sound);
 
         #endregion
+
+        #region Priority
+
+        public int Priority
+        {
+            get
+            {
+                int val = 0;
+                Code returnCode = GetPriority(DangerousGetHandle(), ref val);
+                Errors.ThrowError(returnCode);
+
+                return val;
+            }
+            set
+            {
+                Code returnCode = SetPriority(DangerousGetHandle(), value);
+                Errors.ThrowError(returnCode);
+            }
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetPriority"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetPriority(IntPtr channel, int priority);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetPriority"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetPriority(IntPtr channel, ref int priority);
+		
+        #endregion
+
+        #region Mode
+
+        public Mode Mode
+        {
+            get
+            {
+                var mode = Mode.Default;
+                Code returnCode = GetMode(DangerousGetHandle(), ref mode);
+                Errors.ThrowError(returnCode);
+
+                return mode;
+            }
+            set
+            {
+                Code returnCode = SetMode(DangerousGetHandle(), value);
+                Errors.ThrowError(returnCode);
+            }
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetMode"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetMode(IntPtr channel, Mode mode);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetMode"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetMode(IntPtr channel, ref Mode mode);
+
+        #endregion
+
         //TODO Implement extern funcitons
 
         /*
@@ -377,12 +433,6 @@ namespace Linsft.FmodSharp.Channel
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetInputChannelMix"), SuppressUnmanagedCodeSecurity]
         private static extern Error.Code GetInputChannelMix (IntPtr channel, [MarshalAs(UnmanagedType.LPArray)] float[] levels, int numlevels);
-		
-        [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetPriority"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code SetPriority (IntPtr channel, int priority);
-		
-        [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetPriority"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code GetPriority (IntPtr channel, ref int priority);
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_Set3DAttributes"), SuppressUnmanagedCodeSecurity]
         private static extern Error.Code Set3DAttributes (IntPtr channel, ref Vector3 pos, ref Vector3 vel);
@@ -478,13 +528,7 @@ namespace Linsft.FmodSharp.Channel
         private static extern Error.Code GetDSPHead (IntPtr channel, ref IntPtr dsp);
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_AddDSP"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code AddDSP (IntPtr channel, IntPtr dsp, ref IntPtr connection);
-		
-        [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetMode"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code SetMode (IntPtr channel, Mode mode);
-		
-        [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetMode"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code GetMode (IntPtr channel, ref Mode mode);
+        private static extern Error.Code AddDSP (IntPtr channel, IntPtr dsp, ref IntPtr connection);		
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetLoopCount"), SuppressUnmanagedCodeSecurity]
         private static extern Error.Code SetLoopCount (IntPtr channel, int loopcount);

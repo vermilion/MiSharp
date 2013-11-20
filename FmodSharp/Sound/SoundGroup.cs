@@ -24,40 +24,37 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Sound
 {
-	public class SoundGroup : Handle
-	{
-		
-		#region Create/Release
-		
-		private SoundGroup ()
-		{
-		}
-		internal SoundGroup (IntPtr hnd) : base()
-		{
-			this.SetHandle(hnd);
-		}
-		
-		protected override bool ReleaseHandle ()
-		{
-			if (this.IsInvalid)
-				return true;
-			
-			Release (this.handle);
-			this.SetHandleAsInvalid ();
-			
-			return true;
-		}
-		
-		[DllImport("fmodex", EntryPoint = "FMOD_SoundGroup_Release"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code Release (IntPtr soundgroup);
+    public class SoundGroup : Handle
+    {
+        #region Create/Release
 
-		#endregion
-		
-		//TODO Implement extern funcitons
-		/*
+        internal SoundGroup(IntPtr hnd)
+        {
+            SetHandle(hnd);
+        }
+
+        protected override bool ReleaseHandle()
+        {
+            if (IsInvalid)
+                return true;
+
+            Release(handle);
+            SetHandleAsInvalid();
+
+            return true;
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_SoundGroup_Release"), SuppressUnmanagedCodeSecurity]
+        private static extern Code Release(IntPtr soundgroup);
+
+        #endregion
+
+        //TODO Implement extern funcitons
+        /*
 	
 		[DllImport(VERSION.dll), SuppressUnmanagedCodeSecurity]
 		private static extern RESULT FMOD_SoundGroup_GetSystemObject (IntPtr soundgroup, ref IntPtr system);
@@ -110,5 +107,5 @@ namespace Linsft.FmodSharp.Sound
 		[DllImport(VERSION.dll), SuppressUnmanagedCodeSecurity]
 		private static extern RESULT FMOD_SoundGroup_GetMemoryInfo (IntPtr soundgroup, uint memorybits, uint event_memorybits, ref uint memoryused, ref MEMORY_USAGE_DETAILS memoryused_details);
 		*/
-	}
+    }
 }

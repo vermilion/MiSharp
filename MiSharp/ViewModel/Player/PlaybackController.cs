@@ -85,21 +85,13 @@ namespace MiSharp
         public bool RepeatState
         {
             get { return Settings.Instance.RepeatState; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref Settings.Instance.RepeatState, value);
-                Settings.Instance.SaveSettings();
-            }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.RepeatState, value); }
         }
 
         public bool ShuffleState
         {
             get { return Settings.Instance.ShuffleState; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref Settings.Instance.ShuffleState, value);
-                Settings.Instance.SaveSettings();
-            }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.ShuffleState, value); }
         }
 
         public EqualizerEngine EqualizerEngine { get { return AudioPlayerEngine.EqualizerEngine; } }

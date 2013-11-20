@@ -15,6 +15,9 @@ namespace MiSharp.Core.Player
         public EqualizerEngine(SoundSystem system)
         {
             _soundSystem = system;
+
+            if (Settings.Instance.EqualizerEnabled)
+                InitEqualizer(Settings.Instance.EqualizerValues);
         }
 
         public void InitEqualizer(List<EqualizerParam> values)

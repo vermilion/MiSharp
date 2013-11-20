@@ -10,7 +10,7 @@
              x:Class="MiSharp.EqualizerView" 
              mc:Ignorable="d" Width="300" Height="300"
              d:DesignHeight="300" d:DesignWidth="300"
-             WindowStartupLocation="CenterScreen">
+             WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowCloseButton="False" ShowInTaskbar="False">
     <controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,7 +22,7 @@
     </controls:MetroWindow.Resources>
     <Grid>
         <wpfSoundVisualizationLib:Equalizer Margin="10,35,10,52" EqualizerData="{Binding EqualizerData}" />
-        <Button Content="Save" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75">
+        <Button Content="OK" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <cal:ActionMessage MethodName="SaveChanges" />

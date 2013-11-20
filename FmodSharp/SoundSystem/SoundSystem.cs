@@ -27,12 +27,13 @@ using System.Security;
 using System.Text;
 using Linsft.FmodSharp.Channel;
 using Linsft.FmodSharp.Dsp;
+using Linsft.FmodSharp.Enums;
 using Linsft.FmodSharp.Error;
 using Linsft.FmodSharp.Sound;
 
 namespace Linsft.FmodSharp.SoundSystem
 {
-    public partial class SoundSystem : Handle, iSpectrumWave
+    public partial class SoundSystem : Handle, IISpectrumWave
     {
         /// <summary>
         ///     Used to check against <see cref="FmodSharp.System.Version" /> FMOD::System::getVersion.

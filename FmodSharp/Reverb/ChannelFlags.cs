@@ -23,7 +23,7 @@
 
 using System;
 
-namespace Linsft.FmodSharp
+namespace Linsft.FmodSharp.Reverb
 {
 	
     /*

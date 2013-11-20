@@ -21,14 +21,12 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //THE SOFTWARE.
 
-using System;
-
-namespace Linsft.FmodSharp
+namespace Linsft.FmodSharp.Enums
 {
 	/// <summary>
 	/// These are speaker types defined for use with the System::setSpeakerMode or System::getSpeakerMode command.
 	/// </summary>
-	public enum SpeakerMode : int
+	public enum SpeakerMode
 	{
 		/// <summary>
 		/// There is no specific speakermode.  Sound channels are mapped in order of input to output.  See remarks for more information.

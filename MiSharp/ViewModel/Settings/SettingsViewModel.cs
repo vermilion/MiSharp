@@ -71,12 +71,6 @@ namespace MiSharp
             set { this.RaiseAndSetIfChanged(ref Settings.Instance.CoverDownloadEnabled, value); }
         }
 
-        public IEnumerable<IResult> SaveClick()
-        {
-            Settings.Instance.SaveSettings();
-            yield return new DummyResult();
-        }
-
         public void RescanLibrary()
         {
             MediaScanner.Instance.ScanCompleted += e => _events.Publish(e);

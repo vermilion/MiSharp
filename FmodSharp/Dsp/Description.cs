@@ -96,7 +96,7 @@ namespace Linsft.FmodSharp.Dsp
 		public ReadDelegate Read;
 
 		/// <summary>
-		/// Setposition callback.
+		/// SetPosition callback.
 		/// This is called if the unit wants to update its position info but not process data.
 		/// Can be null.
 		/// </summary>

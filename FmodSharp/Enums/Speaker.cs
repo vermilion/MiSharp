@@ -21,9 +21,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //THE SOFTWARE.
 
-using System;
-
-namespace Linsft.FmodSharp
+namespace Linsft.FmodSharp.Enums
 {
 	//TODO end convertion
 	
@@ -54,8 +52,8 @@ namespace Linsft.FmodSharp
 	/// These are speaker types defined for use with the Channel::setSpeakerLevels command.
 	/// It can also be used for speaker placement in the System::setSpeakerPosition command.
 	/// </summary>
-    public enum Speaker : int
-    {
+    public enum Speaker
+	{
 		FrontLeft,
 		FrontRight,
 		FrontCenter,

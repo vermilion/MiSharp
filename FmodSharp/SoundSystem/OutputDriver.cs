@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 
 using System;
+using Linsft.FmodSharp.Enums;
 
 namespace Linsft.FmodSharp.SoundSystem
 {
@@ -37,7 +38,7 @@ namespace Linsft.FmodSharp.SoundSystem
 		
 		public override string ToString ()
 		{
-			return this.Name;
+			return Name;
 		}
 	}
 }

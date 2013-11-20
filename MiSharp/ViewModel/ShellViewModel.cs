@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using DeadDog.Audio.Scan;
+using MiSharp.Core;
 
 namespace MiSharp
 {
-    [Export(typeof (ShellViewModel))]
+    [Export]
     public class ShellViewModel : Screen, IHandle<ScanFileEventArgs>
     {
-        private bool _isSettingsFlyoutOpen;
         private bool _isRescanFlyoutOpen;
+        private bool _isSettingsFlyoutOpen;
 
         [ImportingConstructor]
         public ShellViewModel(IEventAggregator events)
@@ -50,14 +51,22 @@ namespace MiSharp
             }
         }
 
+        public void Handle(ScanFileEventArgs message)
+        {
+            IsRescanFlyoutOpen = message.TotalFilesCount != message.CurrentFileNumber;
+        }
+
         public void OpenSettings()
         {
             IsSettingsFlyoutOpen = true;
         }
 
-        public void Handle(ScanFileEventArgs message)
+        // Post-closing events
+        /// <summary>
+        /// </summary>
+        public void WindowClosed()
         {
-            IsRescanFlyoutOpen = message.TotalFilesCount != message.CurrentFileNumber;
+            Settings.Instance.SaveSettings();
         }
     }
 }

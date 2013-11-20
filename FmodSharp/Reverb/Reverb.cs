@@ -24,63 +24,63 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using Linsft.FmodSharp.Error;
 
 namespace Linsft.FmodSharp.Reverb
 {
-	public class Reverb : Handle
-	{
-		
-		#region Create/Release
-		
-		private Reverb()
-		{
-		}
-		internal Reverb (IntPtr hnd) : base()
-		{
-			this.SetHandle (hnd);
-		}
+    public class Reverb : Handle
+    {
+        #region Create/Release
 
-		protected override bool ReleaseHandle ()
-		{
-			if (this.IsInvalid)
-				return true;
-			
-			Release (this.handle);
-			this.SetHandleAsInvalid ();
-			
-			return true;
-		}
+        internal Reverb(IntPtr hnd)
+        {
+            SetHandle(hnd);
+        }
 
-		[DllImport("fmodex", EntryPoint = "FMOD_Reverb_Release"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code Release (IntPtr reverb);
-		
-		#endregion
-		
-		public Properties Properties {
-			get {
-				Properties Val = Properties.Generic;
-				Error.Code ReturnCode = GetProperties(this.DangerousGetHandle(), ref Val);
-				Error.Errors.ThrowError(ReturnCode);
-				
-				return Val;
-			}
-			
-			set {
-				Error.Code ReturnCode = SetProperties(this.DangerousGetHandle(), ref value);
-				Error.Errors.ThrowError(ReturnCode);
-			}
-		}
-		
-		[DllImport("fmodex", EntryPoint = "FMOD_Reverb_SetProperties"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code SetProperties (IntPtr reverb, ref Properties properties);
+        protected override bool ReleaseHandle()
+        {
+            if (IsInvalid)
+                return true;
 
-		[DllImport("fmodex", EntryPoint = "FMOD_Reverb_GetProperties"), SuppressUnmanagedCodeSecurity]
-		private static extern Error.Code GetProperties (IntPtr reverb, ref Properties properties);
-		
-		
-		//TODO Implement extern funcitons
-		
-		/*
+            Release(handle);
+            SetHandleAsInvalid();
+
+            return true;
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Reverb_Release"), SuppressUnmanagedCodeSecurity]
+        private static extern Code Release(IntPtr reverb);
+
+        #endregion
+
+        public Properties Properties
+        {
+            get
+            {
+                Properties val = Properties.Generic;
+                Code returnCode = GetProperties(DangerousGetHandle(), ref val);
+                Errors.ThrowError(returnCode);
+
+                return val;
+            }
+
+            set
+            {
+                Code returnCode = SetProperties(DangerousGetHandle(), ref value);
+                Errors.ThrowError(returnCode);
+            }
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Reverb_SetProperties"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetProperties(IntPtr reverb, ref Properties properties);
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Reverb_GetProperties"), SuppressUnmanagedCodeSecurity]
+        private static extern Code GetProperties(IntPtr reverb, ref Properties properties);
+
+
+        //TODO Implement extern funcitons
+
+        /*
 
 		[DllImport(VERSION.dll), SuppressUnmanagedCodeSecurity]
 		private static extern RESULT FMOD_Reverb_Set3DAttributes (IntPtr reverb, ref VECTOR position, float mindistance, float maxdistance);
@@ -103,6 +103,5 @@ namespace Linsft.FmodSharp.Reverb
 		[DllImport(VERSION.dll), SuppressUnmanagedCodeSecurity]
 		private static extern RESULT FMOD_Reverb_GetMemoryInfo (IntPtr reverb, uint memorybits, uint event_memorybits, ref uint memoryused, ref MEMORY_USAGE_DETAILS memoryused_details);
 		*/
-	}
+    }
 }
-

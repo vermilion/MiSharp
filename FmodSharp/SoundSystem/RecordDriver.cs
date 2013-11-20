@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 
 using System;
+using Linsft.FmodSharp.Enums;
 
 namespace Linsft.FmodSharp.SoundSystem
 {

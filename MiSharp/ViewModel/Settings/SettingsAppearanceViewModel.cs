@@ -37,7 +37,6 @@ namespace MiSharp
             Settings.Instance.AccentColor = color;
             ThemeManager.ChangeTheme(IoC.Get<ShellView>(),
                                      ThemeManager.DefaultAccents.First(accent => accent.Name == color), SelectedTheme);
-            Settings.Instance.SaveSettings();
         }
     }
 }
