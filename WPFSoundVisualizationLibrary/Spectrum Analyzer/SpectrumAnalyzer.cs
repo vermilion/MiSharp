@@ -939,6 +939,69 @@ namespace WPFSoundVisualizationLib
 
         #endregion
 
+        #region SoftBarFall
+
+        /// <summary>
+        ///     Identifies the <see cref="SoftBarFall" /> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SoftBarFallProperty = DependencyProperty.Register(
+            "SoftBarFall", typeof(bool), typeof(SpectrumAnalyzer),
+            new UIPropertyMetadata(false, OnSoftBarFallChanged, OnCoerceSoftBarFall));
+
+        /// <summary>
+        ///     Draw bars with soft fall animation.
+        /// </summary>
+        public bool SoftBarFall
+        {
+            // IMPORTANT: To maintain parity between setting a property in XAML and procedural code, do not touch the getter and setter inside this dependency property!
+            get { return (bool)GetValue(SoftBarFallProperty); }
+            set { SetValue(SoftBarFallProperty, value); }
+        }
+
+        private static object OnCoerceSoftBarFall(DependencyObject o, object value)
+        {
+            var spectrumAnalyzer = o as SpectrumAnalyzer;
+            if (spectrumAnalyzer != null)
+                return spectrumAnalyzer.OnCoerceSoftBarFall((bool)value);
+            return value;
+        }
+
+        private static void OnSoftBarFallChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var spectrumAnalyzer = o as SpectrumAnalyzer;
+            if (spectrumAnalyzer != null)
+                spectrumAnalyzer.OnSoftBarFallChanged((bool)e.OldValue, (bool)e.NewValue);
+        }
+
+        /// <summary>
+        ///     Coerces the value of <see cref="SoftBarFall" /> when a new value is applied.
+        /// </summary>
+        /// <param name="value">
+        ///     The value that was set on <see cref="SoftBarFall" />
+        /// </param>
+        /// <returns>
+        ///     The adjusted value of <see cref="SoftBarFall" />
+        /// </returns>
+        protected virtual bool OnCoerceSoftBarFall(bool value)
+        {
+            return value;
+        }
+
+        /// <summary>
+        ///     Called after the <see cref="SoftBarFall" /> value has changed.
+        /// </summary>
+        /// <param name="oldValue">
+        ///     The previous value of <see cref="SoftBarFall" />
+        /// </param>
+        /// <param name="newValue">
+        ///     The new value of <see cref="SoftBarFall" />
+        /// </param>
+        protected virtual void OnSoftBarFallChanged(bool oldValue, bool newValue)
+        {
+        }
+
+        #endregion
+
         #endregion
 
         #region Template Overrides
@@ -1111,15 +1174,18 @@ namespace WPFSoundVisualizationLib
 
                     double xCoord = BarSpacing + (_barWidth*barIndex) + (BarSpacing*barIndex) + 1;
 
-                    _barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
-                    _barShapes[barIndex].Height = barHeight;
+                    if (!SoftBarFall)
+                    {
+                        _barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
+                        _barShapes[barIndex].Height = barHeight;
+                    }
 
                     var topMargin = _soundPlayer.IsPlaying
                                         ? (height - 1) - _channelPeakData[barIndex] - peakDotHeight
                                         : (height + peakDotHeight) - _channelPeakData[barIndex] - peakDotHeight;
 
                     _peakShapes[barIndex].Margin = new Thickness(xCoord, topMargin, 0, 0);
-                    _peakShapes[barIndex].Height = peakDotHeight;
+                    _peakShapes[barIndex].Height = SoftBarFall ? height : peakDotHeight;
 
                     if (_channelPeakData[barIndex] > 0.05)
                         allZero = false;
