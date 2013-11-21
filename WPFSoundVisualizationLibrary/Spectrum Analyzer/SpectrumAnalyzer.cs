@@ -951,6 +951,7 @@ namespace WPFSoundVisualizationLib
         /// <summary>
         ///     Draw bars with soft fall animation.
         /// </summary>
+        [Category("Common")]
         public bool SoftBarFall
         {
             // IMPORTANT: To maintain parity between setting a property in XAML and procedural code, do not touch the getter and setter inside this dependency property!

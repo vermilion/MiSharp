@@ -36,7 +36,7 @@ namespace Linsft.FmodSharp.SoundSystem
     public partial class SoundSystem : Handle, IISpectrumWave
     {
         /// <summary>
-        ///     Used to check against <see cref="FmodSharp.System.Version" /> FMOD::System::getVersion.
+        ///     Used to check against <see cref="FmodVersion" /> FMOD::System::getVersion.
         /// </summary>
         public const uint FmodVersion = 0x43202;
 
