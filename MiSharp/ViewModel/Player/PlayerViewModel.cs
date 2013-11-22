@@ -156,6 +156,11 @@ namespace MiSharp
             get { return PlaybackController.AudioPlayerEngine.CurrentTime; }
         }
 
+        public SettingsAppearanceViewModel SettingsAppearanceViewModel
+        {
+            get { return IoC.Get<SettingsAppearanceViewModel>(); }
+        }
+
         #endregion
     }
 }

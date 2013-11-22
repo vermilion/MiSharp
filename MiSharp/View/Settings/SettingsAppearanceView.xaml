@@ -109,12 +109,16 @@
                 	Background="Yellow"
                 	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Yellow')]"
                 	Style="{StaticResource ColorPickerButtonStyle}" />
-            </WrapPanel>
-            <StackPanel Orientation="Horizontal" />
+            </WrapPanel>           
             <StackPanel Orientation="Horizontal">
                 <TextBlock TextWrapping="Wrap" Text="Theme" VerticalAlignment="Center" />
                 <ComboBox Width="120" Margin="10" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock TextWrapping="Wrap" Text="Soft bar fall" VerticalAlignment="Center" />
+                <controls:ToggleSwitch HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding SoftBarFall}"/>
+            </StackPanel>            
+           
         </StackPanel>
     </Grid>
 </controls:MetroContentControl>

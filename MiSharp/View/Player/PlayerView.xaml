@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="#FF4F4F4F">
-        <wpfSoundVisualizationLib:SpectrumAnalyzer x:Name="SpectrumAnalyzer" Margin="0,16,0,0" BarCount="100"/>
+        <wpfSoundVisualizationLib:SpectrumAnalyzer x:Name="SpectrumAnalyzer" Margin="0,16,0,0" BarCount="100" DataContext="{Binding Path=SettingsAppearanceViewModel}" SoftBarFall="{Binding SoftBarFall}" />
         <StackPanel Orientation="Horizontal" Margin="10,16,0,2" HorizontalAlignment="Left" Width="291">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="73" VerticalAlignment="Top" Margin="0,0,0,-70">
                 <Button Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"

@@ -38,5 +38,11 @@ namespace MiSharp
             ThemeManager.ChangeTheme(IoC.Get<ShellView>(),
                                      ThemeManager.DefaultAccents.First(accent => accent.Name == color), SelectedTheme);
         }
+
+        public bool SoftBarFall
+        {
+            get { return Settings.Instance.SoftBarFall; }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.SoftBarFall, value); }
+        }
     }
 }
