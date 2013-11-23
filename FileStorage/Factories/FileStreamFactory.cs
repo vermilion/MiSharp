@@ -16,13 +16,13 @@ namespace FileStorage.Factories
                     //
                     // we have to create a new one, and use recursion to get the actual return value
                     //
-                    result = new FileStream(filename, FileMode.Open, FileAccess.Read);
+                    result = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     break;
                 case StreamStateBehaviour.OpenNewStreamForReadingAndWriting:
                     //
                     // we have to create a new one, and use recursion to get the actual return value
                     //
-                    result = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite);
+                    result = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
                     break;
                 default:
                     throw new NotSupportedException(string.Format("unknown streamStateBehaviour {0}", streamStateBehaviour));

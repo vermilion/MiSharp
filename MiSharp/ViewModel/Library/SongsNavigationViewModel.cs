@@ -32,11 +32,11 @@ namespace MiSharp
 
             AddSongsToPlaylistCommand = new ReactiveCommand();
             AddSongsToPlaylistCommand.Subscribe(param => 
-                _events.Publish(SelectedItems.Select(x => x.Model).ToList()));
+                _events.Publish(SelectedItems.Select(x => x.Track).ToList()));
 
             EditorEditSongsCommand = new ReactiveCommand();
             EditorEditSongsCommand.Subscribe(param =>
-                _windowManager.ShowDialog(new SongTagEditorViewModel(SelectedItems.Select(x => x.Model.Model).ToList())));
+                _windowManager.ShowDialog(new SongTagEditorViewModel(SelectedItems.Select(x => x.Track.Model).ToList())));
         }
 
         public ReactiveCommand SelectionChangedCommand { get; set; }
@@ -73,7 +73,7 @@ namespace MiSharp
             SelectedAlbum = modelParams.Album;
 
             Tracks = new ReactiveList<TrackViewModel>();
-            Tracks.AddRange(SelectedAlbum.Tracks.Select(x => new TrackViewModel(x.Model)));
+            Tracks.AddRange(SelectedAlbum.Tracks.Select(x => new TrackViewModel(x.Track)));
 
             NotifyOfPropertyChange(() => Tracks);
         }

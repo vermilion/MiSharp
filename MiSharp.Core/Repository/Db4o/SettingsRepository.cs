@@ -2,7 +2,7 @@
 {
     public class SettingsRepository : RepositoryBase
     {
-        private const string LibPath = "settings.lib";
+        private const string LibPath = "settings.msh";
         private static SettingsRepository _library;
 
         public SettingsRepository() : base(LibPath)

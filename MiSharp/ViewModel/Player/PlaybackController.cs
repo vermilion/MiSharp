@@ -1,27 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
+using MiSharp.Core;
 using MiSharp.Core.Player;
 using ReactiveUI;
+using WPFSoundVisualizationLib;
 
 namespace MiSharp
 {
-    public class PlaybackController : ReactiveObject, IHandle<List<Track>>
+    public class PlaybackController : ReactiveObject, IHandle<List<Track>>, ISpectrumPlayer
     {
-        public readonly LocalAudioPlayer AudioPlayer;
+        public readonly AudioPlayerEngine AudioPlayerEngine;
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
         private TrackStateViewModel _currentTrack;
         private bool _isPlaying;
-        private bool _repeatState;
-        private bool _shuffleState;
         private float _tempVolume;
         private float _volume = 1.0f;
 
         public PlaybackController(IEventAggregator events)
         {
-            AudioPlayer = new LocalAudioPlayer();
-            AudioPlayer.SongFinished += (s, e) => PlayNext();
+            AudioPlayerEngine = new AudioPlayerEngine();
+            AudioPlayerEngine.SongFinished += (s, e) => PlayNext();
 
             CurrentPlaylist = new TrackPlaylist();
 
@@ -38,6 +40,8 @@ namespace MiSharp
         public IObservable<Track> CurrentTrackChanged { get; set; }
         public IObservable<float> VolumeChanged { get; set; }
         public IObservable<bool> IsMutedChanged { get; set; }
+
+        #region Properties
 
         public TrackStateViewModel CurrentTrack
         {
@@ -74,67 +78,76 @@ namespace MiSharp
             set
             {
                 this.RaiseAndSetIfChanged(ref _volume, value);
-                AudioPlayer.Volume = value;
+                AudioPlayerEngine.Volume = value;
             }
         }
 
         public bool RepeatState
         {
-            get { return _repeatState; }
-            set { this.RaiseAndSetIfChanged(ref _repeatState, value); }
+            get { return Settings.Instance.RepeatState; }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.RepeatState, value); }
         }
 
         public bool ShuffleState
         {
-            get { return _shuffleState; }
-            set { this.RaiseAndSetIfChanged(ref _shuffleState, value); }
+            get { return Settings.Instance.ShuffleState; }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.ShuffleState, value); }
         }
 
-        public void Play(TrackStateViewModel song)
+        public EqualizerEngine EqualizerEngine { get { return AudioPlayerEngine.EqualizerEngine; } }
+
+        #endregion
+
+        public async Task Play(TrackStateViewModel song)
         {
             if (CurrentTrack == null || !Equals(CurrentTrack, song))
             {
                 if (CurrentPlaylist.MoveToEntry(song))
                 {
                     CurrentTrack = CurrentPlaylist.CurrentEntry;
-                    AudioPlayer.Load(CurrentTrack.Track.Model, Volume);
+                    await Task.Run(() =>
+                        {
+                            AudioPlayerEngine.Stop();
+                            AudioPlayerEngine.Load(CurrentPlaylist.CurrentEntry.Track.Model);
+                            AudioPlayerEngine.Play();
+                        });
                 }
             }
-            AudioPlayer.Play();
+            else AudioPlayerEngine.Resume();
             IsPlaying = true;
-            CurrentPlaylist.SetState(song, AudioPlayerState.Playing);
+            await CurrentPlaylist.SetState(song, AudioPlayerState.Playing);
         }
 
-        public void PlayNext()
+        public async Task PlayNext()
         {
             IsPlaying = false;
-            AudioPlayer.Stop();
-            CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
+            AudioPlayerEngine.Stop();
+            await CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
             CurrentTrack = null;
-            TrackStateViewModel song = GetNextSong(RepeatState, ShuffleState);
+            TrackStateViewModel song = await Task.Run(() => GetNextSong(RepeatState, ShuffleState));
 
             if (song != null)
-                Play(song);
+                await Play(song);
         }
 
-        public void PlayPrev()
+        public async Task PlayPrev()
         {
             IsPlaying = false;
-            AudioPlayer.Stop();
-            CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
+            AudioPlayerEngine.Stop();
+            await CurrentPlaylist.SetState(CurrentTrack, AudioPlayerState.None);
             CurrentTrack = null;
-            TrackStateViewModel song = GetPreviousSong(RepeatState, ShuffleState);
+            TrackStateViewModel song = await Task.Run(() => GetPreviousSong(RepeatState, ShuffleState));
             if (song != null)
-                Play(song);
+                await Play(song);
         }
 
-        public void PlayPause()
+        public async Task PlayPause()
         {
             if (IsPlaying)
             {
-                AudioPlayer.Pause();
+                await Task.Run(() => AudioPlayerEngine.Pause());
                 IsPlaying = false;
-                CurrentPlaylist.SetState(CurrentTrack.Track, AudioPlayerState.Paused);
+                await CurrentPlaylist.SetState(CurrentTrack.Track, AudioPlayerState.Paused);
             }
             else
             {
@@ -145,10 +158,9 @@ namespace MiSharp
                     song = CurrentPlaylist[0];
                 else return;
 
-                Play(song);
+                await Play(song);
             }
         }
-
 
         public TrackStateViewModel GetNextSong(bool repeat, bool random)
         {
@@ -190,6 +202,24 @@ namespace MiSharp
         public void Handle(List<Track> message)
         {
             CurrentPlaylist.AddRange(message);
+        }
+
+        #endregion
+
+        #region ISpectrumPlayer implementation
+
+        public bool GetFFTData(float[] fftDataBuffer)
+        {
+            AudioPlayerEngine.GetSpectrum(fftDataBuffer);
+            return true;
+        }
+
+        public int GetFFTFrequencyIndex(int frequency)
+        {
+            //TODO: stupid hack for array[2048] and freq [20,x]. Find better solution           
+            if (frequency == 20)
+                return 0;
+            else return 2047;
         }
 
         #endregion

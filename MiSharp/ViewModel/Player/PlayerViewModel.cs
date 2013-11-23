@@ -6,7 +6,6 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Repository.FileStorage;
-using MiSharp;
 using ReactiveUI;
 
 namespace MiSharp
@@ -15,15 +14,19 @@ namespace MiSharp
     public class PlayerViewModel : ReactiveObject
     {
         private readonly BitmapImage _defaultCover =
-            new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/MusicAndCatalog.ico"));
+            new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/Disc.ico"));
 
         private readonly ObservableAsPropertyHelper<string> _playPauseContent;
+        private readonly IWindowManager _windowManager;
 
         [ImportingConstructor]
         public PlayerViewModel(IEventAggregator events)
         {
             PlaybackController = IoC.Get<PlaybackController>();
+            _windowManager = IoC.Get<IWindowManager>();
 
+            EqualizerCommand = new ReactiveCommand();
+            EqualizerCommand.Subscribe(param => _windowManager.ShowDialog(new EqualizerViewModel()));
 
             PlayNextCommand = new ReactiveCommand();
             PlayNextCommand.Subscribe(param => PlaybackController.PlayNext());
@@ -37,13 +40,13 @@ namespace MiSharp
             _playPauseContent = PlaybackController.WhenAnyValue(x => x.IsPlaying, x => x ? ";" : "4")
                 .ToProperty(this, x => x.PlayPauseContent);
 
-            PlaybackController.AudioPlayer.TotalTimeChanged.Subscribe(x =>
+            PlaybackController.AudioPlayerEngine.TotalTimeChanged.Subscribe(x =>
             {
                 this.RaisePropertyChanged("Maximum");
                 this.RaisePropertyChanged("TickFrequency");
                 this.RaisePropertyChanged("TotalTime");
             });
-            PlaybackController.AudioPlayer.CurrentTimeChanged.Subscribe(x =>
+            PlaybackController.AudioPlayerEngine.CurrentTimeChanged.Subscribe(x =>
             {
                 this.RaisePropertyChanged("PositionValue");
                 this.RaisePropertyChanged("CurrentTime");
@@ -59,20 +62,21 @@ namespace MiSharp
             PlaybackController.VolumeChanged.Subscribe(x => this.RaisePropertyChanged("Volume"));
         }
 
+
         public PlaybackController PlaybackController { get; set; }
 
 
         public ReactiveCommand PlayNextCommand { get; private set; }
         public ReactiveCommand PlayPrevCommand { get; private set; }
         public ReactiveCommand PlayPauseCommand { get; private set; }
-
+        public ReactiveCommand EqualizerCommand { get; set; }
 
         public void ChangePosition(object sender, MouseEventArgs e)
         {
             double x = e.GetPosition((ProgressBar) sender).X;
             double ratio = x/((ProgressBar) sender).ActualWidth;
             double pos = ratio*((ProgressBar) sender).Maximum;
-            PlaybackController.AudioPlayer.CurrentTime = TimeSpan.FromSeconds(pos);
+            PlaybackController.AudioPlayerEngine.CurrentTime = TimeSpan.FromSeconds(pos);
         }
 
         #region Properties
@@ -88,10 +92,13 @@ namespace MiSharp
             {
                 if (CurrentlyPlaying != null)
                 {
-                    return IoC.Get<AlbumCoverRepository>().GetCover(CurrentlyPlaying.Album.Title,
-                        CurrentlyPlaying.Artist.Name, CurrentlyPlaying.Album.Identifier);
+                    var cover = IoC.Get<AlbumCoverRepository>()
+                                   .GetCover(CurrentlyPlaying.Album.Identifier,
+                                             CurrentlyPlaying.Artist.Name,
+                                             CurrentlyPlaying.Album.Title);
+                    return cover ?? _defaultCover;
                 }
-                return _defaultCover;
+                return null;
             }
         }
 
@@ -126,35 +133,32 @@ namespace MiSharp
 
         public int Maximum
         {
-            get { return (int) PlaybackController.AudioPlayer.TotalTime.TotalSeconds; }
+            get { return (int) PlaybackController.AudioPlayerEngine.TotalTime.TotalSeconds; }
         }
 
         public double PositionValue
         {
-            get { return (int) PlaybackController.AudioPlayer.CurrentTime.TotalSeconds; }
+            get { return (int) PlaybackController.AudioPlayerEngine.CurrentTime.TotalSeconds; }
         }
 
         public int TickFrequency
         {
-            get { return (int) PlaybackController.AudioPlayer.TotalTime.TotalSeconds/30; }
+            get { return (int) PlaybackController.AudioPlayerEngine.TotalTime.TotalSeconds/30; }
         }
 
-        public string TotalTime
+        public TimeSpan TotalTime
         {
-            get
-            {
-                return String.Format("{0:00}:{1:00}", (int) PlaybackController.AudioPlayer.TotalTime.TotalMinutes,
-                    PlaybackController.AudioPlayer.TotalTime.Seconds);
-            }
+            get { return PlaybackController.AudioPlayerEngine.TotalTime; }
         }
 
-        public string CurrentTime
+        public TimeSpan CurrentTime
         {
-            get
-            {
-                return String.Format("{0:00}:{1:00}", (int) PlaybackController.AudioPlayer.CurrentTime.TotalMinutes,
-                    PlaybackController.AudioPlayer.CurrentTime.Seconds);
-            }
+            get { return PlaybackController.AudioPlayerEngine.CurrentTime; }
+        }
+
+        public SettingsAppearanceViewModel SettingsAppearanceViewModel
+        {
+            get { return IoC.Get<SettingsAppearanceViewModel>(); }
         }
 
         #endregion

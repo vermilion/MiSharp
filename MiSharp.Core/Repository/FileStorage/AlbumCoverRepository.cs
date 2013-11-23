@@ -1,63 +1,26 @@
 ﻿using System;
-using System.IO;
-using System.Threading;
-using System.Windows.Media.Imaging;
-using FileStorage.Exceptions;
 
 namespace MiSharp.Core.Repository.FileStorage
 {
-    public class AlbumCoverRepository : FileStorageRepository
+    public class AlbumCoverRepository : CoverRepository
     {
         private const string Name = "AlbumCovers";
-
-        private static readonly SemaphoreSlim Gate;
-
-        static AlbumCoverRepository()
-        {
-            Gate = new SemaphoreSlim(1);
-        }
 
         public AlbumCoverRepository()
             : base(Name)
         {
         }
 
-        public BitmapImage GetCover(string key, string artist, Guid guid)
+        protected override string DownloadImageImpl(string artist, string album)
         {
-            var item = new byte[] {};
-            Gate.Wait();
-
             try
             {
-                item = Get(guid);
+                return Api.LoadAlbumCover(album, artist);
             }
-            catch (DataIdentifierNotFoundException)
+            catch (Exception)
             {
-                //try download
-                string url = Api.LoadAlbumCover(key, artist);
-                if (url != null)
-                {
-                    StoreAndResizeImageByUrl(url, 300, guid);
-                    item = Get(guid);
-                }
+                return null;
             }
-            finally
-            {
-                Gate.Release();
-            }
-
-            if (item.Length == 0) return null;
-
-            var source = new BitmapImage();
-            using (Stream stream = new MemoryStream(item))
-            {
-                source.BeginInit();
-                source.StreamSource = stream;
-                source.CacheOption = BitmapCacheOption.OnLoad;
-                source.EndInit();
-            }
-            source.Freeze();
-            return source;
         }
     }
 }

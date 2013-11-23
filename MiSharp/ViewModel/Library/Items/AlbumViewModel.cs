@@ -22,11 +22,11 @@ namespace MiSharp
             Tracks.AddRange(album.Tracks.Select(x => new TrackViewModel(x)));
 
             AddAlbumToPlaylistCommand = new ReactiveCommand();
-            AddAlbumToPlaylistCommand.Subscribe(param => _events.Publish(Tracks.Select(x => x.Model).ToList()));
+            AddAlbumToPlaylistCommand.Subscribe(param => _events.Publish(Tracks.Select(x => x.Track).ToList()));
 
             EditorEditAlbumsCommand = new ReactiveCommand();
             EditorEditAlbumsCommand.Subscribe(
-                param => _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Model.Model).ToList())));
+                param => _windowManager.ShowDialog(new AlbumTagEditorViewModel(Tracks.Select(x => x.Track.Model).ToList())));
         }
 
         public ReactiveCommand AddAlbumToPlaylistCommand { get; private set; }
@@ -40,7 +40,7 @@ namespace MiSharp
 
         public BitmapSource Cover
         {
-            get { return IoC.Get<AlbumCoverRepository>().GetCover(Model.Title, Model.Artist.Name, Model.Identifier); }
+            get { return IoC.Get<AlbumCoverRepository>().GetCover(Model.Identifier, Model.Artist.Name, Model.Title); }
         }
 
         #endregion

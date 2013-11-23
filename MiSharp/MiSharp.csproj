@@ -49,20 +49,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>MusicAndCatalog.ico</ApplicationIcon>
+    <ApplicationIcon>Disc.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=0.11.2.17, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MahApps.Metro.0.11.2.17-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="GongSolutions.Wpf.DragDrop">
+      <HintPath>..\packages\gong-wpf-dragdrop.0.1.3.11\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MahApps.Metro, Version=0.11.2.24, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.11.2.24-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI">
       <HintPath>..\packages\reactiveui-core.5.2.0\lib\Portable-Net45+WinRT45+WP8\ReactiveUI.dll</HintPath>
@@ -75,23 +73,28 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Core.2.2.1-beta\lib\net45\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Interfaces.2.2.1-beta\lib\net45\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
+    <Reference Include="System.Reactive.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Linq.2.2.1-beta\lib\net45\System.Reactive.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net45\System.Reactive.PlatformServices.dll</HintPath>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.1-beta\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Windows.Threading">
-      <HintPath>..\packages\Rx-XAML.2.1.30214.0\lib\Net45\System.Reactive.Windows.Threading.dll</HintPath>
+    <Reference Include="System.Reactive.Windows.Threading, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-XAML.2.2.1-beta\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.0.11.2.17-ALPHA\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.11.2.24-ALPHA\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -113,6 +116,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Navigation.cs" />
+    <Compile Include="ViewModel\Converters\EnumToVisibilityConverter.cs" />
     <Compile Include="ViewModel\Library\Items\ArtistViewModel.cs" />
     <Compile Include="ViewModel\Library\Items\AlbumViewModel.cs" />
     <Compile Include="ViewModel\Converters\FirstLetterConverter.cs" />
@@ -131,11 +135,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\Library\Items\TrackViewModel.cs" />
+    <Compile Include="ViewModel\Player\EqualizerViewModel.cs" />
     <Compile Include="ViewModel\Player\NowPlayingViewModel.cs" />
     <Compile Include="ViewModel\Player\PlaybackController.cs" />
     <Compile Include="ViewModel\Player\TrackPlaylist.cs" />
     <Compile Include="ViewModel\Player\TrackStateViewModel.cs" />
-    <Compile Include="ViewModel\Converters\ShareModeConverter.cs" />
     <Compile Include="ViewModel\Settings\RescanProgressViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="View\Library\Items\AlbumView.xaml.cs">
@@ -162,6 +166,9 @@
     <Compile Include="View\Library\Items\TrackView.xaml.cs">
       <DependentUpon>TrackView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Player\EqualizerView.xaml.cs">
+      <DependentUpon>EqualizerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Player\NowPlayingView.xaml.cs">
       <DependentUpon>NowPlayingView.xaml</DependentUpon>
     </Compile>
@@ -176,27 +183,11 @@
     </Compile>
     <Compile Include="ViewModel\Settings\SettingsBaseViewModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
-    <Compile Include="ViewModel\Settings\OutputDevices\AsioOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Settings\OutputDevices\DirectSoundOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Settings\OutputDevices\WasapiOutSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Settings\OutputDevices\WaveOutSettingsViewModel.cs" />
     <Compile Include="ViewModel\Player\PlayerViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
     <Compile Include="ViewModel\DialogResults\DummyResult.cs" />
     <Compile Include="ViewModel\DialogResults\CloseResult.cs" />
     <Compile Include="ViewModel\DialogResults\Result.cs" />
-    <Compile Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml.cs">
-      <DependentUpon>AsioOutSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Settings\OutputDevices\DirectSoundOutSettingsView.xaml.cs">
-      <DependentUpon>DirectSoundOutSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Settings\OutputDevices\WasapiOutSettingsView.xaml.cs">
-      <DependentUpon>WasapiOutSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Settings\OutputDevices\WaveOutSettingsView.xaml.cs">
-      <DependentUpon>WaveOutSettingsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Player\PlayerView.xaml.cs">
       <DependentUpon>PlayerView.xaml</DependentUpon>
     </Compile>
@@ -262,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Player\EqualizerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Player\NowPlayingView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -269,22 +264,6 @@
     <Page Include="View\Player\TrackStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Settings\OutputDevices\AsioOutSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Settings\OutputDevices\DirectSoundOutSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Settings\OutputDevices\WasapiOutSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Settings\OutputDevices\WaveOutSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Player\PlayerView.xaml">
       <SubType>Designer</SubType>
@@ -345,6 +324,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -382,12 +362,21 @@
       <Project>{b15b28fc-ff24-4871-b539-c4eb78788612}</Project>
       <Name>MiSharp.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WPFSoundVisualizationLibrary\WPFSoundVisualizationLib.csproj">
+      <Project>{90F96222-1C39-4A19-ABE8-1B00FB330985}</Project>
+      <Name>WPFSoundVisualizationLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Music.ico" />
+    <Resource Include="Disc.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="MusicAndCatalog.ico" />
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fmodex.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

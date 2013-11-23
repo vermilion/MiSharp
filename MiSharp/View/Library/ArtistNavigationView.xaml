@@ -34,12 +34,6 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-            <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" UseLayoutRounding="False"
-        		x:Key="appbar_arrow_left">
-                <Path Width="25" Height="18" Canvas.Left="11" Canvas.Top="15" Stretch="Fill"
-        			Fill="{DynamicResource BlackBrush}"
-        			Data="F1 M 36,22L 36,26L 19.75,26L 27,33L 20.5,33L 11,24L 20.5,15L 27,15L 19.75,22L 36,22 Z " />
-            </Canvas>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>

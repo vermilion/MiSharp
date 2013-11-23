@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         <Image Width="90" Height="90">
             <Image.Source>
-                <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/Music.ico"
+                <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/Disc.ico"
                          IsAsync="True" />
             </Image.Source>
         </Image>

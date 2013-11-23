@@ -4,26 +4,31 @@
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                               xmlns:miSharp="clr-namespace:MiSharp"
                               mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="500">
-    <ListView FocusVisualStyle="{x:Null}"
-              ItemsSource="{Binding Playlist}"
-              SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}"
+    <ListView ItemsSource="{Binding Playlist}"
+              SelectionMode="Extended"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
               ScrollViewer.CanContentScroll="True" Background="{x:Null}"
+              dd:DragDrop.IsDragSource="True"
+              dd:DragDrop.IsDropTarget="True"
+              dd:DragDrop.DropHandler="{Binding}"
               x:Name="ListView">
         <ListView.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Play" Command="{Binding PlaySelectedCommand}" />
-                <Separator/>
                 <MenuItem Header="Remove" Command="{Binding RemoveSelectedCommand}" />
                 <MenuItem Header="Remove All" Command="{Binding RemoveAllCommand}" />
             </ContextMenu>
         </ListView.ContextMenu>
         <i:Interaction.Triggers>            
             <i:EventTrigger EventName="SelectionChanged">
-                <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" CommandParameter="{Binding ElementName=ListView, Path=SelectedItems}" />
+                <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=ListView, Path=SelectedItems}" />
             </i:EventTrigger>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding PlaySelectedCommand}"/>
+                </i:EventTrigger>
         </i:Interaction.Triggers>
         <ListView.ItemTemplate>
             <DataTemplate>

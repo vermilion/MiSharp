@@ -295,6 +295,12 @@ namespace FileStorage
             return fileStorageHandler.GetObjectData(dataIdentifier, StreamStateBehaviour.OpenNewStreamForReading, StreamStateBehaviour.OpenNewStreamForReading);
         }
 
+        public static MetaDataContainer GetMetaData(string fileStorageName, Guid dataIdentifier)
+        {
+            FileStorageHandler fileStorageHandler = FileStorageHandler.Open(fileStorageName);
+            return fileStorageHandler.GetMetaDataContainer(dataIdentifier, StreamStateBehaviour.OpenNewStreamForReading, StreamStateBehaviour.OpenNewStreamForReading);
+        }
+
         #endregion
 
         #region Store functionality
@@ -339,12 +345,6 @@ namespace FileStorage
         {
             FileStorageHandler fileStorageHandler = FileStorageHandler.Open(fileStorageName);
             fileStorageHandler.StoreObject(dataIdentifier, objectToStore, customMetaData, addFileBehaviour, StreamStateBehaviour.OpenNewStreamForReadingAndWriting, StreamStateBehaviour.OpenNewStreamForReadingAndWriting);
-        }
-
-        public static MetaDataContainer GetMetaData(string fileStorageName, Guid dataIdentifier)
-        {
-            FileStorageHandler fileStorageHandler = FileStorageHandler.Open(fileStorageName);
-            return fileStorageHandler.GetMetaDataContainer(dataIdentifier, StreamStateBehaviour.OpenNewStreamForReading, StreamStateBehaviour.OpenNewStreamForReading);
         }
 
         #endregion

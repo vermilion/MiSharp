@@ -10,7 +10,7 @@
                       MinHeight="226"
                       MaxHeight="226"
                       MaxWidth="622"
-                      MinWidth="622" WindowStartupLocation="CenterScreen">
+                      MinWidth="622" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="False">
     <controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

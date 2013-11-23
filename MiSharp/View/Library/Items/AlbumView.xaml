@@ -1,9 +1,10 @@
-﻿<controls:MetroContentControl x:Class="MiSharp.AlbumView"
+﻿<controls:MetroContentControl
                               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                              xmlns:wpfSoundVisualizationLib="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib" x:Class="MiSharp.AlbumView"
                               mc:Ignorable="d" MinHeight="130"
                               d:DesignHeight="150" d:DesignWidth="400">
     <Grid Background="Transparent">
@@ -17,17 +18,11 @@
             <ColumnDefinition Width="130" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="0" Height="120" Width="120">
-            <Image.Source>
-                <Binding Path="Cover" FallbackValue="pack://application:,,,/MiSharp;component/Music.ico"
-                         IsAsync="True" />
-            </Image.Source>
-        </Image>
-
         <StackPanel HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center" Margin="10">
             <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Title}" FontSize="18" />
             <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Artist.Name}" FontSize="16" />
             <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Year}" FontSize="16" />
         </StackPanel>
+        <wpfSoundVisualizationLib:AlbumArtDisplay Grid.Column="0" AlbumArtImage="{Binding Cover, IsAsync=True}" Height="120" Width="120" />
     </Grid>
 </controls:MetroContentControl>

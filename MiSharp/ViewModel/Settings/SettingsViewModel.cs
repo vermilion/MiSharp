@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using MiSharp.Core;
-using MiSharp.Core.Player.Output;
 using MiSharp.DialogResults;
 using ReactiveUI;
 
@@ -16,14 +15,11 @@ namespace MiSharp
     public class SettingsViewModel : ReactiveObject
     {
         private readonly IEventAggregator _events;
-        private IOutputDevicePlugin _outSettingsViewModel;
-        private List<int> _requestedLatency = new List<int>();
 
         [ImportingConstructor]
         public SettingsViewModel(IEventAggregator events)
         {
             _events = events;
-            RequestedLatency.AddRange(new[] {25, 50, 100, 150, 200, 300, 400, 500});
 
             Observable.Interval(TimeSpan.FromMinutes(1))
                       .Subscribe(x =>
@@ -69,43 +65,10 @@ namespace MiSharp
             }
         }
 
-        [ImportMany(typeof (IOutputDevicePlugin))]
-        public IEnumerable<IOutputDevicePlugin> OutputDevicePlugins { get; set; }
-
-        public IOutputDevicePlugin OutSettingsViewModel
+        public bool CoverDownloadEnabled
         {
-            get { return _outSettingsViewModel; }
-            set { this.RaiseAndSetIfChanged(ref _outSettingsViewModel, value); }
-        }
-
-        public IOutputDevicePlugin SelectedOutputDriver
-        {
-            get { return Settings.Instance.SelectedOutputDriver ?? (Settings.Instance.SelectedOutputDriver = OutputDevicePlugins.ToList().FirstOrDefault(x => x.Name == "WaveOut")); }
-            set
-            {
-                OutSettingsViewModel = value;
-
-                //TODO:save concrete driver settings
-                this.RaiseAndSetIfChanged(ref Settings.Instance.SelectedOutputDriver, value);
-            }
-        }
-
-        public List<int> RequestedLatency
-        {
-            get { return _requestedLatency; }
-            set { this.RaiseAndSetIfChanged(ref _requestedLatency, value); }
-        }
-
-        public int SelectedLatency
-        {
-            get { return Settings.Instance.RequestedLatency; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.RequestedLatency, value); }
-        }
-
-        public IEnumerable<IResult> SaveClick()
-        {
-            Settings.Instance.SaveSettings();
-            yield return new DummyResult();
+            get { return Settings.Instance.CoverDownloadEnabled; }
+            set { this.RaiseAndSetIfChanged(ref Settings.Instance.CoverDownloadEnabled, value); }
         }
 
         public void RescanLibrary()

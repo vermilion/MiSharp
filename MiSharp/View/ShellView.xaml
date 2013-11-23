@@ -3,31 +3,13 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:cal="http://www.caliburnproject.org"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      Width="1000" Height="750" WindowStartupLocation="CenterScreen"
-                      Icon="/MiSharp;component/Music.ico" Background="#FF292929">
+                      Width="1000" Height="750" WindowStartupLocation="CenterScreen" Background="#FF292929"
+                      cal:Message.Attach="[Event Closed]=[Action WindowClosed()]">
     <controls:MetroWindow.WindowCommands>
         <controls:WindowCommands>
             <Button Content="settings" cal:Message.Attach="OpenSettings" />
         </controls:WindowCommands>
     </controls:MetroWindow.WindowCommands>
-    <controls:MetroWindow.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/basedark.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </controls:MetroWindow.Resources>
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
             <controls:Flyout Header="Settings" Background="#9f000000" Position="Right"
@@ -44,21 +26,22 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
-        <ContentControl Grid.Column="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+        <Grid.RowDefinitions>            
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                         x:Name="PlayerViewModel" Margin="0" />
-        <TabControl Padding="0,15,0,0" Grid.Column="0" Margin="10,0,10,5">
-            <TabItem Header="Now Playing">
-                <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+       <ContentControl Grid.Column="0" Grid.Row="0" Margin="5,10,5,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                x:Name="LibraryViewModel" />
+        <TabControl Grid.Column="1" Grid.Row="0">
+            <TabItem Header="Now Playing" >
+                <ContentControl Margin="5,15,5,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                 x:Name="NowPlayingViewModel" />
             </TabItem>
-            <TabItem Header="Library">
-                <ContentControl Margin="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                                x:Name="LibraryViewModel" />
-            </TabItem>
+            <TabItem Header="Playlists"></TabItem>
         </TabControl>
-
-
     </Grid>
 </controls:MetroWindow>

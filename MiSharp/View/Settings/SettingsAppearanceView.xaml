@@ -42,31 +42,83 @@
     <Grid>
         <StackPanel>
             <TextBlock Style="{StaticResource SettingsHeaderStyle}" Text="accent color" />
-            <WrapPanel Margin="0, 10, 0, 0"
-                       HorizontalAlignment="Left" Orientation="Horizontal"
-                       VerticalAlignment="Top" Width="792">
-                <Button Background="#CC119EDA"
+            <WrapPanel Margin="0,10,10,0" Orientation="Horizontal"
+                       VerticalAlignment="Top">
+                <Button Background="Blue"
                         cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Blue')]"
                         Style="{StaticResource ColorPickerButtonStyle}" />
-                <Button Background="#CC60A917"
-                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Green')]"
+                <Button Background="Brown"
+                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Brown')]"
                         Style="{StaticResource ColorPickerButtonStyle}" />
-                <Button Background="#CCB400FF"
-                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Purple')]"
-                        Style="{StaticResource ColorPickerButtonStyle}" />
-                <Button Background="#CCE51400"
-                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Red')]"
+                <Button Background="Crimson"
+                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Crimson')]"
                         Style="{StaticResource ColorPickerButtonStyle}" />
                 <Button HorizontalAlignment="Left"
-                        Background="#CCFA6800"
-                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Orange')]"
+                        Background="Green"
+                        cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Green')]"
                         Style="{StaticResource ColorPickerButtonStyle}" />
-            </WrapPanel>
-            <StackPanel Orientation="Horizontal" />
+                <Button HorizontalAlignment="Left"
+                	Background="Indigo"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Indigo')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Lime"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Lime')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Magenta"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Magenta')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Olive"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Olive')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Orange"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Orange')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Pink"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Pink')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Purple"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Purple')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Red"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Red')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Sienna"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Sienna')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="SteelBlue"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Steel')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Teal"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Teal')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Violet"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Violet')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+                <Button HorizontalAlignment="Left"
+                	Background="Yellow"
+                	cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Yellow')]"
+                	Style="{StaticResource ColorPickerButtonStyle}" />
+            </WrapPanel>           
             <StackPanel Orientation="Horizontal">
                 <TextBlock TextWrapping="Wrap" Text="Theme" VerticalAlignment="Center" />
                 <ComboBox Width="120" Margin="10" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock TextWrapping="Wrap" Text="Soft bar fall" VerticalAlignment="Center" />
+                <controls:ToggleSwitch HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding SoftBarFall}"/>
+            </StackPanel>            
+           
         </StackPanel>
     </Grid>
 </controls:MetroContentControl>

@@ -12,4 +12,4 @@ Used stuff:
 
 Screenshot
 =======
-<img src="http://s017.radikal.ru/i407/1311/ba/083aff97f3c8.png" >
+<img src="http://s020.radikal.ru/i715/1311/29/11bd9493ee29.png" >
