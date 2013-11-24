@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MiSharp.Core.Player;
 using MiSharp.Core.Repository.Db4o;
-using WPFSoundVisualizationLib;
 
 namespace MiSharp.Core
 {

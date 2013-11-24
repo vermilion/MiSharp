@@ -62,8 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Album Art Display\AlbumArtDisplay.cs" />
-    <Compile Include="Equalizer\Equalizer.cs" />
-    <Compile Include="Equalizer\EqualizerParam.cs" />
     <Compile Include="FFTDataSize.cs" />
     <Compile Include="ISoundPlayer.cs" />
     <Compile Include="Spectrum Analyzer\BarHeightScalingStyles.cs" />

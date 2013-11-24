@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Repository.FileStorage;
 using ReactiveUI;
+using IScreen = Caliburn.Micro.IScreen;
 
 namespace MiSharp
 {
@@ -17,16 +18,12 @@ namespace MiSharp
             new BitmapImage(new Uri(@"pack://application:,,,/MiSharp;component/Disc.ico"));
 
         private readonly ObservableAsPropertyHelper<string> _playPauseContent;
-        private readonly IWindowManager _windowManager;
 
         [ImportingConstructor]
         public PlayerViewModel(IEventAggregator events)
         {
             PlaybackController = IoC.Get<PlaybackController>();
-            _windowManager = IoC.Get<IWindowManager>();
 
-            EqualizerCommand = new ReactiveCommand();
-            EqualizerCommand.Subscribe(param => _windowManager.ShowDialog(new EqualizerViewModel()));
 
             PlayNextCommand = new ReactiveCommand();
             PlayNextCommand.Subscribe(param => PlaybackController.PlayNext());
@@ -62,14 +59,18 @@ namespace MiSharp
             PlaybackController.VolumeChanged.Subscribe(x => this.RaisePropertyChanged("Volume"));
         }
 
-
         public PlaybackController PlaybackController { get; set; }
 
+        public PlayerPanesViewModel PlayerPanesViewModel
+        {
+            get { return IoC.Get<PlayerPanesViewModel>(); }
+        }
 
+      
         public ReactiveCommand PlayNextCommand { get; private set; }
         public ReactiveCommand PlayPrevCommand { get; private set; }
         public ReactiveCommand PlayPauseCommand { get; private set; }
-        public ReactiveCommand EqualizerCommand { get; set; }
+
 
         public void ChangePosition(object sender, MouseEventArgs e)
         {
@@ -98,7 +99,7 @@ namespace MiSharp
                                              CurrentlyPlaying.Album.Title);
                     return cover ?? _defaultCover;
                 }
-                return null;
+                return _defaultCover;
             }
         }
 

@@ -10,7 +10,7 @@ using ReactiveUI;
 namespace MiSharp
 {
     [Export]
-    public class NowPlayingViewModel
+    public class NowPlayingViewModel : Screen
     {
         private readonly PlaybackController _playbackController;
 

@@ -13,9 +13,9 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border Width="80"
-                                    Height="80"
-                                    Margin="0, 0, 20, 20"
+                            <Border Width="60"
+                                    Height="60"
+                                    Margin="0, 0, 5, 5"
                                     Background="{TemplateBinding Background}">
                                 <ContentPresenter />
                             </Border>
@@ -42,8 +42,8 @@
     <Grid>
         <StackPanel>
             <TextBlock Style="{StaticResource SettingsHeaderStyle}" Text="accent color" />
-            <WrapPanel Margin="0,10,10,0" Orientation="Horizontal"
-                       VerticalAlignment="Top">
+            <WrapPanel Margin="0,10,0,0" Orientation="Horizontal"
+                       VerticalAlignment="Top" HorizontalAlignment="Center">
                 <Button Background="Blue"
                         cal:Message.Attach="[Event Click] = [Action ChangeAccentColor('Blue')]"
                         Style="{StaticResource ColorPickerButtonStyle}" />
