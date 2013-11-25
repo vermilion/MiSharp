@@ -102,6 +102,7 @@ namespace MiSharp
         public void WindowClosed()
         {
             Settings.Instance.EqualizerValues = PlayerViewModel.PlaybackController.EqualizerEngine.BandsValues;
+            IoC.Get<PlaybackController>().Dispose();
 
             Settings.Instance.SaveSettings();
         }

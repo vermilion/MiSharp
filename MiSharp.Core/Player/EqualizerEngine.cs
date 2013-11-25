@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
 using Linsft.FmodSharp.Dsp;
 using Linsft.FmodSharp.SoundSystem;
+using Type = Linsft.FmodSharp.Dsp.Type;
 
 
 namespace MiSharp.Core.Player
 {
-    public class EqualizerEngine : PropertyChangedBase
+    public class EqualizerEngine : PropertyChangedBase, IDisposable
     {
         private SoundSystem _soundSystem;
 
@@ -177,5 +179,19 @@ namespace MiSharp.Core.Player
                 Active = false;
             }
         }
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Bands.Clear();
+            if (_soundSystem != null)
+            {
+                DeInitEqualizer();                
+                _soundSystem.Dispose();
+                _soundSystem = null;
+            }
+        }
+
+        #endregion
     }
 }

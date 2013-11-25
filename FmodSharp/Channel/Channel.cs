@@ -24,6 +24,8 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Threading;
+using System.Threading.Tasks;
 using Linsft.FmodSharp.Dsp;
 using Linsft.FmodSharp.Enums;
 using Linsft.FmodSharp.Error;
@@ -409,6 +411,19 @@ namespace Linsft.FmodSharp.Channel
 
         #endregion
 
+        #region Callback
+
+        public void SetCallback(ChannelDelegate callback)
+        {
+            Code returnCode = SetCallback(DangerousGetHandle(), callback);
+            Errors.ThrowError(returnCode);
+        }
+
+        [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetCallback"), SuppressUnmanagedCodeSecurity]
+        private static extern Code SetCallback(IntPtr channel, ChannelDelegate callback);
+		
+        #endregion
+
         //TODO Implement extern funcitons
 
         /*
@@ -520,9 +535,6 @@ namespace Linsft.FmodSharp.Channel
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetIndex"), SuppressUnmanagedCodeSecurity]
         private static extern Error.Code GetIndex (IntPtr channel, ref int index);
-		
-        [DllImport("fmodex", EntryPoint = "FMOD_Channel_SetCallback"), SuppressUnmanagedCodeSecurity]
-        private static extern Error.Code SetCallback (IntPtr channel, CHANNEL_CALLBACK callback);
 		
         [DllImport("fmodex", EntryPoint = "FMOD_Channel_GetDSPHead"), SuppressUnmanagedCodeSecurity]
         private static extern Error.Code GetDSPHead (IntPtr channel, ref IntPtr dsp);
