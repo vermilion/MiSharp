@@ -129,23 +129,21 @@ namespace MiSharp.Core.Player
 
         public void Play()
         {
-            lock (_playerLock)
-            {
-                Task.Factory.StartNew(() =>
+            Stop();
+            Task.Factory.StartNew(() =>
+                {
+                    _channel = _soundSystem.PlaySound(_soundFile);
+                    _channel.Volume = Volume;
+                    _channel.SetCallback(_callback);
+
+                    while (_channel != null)
                     {
-                        _channel = _soundSystem.PlaySound(_soundFile);
-                        _channel.Volume = Volume;
-                        _channel.SetCallback(_callback);
+                        if (_soundSystem != null)
+                            _soundSystem.Update();
 
-                        while (_channel != null)
-                        {
-                            if (_soundSystem != null)
-                                _soundSystem.Update();
-
-                            Thread.Sleep(50);
-                        }
-                    });
-            }
+                        Thread.Sleep(50);
+                    }
+                });
         }
 
         public void Stop()
@@ -154,6 +152,7 @@ namespace MiSharp.Core.Player
             {
                 if (_channel != null)
                 {
+                    _channel.SetCallback(null);
                     _channel.Stop();
                     _channel = null;
                     _isLoaded = false;
