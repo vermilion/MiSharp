@@ -999,6 +999,11 @@ namespace WPFSoundVisualizationLib
         /// </param>
         protected virtual void OnSoftBarFallChanged(bool oldValue, bool newValue)
         {
+            //Set main bars to zero height
+            if (_barShapes != null)
+            {
+                _barShapes.ForEach( b => b.Height = 0f);
+            }
         }
 
         #endregion
