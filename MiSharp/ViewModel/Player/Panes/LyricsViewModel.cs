@@ -15,11 +15,12 @@ namespace MiSharp
         public LyricsViewModel()
         {
             var playerViewModel = IoC.Get<PlayerViewModel>();
-            var current = playerViewModel.CurrentlyPlaying;
+            
 
             GetLyricsCommand = new ReactiveCommand();
             GetLyricsCommand.Subscribe(x =>
                 {
+                    var current = playerViewModel.CurrentlyPlaying;
                     if (current != null)
                         LyricsText = Getlyrics(current.Model.ArtistName, current.Model.TrackTitle);
                 });
