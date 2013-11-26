@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LyricsLibNet;
 using MiSharp.Core.Player;
 using MiSharp.Core.Repository.Db4o;
 
@@ -24,6 +25,8 @@ namespace MiSharp.Core
 
         public bool EqualizerEnabled = false;
         public bool SoftBarFall = false;
+
+        public ILyricsProvider SelectedLyricsProvider;
 
         // Center: Frequency center. 20.0 to 22000.0. Default = 8000.0
         // Bandwidth: Octave range around the center frequency to filter. 0.2 to 5.0. Default = 1.0

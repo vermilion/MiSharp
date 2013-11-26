@@ -361,6 +361,10 @@
       <Project>{a393fd81-a89c-4761-af87-2e5de2b95b61}</Project>
       <Name>DeadDog.Audio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LyricsLibNet\LyricsLibNet.csproj">
+      <Project>{f52ad80c-4e62-44b8-bc97-e0ae494d27d6}</Project>
+      <Name>LyricsLibNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MiSharp.Core\MiSharp.Core.csproj">
       <Project>{b15b28fc-ff24-4871-b539-c4eb78788612}</Project>
       <Name>MiSharp.Core</Name>

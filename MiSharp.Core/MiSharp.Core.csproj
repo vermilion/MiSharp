@@ -114,6 +114,10 @@
       <Project>{e0810e1a-ea20-4f0d-8d0f-5b72c3e64f6d}</Project>
       <Name>FmodSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LyricsLibNet\LyricsLibNet.csproj">
+      <Project>{f52ad80c-4e62-44b8-bc97-e0ae494d27d6}</Project>
+      <Name>LyricsLibNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
