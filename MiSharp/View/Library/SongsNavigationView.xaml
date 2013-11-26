@@ -8,16 +8,6 @@
     xmlns:miSharp="clr-namespace:MiSharp"
     x:Class="MiSharp.SongsNavigationView" TextOptions.TextFormattingMode="Display"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MiSharp;component/Resources/Icons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />

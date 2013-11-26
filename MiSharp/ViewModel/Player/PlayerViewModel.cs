@@ -7,7 +7,6 @@ using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Repository.FileStorage;
 using ReactiveUI;
-using IScreen = Caliburn.Micro.IScreen;
 
 namespace MiSharp
 {

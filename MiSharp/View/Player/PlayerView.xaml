@@ -6,16 +6,6 @@
                               xmlns:cal="http://www.caliburnproject.org" 
                               xmlns:wpfSoundVisualizationLib="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib" x:Class="MiSharp.PlayerView" 
                               mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="500">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MiSharp;component/Resources/Icons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <Grid Background="#FF4F4F4F">        
         <wpfSoundVisualizationLib:SpectrumAnalyzer x:Name="SpectrumAnalyzer" BarCount="40" DataContext="{Binding Path=SettingsAppearanceViewModel}" SoftBarFall="{Binding SoftBarFall}" Height="120" VerticalAlignment="Bottom" />
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="100" Margin="5,0,5,0" >

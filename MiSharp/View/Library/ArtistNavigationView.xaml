@@ -25,14 +25,6 @@
                         </CollectionViewSource.GroupDescriptions>
                     </CollectionViewSource>
                 </ResourceDictionary>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
-                        <ResourceDictionary
-                    Source="pack://application:,,,/MiSharp;component/Resources/Icons.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
