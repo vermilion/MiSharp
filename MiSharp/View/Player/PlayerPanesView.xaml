@@ -41,6 +41,17 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </Button>
+            <Button ToolTip="Lyrics" HorizontalAlignment="Left" Width="40"
+            	Style="{DynamicResource MetroCircleButtonStyle}"
+            	Command="{Binding LyricsCommand}"
+            	BorderThickness="3" Height="40" VerticalAlignment="Bottom">
+                <Rectangle Width="16" Height="16">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"
+            				Visual="{StaticResource appbar_book}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

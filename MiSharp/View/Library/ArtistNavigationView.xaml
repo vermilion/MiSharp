@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
         <ListView Grid.Row="1" ItemsSource="{Binding Source={StaticResource GroupedBands}, IsAsync=True}"
                   SelectedItem="{Binding SelectedBand}" Grid.Column="0"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}" Padding="5,0,0,5">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel ItemWidth="150" />

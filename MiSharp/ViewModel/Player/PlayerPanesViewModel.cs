@@ -19,9 +19,12 @@ namespace MiSharp
             NowPlayingCommand = new ReactiveCommand();
             NowPlayingCommand.Subscribe(param => ActivateItem(IoC.Get<NowPlayingViewModel>()));
 
+            LyricsCommand = new ReactiveCommand();
+            LyricsCommand.Subscribe(param => ActivateItem(IoC.Get<LyricsViewModel>()));
         }
 
         public ReactiveCommand EqualizerCommand { get; set; }
         public ReactiveCommand NowPlayingCommand { get; set; }
+        public ReactiveCommand LyricsCommand { get; set; }
     }
 }
