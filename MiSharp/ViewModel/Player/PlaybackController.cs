@@ -215,10 +215,18 @@ namespace MiSharp
 
         public int GetFFTFrequencyIndex(int frequency)
         {
-            //TODO: stupid hack for array[2048] and freq [20,x]. Find better solution           
-            if (frequency == 20)
-                return 0;
-            else return 2047;
+            const int sampleFrequency = 44100;
+            const int maxFFT = 2048;
+
+            return FFTFrequency2Index(frequency, maxFFT, sampleFrequency);
+        }
+
+        public static int FFTFrequency2Index(double frequency, double length, double samplerate)
+        {
+            var num = (int) Math.Round(length*frequency/samplerate);
+            if (num > length/2 - 1)
+                num = (int) (length/2 - 1);
+            return num;
         }
 
         #endregion
