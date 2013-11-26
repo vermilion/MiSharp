@@ -224,6 +224,8 @@ namespace MiSharp
         public static int FFTFrequency2Index(double frequency, double length, double samplerate)
         {
             var num = (int) Math.Round(length*frequency/samplerate);
+            //Note that for a real input signal (imaginary parts all zero) the second half of the FFT (bins from N / 2 + 1 to N - 1)
+            //contain no useful additional information (they have complex conjugate symmetry with the first N / 2 - 1 bins). 
             if (num > length/2 - 1)
                 num = (int) (length/2 - 1);
             return num;
