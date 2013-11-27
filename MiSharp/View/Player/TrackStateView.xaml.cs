@@ -1,4 +1,4 @@
-﻿namespace MiSharp
+﻿namespace MiSharp.View.Player
 {
     /// <summary>
     /// Interaction logic for TrackStateView.xaml

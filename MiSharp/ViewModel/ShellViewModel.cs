@@ -4,8 +4,12 @@ using System.Windows;
 using Caliburn.Micro;
 using DeadDog.Audio.Scan;
 using MiSharp.Core;
+using MiSharp.ViewModel.Library;
+using MiSharp.ViewModel.Player;
+using MiSharp.ViewModel.Player.Panes;
+using MiSharp.ViewModel.Settings;
 
-namespace MiSharp
+namespace MiSharp.ViewModel
 {
     [Export]
     public class ShellViewModel : Screen, IHandle<ScanFileEventArgs>
@@ -101,10 +105,10 @@ namespace MiSharp
         /// </summary>
         public void WindowClosed()
         {
-            Settings.Instance.EqualizerValues = PlayerViewModel.PlaybackController.EqualizerEngine.BandsValues;
+            SettingsModel.Instance.EqualizerValues = PlayerViewModel.PlaybackController.EqualizerEngine.BandsValues;
             IoC.Get<PlaybackController>().Dispose();
 
-            Settings.Instance.SaveSettings();
+            SettingsModel.Instance.SaveSettings();
         }
     }
 }

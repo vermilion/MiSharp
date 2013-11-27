@@ -2,8 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using MiSharp.ViewModel.Library.Items;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Library
 {
     [Export]
     public class AlbumNavigationViewModel : Screen, IViewModelParams<AlbumNavigationViewModel.DefaultNavigationArgs>

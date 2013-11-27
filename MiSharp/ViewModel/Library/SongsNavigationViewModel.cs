@@ -5,9 +5,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive.Linq;
 using Caliburn.Micro;
+using MiSharp.ViewModel.Library.Items;
+using MiSharp.ViewModel.Library.TagEditor;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Library
 {
     [Export]
     public class SongsNavigationViewModel : Screen, IViewModelParams<SongsNavigationViewModel.DefaultNavigationArgs>

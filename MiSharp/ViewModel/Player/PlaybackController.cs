@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
-using MiSharp.Core;
 using MiSharp.Core.Player;
+using MiSharp.ViewModel.Player.Panes;
 using ReactiveUI;
 using WPFSoundVisualizationLib;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Player
 {
     public class PlaybackController : ReactiveObject, IHandle<List<Track>>, ISpectrumPlayer, IDisposable
     {
@@ -83,14 +83,14 @@ namespace MiSharp
 
         public bool RepeatState
         {
-            get { return Settings.Instance.RepeatState; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.RepeatState, value); }
+            get { return Core.SettingsModel.Instance.RepeatState; }
+            set { this.RaiseAndSetIfChanged(ref Core.SettingsModel.Instance.RepeatState, value); }
         }
 
         public bool ShuffleState
         {
-            get { return Settings.Instance.ShuffleState; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.ShuffleState, value); }
+            get { return Core.SettingsModel.Instance.ShuffleState; }
+            set { this.RaiseAndSetIfChanged(ref Core.SettingsModel.Instance.ShuffleState, value); }
         }
 
         public EqualizerEngine EqualizerEngine { get { return AudioPlayerEngine.EqualizerEngine; } }

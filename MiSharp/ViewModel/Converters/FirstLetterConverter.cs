@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Converters
 {
     public class FirstLetterConverter : IValueConverter
     {

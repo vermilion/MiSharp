@@ -20,13 +20,10 @@ namespace MiSharp.Core.Player
             _soundSystem = system;
 
             Bands = new ObservableCollection<EqualizerBand>();
-            foreach (EqualizerParam value in Settings.Instance.EqualizerValues)
+            foreach (EqualizerParam value in SettingsModel.Instance.EqualizerValues)
             {
                 Bands.Add(new EqualizerBand(value));
             }
-
-            if (Settings.Instance.EqualizerEnabled)
-                InitEqualizer(Settings.Instance.EqualizerValues);
         }
 
         public ObservableCollection<EqualizerBand> Bands { get; set; }

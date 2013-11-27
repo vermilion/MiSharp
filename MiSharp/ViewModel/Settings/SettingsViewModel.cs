@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using MiSharp.Core;
-using MiSharp.DialogResults;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Settings
 {
     [Export]
     public class SettingsViewModel : ReactiveObject
@@ -35,40 +32,40 @@ namespace MiSharp
 
         public string MediaPath
         {
-            get { return Settings.Instance.WatchFolder; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolder, value); }
+            get { return Core.SettingsModel.Instance.WatchFolder; }
+            set { this.RaiseAndSetIfChanged(ref Core.SettingsModel.Instance.WatchFolder, value); }
         }
 
         public int RescanTimeout
         {
-            get { return Settings.Instance.WatchFolderScanInterval; }
+            get { return Core.SettingsModel.Instance.WatchFolderScanInterval; }
             set
             {
-                this.RaiseAndSetIfChanged(ref Settings.Instance.WatchFolderScanInterval, value);
+                this.RaiseAndSetIfChanged(ref Core.SettingsModel.Instance.WatchFolderScanInterval, value);
                 TimeToNextRescan = TimeSpan.FromMinutes(value);
             }
         }
 
         private TimeSpan TimeToNextRescan
         {
-            get { return Settings.Instance.TimeToNextRescan; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.TimeToNextRescan, value); }
+            get { return Core.SettingsModel.Instance.TimeToNextRescan; }
+            set { this.RaiseAndSetIfChanged(ref Core.SettingsModel.Instance.TimeToNextRescan, value); }
         }
 
         public string FileFormats
         {
-            get { return string.Join(",", Settings.Instance.FileFormats); }
+            get { return string.Join(",", Core.SettingsModel.Instance.FileFormats); }
             set
             {
-                this.RaiseAndSetIfChanged(ref Settings.Instance.FileFormats,
+                this.RaiseAndSetIfChanged(ref Core.SettingsModel.Instance.FileFormats,
                                           value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
             }
         }
 
         public bool CoverDownloadEnabled
         {
-            get { return Settings.Instance.CoverDownloadEnabled; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.CoverDownloadEnabled, value); }
+            get { return Core.SettingsModel.Instance.CoverDownloadEnabled; }
+            set { this.RaiseAndSetIfChanged(ref Core.SettingsModel.Instance.CoverDownloadEnabled, value); }
         }
 
         public void RescanLibrary()

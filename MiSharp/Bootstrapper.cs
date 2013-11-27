@@ -7,6 +7,8 @@ using System.Linq;
 using Caliburn.Micro;
 using MiSharp.Core.Repository.FileStorage;
 using MiSharp;
+using MiSharp.ViewModel;
+using MiSharp.ViewModel.Player;
 
 namespace MiSharp
 {
@@ -17,9 +19,8 @@ namespace MiSharp
         protected override void Configure()
         {
             ViewLocator.NameTransformer.AddRule(
-                @"(?<nsbefore>([A-Za-z_]\w*\.)*)?(?<nsvm>ViewModels\.)(?<nsafter>([A-Za-z_]\w*\.)*)(?<basename>[A-Za-z_]\w*)(?<suffix>ViewModel$)",
-                @"${nsbefore}Views.${nsafter}${basename}View",
-                @"(([A-Za-z_]\w*\.)*)?ViewModels\.([A-Za-z_]\w*\.)*[A-Za-z_]\w*ViewModel$"
+                @"(?<nsbefore>([A-Za-z_]\w*\.)*)?(?<nsvm>ViewModel\.)(?<nsafter>([A-Za-z_]\w*\.)*)(?<basename>[A-Za-z_]\w*)(?<suffix>ViewModel$)",
+                @"${nsbefore}View.${nsafter}${basename}View"
                 );
 
             _container =

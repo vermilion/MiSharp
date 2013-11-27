@@ -14,8 +14,6 @@ namespace MiSharp.Core.Player
 {
     public class AudioPlayerEngine : IDisposable
     {
-        public delegate void PlaybackEventHandler(PlaybackEventArgs args);
-
         private readonly object _playerLock = new object();
         private SoundSystem _soundSystem;
         private Channel _channel;

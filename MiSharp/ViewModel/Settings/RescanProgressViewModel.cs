@@ -3,7 +3,7 @@ using Caliburn.Micro;
 using DeadDog.Audio.Scan;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Settings
 {
     [Export]
     public class RescanProgressViewModel : ReactiveObject, IHandle<ScanFileEventArgs>

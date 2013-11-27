@@ -7,7 +7,7 @@ using System.Reactive.Linq;
 using Caliburn.Micro;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Player.Panes
 {
     [Export]
     public class NowPlayingViewModel : Screen

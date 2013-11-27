@@ -1,4 +1,4 @@
-﻿namespace MiSharp
+﻿namespace MiSharp.View.Library.TagEditor
 {
     /// <summary>
     ///     Interaction logic for TagEditorView.xaml

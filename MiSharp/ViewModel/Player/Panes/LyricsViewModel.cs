@@ -4,10 +4,9 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using LyricsLibNet;
 using LyricsLibNet.Providers;
-using MiSharp.Core;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Player.Panes
 {
     [Export]
     public class LyricsViewModel : Screen
@@ -52,10 +51,10 @@ namespace MiSharp
 
         public ILyricsProvider SelectedLyricsProvider
         {
-            get { return Settings.Instance.SelectedLyricsProvider; }
+            get { return Core.SettingsModel.Instance.SelectedLyricsProvider; }
             set
             {
-                Settings.Instance.SelectedLyricsProvider = value;
+                Core.SettingsModel.Instance.SelectedLyricsProvider = value;
                 NotifyOfPropertyChange(() => SelectedLyricsProvider);
             }
         }

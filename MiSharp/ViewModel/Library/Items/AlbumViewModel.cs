@@ -4,9 +4,10 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Repository.FileStorage;
+using MiSharp.ViewModel.Library.TagEditor;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Library.Items
 {
     public class AlbumViewModel : ReactiveObject
     {

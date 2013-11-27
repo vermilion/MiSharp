@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Settings
 {
     [Export]
     public class SettingsBaseViewModel : Screen

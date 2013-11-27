@@ -1,7 +1,7 @@
 ﻿using DeadDog.Audio.Libraries;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Library.Items
 {
     public class TrackViewModel : ReactiveObject
     {

@@ -4,7 +4,7 @@
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                               xmlns:cal="http://www.caliburnproject.org" 
-                              xmlns:wpfSoundVisualizationLib="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib" x:Class="MiSharp.PlayerView" 
+                              xmlns:wpfSoundVisualizationLib="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib" x:Class="MiSharp.View.Player.PlayerView" 
                               mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="500">
     <Grid Background="#FF4F4F4F">        
         <wpfSoundVisualizationLib:SpectrumAnalyzer x:Name="SpectrumAnalyzer" BarCount="40" DataContext="{Binding Path=SettingsAppearanceViewModel}" SoftBarFall="{Binding SoftBarFall}" Height="120" VerticalAlignment="Bottom" />

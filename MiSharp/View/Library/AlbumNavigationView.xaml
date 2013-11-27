@@ -4,8 +4,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:cal="http://www.caliburnproject.org"
-    xmlns:miSharp="clr-namespace:MiSharp"
-    x:Class="MiSharp.AlbumNavigationView" TextOptions.TextFormattingMode="Display"
+    xmlns:miSharp="clr-namespace:MiSharp" xmlns:items="clr-namespace:MiSharp.View.Library.Items"
+    x:Class="MiSharp.View.Library.AlbumNavigationView" TextOptions.TextFormattingMode="Display"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
     <Grid>
         <Grid.RowDefinitions>
@@ -17,7 +17,7 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <miSharp:AlbumView Width="Auto" DataContext="{Binding}"
+                    <items:AlbumView Width="Auto" DataContext="{Binding}"
                                        cal:Message.Attach="[Event MouseDoubleClick]=[Action ActivateAlbumSongs()]" />
                 </DataTemplate>
             </ListView.ItemTemplate>

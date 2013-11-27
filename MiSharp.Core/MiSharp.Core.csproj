@@ -84,7 +84,6 @@
     <Compile Include="Player\EqualizerParam.cs" />
     <Compile Include="Player\Exceptions\PlaybackException.cs" />
     <Compile Include="Player\Exceptions\SongLoadException.cs" />
-    <Compile Include="Player\PlaybackEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FileStorage\AlbumCoverRepository.cs" />
     <Compile Include="Repository\FileStorage\ArtistCoverRepository.cs" />
@@ -96,7 +95,7 @@
     <Compile Include="Repository\Db4o\MediaRepository.cs" />
     <Compile Include="Repository\Db4o\RepositoryBase.cs" />
     <Compile Include="Repository\Db4o\SettingsRepository.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

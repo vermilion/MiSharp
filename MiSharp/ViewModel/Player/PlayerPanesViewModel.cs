@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using MiSharp.ViewModel.Player.Panes;
 using ReactiveUI;
 using IScreen = Caliburn.Micro.IScreen;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Player
 {
     [Export]
     public class PlayerPanesViewModel : Conductor<IScreen>.Collection.OneActive

@@ -8,9 +8,9 @@ using MiSharp.Core.Repository.Db4o;
 
 namespace MiSharp.Core
 {
-    public class Settings
+    public class SettingsModel
     {
-        private static Settings _settings;
+        private static SettingsModel _settingsModel;
 
         public string[] FileFormats = new[] {"*.mp3"};
 
@@ -45,19 +45,19 @@ namespace MiSharp.Core
                 new EqualizerParam(16000f, 1f, 1f)
             };
 
-        public static Settings Instance
+        public static SettingsModel Instance
         {
-            get { return _settings ?? (_settings = LoadSettings()); }
+            get { return _settingsModel ?? (_settingsModel = LoadSettings()); }
         }
 
-        private static Settings LoadSettings()
+        private static SettingsModel LoadSettings()
         {
-            return SettingsRepository.Instance.GetAll<Settings>().FirstOrDefault() ?? new Settings();
+            return SettingsRepository.Instance.GetAll<SettingsModel>().FirstOrDefault() ?? new SettingsModel();
         }
 
         public void SaveSettings()
         {
-            Task.Run(() => SettingsRepository.Instance.Save(_settings));
+            Task.Run(() => SettingsRepository.Instance.Save(_settingsModel));
         }
     }
 }

@@ -6,9 +6,10 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Repository.FileStorage;
+using MiSharp.ViewModel.Settings;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Player
 {
     [Export]
     public class PlayerViewModel : ReactiveObject

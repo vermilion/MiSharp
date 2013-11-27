@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Playlist;
 using MiSharp.Core.Player;
+using MiSharp.ViewModel.Player.Panes;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Player
 {
     public class TrackPlaylist : Playlist<TrackStateViewModel>
     {

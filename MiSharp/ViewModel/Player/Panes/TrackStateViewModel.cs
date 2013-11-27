@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 using DeadDog.Audio.Libraries;
 using MiSharp.Core.Player;
+using MiSharp.ViewModel.Library.Items;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Player.Panes
 {
     [Export]
     public class TrackStateViewModel : TrackViewModel
