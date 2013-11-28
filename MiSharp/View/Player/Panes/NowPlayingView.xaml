@@ -6,7 +6,7 @@
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                               xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              xmlns:miSharp="clr-namespace:MiSharp" xmlns:player="clr-namespace:MiSharp.View.Player"
+                              xmlns:player="clr-namespace:MiSharp.View.Player"
                               mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="500">
     <ListView ItemsSource="{Binding Playlist}"
               SelectionMode="Extended"

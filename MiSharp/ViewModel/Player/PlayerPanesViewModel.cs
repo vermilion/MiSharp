@@ -22,10 +22,14 @@ namespace MiSharp.ViewModel.Player
 
             LyricsCommand = new ReactiveCommand();
             LyricsCommand.Subscribe(param => ActivateItem(IoC.Get<LyricsViewModel>()));
+
+            RadioCommand = new ReactiveCommand();
+            RadioCommand.Subscribe(param => ActivateItem(IoC.Get<RadioViewModel>()));
         }
 
         public ReactiveCommand EqualizerCommand { get; set; }
         public ReactiveCommand NowPlayingCommand { get; set; }
         public ReactiveCommand LyricsCommand { get; set; }
+        public ReactiveCommand RadioCommand { get; set; }
     }
 }

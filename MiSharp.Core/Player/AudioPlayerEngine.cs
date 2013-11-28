@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DeadDog.Audio;
 using Linsft.FmodSharp.Channel;
 using Linsft.FmodSharp.Dsp;
+using Linsft.FmodSharp.Enums;
 using Linsft.FmodSharp.Error;
 using Linsft.FmodSharp.Sound;
 using Linsft.FmodSharp.SoundSystem;
@@ -31,6 +32,8 @@ namespace MiSharp.Core.Player
             _soundSystem = new SoundSystem();
             _soundSystem.Init(32, InitFlags.Normal, (IntPtr) null);
             _callback = ChannelEndCallback;
+
+            _soundSystem.SetStreamBufferSize(64 * 1024, TimeUnit.RawBytes);
 
             EqualizerEngine = new EqualizerEngine(_soundSystem);
 
@@ -106,6 +109,14 @@ namespace MiSharp.Core.Player
             }
         }
 
+        public void Load(string url)
+        {
+            lock (_playerLock)
+            {
+                _soundFile = _soundSystem.CreateSound(url, Mode.CreateStream | Mode.NonBlocking);
+                _isLoaded = true;
+            }
+        }
 
         public void Pause()
         {
@@ -130,6 +141,15 @@ namespace MiSharp.Core.Player
             Stop();
             Task.Factory.StartNew(() =>
                 {
+                    var openState = OpenState.Error;
+                    uint percent = 0;
+
+                    while (openState != OpenState.Ready)
+                    {
+                        _soundFile.GetOpenState(ref openState, ref percent);
+                        Thread.Sleep(10);
+                    }
+
                     _channel = _soundSystem.PlaySound(_soundFile);
                     _channel.Volume = Volume;
                     _channel.SetCallback(_callback);

@@ -117,6 +117,18 @@ namespace MiSharp.ViewModel.Player
             await CurrentPlaylist.SetState(song, AudioPlayerState.Playing);
         }
 
+        public async Task PlayStream(string url)
+        {
+            await Task.Run(() =>
+                {
+                    AudioPlayerEngine.Stop();
+                    AudioPlayerEngine.Load(url);
+                    AudioPlayerEngine.Play();
+                });
+
+            IsPlaying = true;
+        }
+
         public async Task PlayNext()
         {
             IsPlaying = false;

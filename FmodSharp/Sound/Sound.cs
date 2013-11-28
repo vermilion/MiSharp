@@ -170,6 +170,13 @@ namespace Linsft.FmodSharp.Sound
 
         #region Open State
 
+        public void GetOpenState(ref OpenState openstate, ref uint percentbuffered)
+        {
+            int starving = 0;
+            int diskbusy = 0;
+            GetOpenState(ref openstate, ref percentbuffered, ref starving, ref diskbusy);
+        }
+
         public void GetOpenState(ref OpenState openstate, ref uint percentbuffered, ref int starving, ref int diskbusy)
         {
             Code returnCode = GetOpenState(DangerousGetHandle(), ref openstate, ref percentbuffered, ref starving, ref diskbusy);

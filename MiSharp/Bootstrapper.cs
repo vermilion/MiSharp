@@ -6,7 +6,6 @@ using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using Caliburn.Micro;
 using MiSharp.Core.Repository.FileStorage;
-using MiSharp;
 using MiSharp.ViewModel;
 using MiSharp.ViewModel.Player;
 
