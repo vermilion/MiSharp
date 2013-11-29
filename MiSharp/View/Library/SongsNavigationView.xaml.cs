@@ -1,4 +1,4 @@
-﻿namespace MiSharp
+﻿namespace MiSharp.View.Library
 {
     /// <summary>
     ///     Interaction logic for ArtistNavigationView.xaml

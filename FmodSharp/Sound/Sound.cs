@@ -170,14 +170,21 @@ namespace Linsft.FmodSharp.Sound
 
         #region Open State
 
-        public void GetOpenState(ref OpenState openstate, ref uint percentbuffered, ref int starving)
+        public void GetOpenState(ref OpenState openstate, ref uint percentbuffered)
         {
-            Code returnCode = GetOpenState(DangerousGetHandle(), ref openstate, ref percentbuffered, ref starving);
+            int starving = 0;
+            int diskbusy = 0;
+            GetOpenState(ref openstate, ref percentbuffered, ref starving, ref diskbusy);
+        }
+
+        public void GetOpenState(ref OpenState openstate, ref uint percentbuffered, ref int starving, ref int diskbusy)
+        {
+            Code returnCode = GetOpenState(DangerousGetHandle(), ref openstate, ref percentbuffered, ref starving, ref diskbusy);
             Errors.ThrowError(returnCode);
         }
 
         [DllImport("fmodex", EntryPoint = "FMOD_Sound_GetOpenState"), SuppressUnmanagedCodeSecurity]
-        private static extern Code GetOpenState(IntPtr sound, ref OpenState openstate, ref uint percentbuffered, ref int starving);
+        private static extern Code GetOpenState(IntPtr sound, ref OpenState openstate, ref uint percentbuffered, ref int starving, ref int diskbusy);
 
         #endregion
 

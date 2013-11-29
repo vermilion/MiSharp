@@ -1,4 +1,4 @@
-﻿namespace MiSharp.DialogResults
+﻿namespace MiSharp.ViewModel.DialogResults
 {
     public class DummyResult : Result
     {

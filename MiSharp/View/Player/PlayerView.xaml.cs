@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
+using MiSharp.ViewModel.Player;
 
-namespace MiSharp
+namespace MiSharp.View.Player
 {
     /// <summary>
     ///     Interaction logic for PlayerView.xaml

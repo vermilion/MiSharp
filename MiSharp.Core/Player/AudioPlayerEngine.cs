@@ -5,28 +5,35 @@ using System.Threading.Tasks;
 using DeadDog.Audio;
 using Linsft.FmodSharp.Channel;
 using Linsft.FmodSharp.Dsp;
+using Linsft.FmodSharp.Enums;
+using Linsft.FmodSharp.Error;
 using Linsft.FmodSharp.Sound;
 using Linsft.FmodSharp.SoundSystem;
-using Rareform.Extensions;
+using CallbackType = Linsft.FmodSharp.Channel.CallbackType;
 
 namespace MiSharp.Core.Player
 {
     public class AudioPlayerEngine : IDisposable
     {
-        public delegate void PlaybackEventHandler(PlaybackEventArgs args);
-
         private readonly object _playerLock = new object();
-        private readonly SoundSystem _soundSystem;
+        private SoundSystem _soundSystem;
         private Channel _channel;
         private bool _isLoaded;
         private Sound _soundFile;
         private float _volume = 1.0f;
         public EqualizerEngine EqualizerEngine { get; set; }
 
+        private readonly ChannelDelegate _callback;
+
+        private Action _playNextFileAction;
+
         public AudioPlayerEngine()
         {
             _soundSystem = new SoundSystem();
             _soundSystem.Init(32, InitFlags.Normal, (IntPtr) null);
+            _callback = ChannelEndCallback;
+
+            _soundSystem.SetStreamBufferSize(64 * 1024, TimeUnit.RawBytes);
 
             EqualizerEngine = new EqualizerEngine(_soundSystem);
 
@@ -46,7 +53,6 @@ namespace MiSharp.Core.Player
         public IObservable<TimeSpan> CurrentTimeChanged { get; private set; }
         public IObservable<TimeSpan> TotalTimeChanged { get; private set; }
         public IObservable<AudioPlayerState> PlaybackStateChanged { get; private set; }
-
 
         public TimeSpan CurrentTime
         {
@@ -94,35 +100,23 @@ namespace MiSharp.Core.Player
             }
         }
 
-        public void Dispose()
-        {
-            Stop();
-
-            lock (_playerLock)
-            {
-                if (_channel != null)
-                {
-                    _soundFile.Dispose();
-                    _channel.Dispose();
-                }
-
-                if (_soundSystem != null)
-                {
-                    _soundSystem.Dispose();
-                }
-            }
-        }
-
         public void Load(RawTrack song)
         {
             lock (_playerLock)
             {
                 _soundFile = _soundSystem.CreateSound(song.FullFilename);
-                //is that really enough?
                 _isLoaded = true;
             }
         }
 
+        public void Load(string url)
+        {
+            lock (_playerLock)
+            {
+                _soundFile = _soundSystem.CreateSound(url, Mode.CreateStream | Mode.NonBlocking);
+                _isLoaded = true;
+            }
+        }
 
         public void Pause()
         {
@@ -144,20 +138,30 @@ namespace MiSharp.Core.Player
 
         public void Play()
         {
-            lock (_playerLock)
-            {
-                Task.Factory.StartNew(() =>
-                    {
-                        _channel = _soundSystem.PlaySound(_soundFile);
-                        _channel.Volume = Volume;
+            Stop();
+            Task.Factory.StartNew(() =>
+                {
+                    var openState = OpenState.Error;
+                    uint percent = 0;
 
-                        while (_channel != null && _channel.IsPlaying)
-                        {
-                            UpdateSongState();
-                            Thread.Sleep(10);
-                        }
-                    });
-            }
+                    while (openState != OpenState.Ready)
+                    {
+                        _soundFile.GetOpenState(ref openState, ref percent);
+                        Thread.Sleep(10);
+                    }
+
+                    _channel = _soundSystem.PlaySound(_soundFile);
+                    _channel.Volume = Volume;
+                    _channel.SetCallback(_callback);
+
+                    while (_channel != null)
+                    {
+                        if (_soundSystem != null)
+                            _soundSystem.Update();
+
+                        Thread.Sleep(50);
+                    }
+                });
         }
 
         public void Stop()
@@ -166,6 +170,7 @@ namespace MiSharp.Core.Player
             {
                 if (_channel != null)
                 {
+                    _channel.SetCallback(null);
                     _channel.Stop();
                     _channel = null;
                     _isLoaded = false;
@@ -173,22 +178,20 @@ namespace MiSharp.Core.Player
             }
         }
 
-
-        private void UpdateSongState()
+        public void SetNextFileAction(Action action)
         {
-            //TODO: temp OnNext fix. Get rid of End callback or find another way
-            if (CurrentTime < TotalTime.Add(new TimeSpan(0, 0, 0, 0, -50)))
-                return;
-
-            Stop();
-            OnSongFinished(EventArgs.Empty);
+            _playNextFileAction = action;
         }
 
-        public event EventHandler SongFinished;
-
-        protected void OnSongFinished(EventArgs e)
+        private Code ChannelEndCallback(IntPtr channelraw, CallbackType type, IntPtr commanddata1, IntPtr commanddata2)
         {
-            SongFinished.RaiseSafe(this, e);
+            if (type == CallbackType.End)
+            {
+                Action action = _playNextFileAction;
+                if (action != null)
+                    action();
+            }
+            return Code.OK;
         }
 
         public void GetSpectrum(float[] spectrum)
@@ -210,5 +213,33 @@ namespace MiSharp.Core.Player
                 _soundSystem.GetSpectrum(spectrum, spectrumSize, count, FFTWindow.Triangle);
             }
         }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Stop();
+
+            if (EqualizerEngine != null)
+            {
+                EqualizerEngine.Dispose();
+                EqualizerEngine = null;
+            }
+            if (_channel != null)
+            {
+                _soundFile.Dispose();
+                _soundFile = null;
+                _channel.Dispose();
+                _channel = null;
+            }
+
+            if (_soundSystem != null)
+            {
+                _soundSystem.Dispose();
+                _soundSystem = null;
+            }
+        }
+
+        #endregion
     }
 }

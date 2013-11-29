@@ -4,16 +4,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:cal="http://www.caliburnproject.org"
-    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:miSharp="clr-namespace:MiSharp"
     xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-    x:Class="MiSharp.ArtistNavigationView" TextOptions.TextFormattingMode="Display"
+    xmlns:converters="clr-namespace:MiSharp.ViewModel.Converters"
+    xmlns:items="clr-namespace:MiSharp.View.Library.Items"
+    x:Class="MiSharp.View.Library.ArtistNavigationView" TextOptions.TextFormattingMode="Display"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <miSharp:FirstLetterConverter x:Key="firstLetterConverter" />
+                    <converters:FirstLetterConverter x:Key="firstLetterConverter" />
                     <CollectionViewSource Source="{Binding Bands}" x:Key="GroupedBands">
                         <CollectionViewSource.SortDescriptions>
                             <componentModel:SortDescription PropertyName="Model.Name" />
@@ -25,14 +26,6 @@
                         </CollectionViewSource.GroupDescriptions>
                     </CollectionViewSource>
                 </ResourceDictionary>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
-                        <ResourceDictionary
-                    Source="pack://application:,,,/MiSharp;component/Resources/Icons.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -43,7 +36,7 @@
         </Grid.RowDefinitions>
         <ListView Grid.Row="1" ItemsSource="{Binding Source={StaticResource GroupedBands}, IsAsync=True}"
                   SelectedItem="{Binding SelectedBand}" Grid.Column="0"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}" Padding="5,0,0,5">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel ItemWidth="150" />
@@ -70,7 +63,7 @@
             </ListView.GroupStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <miSharp:ArtistView Width="Auto" DataContext="{Binding}"
+                    <items:ArtistView Width="Auto" DataContext="{Binding}"
                                         cal:Message.Attach="[Event MouseDoubleClick]=[Action ActivateAlbum()]" />
                 </DataTemplate>
             </ListView.ItemTemplate>

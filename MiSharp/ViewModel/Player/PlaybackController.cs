@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
-using MiSharp.Core;
 using MiSharp.Core.Player;
+using MiSharp.ViewModel.Player.Panes;
 using ReactiveUI;
 using WPFSoundVisualizationLib;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Player
 {
-    public class PlaybackController : ReactiveObject, IHandle<List<Track>>, ISpectrumPlayer
+    public class PlaybackController : ReactiveObject, IHandle<List<Track>>, ISpectrumPlayer, IDisposable
     {
         public readonly AudioPlayerEngine AudioPlayerEngine;
         private readonly ObservableAsPropertyHelper<bool> _isMuted;
@@ -23,8 +22,8 @@ namespace MiSharp
         public PlaybackController(IEventAggregator events)
         {
             AudioPlayerEngine = new AudioPlayerEngine();
-            AudioPlayerEngine.SongFinished += (s, e) => PlayNext();
-
+            AudioPlayerEngine.SetNextFileAction(() => PlayNext());
+            
             CurrentPlaylist = new TrackPlaylist();
 
             events.Subscribe(this);
@@ -84,14 +83,14 @@ namespace MiSharp
 
         public bool RepeatState
         {
-            get { return Settings.Instance.RepeatState; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.RepeatState, value); }
+            get { return Core.SettingsModel.Instance.RepeatState; }
+            set { this.RaiseAndSetIfChanged(ref Core.SettingsModel.Instance.RepeatState, value); }
         }
 
         public bool ShuffleState
         {
-            get { return Settings.Instance.ShuffleState; }
-            set { this.RaiseAndSetIfChanged(ref Settings.Instance.ShuffleState, value); }
+            get { return Core.SettingsModel.Instance.ShuffleState; }
+            set { this.RaiseAndSetIfChanged(ref Core.SettingsModel.Instance.ShuffleState, value); }
         }
 
         public EqualizerEngine EqualizerEngine { get { return AudioPlayerEngine.EqualizerEngine; } }
@@ -116,6 +115,18 @@ namespace MiSharp
             else AudioPlayerEngine.Resume();
             IsPlaying = true;
             await CurrentPlaylist.SetState(song, AudioPlayerState.Playing);
+        }
+
+        public async Task PlayStream(string url)
+        {
+            await Task.Run(() =>
+                {
+                    AudioPlayerEngine.Stop();
+                    AudioPlayerEngine.Load(url);
+                    AudioPlayerEngine.Play();
+                });
+
+            IsPlaying = true;
         }
 
         public async Task PlayNext()
@@ -216,10 +227,29 @@ namespace MiSharp
 
         public int GetFFTFrequencyIndex(int frequency)
         {
-            //TODO: stupid hack for array[2048] and freq [20,x]. Find better solution           
-            if (frequency == 20)
-                return 0;
-            else return 2047;
+            const int sampleFrequency = 44100;
+            const int maxFFT = 2048;
+
+            return FFTFrequency2Index(frequency, maxFFT, sampleFrequency);
+        }
+
+        public static int FFTFrequency2Index(double frequency, double length, double samplerate)
+        {
+            var num = (int) Math.Round(length*frequency/samplerate);
+            //Note that for a real input signal (imaginary parts all zero) the second half of the FFT (bins from N / 2 + 1 to N - 1)
+            //contain no useful additional information (they have complex conjugate symmetry with the first N / 2 - 1 bins). 
+            if (num > length/2 - 1)
+                num = (int) (length/2 - 1);
+            return num;
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            AudioPlayerEngine.Dispose();
         }
 
         #endregion

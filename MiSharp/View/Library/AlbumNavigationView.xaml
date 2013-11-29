@@ -4,19 +4,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:cal="http://www.caliburnproject.org"
-    xmlns:miSharp="clr-namespace:MiSharp"
-    x:Class="MiSharp.AlbumNavigationView" TextOptions.TextFormattingMode="Display"
+    xmlns:miSharp="clr-namespace:MiSharp" xmlns:items="clr-namespace:MiSharp.View.Library.Items"
+    x:Class="MiSharp.View.Library.AlbumNavigationView" TextOptions.TextFormattingMode="Display"
     mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="550">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MiSharp;component/Resources/Icons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -27,7 +17,7 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <miSharp:AlbumView Width="Auto" DataContext="{Binding}"
+                    <items:AlbumView Width="Auto" DataContext="{Binding}"
                                        cal:Message.Attach="[Event MouseDoubleClick]=[Action ActivateAlbumSongs()]" />
                 </DataTemplate>
             </ListView.ItemTemplate>

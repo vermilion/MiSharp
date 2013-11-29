@@ -3,8 +3,9 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using MiSharp.Core.Repository.Db4o;
+using MiSharp.ViewModel.Library.Items;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Library
 {
     [Export]
     public class ArtistNavigationViewModel : Screen

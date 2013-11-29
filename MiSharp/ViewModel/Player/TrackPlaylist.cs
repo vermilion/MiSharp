@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Playlist;
 using MiSharp.Core.Player;
+using MiSharp.ViewModel.Player.Panes;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Player
 {
     public class TrackPlaylist : Playlist<TrackStateViewModel>
     {
@@ -46,21 +47,6 @@ namespace MiSharp
             await Task.Run(() => Parallel.ForEach(this, x => x.State = AudioPlayerState.None));
             item.State = state;
             _gate.Release();
-        }
-
-        public bool Remove(Track item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int IndexOf(Track item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(int index, Track item)
-        {
-            throw new NotImplementedException();
         }
 
         public new IEnumerator<Track> GetEnumerator()

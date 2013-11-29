@@ -4,73 +4,12 @@
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                               xmlns:cal="http://www.caliburnproject.org" 
-                              xmlns:wpfSoundVisualizationLib="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib" x:Class="MiSharp.PlayerView" 
-                              mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="90">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/MiSharp;component/Resources/Icons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Grid Background="#FF4F4F4F">
-        <wpfSoundVisualizationLib:SpectrumAnalyzer x:Name="SpectrumAnalyzer" Margin="0,16,0,0" BarCount="100" DataContext="{Binding Path=SettingsAppearanceViewModel}" SoftBarFall="{Binding SoftBarFall}" />
-        <StackPanel Orientation="Horizontal" Margin="10,16,0,2" HorizontalAlignment="Left" Width="291">
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="73" VerticalAlignment="Top" Margin="0,0,0,-70">
-                <Button Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
-					HorizontalAlignment="Right" Width="50"
-					Style="{DynamicResource MetroCircleButtonStyle}"
-					Command="{Binding PlayPrevCommand}" BorderThickness="3" />
-                <Button Height="70" FontSize="24" FontWeight="Bold" FontFamily="Webdings"
-					HorizontalAlignment="Right" Width="70" Style="{DynamicResource MetroCircleButtonStyle}"
-					Content="{Binding PlayPauseContent}"
-					Command="{Binding PlayPauseCommand}" BorderThickness="3" />
-                <Button Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
-					Command="{Binding PlayNextCommand}"
-					Style="{DynamicResource MetroCircleButtonStyle}"
-					HorizontalAlignment="Right" Width="50" BorderThickness="3" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Left" Height="75" Margin="0,0,0,-3" VerticalAlignment="Top" Width="123" Orientation="Horizontal">
-                <ToggleButton Height="40" IsChecked="{Binding RepeatState}"
-					ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
-					Style="{DynamicResource MetroCircleToggleButtonStyle}"
-					BorderThickness="3" >
-                    <Rectangle Width="16" Height="16">
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-								Visual="{StaticResource appbar_repeat}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </ToggleButton>
-                <ToggleButton IsChecked="{Binding ShuffleState}"
-					ToolTip="Shuffle" HorizontalAlignment="Left" Width="40"
-					Style="{DynamicResource MetroCircleToggleButtonStyle}"
-					BorderThickness="3" Height="40" Margin="0,7">
-                    <Rectangle Width="16" Height="16">
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-								Visual="{StaticResource appbar_shuffle}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </ToggleButton>
-                <Button ToolTip="Equalizer" HorizontalAlignment="Left" Width="40"
-                	Style="{DynamicResource MetroCircleButtonStyle}"
-                    Command="{Binding EqualizerCommand}"
-                	BorderThickness="3" Height="40" Margin="0,17.5">
-                    <Rectangle Width="16" Height="16">
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                				Visual="{StaticResource appbar_equalizer}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Button>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="319,16,211,2">
-            <Image Height="70" Width="70" HorizontalAlignment="Left" Source="{Binding Cover, IsAsync=True}" Opacity="0.7"  />
+                              xmlns:wpfSoundVisualizationLib="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib" x:Class="MiSharp.View.Player.PlayerView" 
+                              mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="500">
+    <Grid Background="#FF4F4F4F">        
+        <wpfSoundVisualizationLib:SpectrumAnalyzer x:Name="SpectrumAnalyzer" BarCount="40" DataContext="{Binding Path=SettingsAppearanceViewModel}" SoftBarFall="{Binding SoftBarFall}" Height="120" VerticalAlignment="Bottom" />
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="100" Margin="5,0,5,0" >
+            <Image Height="90" Width="90" HorizontalAlignment="Left" Source="{Binding Cover, IsAsync=True}" />
             <StackPanel Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" >
                 <TextBlock TextWrapping="Wrap" Text="{Binding CurrentlyPlaying.Title}" FontSize="16"
 					HorizontalAlignment="Left" Margin="0,3,0,0" />
@@ -80,7 +19,43 @@
 					HorizontalAlignment="Left" Margin="0,0,0,10" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Width="196" Margin="0,0,10,2" HorizontalAlignment="Right" Height="42" VerticalAlignment="Bottom">
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Height="73" VerticalAlignment="Top" Margin="10,145,0,0">
+            <Button Height="50" FontSize="14" FontWeight="Bold" Content="7" FontFamily="Webdings"
+					HorizontalAlignment="Right" Width="50"
+					Style="{DynamicResource MetroCircleButtonStyle}"
+					Command="{Binding PlayPrevCommand}" BorderThickness="3" />
+            <Button Height="70" FontSize="24" FontWeight="Bold" FontFamily="Webdings"
+					HorizontalAlignment="Right" Width="70" Style="{DynamicResource MetroCircleButtonStyle}"
+					Content="{Binding PlayPauseContent}"
+					Command="{Binding PlayPauseCommand}" BorderThickness="3" />
+            <Button Height="50" FontSize="14" FontWeight="Bold" Content="8" FontFamily="Webdings"
+					Command="{Binding PlayNextCommand}"
+					Style="{DynamicResource MetroCircleButtonStyle}"
+					HorizontalAlignment="Right" Width="50" BorderThickness="3" />
+            <ToggleButton Height="40" IsChecked="{Binding RepeatState}"
+					ToolTip="Repeat" HorizontalAlignment="Right" Width="40"
+					Style="{DynamicResource MetroCircleToggleButtonStyle}"
+					BorderThickness="3" >
+                <Rectangle Width="16" Height="16">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"
+								Visual="{StaticResource appbar_repeat}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </ToggleButton>
+            <ToggleButton IsChecked="{Binding ShuffleState}"
+					ToolTip="Shuffle" HorizontalAlignment="Left" Width="40"
+					Style="{DynamicResource MetroCircleToggleButtonStyle}"
+					BorderThickness="3" Height="40" Margin="0,7">
+                <Rectangle Width="16" Height="16">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"
+								Visual="{StaticResource appbar_shuffle}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </ToggleButton>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="265,161,10,0" Height="42" VerticalAlignment="Top">
             <ToggleButton IsChecked="{Binding IsMuted}"
 				Style="{DynamicResource MetroCircleToggleButtonStyle}" HorizontalAlignment="Left"
 				Width="40"
@@ -94,11 +69,11 @@
             <Slider
 				Style="{DynamicResource MetroSlider}"
 				IsMoveToPointEnabled="True"
-				Width="156" Height="20"
+				Width="129" Height="20"
 				Minimum="0" Maximum="1" Value="{Binding Volume}"
-				HorizontalAlignment="Left" Margin="0,12" />
+				HorizontalAlignment="Left" />
         </StackPanel>
-        <Grid Height="41" VerticalAlignment="Top">
+        <Grid Height="41" VerticalAlignment="Top" Margin="10,104,10,0">
             <ProgressBar x:Name="PositionSlider" Value="{Binding PositionValue, Mode=OneWay}"
 				Style="{DynamicResource MetroProgressBar}"
 				cal:Message.Attach="[Event MouseDown] = [Action ChangePosition($source, $eventArgs)];"
@@ -114,5 +89,6 @@
                 </TextBlock.Text>
             </TextBlock>
         </Grid>
+        <ContentControl Margin="0,223,0,0" x:Name="PlayerPanesViewModel"/>
     </Grid>
 </UserControl>

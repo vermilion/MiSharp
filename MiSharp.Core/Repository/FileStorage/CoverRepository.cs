@@ -29,7 +29,7 @@ namespace MiSharp.Core.Repository.FileStorage
             }
             catch (DataIdentifierNotFoundException)
             {
-                if (Settings.Instance.CoverDownloadEnabled)
+                if (SettingsModel.Instance.CoverDownloadEnabled)
                 {
                     item = DownloadImage(guid, artist, album, 5);
                 }

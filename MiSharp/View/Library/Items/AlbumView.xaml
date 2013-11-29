@@ -4,7 +4,7 @@
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                               xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                              xmlns:wpfSoundVisualizationLib="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib" x:Class="MiSharp.AlbumView"
+                              xmlns:wpfSoundVisualizationLib="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib" x:Class="MiSharp.View.Library.Items.AlbumView"
                               mc:Ignorable="d" MinHeight="130"
                               d:DesignHeight="150" d:DesignWidth="400">
     <Grid Background="Transparent">

@@ -27,7 +27,7 @@ namespace MiSharp.Core
         public async Task<bool> Rescan()
         {
             _lib = MediaRepository.Instance.GetLibrary();
-            _scanner = new AudioScanner(new ID3Parser(), Settings.Instance.WatchFolder, SearchOption.AllDirectories);
+            _scanner = new AudioScanner(new ID3Parser(), SettingsModel.Instance.WatchFolder, SearchOption.AllDirectories);
             _scanner.MediaLibrary = _lib;
             _scanner.ScanDone += ScannerScanDone;
             _scanner.FileParsed += ScannerFileParsed;

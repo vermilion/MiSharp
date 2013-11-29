@@ -2,7 +2,7 @@
 using Caliburn.Micro;
 using DeadDog.Audio.Scan;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Library
 {
     [Export]
     public class LibraryViewModel : Conductor<IScreen>.Collection.OneActive,

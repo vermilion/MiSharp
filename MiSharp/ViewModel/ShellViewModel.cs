@@ -1,9 +1,14 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using DeadDog.Audio.Scan;
 using MiSharp.Core;
+using MiSharp.ViewModel.Library;
+using MiSharp.ViewModel.Player;
+using MiSharp.ViewModel.Settings;
 
-namespace MiSharp
+namespace MiSharp.ViewModel
 {
     [Export]
     public class ShellViewModel : Screen, IHandle<ScanFileEventArgs>
@@ -16,20 +21,28 @@ namespace MiSharp
         {
             DisplayName = "Mi#";
 
-            LibraryViewModel = IoC.Get<LibraryViewModel>();
-            PlayerViewModel = IoC.Get<PlayerViewModel>();
-            SettingsBaseViewModel = IoC.Get<SettingsBaseViewModel>();
-            NowPlayingViewModel = IoC.Get<NowPlayingViewModel>();
-            RescanProgressViewModel = IoC.Get<RescanProgressViewModel>();
-
             events.Subscribe(this);
         }
 
-        public SettingsBaseViewModel SettingsBaseViewModel { get; set; }
-        public LibraryViewModel LibraryViewModel { get; private set; }
-        public PlayerViewModel PlayerViewModel { get; set; }
-        public NowPlayingViewModel NowPlayingViewModel { get; set; }
-        public RescanProgressViewModel RescanProgressViewModel { get; set; }
+        public SettingsBaseViewModel SettingsBaseViewModel
+        {
+            get { return IoC.Get<SettingsBaseViewModel>(); }
+        }
+
+        public LibraryViewModel LibraryViewModel
+        {
+            get { return IoC.Get<LibraryViewModel>(); }
+        }
+
+        public PlayerViewModel PlayerViewModel
+        {
+            get { return IoC.Get<PlayerViewModel>(); }
+        }
+
+        public RescanProgressViewModel RescanProgressViewModel
+        {
+            get { return IoC.Get<RescanProgressViewModel>(); }
+        }
 
         public bool IsSettingsFlyoutOpen
         {
@@ -61,12 +74,35 @@ namespace MiSharp
             IsSettingsFlyoutOpen = true;
         }
 
+        private double _prevWidth;
+        private bool _isMiniWindow;
+
+        public void SwitchMode()
+        {
+            var mainWindow = Application.Current.Windows.OfType<Window>().First();
+            if (_isMiniWindow)
+            {
+                mainWindow.Width = _prevWidth;
+                _isMiniWindow = false;
+            }
+            else
+            {
+                _prevWidth = mainWindow.Width;
+                mainWindow.Width = 450;
+                _isMiniWindow = true;
+            }
+        }
+
+
         // Post-closing events
         /// <summary>
         /// </summary>
         public void WindowClosed()
         {
-            Settings.Instance.SaveSettings();
+            SettingsModel.Instance.EqualizerValues = PlayerViewModel.PlaybackController.EqualizerEngine.BandsValues;
+            IoC.Get<PlaybackController>().Dispose();
+
+            SettingsModel.Instance.SaveSettings();
         }
     }
 }

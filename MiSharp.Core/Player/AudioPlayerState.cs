@@ -1,28 +1,13 @@
 ﻿namespace MiSharp.Core.Player
 {
     /// <summary>
-    ///     Represents the current playback state of an <see cref="AudioPlayer" /> object.
+    ///     Represents the current playback state of an <see cref="AudioPlayerEngine" /> object.
     /// </summary>
     public enum AudioPlayerState
     {
-        /// <summary>
-        ///     The <see cref="AudioPlayer" /> is playing.
-        /// </summary>
         Playing,
-
-        /// <summary>
-        ///     The <see cref="AudioPlayer" />  is paused.
-        /// </summary>
         Paused,
-
-        /// <summary>
-        ///     The <see cref="AudioPlayer" />  is stopped.
-        /// </summary>
         Stopped,
-
-        /// <summary>
-        ///     The <see cref="AudioPlayer" />  has no state.
-        /// </summary>
         None
     }
 }

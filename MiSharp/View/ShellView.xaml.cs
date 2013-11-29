@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 
-namespace MiSharp
+namespace MiSharp.View
 {
     /// <summary>
     ///     Interaction logic for ShellView.xaml

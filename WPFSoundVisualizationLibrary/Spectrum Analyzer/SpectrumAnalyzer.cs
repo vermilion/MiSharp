@@ -75,7 +75,7 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public static readonly DependencyProperty MaximumFrequencyProperty =
             DependencyProperty.Register("MaximumFrequency", typeof (int), typeof (SpectrumAnalyzer),
-                                        new UIPropertyMetadata(20000, OnMaximumFrequencyChanged, OnCoerceMaximumFrequency));
+                                        new UIPropertyMetadata(22000, OnMaximumFrequencyChanged, OnCoerceMaximumFrequency));
 
         /// <summary>
         ///     Gets or sets the maximum display frequency (right side) for the spectrum analyzer.
@@ -146,7 +146,7 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public static readonly DependencyProperty MinimumFrequencyProperty =
             DependencyProperty.Register("MinimumFrequency", typeof (int), typeof (SpectrumAnalyzer),
-                                        new UIPropertyMetadata(20, OnMinimumFrequencyChanged, OnCoerceMinimumFrequency));
+                                        new UIPropertyMetadata(0, OnMinimumFrequencyChanged, OnCoerceMinimumFrequency));
 
         /// <summary>
         ///     Gets or sets the minimum display frequency (left side) for the spectrum analyzer.
@@ -487,7 +487,7 @@ namespace WPFSoundVisualizationLib
         /// </summary>
         public static readonly DependencyProperty BarHeightScalingProperty =
             DependencyProperty.Register("BarHeightScaling", typeof (BarHeightScalingStyles), typeof (SpectrumAnalyzer),
-                                        new UIPropertyMetadata(BarHeightScalingStyles.Decibel, OnBarHeightScalingChanged,
+                                        new UIPropertyMetadata(BarHeightScalingStyles.Sqrt, OnBarHeightScalingChanged,
                                                                OnCoerceBarHeightScaling));
 
         /// <summary>
@@ -999,6 +999,7 @@ namespace WPFSoundVisualizationLib
         /// </param>
         protected virtual void OnSoftBarFallChanged(bool oldValue, bool newValue)
         {
+            UpdateBarLayout();
         }
 
         #endregion
@@ -1186,7 +1187,7 @@ namespace WPFSoundVisualizationLib
                                         : (height + peakDotHeight) - _channelPeakData[barIndex] - peakDotHeight;
 
                     _peakShapes[barIndex].Margin = new Thickness(xCoord, topMargin, 0, 0);
-                    _peakShapes[barIndex].Height = SoftBarFall ? height : peakDotHeight;
+                    _peakShapes[barIndex].Height = SoftBarFall ? height * 2 : peakDotHeight;
 
                     if (_channelPeakData[barIndex] > 0.05)
                         allZero = false;

@@ -5,9 +5,10 @@ using Caliburn.Micro;
 using DeadDog.Audio.Libraries;
 using DeadDog.Audio.Libraries.Collections;
 using MiSharp.Core.Repository.FileStorage;
+using MiSharp.ViewModel.Library.TagEditor;
 using ReactiveUI;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Library.Items
 {
     public class ArtistViewModel : ReactiveObject
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using DeadDog.Audio;
-using MiSharp.DialogResults;
+using MiSharp.ViewModel.DialogResults;
 
-namespace MiSharp
+namespace MiSharp.ViewModel.Library.TagEditor
 {
     [Export(typeof (SongTagEditorViewModel))]
     internal class SongTagEditorViewModel : AlbumTagEditorViewModel

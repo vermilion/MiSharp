@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
     <Reference Include="Db4objects.Db4o">
       <HintPath>..\packages\db4o-devel.8.1.184.15492\lib\net40\Db4objects.Db4o.dll</HintPath>
     </Reference>
@@ -47,14 +50,10 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Rareform">
-      <HintPath>..\packages\Rareform.1.5.2\lib\Rareform.dll</HintPath>
-    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\Libs\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -74,7 +73,6 @@
       <HintPath>..\packages\Rx-PlatformServices.2.2.1-beta\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -83,9 +81,9 @@
     <Compile Include="Player\AudioPlayerState.cs" />
     <Compile Include="Player\AudioPlayerEngine.cs" />
     <Compile Include="Player\EqualizerEngine.cs" />
+    <Compile Include="Player\EqualizerParam.cs" />
     <Compile Include="Player\Exceptions\PlaybackException.cs" />
     <Compile Include="Player\Exceptions\SongLoadException.cs" />
-    <Compile Include="Player\PlaybackEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FileStorage\AlbumCoverRepository.cs" />
     <Compile Include="Repository\FileStorage\ArtistCoverRepository.cs" />
@@ -97,7 +95,7 @@
     <Compile Include="Repository\Db4o\MediaRepository.cs" />
     <Compile Include="Repository\Db4o\RepositoryBase.cs" />
     <Compile Include="Repository\Db4o\SettingsRepository.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -115,9 +113,9 @@
       <Project>{e0810e1a-ea20-4f0d-8d0f-5b72c3e64f6d}</Project>
       <Name>FmodSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WPFSoundVisualizationLibrary\WPFSoundVisualizationLib.csproj">
-      <Project>{90f96222-1c39-4a19-abe8-1b00fb330985}</Project>
-      <Name>WPFSoundVisualizationLib</Name>
+    <ProjectReference Include="..\LyricsLibNet\LyricsLibNet.csproj">
+      <Project>{f52ad80c-4e62-44b8-bc97-e0ae494d27d6}</Project>
+      <Name>LyricsLibNet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

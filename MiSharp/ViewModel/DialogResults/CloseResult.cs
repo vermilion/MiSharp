@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Caliburn.Micro;
 
-namespace MiSharp.DialogResults
+namespace MiSharp.ViewModel.DialogResults
 {
     public class CloseResult : Result
     {
