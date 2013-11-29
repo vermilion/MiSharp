@@ -49,21 +49,6 @@ namespace MiSharp.ViewModel.Player
             _gate.Release();
         }
 
-        public bool Remove(Track item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int IndexOf(Track item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(int index, Track item)
-        {
-            throw new NotImplementedException();
-        }
-
         public new IEnumerator<Track> GetEnumerator()
         {
             return this.Select(x => x.Track).GetEnumerator();

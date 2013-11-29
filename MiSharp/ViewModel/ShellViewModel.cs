@@ -6,7 +6,6 @@ using DeadDog.Audio.Scan;
 using MiSharp.Core;
 using MiSharp.ViewModel.Library;
 using MiSharp.ViewModel.Player;
-using MiSharp.ViewModel.Player.Panes;
 using MiSharp.ViewModel.Settings;
 
 namespace MiSharp.ViewModel
@@ -38,11 +37,6 @@ namespace MiSharp.ViewModel
         public PlayerViewModel PlayerViewModel
         {
             get { return IoC.Get<PlayerViewModel>(); }
-        }
-
-        public NowPlayingViewModel NowPlayingViewModel
-        {
-            get { return IoC.Get<NowPlayingViewModel>(); }
         }
 
         public RescanProgressViewModel RescanProgressViewModel
