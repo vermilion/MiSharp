@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
 using DeadDog.Audio.Scan;
 using MiSharp.Core;
@@ -20,7 +21,6 @@ namespace MiSharp.ViewModel
         public ShellViewModel(IEventAggregator events)
         {
             DisplayName = "Mi#";
-
             events.Subscribe(this);
         }
 
@@ -93,6 +93,11 @@ namespace MiSharp.ViewModel
             }
         }
 
+        public void KeyDownClick(KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                PlayerViewModel.PlayPauseCommand.Execute(null);
+        }
 
         // Post-closing events
         /// <summary>

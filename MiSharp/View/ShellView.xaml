@@ -4,7 +4,7 @@
                       xmlns:cal="http://www.caliburnproject.org"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       Width="1000" Height="750" MinWidth="450" WindowStartupLocation="CenterScreen" Background="#FF292929"
-                      cal:Message.Attach="[Event Closed]=[Action WindowClosed()]">
+                      cal:Message.Attach="[Event Closed]=[Action WindowClosed()];[Event PreviewKeyDown]=[Action KeyDownClick($eventargs)]">
     <controls:MetroWindow.WindowCommands>
         <controls:WindowCommands>
             <Button Content="settings" cal:Message.Attach="OpenSettings" />
